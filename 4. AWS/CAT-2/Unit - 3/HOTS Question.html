@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Module 3 — Exam Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222535;
+    --border: #2e3347;
+    --accent: #4f8cff;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #fb923c;
+    --accent5: #f472b6;
+    --text: #e2e8f0;
+    --text-muted: #8892a4;
+    --text-dim: #64748b;
+    --warn: #fbbf24;
+    --danger: #f87171;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 20px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .header h1 { font-size: 17px; font-weight: 700; color: var(--accent); letter-spacing: -0.3px; }
+  .header .sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  .badge { background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--accent); }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-blue { background: var(--accent); }
+  .dot-purple { background: var(--accent2); }
+  .dot-green { background: var(--accent3); }
+  .dot-orange { background: var(--accent4); }
+  .dot-pink { background: var(--accent5); }
+  .dot-warn { background: var(--warn); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  /* ── CONCEPT ROWS ── */
+  .row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .row:last-child { border-bottom: none; }
+  .row-label { font-weight: 700; color: var(--accent); min-width: 130px; flex-shrink: 0; font-size: 12px; }
+  .row-val { color: var(--text); font-size: 12px; }
+
+  /* ── TABLES ── */
+  table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  th { background: var(--surface2); color: var(--accent); font-weight: 700; padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+  td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; line-height: 1.4; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .td-key { font-weight: 600; color: var(--accent2); white-space: nowrap; }
+  .td-g { color: var(--accent3); font-weight: 600; }
+  .td-r { color: var(--danger); font-weight: 600; }
+
+  /* ── FLOW ── */
+  .flow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: var(--accent3);
+    line-height: 1.7;
+    margin: 8px 0;
+  }
+
+  /* ── ALERT ── */
+  .alert {
+    border-left: 3px solid var(--warn);
+    background: rgba(251,191,36,0.07);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 11.5px;
+    color: var(--warn);
+  }
+  .alert-green {
+    border-left-color: var(--accent3);
+    background: rgba(52,211,153,0.07);
+    color: var(--accent3);
+  }
+  .alert-red {
+    border-left-color: var(--danger);
+    background: rgba(248,113,113,0.07);
+    color: var(--danger);
+  }
+  .alert-blue {
+    border-left-color: var(--accent);
+    background: rgba(79,140,255,0.08);
+    color: var(--accent);
+  }
+
+  /* ── PILL TAGS ── */
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 600; margin: 2px; }
+  .pill-blue { background: rgba(79,140,255,0.15); color: var(--accent); border: 1px solid rgba(79,140,255,0.3); }
+  .pill-green { background: rgba(52,211,153,0.12); color: var(--accent3); border: 1px solid rgba(52,211,153,0.3); }
+  .pill-orange { background: rgba(251,146,60,0.12); color: var(--accent4); border: 1px solid rgba(251,146,60,0.3); }
+  .pill-red { background: rgba(248,113,113,0.12); color: var(--danger); border: 1px solid rgba(248,113,113,0.3); }
+  .pill-purple { background: rgba(167,139,250,0.12); color: var(--accent2); border: 1px solid rgba(167,139,250,0.3); }
+
+  /* ── HOTS BOX ── */
+  .hots-box {
+    background: linear-gradient(135deg, rgba(79,140,255,0.08), rgba(167,139,250,0.08));
+    border: 1px solid rgba(79,140,255,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+  }
+  .hots-title { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .hots-q { font-size: 12px; color: var(--text); margin-bottom: 6px; padding: 6px 10px; background: var(--surface2); border-radius: 5px; border-left: 2px solid var(--accent); }
+  .hots-a { font-size: 11.5px; color: var(--accent3); padding: 4px 10px; padding-left: 22px; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; color: #1a1a2e; font-size: 10.5px; padding: 10px; }
+    .tabs, .badge { display: none; }
+    .section { display: block !important; page-break-inside: avoid; }
+    .card { border: 1px solid #ccc; background: #f8f9fa; break-inside: avoid; margin-bottom: 8px; }
+    .card-title { color: #1e3a8a; }
+    .flow { background: #f0f4ff; color: #1e3a8a; border-color: #93c5fd; }
+    table th { background: #e0e7ff; color: #1e3a8a; }
+    .alert { background: #fffbeb; color: #92400e; border-color: #f59e0b; }
+    .alert-green { background: #ecfdf5; color: #065f46; border-color: #34d399; }
+    .alert-red { background: #fef2f2; color: #991b1b; border-color: #f87171; }
+    .alert-blue { background: #eff6ff; color: #1e40af; border-color: #60a5fa; }
+    .hots-box { background: #f0f4ff; border-color: #93c5fd; }
+    .hots-q { background: #e0e7ff; color: #1a1a2e; border-color: #4f8cff; }
+    .hots-a { color: #065f46; }
+    th, td { color: #1a1a2e !important; }
+    .td-key { color: #4f46e5 !important; }
+    .td-g { color: #065f46 !important; }
+    .td-r { color: #991b1b !important; }
+    .pill-blue { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+    .pill-green { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+    .pill-orange { background: #ffedd5; color: #9a3412; border-color: #fdba74; }
+    .pill-red { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+    .pill-purple { background: #ede9fe; color: #5b21b6; border-color: #c4b5fd; }
+    .row-label { color: #1e40af; }
+    a { color: inherit; }
+    h1, .card-title { color: #1e3a8a !important; }
+    .header { background: #e0e7ff; border-color: #93c5fd; border-top-color: #4f8cff; }
+    .header h1, .header .sub { color: #1e3a8a !important; }
+    .dot-blue { background: #3b82f6; }
+    .dot-green { background: #10b981; }
+    .dot-purple { background: #7c3aed; }
+    .dot-orange { background: #f97316; }
+    .dot-pink { background: #ec4899; }
+    .dot-warn { background: #d97706; }
+    tr:hover td { background: none; }
+  }
+
+  small { font-size: 10.5px; color: var(--text-muted); }
+  b { color: var(--accent); font-weight: 700; }
+  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 8px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>AWS Cloud Practitioner — Module 3 Exam Notes</h1>
+    <div class="sub">CSE3015 | Open Book · HOTS Level | Shashi Singh · VIT Bhopal</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <span class="badge">Networking</span>
+    <span class="badge" style="background:var(--accent2)">Security</span>
+    <button onclick="window.print()" style="background:var(--accent3);border:none;color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;cursor:pointer;">🖨 Print</button>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs" id="tabs">
+  <button class="tab active" onclick="show('r53',this)">Route 53</button>
+  <button class="tab" onclick="show('apigw',this)">API Gateway</button>
+  <button class="tab" onclick="show('vpc',this)">VPC + Subnets</button>
+  <button class="tab" onclick="show('rt',this)">Routes + SG + NAT</button>
+  <button class="tab" onclick="show('iam',this)">IAM</button>
+  <button class="tab" onclick="show('acm',this)">ACM</button>
+  <button class="tab" onclick="show('kms',this)">KMS</button>
+  <button class="tab" onclick="show('hots',this)">⭐ HOTS Q&A</button>
+</div>
+
+<!-- ═══════════════════════════════ ROUTE 53 ═══════════════════════════════ -->
+<div class="section active" id="r53">
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span>Route 53 — Essentials</div>
+    <div class="row"><span class="row-label">What it is</span><span class="row-val">AWS's managed <b>DNS + Domain Registration + Traffic Routing</b> service. Port 53 = DNS port → name "Route 53".</span></div>
+    <div class="row"><span class="row-label">Public Hosted Zone</span><span class="row-val">Answers DNS queries from <b>anywhere on internet</b>. For public-facing apps.</span></div>
+    <div class="row"><span class="row-label">Private Hosted Zone</span><span class="row-val">Answers DNS queries <b>only within associated VPC(s)</b>. Internal microservices. Requires DNS resolution/hostnames enabled on VPC.</span></div>
+    <div class="row"><span class="row-label">Health Checks</span><span class="row-val">Route 53 sends automated requests to endpoints. Unhealthy → traffic diverted. Feeds into Failover, Weighted, Multivalue policies.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span>DNS Record Types</div>
+    <table>
+      <tr><th>Record</th><th>Maps To</th><th>Key Rule / Use</th></tr>
+      <tr><td class="td-key">A</td><td>Domain → IPv4</td><td>Most common. example.com → 192.0.2.10</td></tr>
+      <tr><td class="td-key">AAAA</td><td>Domain → IPv6</td><td>Same as A but IPv6</td></tr>
+      <tr><td class="td-key">CNAME</td><td>Domain → Domain</td><td><span class="pill pill-red">Cannot use at zone apex (example.com)</span> — only subdomains</td></tr>
+      <tr><td class="td-key">Alias</td><td>Domain → AWS resource</td><td><span class="pill pill-green">Works at zone apex</span> · Free · Auto-tracks IP changes (ELB, CloudFront, S3, API GW)</td></tr>
+      <tr><td class="td-key">TTL</td><td>Cache duration (seconds)</td><td>Low TTL = faster change propagation. High TTL = less DNS queries (cheaper)</td></tr>
+      <tr><td class="td-key">NS / SOA</td><td>Admin records</td><td>Auto-created. SOA = Start of Authority (primary NS info)</td></tr>
+    </table>
+    <div class="alert" style="margin-top:8px"><b>CNAME vs Alias:</b> CNAME = extra DNS lookup, costs money, NO zone apex. Alias = free, zone apex OK, Route 53 internal resolution.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span>Routing Policies</div>
+    <table>
+      <tr><th>Policy</th><th>How It Decides</th><th>Health Check?</th><th>Best For</th></tr>
+      <tr><td class="td-key">Simple</td><td>Fixed value (random if multiple)</td><td class="td-r">No</td><td>Single server, no logic</td></tr>
+      <tr><td class="td-key">Weighted</td><td>Traffic % by weight ratio</td><td>Optional</td><td>A/B testing, canary release (e.g. 5% to new version)</td></tr>
+      <tr><td class="td-key">Latency</td><td>Lowest network latency to AWS region</td><td>Optional</td><td>Global apps — speed matters</td></tr>
+      <tr><td class="td-key">Failover</td><td>Primary → Secondary if primary unhealthy</td><td class="td-g">Required</td><td>Disaster Recovery (DR)</td></tr>
+      <tr><td class="td-key">Geolocation</td><td>User's country/continent</td><td>Optional</td><td>Compliance, data residency, localization</td></tr>
+      <tr><td class="td-key">Geoproximity</td><td>Location + adjustable "bias"</td><td>Optional</td><td>Fine traffic shift between regions (needs Traffic Flow)</td></tr>
+      <tr><td class="td-key">Multivalue</td><td>Multiple healthy IPs (up to 8), random</td><td class="td-g">Recommended</td><td>Simple client-side load balancing (NOT a replacement for ELB)</td></tr>
+    </table>
+    <div class="alert-blue alert" style="margin-top:8px">HOTS trap: <b>Geolocation ≠ Latency</b>. Geolocation uses user's country. Latency uses measured network speed. A user in India might get better latency from Singapore region than Mumbai.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════ API GATEWAY ═══════════════════════════════ -->
+<div class="section" id="apigw">
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span>API Gateway — Essentials</div>
+    <div class="row"><span class="row-label">What it is</span><span class="row-val">Fully managed "front door" for APIs. Creates, secures, monitors APIs at scale. Sits <b>after Route 53</b>, before backend (Lambda/EC2).</span></div>
+    <div class="row"><span class="row-label">Core purpose</span><span class="row-val">Centralizes auth, throttling, caching, monitoring — so backends don't have to handle them individually.</span></div>
+    <div class="row"><span class="row-label">VPC Link</span><span class="row-val">Connects API Gateway to <b>private</b> resources inside a VPC (internal ALB/EC2) without exposing backend publicly.</span></div>
+    <div class="row"><span class="row-label">Throttling</span><span class="row-val">Limits requests/sec to protect backend. Configurable per stage/method via <b>Usage Plans + API Keys</b>.</span></div>
+    <div class="row"><span class="row-label">Caching</span><span class="row-val">Caches responses for a configurable TTL → reduces backend calls & latency for repeated requests.</span></div>
+    <div class="row"><span class="row-label">Stage</span><span class="row-val">Named deployment snapshot: dev/test/prod. Same API can have multiple stages simultaneously.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span>API Types Comparison</div>
+    <table>
+      <tr><th>Type</th><th>Connection</th><th>Cost</th><th>Features</th><th>Best For</th></tr>
+      <tr><td class="td-key">REST API</td><td>Request/Response</td><td>Higher</td><td>Full: API keys, usage plans, request validation, transformations</td><td>Enterprise, fine-grained control</td></tr>
+      <tr><td class="td-key">HTTP API</td><td>Request/Response</td><td class="td-g">~70% cheaper</td><td>Basic: JWT auth, simple routing</td><td>Simple Lambda/HTTP proxy, cost-sensitive</td></tr>
+      <tr><td class="td-key">WebSocket</td><td>Persistent bi-directional</td><td>By connection + messages</td><td>Route-based message handling</td><td>Chat, live dashboards, gaming</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span>API Gateway vs ALB</div>
+    <table>
+      <tr><th>Aspect</th><th>API Gateway</th><th>Application Load Balancer</th></tr>
+      <tr><td>Layer</td><td>API-focused (auth, throttle, cache)</td><td>Traffic distribution (path/host routing)</td></tr>
+      <tr><td>Serverless</td><td class="td-g">Native Lambda integration</td><td>Requires Lambda target group</td></tr>
+      <tr><td>Cost</td><td>Per request</td><td>Per LB hour + LCU</td></tr>
+      <tr><td>API Keys/Usage Plans</td><td class="td-g">Yes</td><td class="td-r">No</td></tr>
+      <tr><td>Best for</td><td>Serverless, API-first architectures</td><td>General HTTP(S) to EC2/containers</td></tr>
+    </table>
+    <div class="alert-blue alert" style="margin-top:8px">Request flow: <b>Route 53 → API Gateway → Lambda/EC2 inside VPC</b>. API Gateway is the controlled, secured entry point.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════ VPC + SUBNETS ═══════════════════════════════ -->
+<div class="section" id="vpc">
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-green"></span>VPC — Core Concept</div>
+      <div class="row"><span class="row-label">Definition</span><span class="row-val">Logically isolated virtual network in AWS. Full control over IP addressing, subnetting, routing, security.</span></div>
+      <div class="row"><span class="row-label">Scope</span><span class="row-val">1 Region. Spans multiple AZs. Isolated by default.</span></div>
+      <div class="row"><span class="row-label">CIDR block</span><span class="row-val">Top-level IP range (e.g. 10.0.0.0/16). All subnets carved from this. Cannot overlap.</span></div>
+      <div class="row"><span class="row-label">Default VPC</span><span class="row-val">Auto-created by AWS per region. Public subnets, IGW pre-configured. <b>Not for production.</b></span></div>
+      <div class="row"><span class="row-label">Elastic IP</span><span class="row-val">Static persistent public IPv4. Won't change on instance stop/start. Required by NAT GW.</span></div>
+      <div class="row"><span class="row-label">Internet Gateway</span><span class="row-val">Attached to VPC (not subnet). Enables <b>bidirectional</b> internet. One per VPC.</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-green"></span>VPC Components Map</div>
+      <div class="flow">VPC (10.0.0.0/16)
+│
+├── Internet Gateway (attached to VPC)
+│
+├── PUBLIC SUBNET (10.0.1.0/24) — AZ-a
+│    Route Table: 0.0.0.0/0 → IGW
+│    Resources: LB, Bastion, NAT GW
+│
+├── PRIVATE SUBNET (10.0.2.0/24) — AZ-a
+│    Route Table: 0.0.0.0/0 → NAT GW
+│    Resources: App Servers, DBs
+│
+└── Security Groups → on each resource</div>
+      <div class="alert-green" style="margin-top:8px">3-Tier: <b>Internet → IGW → LB (public) → App servers (private) → DB (most private)</b>. Each tier's SG only allows traffic from the tier above it.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span>Subnets — Public vs Private</div>
+    <div class="alert" style="margin-bottom:10px"><b>Key Rule:</b> "Public" vs "Private" is determined ENTIRELY by the subnet's Route Table — NOT by the name, NOT by whether resources have public IPs.</div>
+    <table>
+      <tr><th>Aspect</th><th>Public Subnet</th><th>Private Subnet</th></tr>
+      <tr><td>Defining route</td><td class="td-g">0.0.0.0/0 → Internet Gateway</td><td>0.0.0.0/0 → NAT Gateway (or no route)</td></tr>
+      <tr><td>Internet access</td><td>Bidirectional (in + out)</td><td>Outbound only (via NAT GW)</td></tr>
+      <tr><td>Reachable from internet?</td><td>Yes (if resource has public IP + SG allows)</td><td class="td-g">No</td></tr>
+      <tr><td>Typical resources</td><td>Load Balancers, Bastion hosts, NAT Gateway</td><td>App servers, Databases, Lambda</td></tr>
+      <tr><td>Security exposure</td><td>Higher (internet-facing)</td><td class="td-g">Lower (shielded)</td></tr>
+    </table>
+    <div class="row" style="margin-top:10px"><span class="row-label">CIDR / AWS reserves</span><span class="row-val">AWS reserves <b>5 IPs per subnet</b> (network, router, DNS, future, broadcast). /24 → 256 total, 251 usable. CIDR sizes are <b>fixed at creation</b> — cannot resize.</span></div>
+    <div class="row"><span class="row-label">AZ relationship</span><span class="row-val">One subnet = One AZ. One AZ can have multiple subnets. Subnets don't span AZs.</span></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════ ROUTES + SG + NAT ═══════════════════════════════ -->
+<div class="section" id="rt">
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-orange"></span>Route Tables</div>
+    <div class="row"><span class="row-label">Purpose</span><span class="row-val">Rules (routes) that determine WHERE traffic from a subnet goes. <b>The single factor</b> making a subnet public or private.</span></div>
+    <div class="row"><span class="row-label">Local route</span><span class="row-val">Auto, non-removable. Allows all intra-VPC traffic (10.0.0.0/16 → local).</span></div>
+    <div class="row"><span class="row-label">0.0.0.0/0 → IGW</span><span class="row-val">Makes subnet <b>public</b>. Bidirectional internet access.</span></div>
+    <div class="row"><span class="row-label">0.0.0.0/0 → NAT GW</span><span class="row-val">Makes subnet <b>private</b>. Outbound only — no unsolicited inbound from internet.</span></div>
+    <div class="row"><span class="row-label">Most specific wins</span><span class="row-val">Route table picks the most specific (longest prefix) matching destination. 0.0.0.0/0 is the catch-all (last resort).</span></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent3);margin-bottom:4px">Public Subnet Route Table</div>
+        <table><tr><th>Destination</th><th>Target</th></tr>
+        <tr><td>10.0.0.0/16</td><td>local</td></tr>
+        <tr><td>0.0.0.0/0</td><td class="td-g">igw-xxxx</td></tr></table>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent4);margin-bottom:4px">Private Subnet Route Table</div>
+        <table><tr><th>Destination</th><th>Target</th></tr>
+        <tr><td>10.0.0.0/16</td><td>local</td></tr>
+        <tr><td>0.0.0.0/0</td><td class="td-orange" style="color:var(--accent4);font-weight:600">nat-xxxx</td></tr></table>
+      </div>
+    </div>
+    <div class="alert" style="margin-top:8px">Route tables control <b>PATH</b>, not permission. Security Groups handle permission (allow/deny).</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-pink"></span>Security Groups</div>
+    <div class="row"><span class="row-label">What it is</span><span class="row-val">Virtual <b>stateful</b> firewall at the <b>instance/ENI level</b>. Last layer of defense.</span></div>
+    <div class="row"><span class="row-label">Stateful</span><span class="row-val">If inbound is allowed → return traffic auto-allowed OUT. No need for matching outbound rule (and vice versa).</span></div>
+    <div class="row"><span class="row-label">Default behavior</span><span class="row-val"><b>All inbound DENIED</b> by default. All outbound ALLOWED by default. You add Allow rules only.</span></div>
+    <div class="row"><span class="row-label">Rule types</span><span class="row-val">Allow ONLY. No explicit Deny rules. Source/destination can be IP/CIDR OR another Security Group.</span></div>
+    <div class="row"><span class="row-label">Multiple SGs</span><span class="row-val">Instance can have multiple SGs. Rules from all are combined (union). Any Allow in any SG = traffic allowed.</span></div>
+
+    <div style="margin-top:10px">
+      <table>
+        <tr><th>Aspect</th><th>Security Group</th><th>Network ACL (NACL)</th></tr>
+        <tr><td>Level</td><td class="td-g">Instance/ENI level</td><td>Subnet level</td></tr>
+        <tr><td>State</td><td class="td-g">Stateful (return auto-allowed)</td><td class="td-r">Stateless (must write return rules)</td></tr>
+        <tr><td>Rule types</td><td>Allow only</td><td class="td-g">Allow AND Deny</td></tr>
+        <tr><td>Evaluation</td><td>All rules evaluated (union)</td><td>Numbered order, first match wins</td></tr>
+        <tr><td>Scope</td><td>Only associated resources</td><td>All resources in subnet</td></tr>
+      </table>
+    </div>
+    <div class="alert-blue alert" style="margin-top:8px">Common rule: DB SG allows port 3306 only from <b>App tier's Security Group</b> (not IP). This scales automatically when app server IPs change.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-warn"></span>NAT Gateway</div>
+    <div class="row"><span class="row-label">Purpose</span><span class="row-val">Lets <b>private subnet resources initiate outbound internet</b> without being reachable from internet (one-way NAT).</span></div>
+    <div class="row"><span class="row-label">Where it lives</span><span class="row-val">Deployed in a <b>PUBLIC subnet</b>. Needs an Elastic IP. Uses the public subnet's IGW route to reach internet.</span></div>
+    <div class="row"><span class="row-label">How private subnet uses it</span><span class="row-val">Private route table: 0.0.0.0/0 → NAT GW. NAT GW translates private IP to its Elastic IP for outbound.</span></div>
+    <div class="row"><span class="row-label">Why no inbound?</span><span class="row-val">NAT only forwards responses to connections <i>it initiated</i>. No route from internet exists to private instance. Internet cannot start new connection to private IP.</span></div>
+
+    <div class="flow" style="margin:10px 0">Private EC2 → Private Route Table → NAT Gateway (Public Subnet, Elastic IP)
+              → Internet Gateway → Internet
+  Response: Internet → NAT GW translates back → Private EC2 ✓</div>
+
+    <table>
+      <tr><th>Aspect</th><th>NAT Gateway</th><th>Internet Gateway</th></tr>
+      <tr><td>Direction</td><td>Outbound-only (private → internet)</td><td>Bidirectional</td></tr>
+      <tr><td>Used by</td><td>Private subnets</td><td>Public subnets</td></tr>
+      <tr><td>Elastic IP</td><td class="td-g">Required</td><td class="td-r">Not needed</td></tr>
+      <tr><td>Cost</td><td>Hourly + per GB data</td><td>Free</td></tr>
+      <tr><td>Public reachability</td><td class="td-r">No</td><td class="td-g">Yes (if resource has public IP)</td></tr>
+    </table>
+    <div class="alert" style="margin-top:8px">NAT Gateway is <b>per-AZ</b>. For HA, deploy one NAT GW per AZ (costs more). Single NAT GW = single point of failure for outbound.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════ IAM ═══════════════════════════════ -->
+<div class="section" id="iam">
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span>IAM — Identity & Access Management</div>
+    <div class="row"><span class="row-label">What it is</span><span class="row-val">Global AWS service. Manages <b>who</b> (identity) can access AWS and <b>what</b> (access) they can do. Free.</span></div>
+    <div class="row"><span class="row-label">Authentication</span><span class="row-val">"Who are you?" → Verify identity (password, MFA, access keys). Happens <b>first</b>. Failure = login rejected.</span></div>
+    <div class="row"><span class="row-label">Authorization</span><span class="row-val">"What can you do?" → IAM policies grant/deny actions. Happens <b>after</b> auth. Failure = 403 Access Denied.</span></div>
+    <div class="row"><span class="row-label">Default</span><span class="row-val">Everything is <b>DENIED by default</b>. Must explicitly Allow. Explicit Deny always wins over Allow.</span></div>
+    <div class="row"><span class="row-label">Permission eval order</span><span class="row-val">Explicit Deny → Explicit Allow → Default Deny</span></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-blue"></span>IAM Components</div>
+      <div class="row"><span class="row-label">Root User</span><span class="row-val">Account owner. Unrestricted. <b>Never use for daily tasks.</b> Enable MFA immediately. Only root can: close account, change email, enable MFA-delete on S3.</span></div>
+      <div class="row"><span class="row-label">IAM User</span><span class="row-val">Persistent identity (person/app). Has long-term credentials: password (console) or access keys (CLI/API). <b>No permissions by default.</b></span></div>
+      <div class="row"><span class="row-label">IAM Group</span><span class="row-val">Collection of users. Policy on group applies to all members. No nested groups. No credentials. Groups ≠ login.</span></div>
+      <div class="row"><span class="row-label">IAM Role</span><span class="row-val">Assumable identity with <b>temporary credentials</b> (via STS). No long-term keys. Used by AWS services, cross-account, federated users.</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-blue"></span>User vs Role vs Group</div>
+      <table>
+        <tr><th></th><th>User</th><th>Group</th><th>Role</th></tr>
+        <tr><td>Credentials</td><td>Long-term</td><td class="td-r">None</td><td class="td-g">Temporary (STS)</td></tr>
+        <tr><td>Can login?</td><td>Yes</td><td class="td-r">No</td><td>Assumed (not login)</td></tr>
+        <tr><td>For</td><td>Humans/apps outside AWS</td><td>Organize users</td><td>AWS services/cross-account</td></tr>
+        <tr><td>Key rotation</td><td>Manual</td><td>—</td><td class="td-g">Auto (expires)</td></tr>
+        <tr><td>Trust policy</td><td>No</td><td>No</td><td class="td-g">Yes (who can assume)</td></tr>
+        <tr><td>EC2 use</td><td class="td-r">Embed keys (bad)</td><td>—</td><td class="td-g">Attach role (best)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span>IAM Policy — Structure & Types</div>
+    <div class="grid-2">
+      <div>
+        <div class="flow" style="font-size:10.5px">{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "AllowS3Read",       // optional label
+    "Effect": "Allow",          // Allow | Deny
+    "Action": ["s3:GetObject"],  // what
+    "Resource": ["arn:aws:s3:::my-bucket/*"], // which resource
+    "Condition": {...}           // optional extra rules
+  }]
+}</div>
+      </div>
+      <div>
+        <div style="margin-bottom:8px">
+          <table>
+            <tr><th>Policy Type</th><th>Attached To</th><th>Note</th></tr>
+            <tr><td>Identity-based</td><td>User/Group/Role</td><td>Controls what identity can do</td></tr>
+            <tr><td>Resource-based</td><td>S3, KMS, SQS...</td><td>Controls who can access resource. Enables cross-account without role.</td></tr>
+            <tr><td>AWS Managed</td><td>Any identity</td><td>AWS creates/updates. e.g. AmazonS3ReadOnlyAccess</td></tr>
+            <tr><td>Customer Managed</td><td>Any identity</td><td>You create. Reusable. Versioning supported.</td></tr>
+            <tr><td>Inline</td><td>1 identity only</td><td>Embedded. Deleted with identity. Not reusable.</td></tr>
+            <tr><td>Permissions Boundary</td><td>User/Role</td><td>Sets MAXIMUM permission ceiling. Can't exceed even with other policies.</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="alert" style="margin-top:4px"><b>Explicit Deny ALWAYS wins.</b> If any policy says Deny — even one out of many — action is blocked. No exceptions.</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-blue"></span>Least Privilege Principle</div>
+      <div style="font-size:12px;color:var(--text)">Grant only the <b>minimum permissions</b> needed for the task. Nothing more.</div>
+      <div class="alert" style="margin-top:8px"><b>Bad:</b> Lambda with AdministratorAccess. <br><b>Good:</b> Lambda with s3:PutObject on only the specific bucket it writes to.</div>
+      <div style="font-size:11.5px;color:var(--text-muted);margin-top:8px">Why: limits blast radius if compromised, reduces insider threat, satisfies compliance (PCI-DSS, HIPAA, SOC2).</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-blue"></span>MFA — Multi-Factor Auth</div>
+      <div class="row"><span class="row-label">Factor 1</span><span class="row-val">Something you <b>know</b> — password/PIN</span></div>
+      <div class="row"><span class="row-label">Factor 2</span><span class="row-val">Something you <b>have</b> — authenticator app (TOTP), hardware token</span></div>
+      <div class="row"><span class="row-label">Factor 3</span><span class="row-val">Something you <b>are</b> — biometric</span></div>
+      <div class="alert-green" style="margin-top:8px">Enable MFA on <b>root user immediately</b>. Even if password stolen, attacker can't login without 2nd factor.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════ ACM ═══════════════════════════════ -->
+<div class="section" id="acm">
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span>ACM — Certificate Manager</div>
+    <div class="row"><span class="row-label">What it is</span><span class="row-val">Managed service to provision, manage, deploy, <b>auto-renew</b> SSL/TLS certificates for AWS services. Enables HTTPS.</span></div>
+    <div class="row"><span class="row-label">Public certs</span><span class="row-val"><b>Free</b>. For internet-facing sites. Trusted by all browsers. DNS or Email validation required.</span></div>
+    <div class="row"><span class="row-label">Private certs</span><span class="row-val">ACM Private CA — <b>costs money</b>. For internal microservices. Trusted only within org.</span></div>
+    <div class="row"><span class="row-label">Used with</span><span class="row-val">ALB, CloudFront, API Gateway, AppSync. <b>Cannot be exported</b> — private key never leaves AWS.</span></div>
+    <div class="row"><span class="row-label">Auto-renewal</span><span class="row-val">ACM renews ~60 days before expiry automatically (DNS validation). Prevents expiry outages.</span></div>
+    <div class="row"><span class="row-label">Wildcard</span><span class="row-val">*.example.com covers all subdomains (shop, api, www...) with one certificate.</span></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-green"></span>HTTP vs HTTPS vs TLS vs SSL</div>
+      <table>
+        <tr><th>Term</th><th>Key Fact</th></tr>
+        <tr><td class="td-key">HTTP</td><td>Port 80. Plaintext. No encryption. Avoid.</td></tr>
+        <tr><td class="td-key">HTTPS</td><td>Port 443. HTTP + TLS. Encrypted. 🔒</td></tr>
+        <tr><td class="td-key">TLS</td><td>Current standard protocol (1.2/1.3). Successor to SSL. What ACM provides.</td></tr>
+        <tr><td class="td-key">SSL</td><td>Deprecated, insecure. People say "SSL cert" but mean TLS.</td></tr>
+      </table>
+      <div class="flow" style="margin-top:8px">HTTPS = HTTP over TLS
+TLS = encrypts the session
+Certificate = proves server identity during TLS handshake
+Result = data protected from eavesdropping</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-green"></span>ACM Certificate Lifecycle</div>
+      <div class="flow">1. Request Certificate (ACM console)
+2. Validate Domain Ownership
+   ├─ DNS Validation ✅ (recommended)
+   │    Add CNAME to DNS → ACM checks it
+   │    Supports auto-renewal
+   └─ Email Validation
+        Admin clicks link in email
+        Manual renewal required
+3. Certificate Issued
+4. Deploy to AWS service (ALB/CloudFront/API GW)
+5. TLS termination at LB — encrypts user↔LB
+6. Auto-renewed 60 days before expiry</div>
+      <div class="alert-blue alert" style="margin-top:8px">TLS terminates at LB/CloudFront. Traffic between LB and app servers can be HTTP (within AWS private network) or HTTPS for end-to-end.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span>ACM vs KMS — Key Distinction</div>
+    <table>
+      <tr><th>Aspect</th><th>ACM</th><th>KMS</th></tr>
+      <tr><td>Purpose</td><td>SSL/TLS certificate management</td><td>Encryption key management</td></tr>
+      <tr><td>Protects</td><td>Data <b>in transit</b> (network)</td><td>Data <b>at rest</b> (storage)</td></tr>
+      <tr><td>Protocol</td><td>TLS 1.2 / TLS 1.3</td><td>AES-256 (symmetric)</td></tr>
+      <tr><td>Cost</td><td class="td-g">Free (public certs)</td><td>$1/month per CMK + API calls</td></tr>
+      <tr><td>Used with</td><td>ALB, CloudFront, API GW</td><td>S3, EBS, RDS, DynamoDB, Lambda</td></tr>
+      <tr><td>Keys exportable?</td><td class="td-r">No (private key stays in ACM)</td><td class="td-r">No (key never leaves KMS plaintext)</td></tr>
+    </table>
+    <div class="alert-green" style="margin-top:8px"><b>Best practice: Use BOTH.</b> KMS encrypts data at rest + ACM/TLS encrypts data in transit = complete protection.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════ KMS ═══════════════════════════════ -->
+<div class="section" id="kms">
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span>KMS — Key Management Service</div>
+    <div class="row"><span class="row-label">What it is</span><span class="row-val">Fully managed service to create, manage, use cryptographic keys. Protects data <b>at rest</b>. Integrates with 100+ AWS services.</span></div>
+    <div class="row"><span class="row-label">KMS Key (CMK)</span><span class="row-val">Customer Master Key. Primary resource. <b>Never leaves KMS in plaintext.</b> Logical key with ID/ARN.</span></div>
+    <div class="row"><span class="row-label">Key policy</span><span class="row-val">Resource-based policy on every KMS key. Primary access control. IAM can supplement but cannot override key policy.</span></div>
+    <div class="row"><span class="row-label">Audit</span><span class="row-val">Every KMS API call logged in <b>CloudTrail</b>. Who used which key, when, from where.</span></div>
+    <div class="row"><span class="row-label">Regional</span><span class="row-val">Keys are regional. Key in us-east-1 cannot decrypt data in eu-west-1. Use multi-region keys for cross-region.</span></div>
+    <div class="row"><span class="row-label">KMS ≠ Secrets Manager</span><span class="row-val">KMS manages encryption keys. Use <b>Secrets Manager</b> for DB passwords and API keys.</span></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-purple"></span>KMS Key Types</div>
+      <table>
+        <tr><th>Type</th><th>Created By</th><th>Cost</th><th>Control</th></tr>
+        <tr><td class="td-key">AWS Managed</td><td>AWS auto</td><td class="td-g">Free</td><td>Limited. Auto-rotate yearly.</td></tr>
+        <tr><td class="td-key">Customer Managed (CMK)</td><td>You</td><td class="td-r">$1/mo + API</td><td>Full. Custom key policy. Optional rotation.</td></tr>
+        <tr><td class="td-key">AWS Owned</td><td>AWS internal</td><td class="td-g">Free</td><td>None (invisible to you)</td></tr>
+      </table>
+      <div style="margin-top:10px">
+        <div class="row"><span class="row-label">Key Rotation</span><span class="row-val">Old material retained (to decrypt old data). New data uses new material. Same key ID.</span></div>
+        <div class="row"><span class="row-label">Why rotate?</span><span class="row-val">Limits data encrypted per key version → limits exposure if key compromised.</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-purple"></span>Symmetric vs Asymmetric Encryption</div>
+      <table>
+        <tr><th>Aspect</th><th>Symmetric</th><th>Asymmetric</th></tr>
+        <tr><td>Keys</td><td>1 secret key</td><td>Public + Private pair</td></tr>
+        <tr><td>Speed</td><td class="td-g">Fast</td><td class="td-r">Slow</td></tr>
+        <tr><td>Data size</td><td>Any (bulk)</td><td>Small only</td></tr>
+        <tr><td>Key sharing</td><td class="td-r">Difficult (must keep secret)</td><td class="td-g">Easy (share public key)</td></tr>
+        <tr><td>KMS default</td><td class="td-g">Yes (AES-256)</td><td>Available for signing</td></tr>
+        <tr><td>TLS use</td><td>Bulk data after handshake</td><td>Handshake / key exchange</td></tr>
+        <tr><td>Algorithm</td><td>AES-128, AES-256</td><td>RSA, ECC</td></tr>
+      </table>
+      <div class="alert-blue alert" style="margin-top:8px">TLS uses <b>BOTH</b>: Asymmetric during handshake (exchange symmetric key) → then symmetric for actual data encryption.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span>⭐ Envelope Encryption — Core KMS Concept</div>
+    <div class="alert" style="margin-bottom:10px"><b>Why needed:</b> KMS can only encrypt up to <b>4 KB</b> directly. Real data is much larger. Sending all data to KMS = slow + expensive.</div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent3);margin-bottom:6px">ENCRYPTION</div>
+        <div class="flow" style="font-size:10.5px">Large Data (e.g. 100MB file)
+Step 1: Ask KMS → generate DEK
+  → Plaintext DEK + Encrypted DEK
+Step 2: Encrypt data locally with Plaintext DEK
+  → Encrypted Data (Ciphertext)
+Step 3: Discard Plaintext DEK from memory
+Store: [Encrypted Data] + [Encrypted DEK]</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--accent4);margin-bottom:6px">DECRYPTION</div>
+        <div class="flow" style="font-size:10.5px">Retrieve: Encrypted Data + Encrypted DEK
+Step 1: Send Encrypted DEK to KMS
+  → KMS returns Plaintext DEK
+  (KMS checks your permissions first)
+Step 2: Use Plaintext DEK to decrypt data
+  → Plaintext Data ✓
+Step 3: Discard Plaintext DEK</div>
+      </div>
+    </div>
+    <table style="margin-top:10px">
+      <tr><th>Term</th><th>Role</th><th>Key Point</th></tr>
+      <tr><td class="td-key">KMS Key (KEK)</td><td>Master key / Key Encryption Key</td><td>Encrypts the DEK. Never leaves KMS. Used minimally.</td></tr>
+      <tr><td class="td-key">DEK</td><td>Data Encryption Key</td><td>Generated per-object. Encrypts actual data. Discarded after use. Stored encrypted.</td></tr>
+      <tr><td class="td-key">Ciphertext</td><td>Encrypted data</td><td>Result of DEK encrypting the data</td></tr>
+      <tr><td class="td-key">Encrypted DEK</td><td>Wrapped key</td><td>DEK encrypted by KMS Key. Stored alongside ciphertext.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span>KMS Integration with AWS Services</div>
+    <table>
+      <tr><th>Service</th><th>What's Encrypted</th><th>Key Note</th></tr>
+      <tr><td class="td-key">S3 (SSE-KMS)</td><td>Object data</td><td>Each object has its own DEK. Options: SSE-S3 (S3 managed), SSE-KMS (your CMK = more control), SSE-C (you provide key)</td></tr>
+      <tr><td class="td-key">EBS</td><td>Entire block volume + snapshots</td><td>Encryption/decryption at hypervisor level. EC2 instance reads plaintext transparently — unaware of encryption.</td></tr>
+      <tr><td class="td-key">RDS</td><td>Storage files, logs, backups, snapshots</td><td>Must enable encryption at <b>creation time</b>. Cannot encrypt existing unencrypted instance directly (snapshot → encrypt → restore).</td></tr>
+    </table>
+    <div class="alert" style="margin-top:8px">Encryption at Rest vs In Transit: <b>At Rest = KMS (AES-256)</b> for stored data. <b>In Transit = ACM/TLS</b> for data moving over network. Use BOTH for full protection.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════ HOTS Q&A ═══════════════════════════════ -->
+<div class="section" id="hots">
+
+  <div class="hots-box">
+    <div class="hots-title">🔵 Route 53 — HOTS Questions</div>
+
+    <div class="hots-q">Q: A company needs to route 5% of traffic to a new backend for testing, and the rest to the old backend. Which Route 53 policy and why?</div>
+    <div class="hots-a">→ <b>Weighted Routing.</b> Set old backend weight 95, new backend weight 5. Route 53 distributes traffic in this ratio. This is canary/gradual deployment — if new backend has issues, only 5% of users affected.</div>
+
+    <div class="hots-q">Q: A user in India connects to your API. They should go to the closest region, but your Geolocation policy routes them to EU. Why could this happen?</div>
+    <div class="hots-a">→ Geolocation uses DNS resolver's IP (ISP), not user's actual location. If the resolver is geolocated incorrectly (e.g. Indian ISP using a US-registered resolver), Route 53 may misidentify location. Geolocation ≠ Latency routing.</div>
+
+    <div class="hots-q">Q: Why can't you use a CNAME record for example.com but you can for www.example.com?</div>
+    <div class="hots-a">→ CNAME at zone apex (root domain) violates DNS RFC. The zone apex requires NS and SOA records, which conflict with CNAME restrictions. Use <b>Alias record</b> instead — Route 53 specific, works at zone apex, free, auto-tracks AWS resource IP changes.</div>
+
+    <div class="hots-q">Q: Failover vs Multivalue routing — when to use which?</div>
+    <div class="hots-a">→ <b>Failover</b>: Primary-Secondary DR setup. Traffic goes to secondary ONLY when primary's health check fails. <b>Multivalue</b>: Returns multiple healthy IPs for simple client-side load balancing. Not a replacement for ALB — just DNS-level health awareness with random selection.</div>
+  </div>
+
+  <div class="hots-box">
+    <div class="hots-title">🟣 API Gateway + VPC — HOTS Questions</div>
+
+    <div class="hots-q">Q: Why use API Gateway instead of exposing Lambda directly via a public URL?</div>
+    <div class="hots-a">→ API Gateway centralizes: auth (IAM/Cognito/Lambda authorizer), throttling (rate limiting to protect Lambda from overload), caching (reduce Lambda invocations), monitoring (CloudWatch), request validation. Direct Lambda URL lacks these — you'd have to build each manually.</div>
+
+    <div class="hots-q">Q: A private EC2 can ping google.com, but the internet cannot reach it. How is this architecture set up?</div>
+    <div class="hots-a">→ EC2 in private subnet. Private subnet route table: 0.0.0.0/0 → NAT Gateway. NAT Gateway in public subnet (with Elastic IP) → Internet Gateway → internet. NAT translates private IP to Elastic IP for outbound. No route from internet to private EC2 exists → cannot initiate inbound connections.</div>
+
+    <div class="hots-q">Q: You named a subnet "public-subnet" but resources in it can't reach the internet. What's wrong?</div>
+    <div class="hots-a">→ Naming has NO effect. The subnet's Route Table must have 0.0.0.0/0 → Internet Gateway. Also check: (1) VPC has an Internet Gateway attached, (2) the resource has a public IP assigned, (3) Security Group allows outbound traffic.</div>
+
+    <div class="hots-q">Q: Security Group vs NACL — which to use for blocking a specific IP?</div>
+    <div class="hots-a">→ <b>NACL</b>. Security Groups only support Allow rules — you cannot explicitly deny a specific IP. NACLs support both Allow and Deny rules at subnet level. Add a Deny rule with lower rule number (higher priority) than any Allow rule for that IP.</div>
+  </div>
+
+  <div class="hots-box">
+    <div class="hots-title">🔵 IAM — HOTS Questions</div>
+
+    <div class="hots-q">Q: A developer accidentally attached AdministratorAccess to a Lambda role. Even if the Lambda has this policy, what else limits what it can do?</div>
+    <div class="hots-a">→ <b>Resource-based policies</b> on the target resource can still deny access. Also, <b>Permissions Boundaries</b> on the role set a maximum ceiling — even AdministratorAccess can't exceed the boundary. And <b>SCPs</b> (Service Control Policies) in AWS Organizations can further restrict what any entity can do.</div>
+
+    <div class="hots-q">Q: Why use IAM Roles for EC2 instead of embedding access keys in code?</div>
+    <div class="hots-a">→ Embedded keys: (1) can be accidentally committed to Git and exposed, (2) hard to rotate (manual process), (3) shared across instances. Roles provide: temporary credentials via STS (auto-expire), automatic rotation, no key to leak, each instance gets fresh credentials, CloudTrail logs role usage.</div>
+
+    <div class="hots-q">Q: Policy A allows s3:DeleteObject. Policy B denies s3:DeleteObject. Both attached to user Alice. Can Alice delete S3 objects?</div>
+    <div class="hots-a">→ <b>No.</b> Explicit Deny always wins. Even though Policy A explicitly allows, Policy B's explicit deny overrides it. Order: Explicit Deny → Explicit Allow → Default Deny. Any Deny anywhere = blocked.</div>
+
+    <div class="hots-q">Q: Difference between Trust Policy and Permissions Policy on a Role?</div>
+    <div class="hots-a">→ <b>Trust Policy</b>: WHO can assume (use) this role (e.g. EC2 service, another account, Lambda). <b>Permissions Policy</b>: WHAT the role can do once assumed (e.g. s3:GetObject on my-bucket). Both must be set for a role to work.</div>
+  </div>
+
+  <div class="hots-box">
+    <div class="hots-title">🟢 ACM + KMS — HOTS Questions</div>
+
+    <div class="hots-q">Q: A customer says "our database is encrypted using ACM." Is this correct?</div>
+    <div class="hots-a">→ <b>No.</b> ACM manages TLS certificates for encryption <i>in transit</i> (network). Database encryption (at rest) uses <b>KMS</b> with S3/EBS/RDS integrations. ACM cannot be used with/on RDS directly. It's a common conceptual confusion.</div>
+
+    <div class="hots-q">Q: Why does AWS use Envelope Encryption instead of encrypting everything directly with the KMS key?</div>
+    <div class="hots-a">→ KMS can only encrypt ≤4 KB directly. Real data (files, DB records) is much larger. Sending all data to KMS API would be slow, expensive, and bandwidth-intensive. Envelope encryption: use KMS only to protect a small DEK, then use DEK to encrypt large data locally. KMS stays fast and cheap; large data encryption is efficient.</div>
+
+    <div class="hots-q">Q: You need to encrypt S3 data AND need to audit exactly which IAM user decrypted a specific file. Which encryption option?</div>
+    <div class="hots-a">→ <b>SSE-KMS</b> with a Customer Managed Key (CMK). AWS Managed Key (SSE-KMS with aws/s3) logs to CloudTrail too, but CMK gives you full control over key policy, the ability to restrict individual users via key policy, and complete audit trail in CloudTrail. SSE-S3 uses AWS-managed key with less audit granularity.</div>
+
+    <div class="hots-q">Q: Can you use the same ACM certificate in us-east-1 for a CloudFront distribution AND an ALB in ap-south-1?</div>
+    <div class="hots-a">→ For <b>CloudFront</b>: certificate MUST be in us-east-1 (CloudFront is global but requires certs in us-east-1). For <b>ALB in ap-south-1</b>: certificate must be in ap-south-1. ACM certificates are regional for most services. So you'd need two certificates — one in each region.</div>
+
+    <div class="hots-q">Q: HTTP vs HTTPS: why is HTTPS considered more secure beyond just encryption?</div>
+    <div class="hots-a">→ HTTPS provides: (1) <b>Encryption</b> — data unreadable in transit, (2) <b>Authentication</b> — certificate proves server is who it claims (prevents impersonation), (3) <b>Data integrity</b> — TLS MAC ensures data wasn't tampered with in transit. HTTP provides none of these — plaintext, no identity verification, no integrity check.</div>
+  </div>
+
+  <div class="card" style="margin-top:4px">
+    <div class="card-title"><span class="dot dot-warn"></span>Critical Confusions — Quick Reference</div>
+    <table>
+      <tr><th>Confused Pair</th><th>Key Distinction</th></tr>
+      <tr><td class="td-key">CNAME vs Alias</td><td>CNAME: extra lookup, can't use at zone apex, charged. Alias: Route 53 internal, zone apex OK, free, auto-tracks AWS resource.</td></tr>
+      <tr><td class="td-key">Geolocation vs Latency routing</td><td>Geo: routes by user's COUNTRY (DNS source IP). Latency: routes by measured NETWORK SPEED to AWS region. Different decisions.</td></tr>
+      <tr><td class="td-key">Security Group vs NACL</td><td>SG: stateful, instance-level, Allow only. NACL: stateless, subnet-level, Allow+Deny, rule order matters.</td></tr>
+      <tr><td class="td-key">NAT GW vs IGW</td><td>IGW: bidirectional, public subnets, free. NAT GW: outbound-only, private subnets, costs money, needs Elastic IP.</td></tr>
+      <tr><td class="td-key">IAM User vs Role</td><td>User: long-term credentials, for humans. Role: temporary (STS), no long-term keys, for AWS services/cross-account.</td></tr>
+      <tr><td class="td-key">Trust Policy vs Permissions Policy</td><td>Trust: WHO can assume the role. Permissions: WHAT the role can do.</td></tr>
+      <tr><td class="td-key">ACM vs KMS</td><td>ACM: TLS certs, in transit, free. KMS: encryption keys, at rest, $1/mo per CMK.</td></tr>
+      <tr><td class="td-key">Symmetric vs Asymmetric</td><td>Symmetric: 1 key, fast, bulk data (AES). Asymmetric: 2 keys, slow, key exchange/signatures (RSA).</td></tr>
+      <tr><td class="td-key">Public vs Private subnet</td><td>Determined by Route Table ONLY. 0.0.0.0/0 → IGW = public. 0.0.0.0/0 → NAT GW = private. Name doesn't matter.</td></tr>
+      <tr><td class="td-key">Explicit Deny vs Default Deny</td><td>Explicit Deny: someone wrote a Deny rule → ALWAYS wins. Default Deny: no Allow exists → also blocks. Explicit Deny wins over Explicit Allow.</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

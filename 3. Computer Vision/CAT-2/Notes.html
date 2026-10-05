@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Computer Vision — CAT II Study Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f9fa;
+    --surface: #ffffff;
+    --surface2: #f1f3f5;
+    --border: #dee2e6;
+    --accent: #1971c2;
+    --accent2: #2f9e44;
+    --accent3: #c92a2a;
+    --accent4: #6741d9;
+    --accent5: #d9480f;
+    --text: #212529;
+    --muted: #868e96;
+    --code-bg: #f1f3f5;
+    --tag-bg: #e7f5ff;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1a1b1e;
+      --surface: #25262b;
+      --surface2: #2c2e33;
+      --border: #373a40;
+      --accent: #4dabf7;
+      --accent2: #69db7c;
+      --accent3: #ff6b6b;
+      --accent4: #b197fc;
+      --accent5: #ffa94d;
+      --text: #dee2e6;
+      --muted: #868e96;
+      --code-bg: #2c2e33;
+      --tag-bg: #1c3a5e;
+    }
+  }
+  * { box-sizing: inherit; margin: 0; padding: 0; }
+  html { scroll-padding-top: 80px; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* TOP NAV */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 0;
+    height: 52px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .topbar::-webkit-scrollbar { display: none; }
+  .topbar-brand {
+    font-weight: 700; font-size: 14px; color: var(--accent);
+    white-space: nowrap; margin-right: 20px; letter-spacing: -0.3px;
+  }
+  .topbar a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    padding: 6px 12px; border-radius: 6px; white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .topbar a:hover { background: var(--surface2); color: var(--text); }
+
+  /* LAYOUT */
+  .layout { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 230px; min-width: 230px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky; top: 52px;
+    height: calc(100vh - 52px);
+    overflow-y: auto;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .sidebar-section { padding: 8px 16px 3px; font-size: 10px; font-weight: 700;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+  .sidebar a {
+    display: block; padding: 5px 20px; font-size: 13px; color: var(--muted);
+    text-decoration: none; border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar a:hover { color: var(--text); border-color: var(--accent); background: var(--surface2); }
+  .sidebar a.active { color: var(--accent); border-color: var(--accent); background: var(--surface2); }
+
+  /* MAIN */
+  .main { flex: 1; max-width: 880px; padding: 32px 36px 80px; }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 16px 14px 60px; }
+  }
+
+  /* HERO — simple, no gradient */
+  .hero {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--accent);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+  }
+  .hero h1 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .hero p { color: var(--muted); font-size: 14px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tag {
+    font-size: 12px; font-weight: 600; padding: 3px 10px;
+    border-radius: 4px; border: 1px solid;
+  }
+  .tag.blue { color: var(--accent); border-color: var(--accent); background: var(--tag-bg); }
+  .tag.green { color: var(--accent2); border-color: var(--accent2); background: rgba(47,158,68,0.08); }
+  .tag.red { color: var(--accent3); border-color: var(--accent3); background: rgba(201,42,42,0.07); }
+  .tag.purple { color: var(--accent4); border-color: var(--accent4); background: rgba(103,65,217,0.08); }
+  .tag.orange { color: var(--accent5); border-color: var(--accent5); background: rgba(217,72,15,0.07); }
+
+  /* UNIT SECTION HEADERS */
+  .unit-header {
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 2px solid var(--accent);
+    padding: 10px 4px 10px;
+    margin: 40px 0 16px;
+  }
+  .unit-header h2 { font-size: 16px; font-weight: 700; flex: 1; color: var(--text); }
+  .unit-header .unit-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted); font-weight: 600;
+    background: var(--surface2); padding: 2px 8px; border-radius: 4px;
+  }
+  .unit-header.green { border-bottom-color: var(--accent2); }
+  .unit-header.purple { border-bottom-color: var(--accent4); }
+  .unit-header.orange { border-bottom-color: var(--accent5); }
+
+  /* TOPIC CARDS — always open, no toggle */
+  .topic {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .topic-header {
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .topic-header h3 { font-size: 14px; font-weight: 700; flex: 1; color: var(--text); }
+  .topic-body { padding: 18px 20px; display: block; }
+
+  /* CONTENT ELEMENTS */
+  .def-box {
+    background: var(--tag-bg);
+    border: 1px solid rgba(25,113,194,0.25);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 11px 15px; margin-bottom: 14px; font-size: 14px;
+  }
+  .def-box strong { color: var(--accent); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+
+  .steps { counter-reset: step; margin: 12px 0; }
+  .step {
+    counter-increment: step;
+    display: flex; gap: 12px; margin-bottom: 9px; align-items: flex-start;
+  }
+  .step::before {
+    content: counter(step);
+    min-width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 3px;
+  }
+  .step.green::before { background: var(--accent2); }
+  .step.purple::before { background: var(--accent4); }
+
+  ul.bullets { padding-left: 20px; margin: 8px 0; }
+  ul.bullets li { margin-bottom: 5px; font-size: 14px; color: var(--text); }
+  ul.bullets li::marker { color: var(--accent); }
+
+  .code {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 13px 15px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px; color: var(--text);
+    overflow-x: auto; margin: 12px 0;
+    line-height: 1.6;
+  }
+  .code .kw { color: var(--accent4); font-weight: 600; }
+  .code .cm { color: var(--muted); font-style: italic; }
+  .code .fn { color: var(--accent2); }
+  .code .str { color: var(--accent5); }
+  .code .num { color: var(--accent3); }
+
+  .math {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--accent4);
+    text-align: center; margin: 12px 0;
+  }
+
+  /* PROS/CONS */
+  .pc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+  @media (max-width: 500px) { .pc-grid { grid-template-columns: 1fr; } }
+  .pros { background: rgba(47,158,68,0.06); border: 1px solid rgba(47,158,68,0.25); border-radius: 6px; padding: 11px; }
+  .cons { background: rgba(201,42,42,0.06); border: 1px solid rgba(201,42,42,0.2); border-radius: 6px; padding: 11px; }
+  .pros h5 { color: var(--accent2); font-size: 12px; font-weight: 700; margin-bottom: 7px; }
+  .cons h5 { color: var(--accent3); font-size: 12px; font-weight: 700; margin-bottom: 7px; }
+  .pros li, .cons li { font-size: 13px; margin-bottom: 3px; }
+
+  /* DIAGRAM */
+  .diagram {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--accent2);
+    overflow-x: auto; margin: 12px 0; line-height: 1.55;
+    white-space: pre;
+  }
+
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  .tbl th { background: var(--surface2); color: var(--accent); text-align: left;
+    padding: 8px 12px; border: 1px solid var(--border); font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .tbl td { padding: 7px 12px; border: 1px solid var(--border); color: var(--text); }
+  .tbl tr:nth-child(even) td { background: var(--surface2); }
+
+  /* EXAM ALERT */
+  .exam-alert {
+    background: rgba(217,72,15,0.06); border: 1px solid rgba(217,72,15,0.25);
+    border-left: 3px solid var(--accent5); border-radius: 6px;
+    padding: 10px 14px; margin: 12px 0; font-size: 13px;
+    color: var(--text);
+  }
+  .exam-alert strong { color: var(--accent5); display: block; margin-bottom: 4px; }
+
+  /* WORKED EXAMPLE */
+  .worked {
+    background: rgba(103,65,217,0.05); border: 1px solid rgba(103,65,217,0.2);
+    border-left: 3px solid var(--accent4); border-radius: 6px;
+    padding: 13px 15px; margin: 13px 0; font-size: 14px;
+  }
+  .worked h5 { color: var(--accent4); margin-bottom: 9px; font-size: 13px; font-weight: 700; }
+
+  /* CHIPS */
+  .chip {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 3px; margin: 0 3px 3px 0;
+    vertical-align: middle; text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .chip-blue { background: var(--tag-bg); color: var(--accent); border: 1px solid var(--accent); }
+  .chip-green { background: rgba(47,158,68,0.1); color: var(--accent2); border: 1px solid var(--accent2); }
+  .chip-red { background: rgba(201,42,42,0.08); color: var(--accent3); border: 1px solid var(--accent3); }
+  .chip-purple { background: rgba(103,65,217,0.08); color: var(--accent4); border: 1px solid var(--accent4); }
+
+  h4 { font-size: 13.5px; font-weight: 700; color: var(--accent); margin: 14px 0 6px; }
+  p { font-size: 14px; margin-bottom: 10px; }
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  /* SCROLL TOP */
+  .scroll-top {
+    position: fixed; bottom: 20px; right: 20px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 6px; width: 36px; height: 36px;
+    font-size: 16px; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: opacity 0.2s;
+  }
+  .scroll-top:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <div class="topbar-brand">CV Notes</div>
+  <a href="#unit1">Feature Extraction</a>
+  <a href="#unit2">Segmentation</a>
+  <a href="#unit3">Pattern Analysis</a>
+  <a href="#unit4">Motion Analysis</a>
+</nav>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">Unit 1 — Features</div>
+  <a href="#edges">Edges (Canny/LoG/DoG)</a>
+  <a href="#hough">Hough Transform</a>
+  <a href="#harris">Harris & Hessian-Affine</a>
+  <a href="#sift">SIFT</a>
+  <a href="#surf">SURF</a>
+  <a href="#hog">HOG</a>
+  <div class="sidebar-section">Unit 2 — Segmentation</div>
+  <a href="#region-growing">Region Growing</a>
+  <a href="#edge-seg">Edge-Based Segmentation</a>
+  <a href="#graph-cut">Graph-Cut</a>
+  <a href="#mean-shift">Mean-Shift</a>
+  <a href="#mrf">MRF</a>
+  <a href="#texture-seg">Texture Segmentation</a>
+  <div class="sidebar-section">Unit 3 — Pattern</div>
+  <a href="#kmeans">K-Means</a>
+  <a href="#kmedoids">K-Medoids</a>
+  <a href="#gmm">GMM</a>
+  <a href="#classifiers">Bayes / KNN / ANN</a>
+  <a href="#dimred">PCA / LDA / ICA</a>
+  <div class="sidebar-section">Unit 4 — Motion</div>
+  <a href="#bg-sub">Background Subtraction</a>
+  <a href="#optical-flow">Optical Flow</a>
+  <a href="#klt">KLT Tracker</a>
+  <a href="#spatiotemporal">Spatio-Temporal</a>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🖥️ Computer Vision — CAT II Study Notes</h1>
+  <p>Complete exam-prep notes: definitions, algorithms, numericals, diagrams, pros/cons. Based on your syllabus and mock test analysis.</p>
+  <div class="tag-row">
+    <span class="tag blue">Feature Extraction</span>
+    <span class="tag green">Image Segmentation</span>
+    <span class="tag purple">Pattern Analysis</span>
+    <span class="tag orange">Motion Analysis</span>
+    <span class="tag red">⚠ Important Topics Marked</span>
+  </div>
+</div>
+
+<!-- ========== UNIT 1: FEATURE EXTRACTION ========== -->
+<div class="unit-header" id="unit1">
+  <span class="unit-num">UNIT 01</span>
+  <h2>Feature Extraction — Edges, Lines, Corners, Descriptors</h2>
+</div>
+
+<!-- EDGES -->
+<div class="topic" id="edges">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ EXAM HOT</span>
+    <h3>Edge Detection — Canny, LoG, DoG</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      An edge is a significant local change in image intensity. Edge detection finds boundaries between regions by locating pixels where intensity changes sharply.
+    </div>
+
+    <h4>1. Gradient Basics (needed for ALL edge methods)</h4>
+    <div class="math">Gx = ∂I/∂x &nbsp;&nbsp; Gy = ∂I/∂y &nbsp;&nbsp; |G| = √(Gx² + Gy²) &nbsp;&nbsp; θ = arctan(Gy / Gx)</div>
+    <ul class="bullets">
+      <li><strong>|G| (Magnitude)</strong> — tells HOW STRONG the edge is; higher value = stronger edge</li>
+      <li><strong>θ (Orientation)</strong> — tells which DIRECTION the edge goes (horizontal, vertical, diagonal)</li>
+    </ul>
+
+    <hr class="divider">
+    <h4>Canny Edge Detector <span class="chip chip-red">Most Asked</span></h4>
+    <div class="steps">
+      <div class="step">Gaussian Blur — smooth image to remove noise: G(x,y) = (1/2πσ²) · e^(−(x²+y²)/2σ²)</div>
+      <div class="step">Compute Gradient magnitude |G| and direction θ using Sobel operators</div>
+      <div class="step">Non-Maximum Suppression (NMS) — keep only local maxima along gradient direction → thin edges</div>
+      <div class="step">Double Thresholding — classify pixels as strong (>T_high), weak (T_low < p < T_high), or ignored</div>
+      <div class="step">Edge Tracking by Hysteresis — keep weak pixels only if connected to strong pixels</div>
+    </div>
+    <div class="diagram">Input Image
+     │
+     ▼
+[Gaussian Blur] ──── removes noise
+     │
+     ▼
+[Sobel Operator] ─── Gx, Gy → |G|, θ
+     │
+     ▼
+[Non-Max Suppression] ── thins edges
+     │
+     ▼
+[Double Threshold] ─── strong/weak/none
+     │
+     ▼
+[Hysteresis] ─────── final edge map</div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Best noise robustness</li><li>Thin, precise edges</li><li>Two-threshold → fewer false edges</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Slow (5 steps)</li><li>Threshold tuning needed</li><li>Misses blurry edges</li></ul></div>
+    </div>
+
+    <hr class="divider">
+    <h4>LoG (Laplacian of Gaussian)</h4>
+    <div class="math">LoG(x,y) = −(1/πσ⁴)[1 − (x²+y²)/2σ²] · e^(−(x²+y²)/2σ²)</div>
+    <div class="steps">
+      <div class="step green">Smooth image with Gaussian filter (removes noise)</div>
+      <div class="step green">Apply Laplacian (2nd derivative) to find zero-crossings</div>
+      <div class="step green">Zero-crossings = edge locations</div>
+    </div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Good noise handling</li><li>Scale-controlled by σ</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Sensitive to noise at crossings</li><li>Slow — 2nd derivative computation</li></ul></div>
+    </div>
+
+    <hr class="divider">
+    <h4>DoG (Difference of Gaussians) — SIFT uses this!</h4>
+    <div class="math">DoG(x,y,σ) = G(x,y,kσ) − G(x,y,σ)</div>
+    <ul class="bullets">
+      <li>Approximates LoG — much faster to compute</li>
+      <li>Subtracts two blurred images at different scales</li>
+      <li>Used in SIFT keypoint detection across scale space</li>
+    </ul>
+
+    <hr class="divider">
+    <h4>Comparison Table</h4>
+    <table class="tbl">
+      <tr><th>Method</th><th>Noise Handling</th><th>Speed</th><th>Localization</th><th>Best For</th></tr>
+      <tr><td>Canny</td><td>⭐⭐⭐ Excellent</td><td>Slow</td><td>⭐⭐⭐ Excellent</td><td>General edges, nighttime cameras</td></tr>
+      <tr><td>LoG</td><td>⭐⭐ Good</td><td>Medium</td><td>⭐⭐ Good</td><td>Blob detection, zero-crossing</td></tr>
+      <tr><td>DoG</td><td>⭐⭐ Good</td><td>⭐⭐⭐ Fast</td><td>⭐⭐ Good</td><td>Scale-space, SIFT keypoints</td></tr>
+      <tr><td>Sobel</td><td>⭐ Poor</td><td>⭐⭐⭐ Very Fast</td><td>⭐ Poor</td><td>Quick gradients only</td></tr>
+    </table>
+    <div class="exam-alert"><strong>⚠ Exam Answer Tip (Q1 from Mock)</strong>Lane detection: |G| finds WHERE the edge is (high gradient = lane line), θ gives DIRECTION of the lane (0°=horizontal, 90°=vertical). Canny recommended for autonomous vehicles due to noise robustness.</div>
+  </div>
+</div>
+
+<!-- HOUGH TRANSFORM -->
+<div class="topic" id="hough">
+  <div class="topic-header">
+    <span class="chip chip-blue">Line Detector</span>
+    <h3>Hough Transform — Line & Circle Detection</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Maps edge points from image space to a parameter (Hough) space. Points lying on the same line produce peaks in Hough space.
+    </div>
+    <h4>Algorithm</h4>
+    <div class="math">ρ = x·cos(θ) + y·sin(θ) &nbsp;&nbsp; [Normal form of a line]</div>
+    <div class="steps">
+      <div class="step">Apply edge detector (Canny) to get edge map</div>
+      <div class="step">For each edge pixel (x,y), vote for ALL possible (ρ,θ) pairs</div>
+      <div class="step">Accumulate votes in 2D Hough accumulator array H[ρ][θ]</div>
+      <div class="step">Find peaks in H — each peak = a line in image</div>
+      <div class="step">Back-project peaks to image space to draw detected lines</div>
+    </div>
+    <div class="diagram">Image Space        Hough Space (ρ,θ)
+  
+  y                    ρ
+  │  * * * *           │   ╱ (peak = line)
+  │      * *           │  ╱
+  │          *         │ ╱_________________ θ
+  └────────── x        Each point → sine curve
+                       Intersection = common line</div>
+    <h4>Circle Hough Transform</h4>
+    <div class="math">(x−a)² + (y−b)² = r² &nbsp;&nbsp;→&nbsp;&nbsp; Vote in 3D space (a,b,r)</div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Robust to noise &amp; missing points</li><li>Detects multiple lines simultaneously</li><li>Works with partial/occluded lines</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>High memory for 2D/3D accumulator</li><li>Slow for large images</li><li>Only detects predefined shapes</li></ul></div>
+    </div>
+    <div class="exam-alert"><strong>⚠ Exam Use</strong>Robot warehouse shelf detection: Canny → Hough for straight lines → Harris for shelf corners. This 3-stage pipeline is frequently tested!</div>
+  </div>
+</div>
+
+<!-- HARRIS & HESSIAN -->
+<div class="topic" id="harris">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ EXAM HOT</span>
+    <h3>Corner Detection — Harris & Hessian-Affine</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Corners are points where intensity changes significantly in ALL directions. They are more stable and distinctive than edges for matching.
+    </div>
+    <h4>Harris Corner Detector</h4>
+    <div class="math">M = Σ w(x,y) · [Ix² &nbsp; IxIy; IxIy &nbsp; Iy²] &nbsp;&nbsp; R = det(M) − k·trace(M)²</div>
+    <ul class="bullets">
+      <li><strong>M</strong> = Structure tensor (2×2 matrix of gradients)</li>
+      <li><strong>λ₁, λ₂</strong> = eigenvalues of M</li>
+      <li>If both large → <strong>Corner</strong> (R &gt; threshold)</li>
+      <li>If one large → <strong>Edge</strong></li>
+      <li>If both small → <strong>Flat region</strong> (R ≈ 0)</li>
+      <li>k = 0.04 to 0.06 (empirical constant)</li>
+    </ul>
+    <div class="diagram">         λ₂
+          │
+  Corner  │  Edge
+          │
+──────────┼──────────── λ₁
+          │
+   Edge   │  Flat
+          │</div>
+
+    <h4>Hessian-Affine Detector</h4>
+    <div class="math">H(x,y) = [Ixx &nbsp; Ixy; Ixy &nbsp; Iyy] &nbsp;&nbsp; det(H) = Ixx·Iyy − Ixy²</div>
+    <ul class="bullets">
+      <li>Uses 2nd-order derivatives (curvature information)</li>
+      <li>Detects BLOB-like regions, not just corners</li>
+      <li>Affine invariant — handles viewpoint changes</li>
+      <li>More stable than Harris under scale/rotation</li>
+    </ul>
+    <table class="tbl">
+      <tr><th>Feature</th><th>Harris</th><th>Hessian-Affine</th></tr>
+      <tr><td>Invariance</td><td>Rotation ✅, Scale ❌</td><td>Rotation ✅, Scale ✅, Affine ✅</td></tr>
+      <tr><td>Speed</td><td>Fast</td><td>Slower</td></tr>
+      <tr><td>Detects</td><td>Corners</td><td>Blobs + corners</td></tr>
+      <tr><td>Use case</td><td>Indoor scenes</td><td>Wide-baseline matching</td></tr>
+    </table>
+    <div class="exam-alert"><strong>⚠ Exam Connection (Q2 Mock)</strong>SIFT uses Hessian matrix in localization/filtering stage to eliminate unstable keypoints on edges (where one eigenvalue >> other — edge response, not blob).</div>
+  </div>
+</div>
+
+<!-- SIFT -->
+<div class="topic" id="sift">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ MOST IMPORTANT</span>
+    <h3>SIFT — Scale Invariant Feature Transform</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      SIFT detects and describes local features that are invariant to scale, rotation, and partially to illumination and viewpoint changes.
+    </div>
+    <h4>4 Stages of SIFT</h4>
+    <div class="steps">
+      <div class="step"><strong>Scale-Space Extrema Detection:</strong> Build DoG pyramid at multiple octaves. Find local minima/maxima in 3D (x,y,scale) — these are keypoint candidates.</div>
+      <div class="step"><strong>Keypoint Localization &amp; Filtering:</strong> Use Taylor expansion to refine position. REJECT if: (a) |DoG| &lt; 0.03 (low contrast), (b) Hessian ratio (r+1)²/r &gt; threshold — eliminates edge responses (r=10 used by Lowe).</div>
+      <div class="step"><strong>Orientation Assignment:</strong> Create histogram of gradient orientations (36 bins, 360°) in a region around keypoint. Dominant orientation = keypoint's orientation. This gives ROTATION INVARIANCE.</div>
+      <div class="step"><strong>Keypoint Descriptor:</strong> 4×4 grid of cells, each with 8-bin orientation histogram = 4×4×8 = <strong>128-D vector</strong>. Normalized to reduce illumination effects.</div>
+    </div>
+    <div class="diagram">Original Image
+     │
+     ├──[σ]──[kσ]──[k²σ]── ... (Gaussian Scale Space)
+     │
+     ▼
+DoG Pyramid (subtract adjacent scales)
+     │
+     ▼
+Find Extrema (compare to 26 neighbors in 3D)
+     │
+     ▼
+Reject low-contrast & edge pts (Hessian filter)
+     │
+     ▼
+Assign Orientation → 128-D Descriptor</div>
+
+    <div class="worked">
+      <h5>🔢 Numerical: How Hessian Filters Edge Keypoints</h5>
+      <p>Hessian at a keypoint: H = [[Dxx, Dxy],[Dxy, Dyy]]</p>
+      <div class="math">Tr(H) = Dxx + Dyy &nbsp;&nbsp; Det(H) = Dxx·Dyy − Dxy²</div>
+      <p>Ratio test: Tr(H)²/Det(H) &lt; (r+1)²/r where r=10</p>
+      <p>If ratio is HIGH → one eigenvalue much bigger → it's an EDGE → REJECT</p>
+    </div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Scale &amp; rotation invariant</li><li>Robust to illumination</li><li>128-D descriptor is very distinctive</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Slow — not real-time</li><li>128-D vector = large memory</li><li>Poor with motion blur</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- SURF -->
+<div class="topic" id="surf">
+  <div class="topic-header">
+    <span class="chip chip-blue">Faster SIFT</span>
+    <h3>SURF — Speeded-Up Robust Features</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      SURF is a faster approximation of SIFT using integral images and box filters (Haar wavelets) instead of Gaussian convolutions.
+    </div>
+    <h4>Key Ideas</h4>
+    <ul class="bullets">
+      <li><strong>Detection:</strong> Fast Hessian using Box filters on integral images (approx. DoG)</li>
+      <li><strong>Descriptor:</strong> 64-D vector (4×4 grid, 4 Haar wavelet responses each) → 2× faster than SIFT</li>
+      <li><strong>Orientation:</strong> Dominant Haar wavelet response in 60° sliding window</li>
+      <li><strong>U-SURF:</strong> Upright SURF — skip orientation step if rotation invariance not needed (even faster)</li>
+    </ul>
+    <table class="tbl">
+      <tr><th></th><th>SIFT</th><th>SURF</th></tr>
+      <tr><td>Descriptor Size</td><td>128-D</td><td>64-D</td></tr>
+      <tr><td>Speed</td><td>Slow</td><td>3–7× faster</td></tr>
+      <tr><td>Scale invariant</td><td>✅</td><td>✅</td></tr>
+      <tr><td>Rotation invariant</td><td>✅</td><td>✅ (U-SURF: ❌)</td></tr>
+      <tr><td>Patent</td><td>Expired</td><td>Proprietary</td></tr>
+    </table>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Much faster than SIFT</li><li>Good for real-time applications</li><li>Scale + rotation invariant</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Less accurate than SIFT</li><li>Poor with large viewpoint change</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOG -->
+<div class="topic" id="hog">
+  <div class="topic-header">
+    <span class="chip chip-purple">Object Detection</span>
+    <h3>HOG — Histogram of Oriented Gradients</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      HOG describes local shape/appearance by the distribution of intensity gradient orientations. Classic pedestrian/object detector.
+    </div>
+    <h4>Algorithm Steps</h4>
+    <div class="steps">
+      <div class="step">Divide image into cells (e.g., 8×8 pixels)</div>
+      <div class="step">Compute gradient magnitude &amp; direction for each pixel</div>
+      <div class="step">Build 9-bin orientation histogram (0°–180°) per cell</div>
+      <div class="step">Group cells into blocks (e.g., 2×2 cells), normalize the block histogram (L2 norm)</div>
+      <div class="step">Concatenate all block histograms → final HOG feature vector</div>
+      <div class="step">Feed to SVM classifier for detection</div>
+    </div>
+    <div class="diagram">Image Window (64×128 for pedestrian)
+     │
+     ▼
+Compute Gx, Gy → |G|, θ for each pixel
+     │
+     ▼
+Each 8×8 cell → 9-bin orientation histogram
+     │
+     ▼
+2×2 cells = 1 block → normalize (contrast invariance)
+     │
+     ▼
+Concatenate all block vectors → HOG descriptor
+     │
+     ▼
+SVM → Detect / Not Detect</div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Excellent for pedestrian detection</li><li>Illumination invariant (block norm)</li><li>Simple + effective</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>NOT scale or rotation invariant</li><li>Fixed image window size</li><li>Fails with occlusion</li></ul></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Feature</th><th>SIFT</th><th>SURF</th><th>HOG</th></tr>
+      <tr><td>Scale Inv.</td><td>✅</td><td>✅</td><td>❌</td></tr>
+      <tr><td>Rotation Inv.</td><td>✅</td><td>✅</td><td>❌</td></tr>
+      <tr><td>Speed</td><td>Slow</td><td>Medium</td><td>Fast</td></tr>
+      <tr><td>Primary Use</td><td>Matching</td><td>Matching</td><td>Detection</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ========== UNIT 2: SEGMENTATION ========== -->
+<div class="unit-header green" id="unit2">
+  <span class="unit-num">UNIT 02</span>
+  <h2>Image Segmentation — Region, Edge, Graph, Texture</h2>
+</div>
+
+<!-- REGION GROWING -->
+<div class="topic" id="region-growing">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ EXAM HOT</span>
+    <h3>Region Growing Segmentation</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Start from seed pixels and iteratively add neighboring pixels that satisfy a similarity criterion (intensity, color, texture). Grows regions outward from seeds.
+    </div>
+    <h4>Algorithm</h4>
+    <div class="steps">
+      <div class="step"><strong>Seed Selection:</strong> Choose initial seed pixel(s) inside the target region (manually or automatically)</div>
+      <div class="step"><strong>Initialize:</strong> Add seeds to region R, add to queue</div>
+      <div class="step"><strong>Grow:</strong> For each pixel in queue, examine neighbors (4-connected or 8-connected)</div>
+      <div class="step"><strong>Similarity Test:</strong> If |I(neighbor) − I(seed)| &lt; threshold T → add to region R</div>
+      <div class="step"><strong>Repeat:</strong> Until no more pixels can be added (queue empty)</div>
+    </div>
+    <div class="diagram">     Seed (S)
+      │
+      ▼
+  [S]──check N,E,S,W neighbors
+      │
+      ├─ |I(nbr) - I(seed)| ≤ T? ──YES──► Add to Region R
+      │                                     Add to Queue
+      └─ NO → Skip
+
+  Repeat until Queue empty</div>
+    <h4>Key Parameters</h4>
+    <ul class="bullets">
+      <li><strong>Seed Selection:</strong> Critical — wrong seeds → wrong regions. Use domain knowledge (thermal defect: user clicks)</li>
+      <li><strong>Similarity Threshold T:</strong> Low T → under-segmentation (too small); High T → over-segmentation/leakage</li>
+      <li><strong>Connectivity:</strong> 4-connected (up/down/left/right) or 8-connected (includes diagonals)</li>
+    </ul>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Simple and intuitive</li><li>User can guide via seeds</li><li>Good for known defect regions</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Leakage across weak boundaries</li><li>Sensitive to noise and threshold</li><li>Requires good seed selection</li></ul></div>
+    </div>
+    <div class="exam-alert"><strong>⚠ Exam Tip</strong>For thermal defect/agricultural leaf/satellite flood questions: always mention seed selection → grow with threshold → use 8-connectivity → apply Graph-Cut to refine. This hybrid = standard exam answer!</div>
+  </div>
+</div>
+
+<!-- EDGE-BASED SEGMENTATION -->
+<div class="topic" id="edge-seg">
+  <div class="topic-header">
+    <span class="chip chip-blue">Edge-Based</span>
+    <h3>Edge-Based Segmentation — Active Contours / Level Sets</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Uses detected edges/boundaries to delineate regions. Active contours (snakes) deform toward strong edges under energy minimization.
+    </div>
+    <h4>Active Contours (Snakes)</h4>
+    <div class="math">E_total = E_internal + E_external = ∫(α|v'|² + β|v''|²) ds − γ|∇I|²</div>
+    <ul class="bullets">
+      <li><strong>E_internal:</strong> Controls smoothness (α=elasticity, β=stiffness)</li>
+      <li><strong>E_external:</strong> Pulls contour toward image edges (gradient magnitude)</li>
+      <li>Contour iteratively deforms to minimize total energy</li>
+    </ul>
+    <div class="steps">
+      <div class="step">Initialize contour around target (user draws rough outline)</div>
+      <div class="step">Compute gradient-based edge force at each contour point</div>
+      <div class="step">Update contour positions to reduce E_total</div>
+      <div class="step">Iterate until convergence (contour stops moving)</div>
+    </div>
+    <h4>Level Set Method (advanced)</h4>
+    <ul class="bullets">
+      <li>Represents contour as implicit zero-level of a 3D function φ(x,y)</li>
+      <li>Handles topology changes (merging, splitting) automatically</li>
+      <li>Better for complex shapes (CT/MRI vessel segmentation)</li>
+    </ul>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Handles smooth boundaries</li><li>Level sets handle topology changes</li><li>Works on CT/MRI/ultrasound</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Leaks through weak/faint edges</li><li>Computationally intensive</li><li>Sensitive to initialization</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- GRAPH CUT -->
+<div class="topic" id="graph-cut">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ KEY TOPIC</span>
+    <h3>Graph-Cut Segmentation</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Models image as a graph. Each pixel = node. Edges carry weights based on similarity. Min-cut algorithm partitions graph into foreground (Source) and background (Sink).
+    </div>
+    <h4>Graph Structure</h4>
+    <ul class="bullets">
+      <li><strong>Nodes:</strong> Each pixel + Source (S) + Sink (T)</li>
+      <li><strong>n-links (neighborhood):</strong> Edges between adjacent pixels, weight = similarity (high weight = similar = don't cut)</li>
+      <li><strong>t-links (terminal):</strong> Edges to S (foreground probability) and T (background probability)</li>
+    </ul>
+    <div class="math">E(f) = ∑ Dp(fp) + λ · ∑ Vpq(fp, fq) [Data term + Smoothness term]</div>
+    <div class="steps">
+      <div class="step">Build graph: pixels as nodes, similarity as edge weights</div>
+      <div class="step">User marks foreground seeds (→ Source) and background seeds (→ Sink)</div>
+      <div class="step">Assign t-link weights using color/intensity histograms (GMM)</div>
+      <div class="step">Run max-flow / min-cut algorithm (Ford-Fulkerson)</div>
+      <div class="step">Min-cut partition = segmentation boundary</div>
+    </div>
+    <div class="diagram">S (Source/Foreground)
+|          |
+|t-link    |t-link
+|          |
+[p1]─n─[p2]─n─[p3]   ← pixels (nodes)
+|              |
+|t-link        |t-link
+|              |
+T (Sink/Background)
+
+Min-cut: find minimum weight set of edges to cut
+→ separates Foreground from Background</div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Global optimal solution</li><li>No leakage across weak edges</li><li>User seeds refine result</li><li>Handles intensity inhomogeneities</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Slow for large 3D volumes</li><li>Graph construction memory intensive</li><li>Requires seed points</li></ul></div>
+    </div>
+    <div class="exam-alert"><strong>⚠ Hybrid Pipeline (Exam Answer for Q5,Q6)</strong>Region Growing (coarse) → Active Contour (boundary refinement) → Graph-Cut (global optimization). Each stage: RG gives initial mask, AC aligns to edges, GC minimizes leakage globally.</div>
+  </div>
+</div>
+
+<!-- MEAN SHIFT -->
+<div class="topic" id="mean-shift">
+  <div class="topic-header">
+    <span class="chip chip-purple">Clustering</span>
+    <h3>Mean-Shift Segmentation</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Non-parametric density estimator. Pixels are iteratively shifted toward regions of higher density in feature space (color + spatial) until convergence. Pixels converging to same mode = same segment.
+    </div>
+    <div class="math">m(x) = [∑ K((x−xi)/h)·xi] / [∑ K((x−xi)/h)] &nbsp;&nbsp; x ← m(x)</div>
+    <div class="steps">
+      <div class="step">Represent each pixel as feature vector (L,a,b color + x,y position = 5D)</div>
+      <div class="step">For each pixel, compute mean of nearby pixels within bandwidth h</div>
+      <div class="step">Shift pixel toward computed mean</div>
+      <div class="step">Repeat until shift &lt; ε (pixel converged to density peak = mode)</div>
+      <div class="step">Pixels sharing same mode → same segment</div>
+    </div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>No need to specify #clusters</li><li>Finds arbitrarily shaped regions</li><li>Robust to outliers</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Bandwidth h is sensitive — hard to tune</li><li>Very slow O(n²) per iteration</li><li>Over-segments complex textures</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- MRF -->
+<div class="topic" id="mrf">
+  <div class="topic-header">
+    <span class="chip chip-purple">Probabilistic</span>
+    <h3>Markov Random Fields (MRF)</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      MRF is a probabilistic graphical model where each pixel's label depends only on its neighbors (Markov property). Used for image restoration, texture classification, segmentation.
+    </div>
+    <h4>Energy Formulation</h4>
+    <div class="math">E(f) = ∑ψ_i(fi) + ∑ψ_ij(fi,fj) [Unary + Pairwise potentials]</div>
+    <ul class="bullets">
+      <li><strong>Unary potential ψ_i:</strong> Cost of assigning label f to pixel i (from observed intensity)</li>
+      <li><strong>Pairwise potential ψ_ij:</strong> Cost of adjacent pixels having different labels (encourages smoothness)</li>
+      <li><strong>MAP-MRF:</strong> Find labeling f that minimizes E(f)</li>
+      <li><strong>Solved by:</strong> Belief Propagation, Graph-Cut (for submodular energies)</li>
+    </ul>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Principled probabilistic framework</li><li>Incorporates spatial context</li><li>Can model complex label interactions</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Complex to design &amp; optimize</li><li>Slow inference</li><li>Requires parameter tuning</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEXTURE SEG -->
+<div class="topic" id="texture-seg">
+  <div class="topic-header">
+    <span class="chip chip-blue">Texture</span>
+    <h3>Texture Segmentation</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Segments regions based on texture properties (regular patterns, roughness, directionality) rather than just intensity.
+    </div>
+    <h4>Methods</h4>
+    <ul class="bullets">
+      <li><strong>Gabor Filters:</strong> Sinusoid multiplied by Gaussian. Detects specific frequencies and orientations. Bank of filters → texture feature vector per pixel.</li>
+      <li><strong>LBP (Local Binary Patterns):</strong> Encode local texture by thresholding neighbors relative to center pixel → histogram.</li>
+      <li><strong>Co-occurrence Matrix (GLCM):</strong> Statistical measure of how often pairs of pixel values co-occur.</li>
+      <li><strong>DWT (Discrete Wavelet Transform):</strong> Multi-resolution decomposition → energy at each sub-band = texture feature.</li>
+    </ul>
+    <div class="diagram">Gabor Filter Bank:
+  θ=0°   θ=45°  θ=90°  θ=135°
+  ║║║║   ╲╲╲╲   ═══    ╱╱╱╱
+  
+Each filter detects edges at specific orientation+frequency
+→ Response vectors → Cluster → Segment by texture class</div>
+  </div>
+</div>
+
+<!-- ========== UNIT 3: PATTERN ANALYSIS ========== -->
+<div class="unit-header purple" id="unit3">
+  <span class="unit-num">UNIT 03</span>
+  <h2>Pattern Analysis — Clustering, Classification, Dimensionality Reduction</h2>
+</div>
+
+<!-- K-MEANS -->
+<div class="topic" id="kmeans">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ EXAM HOT</span>
+    <h3>K-Means Clustering</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Partitions n data points into k clusters by iteratively assigning points to the nearest centroid and recomputing centroids.
+    </div>
+    <div class="math">Objective: minimize J = ∑ᵢ ∑ₓ∈Cᵢ ||x − μᵢ||²</div>
+    <div class="steps">
+      <div class="step">Initialize: randomly choose k centroids μ₁,...,μₖ</div>
+      <div class="step">Assignment: assign each point x to cluster with nearest centroid: c(x) = argmin_i ||x − μᵢ||²</div>
+      <div class="step">Update: recompute centroid as mean of assigned points: μᵢ = (1/|Cᵢ|) · ∑ x∈Cᵢ x</div>
+      <div class="step">Repeat steps 2-3 until assignments don't change (convergence)</div>
+    </div>
+
+    <div class="worked">
+      <h5>🔢 Numerical Example (Image Segmentation with Q3 from Mock)</h5>
+      <p>Given 4×4 matrix I, apply K-Means with k=3:</p>
+      <div class="code">
+Data points: [15,20,10,25, 120,115,125,110, 130,140,135,145, 240,235,245,250]
+k=3, initial centroids: μ₁=15 (dark), μ₂=125 (mid), μ₃=240 (bright)
+
+Iteration 1 Assignment:
+  15,20,10,25 → μ₁ (cluster 1, dark)
+  120,115,125,110,130,140,135,145 → μ₂ (cluster 2, mid)
+  240,235,245,250 → μ₃ (cluster 3, bright)
+
+Update centroids:
+  μ₁ = (15+20+10+25)/4 = 17.5
+  μ₂ = (120+115+125+110+130+140+135+145)/8 = 127.5
+  μ₃ = (240+235+245+250)/4 = 242.5
+
+Converged! → 3 segments: dark, mid-tone, bright
+      </div>
+    </div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Simple and fast O(nkt)</li><li>Scales to large data</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Must specify k in advance</li><li>Sensitive to initialization</li><li>Assumes spherical clusters</li><li>Affected by outliers</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- THRESHOLDING NUMERICAL -->
+<div class="topic">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ Q3 MOCK SOLUTION</span>
+    <h3>Multi-Level Thresholding — Worked Numerical</h3>
+  </div>
+  <div class="topic-body">
+    <div class="worked">
+      <h5>🔢 Complete Solution for Mock Q3</h5>
+      <div class="code">
+Input matrix I:
+15  120  130  240
+20  115  140  235
+10  125  135  245
+25  110  145  250
+
+Rule: g(x,y) = 0   if I ≤ 50     (Background)
+              128  if 50 < I ≤ 180 (Mid-tone)
+              255  if I > 180      (Foreground)
+
+Apply rule pixel-by-pixel:
+15→0    120→128  130→128  240→255
+20→0    115→128  140→128  235→255
+10→0    125→128  135→128  245→255
+25→0    110→128  145→128  250→255
+
+Result matrix g(x,y):
+  0   128  128  255
+  0   128  128  255
+  0   128  128  255
+  0   128  128  255
+
+Pixel Counts:
+  Background (0):  4 pixels  (col 1)
+  Mid-tone (128):  8 pixels  (cols 2+3)
+  Foreground (255): 4 pixels  (col 4)
+  Total: 16 pixels ✓
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- K-MEDOIDS -->
+<div class="topic" id="kmedoids">
+  <div class="topic-header">
+    <span class="chip chip-blue">Robust K-Means</span>
+    <h3>K-Medoids Clustering</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Like K-Means but cluster centers (medoids) must be actual data points. More robust to outliers.
+    </div>
+    <div class="steps">
+      <div class="step">Initialize: randomly select k data points as medoids</div>
+      <div class="step">Assign each point to nearest medoid</div>
+      <div class="step">For each cluster, try all points as potential new medoid — pick the one minimizing total distance</div>
+      <div class="step">Repeat until medoids don't change</div>
+    </div>
+    <table class="tbl">
+      <tr><th></th><th>K-Means</th><th>K-Medoids</th></tr>
+      <tr><td>Center</td><td>Mean (may not exist in data)</td><td>Actual data point</td></tr>
+      <tr><td>Outlier Sensitivity</td><td>High</td><td>Low ✅</td></tr>
+      <tr><td>Distance Metric</td><td>Euclidean only</td><td>Any metric ✅</td></tr>
+      <tr><td>Speed</td><td>Fast O(nkt)</td><td>Slower O(n²kt)</td></tr>
+    </table>
+    <div class="exam-alert"><strong>⚠ Exam Answer (Practice Q7)</strong>For industrial sensor data with outliers: K-Medoids (or GMM) for clustering → then KNN or ANN for labeling abnormal samples with limited labeled data.</div>
+  </div>
+</div>
+
+<!-- GMM -->
+<div class="topic" id="gmm">
+  <div class="topic-header">
+    <span class="chip chip-purple">Probabilistic</span>
+    <h3>Gaussian Mixture Models (GMM)</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Models data as a mixture of K Gaussian distributions. Each component has its own mean (μ), covariance (Σ), and mixing weight (π). More flexible than K-Means.
+    </div>
+    <div class="math">p(x) = ∑ᵢ πᵢ · N(x | μᵢ, Σᵢ) &nbsp;&nbsp; where ∑πᵢ = 1</div>
+    <h4>EM Algorithm (Expectation-Maximization)</h4>
+    <div class="steps">
+      <div class="step"><strong>E-step:</strong> Compute responsibility r_ik = P(cluster k | point xᵢ) for each point</div>
+      <div class="step"><strong>M-step:</strong> Update μ, Σ, π using weighted averages</div>
+      <div class="step">Repeat until log-likelihood converges</div>
+    </div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Soft assignments (probabilistic)</li><li>Handles elliptical clusters</li><li>Returns cluster probabilities</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Must specify k</li><li>Can converge to local optima</li><li>Slower than K-Means</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- CLASSIFIERS -->
+<div class="topic" id="classifiers">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ KEY TOPIC</span>
+    <h3>Classifiers — Bayes, KNN, ANN + Learning Types</h3>
+  </div>
+  <div class="topic-body">
+    <h4>Learning Types</h4>
+    <table class="tbl">
+      <tr><th>Type</th><th>Labeled Data</th><th>Use When</th><th>Example</th></tr>
+      <tr><td>Supervised</td><td>All labeled</td><td>Enough labels available</td><td>Disease classification</td></tr>
+      <tr><td>Unsupervised</td><td>None labeled</td><td>No labels, find patterns</td><td>Customer segmentation</td></tr>
+      <tr><td><strong>Semi-supervised</strong></td><td>Some labeled</td><td>Few labels + many unlabeled</td><td>Medical records (Q4 Mock)</td></tr>
+    </table>
+
+    <hr class="divider">
+    <h4>Naive Bayes Classifier</h4>
+    <div class="math">P(C|x) = P(x|C) · P(C) / P(x) &nbsp;&nbsp; [Posterior = Likelihood × Prior / Evidence]</div>
+    <ul class="bullets">
+      <li>Assumes features are independent (naive assumption)</li>
+      <li>Fast, works well with small datasets</li>
+      <li>Good when features are actually independent (text classification)</li>
+    </ul>
+
+    <hr class="divider">
+    <h4>K-Nearest Neighbors (KNN)</h4>
+    <div class="steps">
+      <div class="step green">Compute distance from query point to all training points</div>
+      <div class="step green">Find K nearest neighbors</div>
+      <div class="step green">Assign majority class label among the K neighbors</div>
+    </div>
+    <div class="math">dist(x,xi) = √∑(xⱼ − xiⱼ)² &nbsp;&nbsp; [Euclidean distance]</div>
+    <ul class="bullets">
+      <li>No training phase (lazy learner)</li>
+      <li>K=1 → noisy; K=large → smooth but misclassifies boundary</li>
+      <li>Curse of dimensionality: performance drops in high dimensions</li>
+    </ul>
+
+    <hr class="divider">
+    <h4>Artificial Neural Network (ANN)</h4>
+    <div class="steps">
+      <div class="step purple">Forward pass: input → hidden layers → output (softmax/sigmoid)</div>
+      <div class="step purple">Compute loss (cross-entropy)</div>
+      <div class="step purple">Backpropagation: compute gradients using chain rule</div>
+      <div class="step purple">Update weights: w ← w − η·∂L/∂w</div>
+    </div>
+    <div class="diagram">Input Layer    Hidden Layer    Output
+  x₁ ──→ [N] ──→ [N][N] ──→ y₁
+  x₂ ──→ [N] ──→ [N][N] ──→ y₂
+  x₃ ──→ [N] ──→ [N][N] ──→ y₃
+  
+  Each N: output = σ(w·x + b)</div>
+    <table class="tbl">
+      <tr><th></th><th>Bayes</th><th>KNN</th><th>ANN</th></tr>
+      <tr><td>Training</td><td>Fast</td><td>None (lazy)</td><td>Slow</td></tr>
+      <tr><td>Interpretable</td><td>✅</td><td>✅</td><td>❌</td></tr>
+      <tr><td>Large Data</td><td>OK</td><td>Poor (slow)</td><td>⭐ Best</td></tr>
+      <tr><td>Non-linear</td><td>❌</td><td>✅ (local)</td><td>⭐ Best</td></tr>
+      <tr><td>Semi-supervised</td><td>OK</td><td>OK</td><td>⭐ Best</td></tr>
+    </table>
+    <div class="exam-alert"><strong>⚠ Mock Q4 Answer</strong>Few labeled medical records → SEMI-SUPERVISED learning. Best classifier: ANN (handles non-linear disease patterns, works well with semi-supervised via self-training or label propagation). Second choice: KNN (simple, interpretable).</div>
+
+    <hr class="divider">
+    <h4>Discriminant Function</h4>
+    <div class="math">g(x) = wᵀx + w₀ &nbsp;&nbsp; [Linear discriminant]</div>
+    <ul class="bullets">
+      <li>Divides feature space into decision regions</li>
+      <li>If g(x) &gt; 0 → Class 1; if g(x) &lt; 0 → Class 2</li>
+      <li>Linear discriminant: straight line boundary</li>
+      <li>Quadratic discriminant: curved boundary (when covariances differ)</li>
+      <li>Outliers: pull decision boundary → use robust estimators or K-Medoids</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PCA / LDA / ICA -->
+<div class="topic" id="dimred">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ EXAM HOT</span>
+    <h3>Dimensionality Reduction — PCA, LDA, ICA</h3>
+  </div>
+  <div class="topic-body">
+    <h4>PCA — Principal Component Analysis</h4>
+    <div class="def-box">
+      <strong>Definition</strong>
+      Unsupervised linear method. Projects data onto directions of maximum variance (principal components). No class labels needed.
+    </div>
+    <div class="steps">
+      <div class="step">Center data: x̃ = x − μ (subtract mean)</div>
+      <div class="step">Compute covariance matrix: C = (1/n)·X̃ᵀX̃</div>
+      <div class="step">Compute eigenvalues λᵢ and eigenvectors vᵢ of C</div>
+      <div class="step">Sort by eigenvalue (descending), select top k eigenvectors</div>
+      <div class="step">Project: y = Wᵀx̃ where W = [v₁|v₂|...|vk]</div>
+    </div>
+
+    <hr class="divider">
+    <h4>LDA — Linear Discriminant Analysis</h4>
+    <div class="def-box">
+      <strong>Definition</strong>
+      Supervised linear method. Maximizes class separability: maximize ratio of between-class to within-class scatter.
+    </div>
+    <div class="math">J(W) = (Wᵀ SB W) / (Wᵀ SW W) &nbsp;&nbsp; [Between-class / Within-class scatter]</div>
+    <ul class="bullets">
+      <li>Requires class labels → supervised</li>
+      <li>Max (c−1) discriminant dimensions for c classes</li>
+      <li>Better for classification than PCA</li>
+    </ul>
+
+    <hr class="divider">
+    <h4>ICA — Independent Component Analysis</h4>
+    <div class="def-box">
+      <strong>Definition</strong>
+      Finds statistically INDEPENDENT components (not just uncorrelated like PCA). Used for blind source separation (e.g., separating mixed audio, EEG signals).
+    </div>
+    <div class="math">x = A·s &nbsp;&nbsp; ICA finds: W such that y = Wx has independent components</div>
+    <table class="tbl">
+      <tr><th></th><th>PCA</th><th>LDA</th><th>ICA</th></tr>
+      <tr><td>Supervised</td><td>❌</td><td>✅</td><td>❌</td></tr>
+      <tr><td>Goal</td><td>Max variance</td><td>Max class sep.</td><td>Independence</td></tr>
+      <tr><td>Components</td><td>Uncorrelated</td><td>Discriminant</td><td>Independent</td></tr>
+      <tr><td>Use</td><td>Compression, visualization</td><td>Classification</td><td>Signal separation</td></tr>
+    </table>
+    <div class="exam-alert"><strong>⚠ Exam Answer (Practice Q8/Q9)</strong>Surveillance system with high-dim features: Use PCA (unsupervised, fast, no labels needed) → KNN on reduced features. Dimensionality reduction cuts KNN distance computation from O(d·n) to O(k·n) where k &lt;&lt; d.</div>
+  </div>
+</div>
+
+<!-- ========== UNIT 4: MOTION ANALYSIS ========== -->
+<div class="unit-header orange" id="unit4">
+  <span class="unit-num">UNIT 04</span>
+  <h2>Motion Analysis — Background Subtraction, Optical Flow, KLT</h2>
+</div>
+
+<!-- BACKGROUND SUBTRACTION -->
+<div class="topic" id="bg-sub">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ KEY TOPIC</span>
+    <h3>Background Subtraction & Modeling</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Separates moving foreground objects from static background by comparing current frame to a background model.
+    </div>
+    <h4>Simple Frame Difference</h4>
+    <div class="math">D(x,y,t) = |I(x,y,t) − I(x,y,t−1)| &nbsp;&nbsp; Foreground if D &gt; threshold</div>
+    <ul class="bullets">
+      <li>Fast but misses slow objects, creates double contours</li>
+    </ul>
+    <h4>Background Modeling Methods</h4>
+    <ul class="bullets">
+      <li><strong>Running Average:</strong> B(t) = α·I(t) + (1−α)·B(t−1). Simple, adapts slowly. α controls adaptation rate.</li>
+      <li><strong>MOG (Mixture of Gaussians):</strong> Model each pixel as GMM. Multiple background modes (waving trees, flicker). Handles multimodal backgrounds. Best for outdoor surveillance.</li>
+      <li><strong>MOG2:</strong> Adaptive MOG — auto-selects number of components. OpenCV default.</li>
+    </ul>
+    <div class="diagram">t=1: bg model B₁
+     │
+t=2: new frame I₂
+     │
+     ▼
+|I₂(x,y) - B₁(x,y)| > T ?
+     ├── YES → Foreground (moving object)
+     └── NO  → Background → Update B
+
+B(t) ← α·I(t) + (1-α)·B(t-1)</div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Fast and simple</li><li>MOG handles dynamic backgrounds</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Fails with sudden illumination change</li><li>Shadow effects</li><li>Needs fixed camera</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- OPTICAL FLOW -->
+<div class="topic" id="optical-flow">
+  <div class="topic-header">
+    <span class="chip chip-red">⚠ EXAM HOT</span>
+    <h3>Optical Flow</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Apparent motion of image pixels between consecutive frames. Gives a 2D velocity field (u,v) per pixel or feature point.
+    </div>
+    <h4>Optical Flow Constraint Equation</h4>
+    <div class="math">∂I/∂x · u + ∂I/∂y · v + ∂I/∂t = 0 &nbsp;&nbsp; → &nbsp;&nbsp; Ix·u + Iy·v = −It</div>
+    <ul class="bullets">
+      <li>Ix, Iy = spatial gradients; It = temporal gradient</li>
+      <li>2 unknowns (u,v), 1 equation → underdetermined (aperture problem)</li>
+    </ul>
+    <h4>Lucas-Kanade (Sparse / Feature-based)</h4>
+    <ul class="bullets">
+      <li>Assumes motion is constant within a small local window</li>
+      <li>Solves: [u;v] = (AᵀA)⁻¹ Aᵀ b where A = [Ix, Iy] for each pixel in window</li>
+      <li>Works well for sparse feature points (corners)</li>
+    </ul>
+    <h4>Horn-Schunck (Dense)</h4>
+    <ul class="bullets">
+      <li>Adds global smoothness constraint: minimize ||∇u||² + ||∇v||²</li>
+      <li>Computes flow at EVERY pixel (dense field)</li>
+    </ul>
+    <div class="diagram">Frame t           Frame t+1
+  ┌─────────────────────────────┐
+  │    ●──────────────►●        │
+  │  obj@(x,y)      obj@(x+u, y+v)
+  └─────────────────────────────┘
+  
+  Optical Flow vector: (u, v) per feature point
+  u = horizontal velocity
+  v = vertical velocity</div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Estimates per-pixel motion</li><li>Works for moving camera</li><li>No explicit segmentation needed</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Fails with large motion</li><li>Aperture problem</li><li>Dense OF is slow</li></ul></div>
+    </div>
+    <div class="exam-alert"><strong>⚠ Exam Tip</strong>Background Subtraction = WHAT moved (binary foreground mask). Optical Flow = HOW it moved (velocity vectors). Use both together: BS detects movers, OF estimates direction and speed.</div>
+  </div>
+</div>
+
+<!-- KLT -->
+<div class="topic" id="klt">
+  <div class="topic-header">
+    <span class="chip chip-blue">Feature Tracker</span>
+    <h3>KLT Tracker (Kanade-Lucas-Tomasi)</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Definition</strong>
+      Feature tracker that selects good features (high gradient regions = corners) and tracks them using Lucas-Kanade optical flow across frames.
+    </div>
+    <h4>Algorithm</h4>
+    <div class="steps">
+      <div class="step">Select feature points using Shi-Tomasi criterion: λ_min of structure tensor &gt; threshold</div>
+      <div class="step">For each feature, compute Lucas-Kanade displacement (u,v) to next frame</div>
+      <div class="step">Update feature position: x' = x+u, y' = y+v</div>
+      <div class="step">Check tracking quality: if tracking error &gt; threshold → delete feature</div>
+      <div class="step">Add new features if too few remain</div>
+    </div>
+    <h4>Shi-Tomasi Feature Quality</h4>
+    <div class="math">Quality(p) = min(λ₁, λ₂) &gt; threshold &nbsp;&nbsp; [Both eigenvalues large = good corner]</div>
+    <div class="pc-grid">
+      <div class="pros"><h5>✅ Pros</h5><ul class="bullets"><li>Fast and reliable tracker</li><li>Works in real-time</li><li>Handles affine deformations</li></ul></div>
+      <div class="cons"><h5>❌ Cons</h5><ul class="bullets"><li>Fails with large motion</li><li>Needs good texture (can't track flat regions)</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPATIO TEMPORAL -->
+<div class="topic" id="spatiotemporal">
+  <div class="topic-header">
+    <span class="chip chip-purple">Advanced</span>
+    <h3>Spatio-Temporal Analysis & Dynamic Stereo</h3>
+  </div>
+  <div class="topic-body">
+    <div class="def-box">
+      <strong>Spatio-Temporal Analysis:</strong> Extends spatial analysis to the time dimension. Video = 3D volume (x, y, t). 3D features capture both spatial appearance and temporal motion patterns.
+    </div>
+    <h4>Spatio-Temporal Interest Points (STIP)</h4>
+    <ul class="bullets">
+      <li>Extend Harris detector to 3D: detect corner-like structures in (x,y,t)</li>
+      <li>Used for action recognition in videos</li>
+    </ul>
+    <h4>Dynamic Stereo</h4>
+    <ul class="bullets">
+      <li>Stereo matching applied to video sequences over time</li>
+      <li>Use both spatial stereo disparity AND temporal flow constraints</li>
+      <li>Better depth estimation for moving objects</li>
+    </ul>
+    <h4>Motion Parameter Estimation</h4>
+    <ul class="bullets">
+      <li><strong>Translational motion:</strong> Uniform (u,v) across frame — global motion</li>
+      <li><strong>Affine motion:</strong> 6-parameter model: u = a₁+a₂x+a₃y, v = a₄+a₅x+a₆y</li>
+      <li><strong>Homography:</strong> 8-parameter projective model for planar scenes</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FINAL EXAM CHEAT SHEET -->
+<div class="unit-header" style="border-bottom-color: var(--accent3); margin-top: 40px;">
+  <span class="unit-num">QUICK REF</span>
+  <h2>⚡ Exam Answer Frameworks</h2>
+</div>
+<div class="topic">
+  <div class="topic-header">
+    <span class="chip chip-red">MUST READ</span>
+    <h3>Standard Answer Templates for Common Question Types</h3>
+  </div>
+  <div class="topic-body">
+    <h4>Template: Feature Extraction Pipeline (Q in warehouse/robot etc.)</h4>
+    <div class="steps">
+      <div class="step">Edge Detector (Canny) → detect all edges → input to Hough</div>
+      <div class="step">Hough Transform → detect straight lines (shelves, walls)</div>
+      <div class="step">Corner Detector (Harris) → find shelf corners, anchor points</div>
+      <div class="step">Descriptor (SIFT/HOG) → identify/classify objects on shelves</div>
+    </div>
+
+    <h4>Template: Segmentation Hybrid Pipeline</h4>
+    <div class="steps">
+      <div class="step green">Noise removal: Gaussian blur or median filter</div>
+      <div class="step green">User provides seeds → Region Growing (coarse segmentation)</div>
+      <div class="step green">Active Contour / Level Set → refine boundary to edges</div>
+      <div class="step green">Graph-Cut → global optimization, prevents leakage</div>
+      <div class="step green">Output: clean binary mask ready for downstream detection</div>
+    </div>
+
+    <h4>Template: Pattern Analysis Pipeline</h4>
+    <div class="steps">
+      <div class="step purple">Extract features from data (intensity, texture, etc.)</div>
+      <div class="step purple">Dimensionality Reduction: PCA (unsupervised) or LDA (supervised)</div>
+      <div class="step purple">Clustering: K-Means (fast) or GMM (soft) or K-Medoids (robust)</div>
+      <div class="step purple">Classification: KNN (simple) or ANN (complex) → discriminant function for decision</div>
+    </div>
+
+    <h4>Template: Surveillance / Motion Pipeline</h4>
+    <div class="steps">
+      <div class="step">Background Subtraction (MOG2) → detect WHAT moved (foreground mask)</div>
+      <div class="step">Optical Flow (Lucas-Kanade) → detect HOW they moved (velocity vectors)</div>
+      <div class="step">KLT Tracker → track individual people/objects across frames</div>
+      <div class="step">Dimensionality reduction (PCA) on features → KNN for person identification</div>
+    </div>
+
+    <h4>Key Formulas to Memorize</h4>
+    <div class="code">
+<span class="cm">// Gradient</span>
+|G| = √(Gx² + Gy²),  θ = arctan(Gy/Gx)
+
+<span class="cm">// Canny Hysteresis</span>
+Edge if pixel > T_high
+Non-edge if pixel < T_low
+Maybe edge if T_low < pixel < T_high (keep only if connected to strong edge)
+
+<span class="cm">// Harris Corner Response</span>
+R = det(M) − k·trace(M)²  where k ≈ 0.04–0.06
+Corner: R >> 0,  Edge: R << 0,  Flat: R ≈ 0
+
+<span class="cm">// SIFT Descriptor</span>
+4×4 cells × 8 bins = 128-D vector
+
+<span class="cm">// Hough Line</span>
+ρ = x·cos(θ) + y·sin(θ)
+
+<span class="cm">// Optical Flow</span>
+Ix·u + Iy·v + It = 0
+
+<span class="cm">// K-Means objective</span>
+J = ∑ᵢ ∑ₓ∈Cᵢ ||x − μᵢ||²
+
+<span class="cm">// Bayes</span>
+P(C|x) = P(x|C)·P(C) / P(x)
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // Sidebar active link highlight on scroll
+  const sections = document.querySelectorAll('[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
+    });
+    sidebarLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

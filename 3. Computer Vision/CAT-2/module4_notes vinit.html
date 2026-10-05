@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 4 Notes</title>
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  @page { size: A4 portrait; margin: 6mm; }
+  html,body { width:198mm; }
+  body {
+    font-family: 'DejaVu Sans', Arial, sans-serif;
+    color:#1b1f2a;
+    background:#fff;
+  }
+  .page {
+    width:198mm; height:285mm;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap:2.2mm;
+    page-break-after: always;
+  }
+  .page:last-child{ page-break-after: auto; }
+
+  .card {
+    border:0.6mm solid #2a2f3a;
+    border-radius:2mm;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    background:
+      repeating-linear-gradient(#fcfcf7 0mm, #fcfcf7 4.6mm, #e9ecf3 4.6mm, #e9ecf3 4.7mm);
+  }
+  .head {
+    color:#fff;
+    font-family:'Poppins', 'DejaVu Sans', sans-serif;
+    font-weight:700;
+    font-size:8.6pt;
+    letter-spacing:0.2px;
+    padding:1.3mm 2.2mm;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .head .tag{
+    font-size:5.6pt; font-weight:400; opacity:0.92; font-style:italic;
+  }
+  .body {
+    flex:1;
+    padding:1.3mm 2.4mm 1.5mm 2.4mm;
+    display:flex;
+    flex-direction:column;
+    gap:0.9mm;
+    font-size:6.1pt;
+    line-height:1.28;
+  }
+  .blk { }
+  .lbl {
+    font-weight:700;
+    font-size:6.1pt;
+    display:inline-block;
+    padding:0 1.1mm;
+    border-radius:1mm;
+    color:#fff;
+    margin-bottom:0.4mm;
+  }
+  .blk p { margin-top:0.2mm; }
+  ul, ol { margin-left:3.2mm; }
+  li { margin-bottom:0.15mm; }
+  .diagram {
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#ffffffcc;
+    border:0.35mm dashed #9aa3b5;
+    border-radius:1.3mm;
+    padding:0.6mm 0.8mm;
+    margin:0.3mm 0;
+  }
+  .diagram svg { width:100%; height:auto; display:block; }
+  .math {
+    background:#eef1fb;
+    border-left:1mm solid #4a5fd9;
+    padding:0.6mm 1.4mm;
+    font-family:'DejaVu Serif', serif;
+    font-style:italic;
+    font-size:6.1pt;
+  }
+  .two-col { columns:2; column-gap:2.4mm; }
+  .adv .lbl{ background:#1f8a52; }
+  .lim .lbl{ background:#c23b3b; }
+  .def .lbl{ background:#2a2f3a; }
+  .theory .lbl{ background:#5a4bc4; }
+  .problem .lbl{ background:#b5760f; }
+  .steps .lbl{ background:#1867b0; }
+  .math-lbl{ background:#4a5fd9; }
+
+  /* card accent header colors */
+  .c1 .head{ background:linear-gradient(90deg,#2a5cbf,#3f7fe0); }
+  .c2 .head{ background:linear-gradient(90deg,#7a3fb0,#a05cd6); }
+  .c3 .head{ background:linear-gradient(90deg,#1a8f6b,#22b389); }
+  .c4 .head{ background:linear-gradient(90deg,#c2540f,#e6822f); }
+  .c5 .head{ background:linear-gradient(90deg,#1a6fa8,#2c93d1); }
+  .c6 .head{ background:linear-gradient(90deg,#b0324f,#d94f70); }
+  .c7 .head{ background:linear-gradient(90deg,#39546b,#5a7a99); }
+  .c8 .head{ background:linear-gradient(90deg,#2a5cbf,#3f7fe0); }
+  .c9 .head{ background:linear-gradient(90deg,#7a3fb0,#a05cd6); }
+  .c10 .head{ background:linear-gradient(90deg,#1a8f6b,#22b389); }
+  .c11 .head{ background:linear-gradient(90deg,#c2540f,#e6822f); }
+  .c12 .head{ background:linear-gradient(90deg,#1a6fa8,#2c93d1); }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<div class="page">
+
+  <!-- CARD 1: K-MEANS vs K-MEDOIDS -->
+  <div class="card c1">
+    <div class="head"><span>K-Means &amp; K-Medoids Clustering</span><span class="tag">Unsupervised · Partition-based</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Partition-based clustering algos that group data into <b>K</b> clusters, each represented by a center (centroid or medoid).</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>K-Means center = mean (virtual pt)</li>
+          <li>K-Medoids center = real data point</li>
+          <li>K assumed known beforehand</li>
+          <li>Medoids robust to outliers</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Grouping unlabeled data into K natural clusters minimizing within-cluster distance.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 68" xmlns="http://www.w3.org/2000/svg">
+          <text x="70" y="10" font-size="7" text-anchor="middle" fill="#333" font-weight="bold">K-MEANS</text>
+          <text x="230" y="10" font-size="7" text-anchor="middle" fill="#333" font-weight="bold">K-MEDOIDS</text>
+          <g fill="#3f7fe0"><circle cx="30" cy="30" r="2.5"/><circle cx="40" cy="22" r="2.5"/><circle cx="45" cy="38" r="2.5"/><circle cx="25" cy="40" r="2.5"/></g>
+          <g fill="#e6822f"><circle cx="95" cy="45" r="2.5"/><circle cx="105" cy="55" r="2.5"/><circle cx="110" cy="40" r="2.5"/><circle cx="90" cy="55" r="2.5"/></g>
+          <text x="35" y="34" font-size="10" fill="#111" font-weight="bold">×</text>
+          <text x="101" y="50" font-size="10" fill="#111" font-weight="bold">×</text>
+          <g fill="#3f7fe0" transform="translate(160,0)"><circle cx="30" cy="30" r="2.5"/><circle cx="40" cy="22" r="2.5"/><circle cx="45" cy="38" r="2.5"/><circle cx="25" cy="40" r="2.5"/></g>
+          <g fill="#e6822f" transform="translate(160,0)"><circle cx="95" cy="45" r="2.5"/><circle cx="105" cy="55" r="2.5"/><circle cx="110" cy="40" r="2.5"/><circle cx="90" cy="55" r="2.5"/></g>
+          <circle cx="200" cy="30" r="4.5" fill="none" stroke="#111" stroke-width="1.3" transform="translate(0,0)"/>
+          <circle cx="265" cy="45" r="4.5" fill="none" stroke="#111" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Choose K, init K centers randomly</li>
+          <li>Assign each pt to nearest center</li>
+          <li>Recompute center (mean / medoid)</li>
+          <li>Repeat till centers stop changing</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> minimize &Sigma; dist(x<sub>i</sub>, center<sub>k</sub>)&sup2; &nbsp;(EM-style: assign=E-step, update=M-step)</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Simple, fast; K-Medoids robust to outliers; tighter clusters than hierarchical.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>K must be pre-specified; sensitive to init &amp; scaling; struggles with non-spherical shapes.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 2: GMM & EM -->
+  <div class="card c2">
+    <div class="head"><span>Gaussian Mixture Model &amp; EM</span><span class="tag">Unsupervised · Soft clustering</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Probabilistic model assuming data is generated from a mixture of Gaussian (bell-shaped) distributions, one per cluster.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Each cluster = 1 Gaussian(&mu;,&Sigma;)</li>
+          <li>Soft clustering: prob. per cluster</li>
+          <li>Not hard 0/1 like K-Means</li>
+          <li>Params fit via EM algorithm</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Clustering overlapping / elliptical clusters where hard boundaries fail.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 66" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10,58 C40,58 40,10 70,10 C100,10 100,58 130,58" fill="none" stroke="#3f7fe0" stroke-width="1.6"/>
+          <path d="M60,58 C90,58 90,15 120,15 C150,15 150,58 180,58" fill="none" stroke="#22b389" stroke-width="1.6"/>
+          <path d="M120,58 C150,58 150,12 180,12 C210,12 210,58 240,58" fill="none" stroke="#e6822f" stroke-width="1.6"/>
+          <text x="35" y="10" font-size="6" fill="#3f7fe0">GD1</text>
+          <text x="130" y="12" font-size="6" fill="#22b389">GD2</text>
+          <text x="200" y="9" font-size="6" fill="#e6822f">GD3</text>
+          <circle cx="150" cy="45" r="3" fill="#c23b3b"/>
+          <text x="245" y="30" font-size="5.6" fill="#333">P(blue)=0.2</text>
+          <text x="245" y="40" font-size="5.6" fill="#333">P(cyan)=0.8</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Init K Gaussians: &mu;, &Sigma;, weight &Pi;</li>
+          <li>E-step: est. prob. each pt&rarr;cluster</li>
+          <li>M-step: update &mu;,&Sigma;,&Pi; from probs</li>
+          <li>Repeat E &amp; M till convergence</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> N(x;&mu;,&Sigma;) — &Sigma; (covariance) shapes the bell curve; K-Means uses only &mu;, GMM uses &mu;+&Sigma;</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Handles soft/overlapping clusters; more flexible than K-Means.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Needs K known; can hit local optimum; computationally heavier.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 3: KNN -->
+  <div class="card c3">
+    <div class="head"><span>K-Nearest Neighbours (KNN)</span><span class="tag">Supervised · Lazy learner</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Classifies a new point by majority vote among its K closest labeled neighbours.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Non-parametric, no distribution assumption</li>
+          <li>Lazy: stores data, computes at test time</li>
+          <li>Similarity via distance metric</li>
+          <li>Best K found by trial (~5 typical)</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Classify new data using similarity to existing labeled cases, no explicit training.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 66" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="33" r="24" fill="none" stroke="#333" stroke-dasharray="2,2" stroke-width="1"/>
+          <text x="150" y="36" font-size="9" text-anchor="middle" font-weight="bold">?</text>
+          <g fill="#3f7fe0"><circle cx="140" cy="18" r="2.6"/><circle cx="160" cy="22" r="2.6"/><circle cx="132" cy="40" r="2.6"/></g>
+          <g fill="#c23b3b"><circle cx="168" cy="42" r="2.6"/><circle cx="150" cy="50" r="2.6"/></g>
+          <circle cx="60" cy="33" r="2.6" fill="#3f7fe0"/><circle cx="245" cy="20" r="2.6" fill="#c23b3b"/>
+          <text x="10" y="60" font-size="5.6" fill="#333">K=5 &rarr; 3 blue, 2 red &rArr; predict BLUE</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Select number of neighbours K</li>
+          <li>Compute Euclidean dist. to all pts</li>
+          <li>Take K nearest points</li>
+          <li>Count class labels among K</li>
+          <li>Assign majority class</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> dist(p,q) = &radic;&Sigma;(p<sub>i</sub> &minus; q<sub>i</sub>)&sup2;</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Simple; robust to noisy data; effective with large training sets.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>High compute cost (distance to all pts); choosing K is tricky; low K = noisy.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 4: NAIVE BAYES -->
+  <div class="card c4">
+    <div class="head"><span>Naïve Bayes Classifier</span><span class="tag">Supervised · Probabilistic</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Probabilistic classifier using Bayes' Theorem, assuming all features are independent of each other.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>"Naïve" = features assumed independent</li>
+          <li>"Bayes" = uses Bayes' Theorem</li>
+          <li>Great for high-D text data</li>
+          <li>Predicts via prob. of an object</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Fast probabilistic classification — e.g. spam filtering, text classification.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 62" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="8" width="260" height="30" rx="4" fill="#eef1fb" stroke="#4a5fd9" stroke-width="1"/>
+          <text x="150" y="28" font-size="10" text-anchor="middle" fill="#1b1f2a" font-family="DejaVu Serif">P(A|B) = P(B|A)&middot;P(A) / P(B)</text>
+          <text x="30" y="52" font-size="5.4" fill="#333">Posterior</text>
+          <text x="95" y="52" font-size="5.4" fill="#333">Likelihood</text>
+          <text x="170" y="52" font-size="5.4" fill="#333">Prior</text>
+          <text x="220" y="52" font-size="5.4" fill="#333">Evidence(Marginal)</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Convert dataset into frequency table</li>
+          <li>Build likelihood table of features</li>
+          <li>Apply Bayes theorem &rarr; posterior prob.</li>
+          <li>Predict class with highest posterior</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> e.g. P(Yes|Sunny)=P(Sunny|Yes)P(Yes)/P(Sunny) = 0.60 &gt; P(No|Sunny)=0.41 &rArr; Play</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Fast, simple; handles binary &amp; multi-class well; top pick for text classification.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Independence assumption rarely true &rarr; hurts accuracy when features correlate.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 5: MLP -->
+  <div class="card c5">
+    <div class="head"><span>Multilayer Perceptron (ANN)</span><span class="tag">Supervised · Feedforward NN</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>A feedforward artificial neural network mapping input data to outputs through one or more hidden layers.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Feedforward: signal flows only forward</li>
+          <li>Layers of nodes in directed graph</li>
+          <li>Each layer fully connects to next</li>
+          <li>Each neuron ~ linear regression eqn</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Learning complex, non-linear supervised input&rarr;output mappings.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 66" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#2c93d1">
+            <circle cx="30" cy="18" r="5"/><circle cx="30" cy="34" r="5"/><circle cx="30" cy="50" r="5"/>
+          </g>
+          <g fill="#7a3fb0">
+            <circle cx="130" cy="10" r="5"/><circle cx="130" cy="26" r="5"/><circle cx="130" cy="42" r="5"/><circle cx="130" cy="58" r="5"/>
+          </g>
+          <g fill="#1a8f6b">
+            <circle cx="230" cy="24" r="5"/><circle cx="230" cy="44" r="5"/>
+          </g>
+          <g stroke="#bcc3d6" stroke-width="0.6">
+            <line x1="35" y1="18" x2="125" y2="10"/><line x1="35" y1="18" x2="125" y2="26"/><line x1="35" y1="18" x2="125" y2="42"/><line x1="35" y1="18" x2="125" y2="58"/>
+            <line x1="35" y1="34" x2="125" y2="10"/><line x1="35" y1="34" x2="125" y2="26"/><line x1="35" y1="34" x2="125" y2="42"/><line x1="35" y1="34" x2="125" y2="58"/>
+            <line x1="35" y1="50" x2="125" y2="10"/><line x1="35" y1="50" x2="125" y2="26"/><line x1="35" y1="50" x2="125" y2="42"/><line x1="35" y1="50" x2="125" y2="58"/>
+            <line x1="135" y1="10" x2="225" y2="24"/><line x1="135" y1="26" x2="225" y2="24"/><line x1="135" y1="42" x2="225" y2="24"/><line x1="135" y1="58" x2="225" y2="24"/>
+            <line x1="135" y1="10" x2="225" y2="44"/><line x1="135" y1="26" x2="225" y2="44"/><line x1="135" y1="42" x2="225" y2="44"/><line x1="135" y1="58" x2="225" y2="44"/>
+          </g>
+          <text x="30" y="64" font-size="5.6" text-anchor="middle">Input</text>
+          <text x="130" y="64" font-size="5.6" text-anchor="middle" fill="#000">Hidden</text>
+          <text x="230" y="64" font-size="5.6" text-anchor="middle">Output</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Input layer receives feature values</li>
+          <li>Hidden neuron: weighted sum+bias &rarr; activation</li>
+          <li>Signal propagates forward, layer by layer</li>
+          <li>Output layer gives final prediction</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> output = f(&Sigma; w<sub>i</sub>x<sub>i</sub> + b) &nbsp;— linear combo wrapped in activation f</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Models complex non-linear relationships; general-purpose supervised learner.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Needs lots of data/tuning; acts as a "black box"; strictly forward-only signal flow.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 6: RBF NETWORK -->
+  <div class="card c6">
+    <div class="head"><span>Radial Basis Function (RBF) Net</span><span class="tag">Supervised · 1 hidden layer</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>A supervised NN with exactly one hidden layer whose neurons respond based on distance from a fixed center.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Only 1 hidden layer (vs many in MLP)</li>
+          <li>Hidden output = f(distance to center)</li>
+          <li>Centers NOT updated every iteration</li>
+          <li>Hidden neurons virtually independent</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Fast-converging function approximation using localized, distance-based response.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 62" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#2c93d1"><circle cx="30" cy="20" r="5"/><circle cx="30" cy="42" r="5"/></g>
+          <g fill="#d94f70">
+            <circle cx="130" cy="12" r="9" fill-opacity="0.35"/><circle cx="130" cy="12" r="4"/>
+            <circle cx="130" cy="32" r="9" fill-opacity="0.35"/><circle cx="130" cy="32" r="4"/>
+            <circle cx="130" cy="52" r="9" fill-opacity="0.35"/><circle cx="130" cy="52" r="4"/>
+          </g>
+          <g fill="#1a8f6b"><circle cx="230" cy="32" r="5"/></g>
+          <g stroke="#bcc3d6" stroke-width="0.6">
+            <line x1="35" y1="20" x2="122" y2="12"/><line x1="35" y1="20" x2="122" y2="32"/><line x1="35" y1="20" x2="122" y2="52"/>
+            <line x1="35" y1="42" x2="122" y2="12"/><line x1="35" y1="42" x2="122" y2="32"/><line x1="35" y1="42" x2="122" y2="52"/>
+            <line x1="138" y1="12" x2="225" y2="32"/><line x1="138" y1="32" x2="225" y2="32"/><line x1="138" y1="52" x2="225" y2="32"/>
+          </g>
+          <text x="30" y="58" font-size="5.6" text-anchor="middle">Input</text>
+          <text x="130" y="60" font-size="5.6" text-anchor="middle">Radial hidden</text>
+          <text x="230" y="46" font-size="5.6" text-anchor="middle">Output</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Define centers for each hidden unit</li>
+          <li>Compute distance: input &rarr; each center</li>
+          <li>Radial function converts dist. to activation</li>
+          <li>Output = weighted sum of activations</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> hidden activation &prop; radial-fn(&nbsp;distance(x, center<sub>i</sub>)&nbsp;) — peak near center</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Faster convergence than deep MLPs; simpler training (near-independent hidden units).</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Only 1 hidden layer &rarr; limited to less complex mappings; centers must be chosen well.</p></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ PAGE 2 ============ -->
+<div class="page">
+
+  <!-- CARD 7: DIM REDUCTION OVERVIEW -->
+  <div class="card c7">
+    <div class="head"><span>Dimensionality Reduction</span><span class="tag">Overview</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Converting a high-dimensional dataset into a lower-dimensional one while preserving similar information.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Dimensionality = no. of input features</li>
+          <li>Too many features &rarr; overfitting</li>
+          <li>2 approaches: Selection &amp; Extraction</li>
+          <li>Helps classification &amp; regression fit</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Overfitting from excess features; high storage/compute cost; hard-to-visualize high-D data.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 62" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="60" height="22" rx="3" fill="#eef1fb" stroke="#39546b"/>
+          <text x="40" y="34" font-size="6" text-anchor="middle">Dim. Reduction</text>
+          <line x1="70" y1="24" x2="120" y2="12" stroke="#333" stroke-width="1"/>
+          <line x1="70" y1="38" x2="120" y2="50" stroke="#333" stroke-width="1"/>
+          <rect x="120" y="4" width="85" height="16" rx="3" fill="#fdeedb" stroke="#c2540f"/>
+          <text x="162" y="15" font-size="5.6" text-anchor="middle">Feature Selection</text>
+          <text x="123" y="27" font-size="5" fill="#555">Filter / Wrapper / Embedded</text>
+          <rect x="120" y="42" width="85" height="16" rx="3" fill="#e5f4ee" stroke="#1a8f6b"/>
+          <text x="162" y="53" font-size="5.6" text-anchor="middle">Feature Extraction</text>
+          <text x="120" y="64" font-size="5" fill="#555">PCA / LDA / Kernel PCA / QDA</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">SELECTION METHODS</span>
+        <ol>
+          <li>Filter: stat. test (Correlation, Chi-Sq, ANOVA, Info Gain) — model-free</li>
+          <li>Wrapper: feeds subsets to ML model, evaluates (Fwd/Bwd/Bi-directional)</li>
+          <li>Embedded: importance found during training (LASSO, Ridge, Elastic Net)</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">NOTE</span> Extraction transforms space to fewer dims while keeping whole information.</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Less storage &amp; training time; faster visualization; removes multicollinearity.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Some data/information may be lost; optimal feature/component count often unknown.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 8: PCA -->
+  <div class="card c8">
+    <div class="head"><span>Principal Component Analysis</span><span class="tag">Unsupervised · Feature Extraction</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Converts correlated features into linearly uncorrelated "Principal Components" via orthogonal transformation.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Considers variance of each attribute</li>
+          <li>High variance &rArr; good class split</li>
+          <li>Used in EDA &amp; predictive modeling</li>
+          <li>Apps: image proc., recommenders</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Compress high-D correlated data into fewer uncorrelated dims, minimal info loss.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 58" xmlns="http://www.w3.org/2000/svg">
+          <g font-size="5.4" fill="#1b1f2a">
+            <rect x="2" y="6" width="52" height="12" rx="2" fill="#eef1fb" stroke="#4a5fd9"/><text x="28" y="14.5" text-anchor="middle">Standardize</text>
+            <rect x="60" y="16" width="52" height="12" rx="2" fill="#eef1fb" stroke="#4a5fd9"/><text x="86" y="24.5" text-anchor="middle">Covariance</text>
+            <rect x="118" y="26" width="60" height="12" rx="2" fill="#eef1fb" stroke="#4a5fd9"/><text x="148" y="34.5" text-anchor="middle">Eigen v/λ</text>
+            <rect x="184" y="36" width="55" height="12" rx="2" fill="#eef1fb" stroke="#4a5fd9"/><text x="211" y="44.5" text-anchor="middle">Comp. W</text>
+            <rect x="245" y="46" width="52" height="12" rx="2" fill="#dff0e6" stroke="#1a8f6b"/><text x="271" y="54.5" text-anchor="middle">Reduce &rarr; y</text>
+          </g>
+          <path d="M54,12 L60,12 L60,22" fill="none" stroke="#333" stroke-width="0.8"/>
+          <path d="M112,22 L118,22 L118,32" fill="none" stroke="#333" stroke-width="0.8"/>
+          <path d="M178,32 L184,32 L184,42" fill="none" stroke="#333" stroke-width="0.8"/>
+          <path d="M239,42 L245,42 L245,52" fill="none" stroke="#333" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Standardize the dataset</li>
+          <li>Compute mean vector &amp; covariance matrix</li>
+          <li>Compute eigenvectors e<sub>1..d</sub> &amp; eigenvalues &lambda;<sub>1..d</sub></li>
+          <li>Sort by &darr;&lambda;, keep top k &rarr; matrix W (d&times;k)</li>
+          <li>Project: y = W<sup>T</sup>x &rarr; new k-D sample</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> y = W<sup>T</sup>x &nbsp;(x: d&times;1, W: d&times;k eigenvectors, y: k&times;1 transformed)</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Removes redundant/correlated features; speeds training; great for 2D/3D visualization.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Some info lost; ideal component count unclear; components hard to interpret.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 9: LDA -->
+  <div class="card c9">
+    <div class="head"><span>Linear Discriminant Analysis</span><span class="tag">Supervised · Feature Extraction</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Projects data onto a lower-D space that maximizes separability between known classes.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Supervised (uses class labels)</li>
+          <li>PCA maximizes variance; LDA separation</li>
+          <li>Pre-processing for classification</li>
+          <li>Avoids overfitting, cuts compute cost</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Reduce dimensions while keeping classes as distinguishable as possible.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="90" cy="30" rx="45" ry="20" fill="#3f7fe0" fill-opacity="0.25" transform="rotate(-20 90 30)"/>
+          <ellipse cx="190" cy="30" rx="45" ry="20" fill="#c23b3b" fill-opacity="0.25" transform="rotate(-20 190 30)"/>
+          <g fill="#3f7fe0"><circle cx="70" cy="24" r="2.4"/><circle cx="85" cy="34" r="2.4"/><circle cx="95" cy="18" r="2.4"/></g>
+          <g fill="#c23b3b"><circle cx="185" cy="22" r="2.4"/><circle cx="200" cy="34" r="2.4"/><circle cx="210" cy="20" r="2.4"/></g>
+          <line x1="20" y1="52" x2="280" y2="10" stroke="#111" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="240" y="12" font-size="5.6">projection axis</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Compute d-D mean vector per class</li>
+          <li>Compute within-class &amp; between-class scatter matrices</li>
+          <li>Compute eigenvectors/values of scatter matrices</li>
+          <li>Sort by &darr;&lambda;, keep top k &rarr; W (d&times;k)</li>
+          <li>Transform: Y = X&middot;W &rarr; new k-D subspace</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> Y = X&middot;W &nbsp;(X: n&times;d samples, W: d&times;k eigenvectors)</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Uses class info &rarr; often better than PCA for classification; reduces overfitting.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Needs labeled data; assumes ~Gaussian classes w/ similar covariance; max (classes&minus;1) comps.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 10: ICA -->
+  <div class="card c10">
+    <div class="head"><span>Independent Component Analysis</span><span class="tag">Feature Extraction · Source Separation</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Reveals hidden structure by transforming mixed observed signals into a maximally independent set.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Observed data = linear mix of latents</li>
+          <li>Mixing process is unknown</li>
+          <li>Independents: non-Gaussian &amp; indep.</li>
+          <li>"Cocktail party" signal separation</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Blind source separation — unmixing combined signals into original independent sources.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 58" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10,15 q5,-8 10,0 t10,0 t10,0" stroke="#7a3fb0" fill="none" stroke-width="1.3"/>
+          <path d="M10,40 q5,-8 10,0 t10,0 t10,0" stroke="#d94f70" fill="none" stroke-width="1.3"/>
+          <text x="20" y="10" font-size="5.4" text-anchor="middle">x1 (mic1)</text>
+          <text x="20" y="53" font-size="5.4" text-anchor="middle">x2 (mic2)</text>
+          <path d="M55,28 L90,28" stroke="#111" stroke-width="1.3" marker-end="url(#arrow)"/>
+          <text x="72" y="22" font-size="6" text-anchor="middle" font-weight="bold">ICA</text>
+          <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#111"/></marker></defs>
+          <path d="M110,15 q5,-8 10,0 t10,0 t10,0" stroke="#2c93d1" fill="none" stroke-width="1.3"/>
+          <path d="M110,40 q5,-8 10,0 t10,0 t10,0" stroke="#c23b3b" fill="none" stroke-width="1.3"/>
+          <text x="120" y="10" font-size="5.4" text-anchor="middle">s1 (blue spk)</text>
+          <text x="120" y="53" font-size="5.4" text-anchor="middle">s2 (red spk)</text>
+          <text x="220" y="20" font-size="5.6">x<tspan baseline-shift="sub">i</tspan> = &Sigma; a<tspan baseline-shift="sub">ij</tspan> s<tspan baseline-shift="sub">j</tspan></text>
+          <text x="220" y="35" font-size="5.6">s<tspan baseline-shift="sub">i</tspan> = &Sigma; w<tspan baseline-shift="sub">ij</tspan> x<tspan baseline-shift="sub">j</tspan></text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Collect mixed signals x<sub>i</sub> from sensors</li>
+          <li>Model: x<sub>i</sub> = &Sigma; a<sub>ij</sub>s<sub>j</sub> (mixture of sources)</li>
+          <li>Solve unmixing matrix W: s<sub>i</sub>=&Sigma;w<sub>ij</sub>x<sub>j</sub></li>
+          <li>Optimize W for max independence of {s<sub>i</sub>}</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> Goal: min mutual information OR max non-Gaussianity (kurtosis / negentropy)</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Separates info (PCA only compresses it); ideal for signal/source separation.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Needs non-Gaussian sources; needs autoscaling; often benefits from running PCA first.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 11: OPTICAL FLOW + LUCAS-KANADE -->
+  <div class="card c11">
+    <div class="head"><span>Optical Flow &amp; Lucas-Kanade</span><span class="tag">Motion estimation</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Optical flow = apparent pixel motion between frames; Lucas-Kanade is the classic method to compute it.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Track I(x,y,t) as pixels move (dx,dy)</li>
+          <li>Assume: intensity const. between frames</li>
+          <li>1 eqn, 2 unknowns (u,v) &rarr; underdetermined</li>
+          <li>Lucas-Kanade adds local window to solve</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Estimating per-pixel motion/velocity across video frames for tracking.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 58" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="8" width="90" height="42" fill="none" stroke="#333" stroke-width="1"/>
+          <text x="55" y="6" font-size="5.6" text-anchor="middle">I(x,y,t)</text>
+          <circle cx="35" cy="30" r="3" fill="#c23b3b"/>
+          <line x1="35" y1="30" x2="70" y2="30" stroke="#111" stroke-width="1" marker-end="url(#ar2)"/>
+          <defs><marker id="ar2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#111"/></marker></defs>
+          <text x="52" y="24" font-size="5" text-anchor="middle">(dx,dy)</text>
+          <rect x="140" y="8" width="90" height="42" fill="none" stroke="#333" stroke-width="1"/>
+          <text x="185" y="6" font-size="5.6" text-anchor="middle">I(x+dx,y+dy,t+dt)</text>
+          <circle cx="175" cy="30" r="3" fill="#c23b3b"/>
+          <text x="245" y="20" font-size="5.4">I<tspan baseline-shift="sub">x</tspan>u + I<tspan baseline-shift="sub">y</tspan>v + I<tspan baseline-shift="sub">t</tspan> = 0</text>
+          <text x="240" y="34" font-size="5.4">u=dx/dt, v=dy/dt</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">LUCAS-KANADE STEPS</span>
+        <ol>
+          <li>Assume constant intensity: I(x,y,t)=I(x+&delta;x,y+&delta;y,t+&delta;t)</li>
+          <li>Taylor-expand RHS, drop high terms &rarr; I<sub>x</sub>&delta;x+I<sub>y</sub>&delta;y+I<sub>t</sub>&delta;t=0</li>
+          <li>Divide by &delta;t &rarr; flow eqn: I<sub>x</sub>u+I<sub>y</sub>v+I<sub>t</sub>=0</li>
+          <li>Use local window &rarr; solve A<sup>T</sup>A[u;v]=&minus;A<sup>T</sup>b (least sq.)</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> [&Sigma;I<sub>x</sub>I<sub>x</sub> &Sigma;I<sub>x</sub>I<sub>y</sub>; &Sigma;I<sub>x</sub>I<sub>y</sub> &Sigma;I<sub>y</sub>I<sub>y</sub>]&middot;[u;v] = &minus;[&Sigma;I<sub>x</sub>I<sub>t</sub>; &Sigma;I<sub>y</sub>I<sub>t</sub>]</div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Gives dense per-pixel motion vectors; well-grounded least-squares solution.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Fails on fast/large motion (small-motion assumption breaks); sensitive to lighting change.</p></div>
+    </div>
+  </div>
+
+  <!-- CARD 12: HARRIS CORNER + TRACKING PIPELINE -->
+  <div class="card c12">
+    <div class="head"><span>Harris Corner &amp; Motion Tracking</span><span class="tag">Feature detection &rarr; Tracking</span></div>
+    <div class="body">
+      <div class="blk def"><span class="lbl">DEF</span><p>Harris Corner Detector finds edge-intersection "corners"; these salient points are then tracked across frames.</p></div>
+      <div class="blk theory"><span class="lbl">THEORY</span>
+        <ul class="two-col">
+          <li>Motion tracking: monitor a feature over frames</li>
+          <li>Apps: face detection, surveillance, traffic</li>
+          <li>Corner = intensity change in 2 directions</li>
+          <li>Challenges: fast motion, orientation, light, clutter</li>
+        </ul>
+      </div>
+      <div class="blk problem"><span class="lbl">SOLVES</span><p>Choosing stable trackable points, then following them frame-to-frame.</p></div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 58" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,45 70,45 85,20 45,20" fill="#e9ecf3" stroke="#333" stroke-width="1"/>
+          <g fill="#c23b3b"><circle cx="30" cy="45" r="2.2"/><circle cx="70" cy="45" r="2.2"/><circle cx="85" cy="20" r="2.2"/><circle cx="45" cy="20" r="2.2"/></g>
+          <text x="55" y="14" font-size="5.4" text-anchor="middle">Harris Corners</text>
+          <line x1="100" y1="32" x2="140" y2="32" stroke="#111" stroke-width="1" marker-end="url(#ar3)"/>
+          <defs><marker id="ar3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#111"/></marker></defs>
+          <rect x="145" y="14" width="70" height="36" rx="3" fill="#eef1fb" stroke="#1867b0"/>
+          <text x="180" y="30" font-size="5.4" text-anchor="middle">Lucas-Kanade</text>
+          <text x="180" y="40" font-size="5.4" text-anchor="middle">Optical Flow</text>
+          <line x1="215" y1="32" x2="250" y2="32" stroke="#111" stroke-width="1" marker-end="url(#ar3)"/>
+          <text x="275" y="30" font-size="5.4" text-anchor="middle">Tracked</text>
+          <text x="275" y="40" font-size="5.4" text-anchor="middle">motion</text>
+        </svg>
+      </div>
+      <div class="blk steps"><span class="lbl">STEPS</span>
+        <ol>
+          <li>Compute image derivatives I<sub>x</sub>, I<sub>y</sub> (Gaussian filters)</li>
+          <li>Compute I<sub>x</sub>&sup2;, I<sub>y</sub>&sup2;, I<sub>xy</sub></li>
+          <li>Sum products over a window &rarr; structure matrix M&#770;</li>
+          <li>Cornerness R = detM&minus;k(traceM)&sup2;; R&gt;thresh &rArr; corner</li>
+          <li>Track corners frame-to-frame via Lucas-Kanade</li>
+        </ol>
+      </div>
+      <div class="math"><span class="lbl math-lbl">MATH</span> R = detM &minus; k(traceM)&sup2;, &nbsp;detM=&lambda;<sub>1</sub>&lambda;<sub>2</sub>, &nbsp;traceM=&lambda;<sub>1</sub>+&lambda;<sub>2</sub></div>
+      <div class="blk adv"><span class="lbl">ADV</span><p>Detects stable, repeatable feature points; simple eigenvalue-based math.</p></div>
+      <div class="blk lim"><span class="lbl">LIM</span><p>Degrades under rapid motion, illumination change, or cluttered backgrounds.</p></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pattern Recognition — Practice Question Answers</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2230;
+    --border: #30363d;
+    --accent: #4f9cf9;
+    --accent2: #58d68d;
+    --accent3: #e5c07b;
+    --accent4: #e06c75;
+    --accent5: #c678dd;
+    --text: #cdd9e5;
+    --text-dim: #8b949e;
+    --text-head: #ffffff;
+    --code-bg: #0d1117;
+    --q-color: #4f9cf9;
+    --math-bg: #1a2233;
+    --tag-bg: #2d333b;
+    --pipe-bg: #131820;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding-bottom: 60px;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(135deg, #0d1117 0%, #1a2233 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 40px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute; top:0; left:0; right:0; bottom:0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(79,156,249,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .site-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-head);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .site-header h1 span { color: var(--accent); }
+  .site-header p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+  .badge-row {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  }
+  .badge {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  /* TOC */
+  .toc-wrap {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 24px;
+  }
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+  .toc h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 6px;
+  }
+  .toc-grid a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.87rem;
+    transition: background 0.15s, color 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .toc-grid a:hover {
+    background: var(--surface2);
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+  .toc-grid a .qn { color: var(--accent); font-weight: 700; margin-right: 5px; }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* QUESTION BLOCK */
+  .q-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .q-header {
+    background: linear-gradient(90deg, rgba(79,156,249,0.15) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .q-num {
+    background: var(--accent);
+    color: #000;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    padding: 4px 12px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-header h2 {
+    color: var(--text-head);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .q-body { padding: 24px 28px; }
+
+  /* SECTION INSIDE Q */
+  .section {
+    margin-bottom: 22px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .section-icon {
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .icon-select { background: rgba(79,156,249,0.2); color: var(--accent); }
+  .icon-pipeline { background: rgba(88,214,141,0.2); color: var(--accent2); }
+  .icon-stage { background: rgba(229,192,123,0.2); color: var(--accent3); }
+  .icon-math { background: rgba(198,120,221,0.2); color: var(--accent5); }
+  .icon-justify { background: rgba(224,108,117,0.2); color: var(--accent4); }
+  .icon-adv { background: rgba(88,214,141,0.2); color: var(--accent2); }
+  .icon-lim { background: rgba(224,108,117,0.2); color: var(--accent4); }
+
+  .section-title h3 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-dim);
+  }
+
+  p { margin-bottom: 10px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* PIPELINE DIAGRAM */
+  .pipeline {
+    background: var(--pipe-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 12px 0;
+    overflow-x: auto;
+  }
+  .pipe-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .pipe-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-head);
+    white-space: nowrap;
+    text-align: center;
+    min-width: 110px;
+  }
+  .pipe-box.highlight { border-color: var(--accent); color: var(--accent); }
+  .pipe-box.highlight2 { border-color: var(--accent2); color: var(--accent2); }
+  .pipe-box.highlight3 { border-color: var(--accent3); color: var(--accent3); }
+  .pipe-box.highlight4 { border-color: var(--accent4); color: var(--accent4); }
+  .pipe-box.highlight5 { border-color: var(--accent5); color: var(--accent5); }
+  .pipe-arrow {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    padding: 0 6px;
+    flex-shrink: 0;
+  }
+
+  /* MATH BOX */
+  .math-box {
+    background: var(--math-bg);
+    border: 1px solid rgba(198,120,221,0.3);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.88rem;
+    color: #c678dd;
+    margin: 10px 0;
+    line-height: 2;
+  }
+  .math-box .label {
+    font-family: inherit;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  /* COMPARISON TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 12px 0;
+  }
+  th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 700;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  tr:hover td { background: rgba(79,156,249,0.05); }
+  td strong { color: var(--text-head); }
+
+  /* ADV/LIM GRID */
+  .al-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  .al-box {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .al-box.adv { border-left: 3px solid var(--accent2); }
+  .al-box.lim { border-left: 3px solid var(--accent4); }
+  .al-box h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .al-box.adv h4 { color: var(--accent2); }
+  .al-box.lim h4 { color: var(--accent4); }
+  .al-box ul { padding-left: 16px; }
+  .al-box li { margin-bottom: 5px; font-size: 0.88rem; }
+
+  /* STAGE CARDS */
+  .stage-list { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+  .stage-card {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    border-left: 3px solid var(--accent3);
+    display: flex;
+    gap: 12px;
+  }
+  .stage-num {
+    background: var(--accent3);
+    color: #000;
+    font-weight: 800;
+    font-size: 0.78rem;
+    border-radius: 4px;
+    padding: 2px 8px;
+    flex-shrink: 0;
+    height: fit-content;
+    margin-top: 2px;
+  }
+  .stage-content h4 {
+    color: var(--accent3);
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .stage-content p { font-size: 0.87rem; color: var(--text); }
+
+  /* SVG DIAGRAM */
+  .diagram-wrap {
+    background: var(--pipe-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 12px 0;
+    overflow-x: auto;
+    text-align: center;
+  }
+  .diagram-wrap svg { max-width: 100%; }
+
+  /* HIGHLIGHT TEXT */
+  .highlight-box {
+    background: rgba(79,156,249,0.08);
+    border: 1px solid rgba(79,156,249,0.25);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 0.9rem;
+  }
+  .highlight-box strong { color: var(--accent); }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .site-header { padding: 28px 20px; }
+    .site-header h1 { font-size: 1.5rem; }
+    .q-body, .q-header { padding: 16px 18px; }
+    .al-grid { grid-template-columns: 1fr; }
+    .pipe-flow { gap: 4px; }
+    .pipe-box { min-width: 80px; font-size: 0.75rem; padding: 6px 8px; }
+    main, .toc-wrap { padding: 0 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Pattern <span>Recognition</span> &amp; Computer Vision</h1>
+  <p>Detailed 10-Mark Answer Guide · All 15 Practice Questions</p>
+  <div class="badge-row">
+    <span class="badge">Edge Detection</span>
+    <span class="badge">Segmentation</span>
+    <span class="badge">Feature Extraction</span>
+    <span class="badge">Dimensionality Reduction</span>
+    <span class="badge">Anomaly Detection</span>
+    <span class="badge">Tracking</span>
+  </div>
+</header>
+
+<div class="toc-wrap">
+  <div class="toc">
+    <h2>Contents</h2>
+    <div class="toc-grid">
+      <a href="#q1"><span class="qn">Q1</span>Autonomous Driving Feature Pipeline</a>
+      <a href="#q2"><span class="qn">Q2</span>3-D MRI Tumour Segmentation</a>
+      <a href="#q3"><span class="qn">Q3</span>IoT Anomaly Detection</a>
+      <a href="#q4"><span class="qn">Q4</span>Hyperspectral Image Classification</a>
+      <a href="#q5"><span class="qn">Q5</span>Remote-Sensing Structure Extraction</a>
+      <a href="#q6"><span class="qn">Q6</span>Traffic-Camera Shape Detection</a>
+      <a href="#q7"><span class="qn">Q7</span>Angiographic CT Vessel Segmentation</a>
+      <a href="#q8"><span class="qn">Q8</span>Industrial Vibration Fault Detection</a>
+      <a href="#q9"><span class="qn">Q9</span>Surveillance Video Tracking</a>
+      <a href="#q10"><span class="qn">Q10</span>Dermoscopic Lesion Extraction</a>
+      <a href="#q11"><span class="qn">Q11</span>Adverse-Weather Lane & Sign Detection</a>
+      <a href="#q12"><span class="qn">Q12</span>Ultrasound Organ Segmentation</a>
+      <a href="#q13"><span class="qn">Q13</span>Network-Traffic Anomaly Detection</a>
+      <a href="#q14"><span class="qn">Q14</span>Multi-Spectral Object Tracking</a>
+      <a href="#q15"><span class="qn">Q15</span>SEM/TEM Microstructure Extraction</a>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════ Q1 ═══════════════════════════════ -->
+<div class="q-block" id="q1">
+  <div class="q-header">
+    <div class="q-num">Q1</div>
+    <h2>Real-time feature extraction pipeline for pedestrian & vehicle detection in autonomous driving (night-time & rainy conditions)</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>The application demands <strong>robustness to illumination degradation</strong> (rain, night), <strong>real-time speed</strong> (≥25 fps), and <strong>repeatability across scale</strong> for object matching. A single detector fails; a <em>combined cascade pipeline</em> is chosen: <strong>Scharr edges → FAST interest points → ORB descriptors</strong>, enriched with a <strong>multi-scale Gaussian pyramid</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Input Frame</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Gaussian Pyramid<br>(5 levels)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Scharr Edge<br>Detection</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">FAST Keypoint<br>Detection</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">ORB Descriptor<br>Extraction</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">Hamming-dist<br>Matching</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Object<br>Hypothesis</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Gaussian Pyramid (5 levels)</h4>
+            <p>Each level is formed by convolving with a Gaussian kernel G(x,y) and sub-sampling by 2, giving images at scales σ, 2σ, 4σ, … Pedestrians at 5 m and 40 m appear at different pyramid levels, enabling <strong>scale-invariant</strong> detection. Also smooths rain-streak noise before gradient computation.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Scharr Edge Detection</h4>
+            <p>Computes gradient magnitudes and orientations on each pyramid level. Sobel uses a 3×3 kernel with weights [1,2,1] / [-1,0,1], which has poor rotational isotropy. Scharr uses optimised weights that minimise rotational error, critical for slanted edges of vehicles in perspective. Canny adds hysteresis but is slower (2× more computation).</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>FAST Interest-Point Detection</h4>
+            <p>Tests 16 pixels on a Bresenham circle of radius 3. A point p is a corner if ≥9 contiguous pixels are all brighter or all darker than p by threshold t. FAST achieves ~100 fps vs. Harris at ~20 fps, critical for real-time. Non-maximum suppression removes duplicates using Harris score as tie-breaker. Shi-Tomasi improves Harris corner quality but FAST+NMS is the speed winner here.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>ORB Descriptor Extraction</h4>
+            <p>ORB = Oriented FAST + Rotated BRIEF. It uses the intensity centroid to assign a canonical orientation θ to each keypoint, then applies steered BRIEF: 256 binary comparisons of smoothed pixel pairs in a rotated patch. The descriptor is a 256-bit string, enabling <strong>Hamming-distance matching in O(n/64)</strong> with bitwise XOR. Unlike SIFT (128-D float), ORB is 64× more memory efficient and patent-free.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S5</div>
+          <div class="stage-content">
+            <h4>Hamming-Distance Matching + RANSAC</h4>
+            <p>Match descriptors from current and reference frames; prune with RANSAC to find a consistent homography, confirming vehicle/pedestrian candidates.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Scharr Gradient Magnitude &amp; Orientation</span>
+        Gx = [ -3, 0, +3; -10, 0, +10; -3, 0, +3 ] * I<br>
+        Gy = [ -3, -10, -3; 0, 0, 0; +3, +10, +3 ] * I<br>
+        M(x,y) = √(Gx² + Gy²)     θ(x,y) = atan2(Gy, Gx)
+      </div>
+      <div class="math-box">
+        <span class="label">ORB Orientation via Intensity Centroid</span>
+        m₀₀ = Σ I(x,y),   m₁₀ = Σ x·I(x,y),   m₀₁ = Σ y·I(x,y)<br>
+        C = (m₁₀/m₀₀ , m₀₁/m₀₀),   θ = atan2(m₀₁, m₁₀)
+      </div>
+      <div class="math-box">
+        <span class="label">Harris Corner Score (for NMS prioritisation)</span>
+        R = det(M) − k·(trace(M))²,   k ≈ 0.04<br>
+        M = [ Σ Ix², Σ IxIy; Σ IxIy, Σ Iy² ]   (summed over patch)
+      </div>
+      <div class="math-box">
+        <span class="label">Gaussian Pyramid Level l</span>
+        G_l(x,y) = Σ_{u,v} w(u,v)·G_{l-1}(2x+u, 2y+v)<br>
+        w = 1/256 · [1,4,6,4,1]ᵀ[1,4,6,4,1]   (binomial approximation to Gaussian)
+      </div>
+      <div class="math-box">
+        <span class="label">BRIEF Binary Test</span>
+        τ(p; x,y) = 1 if I(p+x) &lt; I(p+y), else 0<br>
+        f_n(p) = Σ_{1≤i≤n} 2^(i-1) · τ(p; x_i, y_i),   n=256
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-justify">✓</div><h3>5. Justification of Technique Selection</h3></div>
+      <table>
+        <tr><th>Detector/Descriptor</th><th>Why Chosen</th><th>Competitor Rejected</th></tr>
+        <tr><td><strong>Scharr</strong></td><td>Better rotational isotropy than Sobel; same speed; crucial for angled vehicle edges</td><td>Canny: slower, hysteresis tuning difficult in dynamic night lighting</td></tr>
+        <tr><td><strong>FAST</strong></td><td>~100 fps on CPU; repeatable under illumination shifts</td><td>Harris: ~20 fps; Shi-Tomasi: good quality but lacks speed</td></tr>
+        <tr><td><strong>ORB</strong></td><td>Binary, rotation-invariant, scale-invariant (via pyramid), free</td><td>SIFT: too slow (patent expired but heavy); BRIEF: not rotation-invariant</td></tr>
+        <tr><td><strong>Pyramid</strong></td><td>Multi-scale without re-running full detector; O(4/3 n) cost</td><td>DOG: more accurate but costlier</td></tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-adv">✚</div><h3>6. Advantages &amp; Limitations</h3></div>
+      <div class="al-grid">
+        <div class="al-box adv">
+          <h4>Advantages</h4>
+          <ul>
+            <li>Real-time capable (&gt;30 fps on embedded GPU)</li>
+            <li>Rotation &amp; scale invariant</li>
+            <li>Robust to mild illumination change (Scharr isotropy)</li>
+            <li>Memory-efficient (256-bit ORB vs 512-byte SIFT)</li>
+            <li>Patent-free (ORB)</li>
+          </ul>
+        </div>
+        <div class="al-box lim">
+          <h4>Limitations</h4>
+          <ul>
+            <li>FAST not inherently scale-invariant (mitigated by pyramid)</li>
+            <li>Binary descriptors degrade with heavy blur (rain drops)</li>
+            <li>Rain streaks at night can create false edges</li>
+            <li>RANSAC non-deterministic — may fail under occlusion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q2 ═══════════════════════════════ -->
+<div class="q-block" id="q2">
+  <div class="q-header">
+    <div class="q-num">Q2</div>
+    <h2>Interactive segmentation pipeline for 3-D MRI tumour extraction with intensity inhomogeneity and weak boundaries</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>MRI volumes exhibit <em>bias-field inhomogeneity</em> (slow intensity drift), <em>weak boundaries</em>, and <em>topology sensitivity</em>. A single method fails: Watershed alone over-segments; Snakes leak through weak edges; Graph-Cut without initialisation is underconstrained. The chosen pipeline: <strong>Active Contours (Level-Set) → Watershed (marker-controlled) → Graph-Cut (with user seeds)</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Noisy 3-D<br>MRI Volume</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Bias-Field<br>Correction (N4)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Level-Set<br>Active Contour</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Marker-Ctrl<br>Watershed</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">Graph-Cut<br>Refinement</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Volume<br>Measurement</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Bias-Field Correction (N4ITK)</h4>
+            <p>Estimates and removes the slow-varying multiplicative bias field B(x) where observed intensity I(x) = B(x)·T(x) + n(x), T(x) = true tissue intensity. Ensures Watershed thresholds are meaningful.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Level-Set Active Contour (Chan-Vese)</h4>
+            <p>Represents the evolving boundary as the zero-level of a signed distance function φ(x,t). Energy functional E = λ₁∫(I−c₁)²dΩ₁ + λ₂∫(I−c₂)²dΩ₂ + μ·|∂Ω|. User places an initial ellipsoid seed around the tumour; the contour evolves via gradient descent on E, stopping at the weak boundary where intensity gradient is small. Handles topology changes (tumour splitting) unlike parametric Snakes.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Marker-Controlled Watershed</h4>
+            <p>The level-set result provides foreground markers; user scribbles on background provide background markers. The gradient magnitude image is treated as a topographic map; flooding from markers prevents over-segmentation. Each catchment basin corresponds to a region. Stops leakage across weak boundaries by confining flooding to marker-controlled basins.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Graph-Cut Refinement</h4>
+            <p>Construct graph G=(V,E): each voxel is a node. Terminal edges (t-links) encode P(voxel ∈ tumour) from appearance model; neighbourhood edges (n-links) encode boundary penalty. Min-cut = max-flow (Ford-Fulkerson) finds globally optimal binary labelling, refining the boundary at pixel level. User scribbles add hard constraints (seeds) on t-link weights.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Chan-Vese Level-Set Energy</span>
+        E(φ,c₁,c₂) = μ∫|∇H(φ)|dx + λ₁∫(I−c₁)²H(φ)dx + λ₂∫(I−c₂)²(1−H(φ))dx<br>
+        ∂φ/∂t = δ(φ)[μ·div(∇φ/|∇φ|) − λ₁(I−c₁)² + λ₂(I−c₂)²]
+      </div>
+      <div class="math-box">
+        <span class="label">Graph-Cut Min-Cut / Max-Flow</span>
+        E(L) = Σ_p θ_p(L_p) + Σ_{(p,q)∈N} θ_{pq}(L_p,L_q)<br>
+        θ_p(0) = −log P(I_p | background),   θ_p(1) = −log P(I_p | tumour)<br>
+        θ_{pq}(L_p≠L_q) = exp(−(I_p−I_q)²/2σ²) / dist(p,q)
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-justify">✓</div><h3>5. Justification &amp; Order</h3></div>
+      <p>Level-Set first provides a coarse, topologically flexible initialisation that handles the tumour's irregular shape. Watershed then exploits this to avoid the classic <em>over-segmentation problem</em>. Graph-Cut last delivers <strong>globally optimal refinement</strong> with user-interactive constraints, ensuring precise boundary delineation for subsequent volumetry.</p>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Handles topology changes (Level-Set)</li>
+          <li>Leakage prevention (markers in Watershed)</li>
+          <li>Global optimality (Graph-Cut)</li>
+          <li>Interactive via seeds/scribbles</li>
+          <li>Topologically correct masks for shape analysis</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Level-Set re-initialisation needed to avoid numerics</li>
+          <li>Watershed still may over-segment near noise</li>
+          <li>Graph-Cut: memory O(V+E) — large 3-D volumes costly</li>
+          <li>User seed quality critically affects result</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q3 ═══════════════════════════════ -->
+<div class="q-block" id="q3">
+  <div class="q-header">
+    <div class="q-num">Q3</div>
+    <h2>Hybrid anomaly-detection scheme for high-dimensional IoT sensor streams</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>IoT streams are high-dimensional, <em>largely unlabelled</em>, subject to <em>concept drift</em>, and contain very few confirmed anomaly labels. A two-stage hybrid is chosen: <strong>DBSCAN (unsupervised clustering)</strong> followed by <strong>One-Class SVM (semi-supervised boundary)</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">IoT Stream<br>Window</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Feature<br>Extraction (PCA)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">DBSCAN<br>Clustering</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Normal-Class<br>Model (OC-SVM)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">Anomaly<br>Decision</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Online Model<br>Update</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Feature Extraction &amp; Windowing</h4>
+            <p>Sliding window of W samples; compute time-domain (mean, variance, RMS) and frequency-domain (top-k FFT coefficients) features. Apply Incremental PCA to project to d-dimensional subspace (d≪original), removing correlated sensor noise.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>DBSCAN Clustering</h4>
+            <p>Groups unlabelled normal data without specifying k. Parameters: ε (neighbourhood radius), MinPts. Core points have ≥ MinPts in ε-ball. Points not reachable from any core point are labelled as noise — these become initial anomaly seeds. DBSCAN's density-based criterion makes it robust to outliers and arbitrary cluster shapes, unlike K-Means which forces spherical clusters.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>One-Class SVM</h4>
+            <p>Trained on normal cluster members. Finds a hyperplane in kernel feature space that separates normal data from the origin with maximum margin ρ. Decision function: f(x) = sign(Σ αᵢ K(xᵢ,x) − ρ). A new sample with f(x)&lt;0 is declared anomalous. RBF kernel used for non-linear boundary. ν hyperparameter upper-bounds the fraction of outliers in training set.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Online Decision &amp; Model Update</h4>
+            <p>Sliding window re-runs DBSCAN every T seconds. Confirmed normal points (high confidence) are added to OC-SVM support vector set via incremental update. Concept drift is handled by exponential forgetting: old support vectors are down-weighted over time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">DBSCAN Core Point Criterion</span>
+        Core(p) iff |{q : dist(p,q) ≤ ε}| ≥ MinPts<br>
+        Noise: points not density-reachable from any core point → anomaly candidates
+      </div>
+      <div class="math-box">
+        <span class="label">One-Class SVM Optimisation</span>
+        min_{w,ξ,ρ} ½||w||² − ρ + (1/νn)Σξᵢ<br>
+        s.t. w·Φ(xᵢ) ≥ ρ − ξᵢ,  ξᵢ ≥ 0<br>
+        Anomaly: f(x) = sgn(w·Φ(x) − ρ) = −1
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>No k needed for clustering (DBSCAN)</li>
+          <li>Works with very few labelled anomalies</li>
+          <li>Non-parametric cluster shapes</li>
+          <li>Kernel OC-SVM captures complex normal manifold</li>
+          <li>Online updating for concept drift</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>DBSCAN scales as O(n log n) with k-d tree; slow for very high n</li>
+          <li>ε and MinPts require domain knowledge</li>
+          <li>OC-SVM kernel matrix is O(n²) memory</li>
+          <li>Incremental SVM update is complex</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q4 ═══════════════════════════════ -->
+<div class="q-block" id="q4">
+  <div class="q-header">
+    <div class="q-num">Q4</div>
+    <h2>Dimensionality-reduction + classification pipeline for hyperspectral image patches with change-detection</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Hyperspectral images have hundreds of spectral bands (200–400). Direct classification suffers from the <em>Hughes phenomenon</em> (curse of dimensionality). Change detection requires efficient feature comparison across time. Selected: <strong>PCA (reduction) → k-NN classifier → Background Modelling + Optical Flow (change detection)</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Hyperspectral<br>Patches (D bands)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">PCA<br>(D → d)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">k-NN<br>Classifier</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Label Map</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">BG Modelling<br>(GMM/MOG2)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">Optical Flow<br>(Farneback)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Change Map</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>PCA — Dimensionality Reduction</h4>
+            <p>Computes covariance matrix C = (1/n)XᵀX of centred spectral vectors. Eigendecomposition gives principal components; top d eigenvectors (explaining 99% variance) form projection matrix W. Projected data z = Wᵀx has d≪D. This removes spectral redundancy, suppresses sensor noise, and speeds subsequent classifier training. PCA is preferred over t-SNE here because t-SNE is non-linear and non-parametric (cannot project new test patches).</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>k-NN Classifier (Non-parametric)</h4>
+            <p>In the d-dimensional PCA space, classify each patch by majority vote of its k nearest labelled neighbours using Euclidean distance. Non-parametric: no assumption on class distribution, handles arbitrary class shapes. In low-dimensional PCA space, k-NN is efficient with k-d trees (O(d log n) per query). Output is a per-pixel land-cover label map.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Background Modelling (MOG2)</h4>
+            <p>Models each pixel's spectral history in the PCA-reduced space as a mixture of Gaussians: B(x,t) = Σ wₖ N(μₖ,Σₖ). A new frame pixel is foreground (changed) if its Mahalanobis distance to all background Gaussians exceeds a threshold. The reduced dimensionality makes Gaussian covariance estimation far more reliable (fewer parameters).</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Dense Optical Flow (Farneback)</h4>
+            <p>Estimates the 2-D velocity field u(x,y) between consecutive PCA-compressed images using polynomial expansion of local image structure. Flow vectors on foreground pixels from the background model indicate <em>motion direction and speed</em> of changed objects, enabling discrimination of genuine change from illumination shift.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">PCA — Eigenvalue Problem</span>
+        C·vₖ = λₖ·vₖ,   C = (1/n)Xᵀ X<br>
+        W = [v₁, v₂, …, vd],   z = Wᵀ(x − μ̄)<br>
+        Variance retained = Σ_{i=1}^d λᵢ / Σ_{i=1}^D λᵢ ≥ 0.99
+      </div>
+      <div class="math-box">
+        <span class="label">k-NN Decision Rule</span>
+        ŷ(x) = argmax_c |{xₙ : rank(x,xₙ) ≤ k and yₙ=c}|<br>
+        Bayes error bound: ε*_kNN ≤ 2·ε*(1 − ε*) as k→∞
+      </div>
+      <div class="math-box">
+        <span class="label">Optical Flow — Farneback Brightness Constancy</span>
+        I(x,y,t) = I(x+u, y+v, t+1)<br>
+        Iₓu + Iyv + It = 0   (linearised via Taylor expansion)<br>
+        Farneback: local polynomial f(x) ≈ xᵀ Aₓ x + bₓᵀx + cₓ
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Solves Hughes phenomenon via PCA</li>
+          <li>k-NN is flexible, no distributional assumptions</li>
+          <li>Dense optical flow captures motion field</li>
+          <li>Near-real-time (PCA projection is fast)</li>
+          <li>PCA noise filtering improves MOG2 reliability</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>PCA discards discriminative non-linear structure (LDA better for class separation)</li>
+          <li>k-NN slow at test time for large databases</li>
+          <li>Optical flow assumption (brightness constancy) violated under illumination change</li>
+          <li>t-SNE cannot map new samples (cannot use for test)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q5 ═══════════════════════════════ -->
+<div class="q-block" id="q5">
+  <div class="q-header">
+    <div class="q-num">Q5</div>
+    <h2>Hybrid feature extraction for linear &amp; textured structures in multi-resolution satellite images</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Roads are thin, elongated, multi-scale; rivers have curved, blurred banks; crop patterns are periodic textures. Atmospheric noise degrades gradients. A <strong>hybrid strategy</strong> is required: <strong>Image Pyramids + LoG (scale-space)</strong>, <strong>Gabor filters (orientation)</strong>, <strong>DWT (frequency decomposition)</strong>, and <strong>SIFT (invariant feature points)</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Satellite<br>Multi-band Image</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Gaussian Pyramid<br>+ LoG Scale-Space</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Gabor Filter<br>Bank (8 ori × 5 scales)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">DWT<br>(3-level)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">SIFT<br>Keypoints</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Feature<br>Fusion &amp; SVM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Image Pyramids + Laplacian of Gaussian (LoG)</h4>
+            <p>Gaussian pyramid provides images at scales σ·2^l. LoG = ∇²G(x,y;σ) detects blobs (road intersections, crop circles) as zero-crossings. Scale-normalised LoG: σ²·∇²G. The DoG (Difference of Gaussians) approximates LoG cheaply. Responses at multiple pyramid levels locate structures at their <em>characteristic scale</em>, immune to atmospheric zoom-dependent blur.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Gabor Filter Bank</h4>
+            <p>Gabor kernel: g(x,y;λ,θ,σ,γ) = exp(−(x'²+γ²y'²)/2σ²)·cos(2πx'/λ). A bank with 8 orientations (0°, 22.5°, …, 157.5°) and 5 scales captures oriented structures (road edges, river banks) at each direction. Gabor is optimally localised in both space and spatial frequency (uncertainty principle). Crop rows with periodic spacing have peak Gabor response at spacing=λ.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Discrete Wavelet Transform (3-level)</h4>
+            <p>Decomposes the image into subbands: LL (approximation), LH (horizontal edges), HL (vertical edges), HH (diagonal details) at each level. Atmospheric noise (mostly high-frequency) is captured in HH and can be thresholded (denoising). Road textures occupy specific frequency bands, making DWT coefficients strong texture discriminators. Multi-level decomposition naturally provides multi-resolution analysis.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>SIFT Keypoints + Descriptors</h4>
+            <p>Detects extrema in DoG scale-space; assigns orientation from gradient histogram; computes 128-D descriptor from 4×4 histograms. Scale and rotation invariant. SIFT localises road intersections, bridge endpoints, and landmark crop features that recur across different satellite passes, enabling <strong>temporal change detection</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Scale-Normalised LoG</span>
+        LoG_σ(x,y) = σ² · (∂²G/∂x² + ∂²G/∂y²) * I(x,y)<br>
+        DoG(x,y,σ) ≈ LoG_σ(x,y)   [Lindeberg 1994]
+      </div>
+      <div class="math-box">
+        <span class="label">Gabor 2-D Filter</span>
+        g(x,y;θ,λ,σ) = exp(−(x'²+γ²y'²)/2σ²) · cos(2πx'/λ)<br>
+        x' = x·cos(θ)+y·sin(θ),   y' = −x·sin(θ)+y·cos(θ)
+      </div>
+      <div class="math-box">
+        <span class="label">DWT 2-D Subband Decomposition</span>
+        LL = (H_rows ⊗ H_cols) * I<br>
+        LH = (H_rows ⊗ G_cols) * I,   HL = (G_rows ⊗ H_cols) * I<br>
+        HH = (G_rows ⊗ G_cols) * I<br>
+        H = low-pass wavelet filter,   G = high-pass (detail) filter
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-justify">✓</div><h3>5. Comparison vs. Canny+Hough / Harris</h3></div>
+      <table>
+        <tr><th>Property</th><th>Hybrid (Proposed)</th><th>Canny + Hough</th><th>Harris Corners</th></tr>
+        <tr><td>Scale Invariance</td><td><strong>Yes</strong> (pyramid + SIFT)</td><td>No — must re-run at each scale</td><td>Not inherently</td></tr>
+        <tr><td>Orientation Sensitivity</td><td><strong>Yes</strong> (Gabor bank)</td><td>Detects lines but no texture</td><td>Only corners, not orientation</td></tr>
+        <tr><td>Texture Discrimination</td><td><strong>Yes</strong> (Gabor + DWT)</td><td>No</td><td>No</td></tr>
+        <tr><td>Noise Resilience</td><td><strong>High</strong> (DWT denoising)</td><td>Moderate (σ tuning)</td><td>Moderate</td></tr>
+        <tr><td>Computational Cost</td><td>Higher</td><td>Low</td><td>Low</td></tr>
+      </table>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Multi-scale, multi-orientation coverage</li>
+          <li>DWT handles atmospheric noise</li>
+          <li>SIFT enables cross-image matching</li>
+          <li>Gabor optimal for periodic textures</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>High computational cost (Gabor bank + DWT + SIFT)</li>
+          <li>Feature vector dimensionality can be very large (requires PCA pre-reduction)</li>
+          <li>Gabor sensitive to frequency band selection</li>
+          <li>SIFT not real-time without GPU</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q6 ═══════════════════════════════ -->
+<div class="q-block" id="q6">
+  <div class="q-header">
+    <div class="q-num">Q6</div>
+    <h2>Detecting circular &amp; elliptical objects (traffic signs, manhole covers) in real-time traffic video</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Traffic signs are partially occluded, appear at varying distances, and must be detected under illumination variation. The chosen pipeline: <strong>Contour Extraction (Suzuki-Abe) → Ellipse Fitting (RANSAC) → Randomised Hough Transform</strong>, with multi-resolution preprocessing to handle scale variation.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Video Frame<br>(Gaussian Pyramid)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Canny<br>Edge Map</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Suzuki-Abe<br>Contour Ext.</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Douglas-Peucker<br>Simplification</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">RANSAC<br>Ellipse Fit</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">RHT Circle<br>Verification</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Detected<br>Objects</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Multi-resolution Preprocessing</h4>
+            <p>Apply Gaussian pyramid (3 levels) to detect signs at multiple distances. Canny edge detection with adaptive thresholds (Otsu-based) handles varying illumination.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Suzuki-Abe Contour Extraction</h4>
+            <p>Traverses the binary edge image using a border-following algorithm to output a hierarchical contour tree. Provides structured boundary representation (including parent-child nesting: outer sign boundary → inner symbol), enabling shape-based filtering. More informative than simple connected-component labelling.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Douglas-Peucker Contour Simplification</h4>
+            <p>Iteratively removes contour points that are within ε pixels of the line between their neighbours. Reduces contour point count by 60–80%, reducing RANSAC fitting cost. Preserves curvature maxima (corners of ellipse) which are key for fitting.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>RANSAC Ellipse Fitting</h4>
+            <p>Repeatedly samples 5 points (minimum to fit a conic), fits an ellipse via Direct Least Squares, counts inliers within distance ε of the fitted ellipse. Robust to up to 50% outliers (occluded portions of sign). More robust than Direct Least Squares alone (which is sensitive to outliers). Returns the ellipse with maximum inlier count after N iterations.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S5</div>
+          <div class="stage-content">
+            <h4>Randomised Hough Transform (RHT) Verification</h4>
+            <p>Randomly selects 3 edge points, computes the unique circle through them (via circumcircle formula), accumulates (cx, cy, r) in parameter space. RHT needs only O(1) memory accumulator update vs. CHT's O(r) per edge point. Verifies whether the RANSAC ellipse is actually circular (for circular signs). Discards ellipses with too high eccentricity.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">General Conic (Ellipse) Equation — DLS Fitting</span>
+        ax² + bxy + cy² + dx + ey + f = 0,   constraint: 4ac − b² = 1  (ellipse)<br>
+        DLS: minimise ||Da||² s.t. aᵀCa=1,   D = design matrix of contour points<br>
+        → generalised eigenvector problem: DᵀD·a = λ·C·a
+      </div>
+      <div class="math-box">
+        <span class="label">RANSAC Ellipse (Minimum Sample = 5 Points)</span>
+        N = log(1−p) / log(1−(1−e)^5)<br>
+        p = 0.99 confidence,  e = outlier fraction<br>
+        e.g. e=0.5 → N = 145 iterations
+      </div>
+      <div class="math-box">
+        <span class="label">Circumcircle of 3 Points (RHT Circle)</span>
+        Given (x₁,y₁),(x₂,y₂),(x₃,y₃):<br>
+        cx = (|P₁|²(y₂−y₃) + |P₂|²(y₃−y₁) + |P₃|²(y₁−y₂)) / D<br>
+        cy = (|P₁|²(x₃−x₂) + |P₂|²(x₁−x₃) + |P₃|²(x₂−x₁)) / D<br>
+        r = distance(C, P₁),   D = 2|det([P₂−P₁, P₃−P₁])|
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-justify">✓</div><h3>5. Trade-off Analysis</h3></div>
+      <table>
+        <tr><th>Method</th><th>Speed</th><th>Occlusion Robustness</th><th>Localisation Accuracy</th></tr>
+        <tr><td><strong>CHT (Standard)</strong></td><td>Slow O(r·E)</td><td>Good</td><td>Moderate</td></tr>
+        <tr><td><strong>RHT</strong></td><td>Fast O(E)</td><td>Good</td><td>Good (probabilistic)</td></tr>
+        <tr><td><strong>DLS Ellipse</strong></td><td>Fast O(n)</td><td>Poor (outlier-sensitive)</td><td>High (no outliers)</td></tr>
+        <tr><td><strong>RANSAC Ellipse</strong></td><td>Moderate</td><td>Excellent</td><td>High</td></tr>
+        <tr><td><strong>Suzuki Contour</strong></td><td>Fast</td><td>Moderate</td><td>High</td></tr>
+      </table>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>RANSAC handles 50%+ occlusion</li>
+          <li>RHT memory-efficient vs CHT</li>
+          <li>Contour hierarchy helps nested sign structure</li>
+          <li>Multi-resolution handles distance variation</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>RANSAC iterations can be slow for many candidates</li>
+          <li>DLS numerically unstable near degenerate conics</li>
+          <li>RHT misses circles when edge density is low</li>
+          <li>Douglas-Peucker ε tuning required</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q7 ═══════════════════════════════ -->
+<div class="q-block" id="q7">
+  <div class="q-header">
+    <div class="q-num">Q7</div>
+    <h2>Interactive 2-D/3-D blood vessel segmentation from angiographic CT volumes</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Blood vessels are thin (1–3 voxels), tubular, with intensity variation along their length, and must be separated from surrounding tissue. Pipeline: <strong>Hessian-based Vesselness Filtering → Region Growing (seed-based) → Graph-Cut refinement</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Angio CT<br>Volume</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Hessian<br>Vesselness (Frangi)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Region Growing<br>(User Seeds)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">Graph-Cut<br>Refinement</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Centreline<br>Extraction</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Hessian-based Vesselness Filtering (Frangi 1998)</h4>
+            <p>At scale σ, compute the Hessian matrix H(x;σ) = σ² · [∂²G/∂xᵢxⱼ] * I(x). Eigenvalues λ₁≤λ₂≤λ₃ of H characterise local geometry: for a bright tubular vessel, λ₁≈0, λ₂&lt;0, λ₃&lt;&lt;0. Frangi vesselness measure: V(x;σ) = exp(−R_A²/2α²)·(1−exp(−R_B²/2β²))·(1−exp(−S²/2c²)). Applying at multiple σ values and taking max selects vessels at their characteristic scale. This <em>preserves thin structures</em> that intensity thresholding would miss.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Seeded Region Growing</h4>
+            <p>User places seeds inside a vessel segment. Algorithm adds neighbouring voxels if |I(neighbour) − mean(region)| &lt; threshold T. Grows along the vesselness-enhanced image rather than the raw intensity, preventing leakage into surrounding tissue (different Hessian signature). Threshold T adapts locally: T = k·σ_region, preventing leakage as the region grows.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Graph-Cut Refinement</h4>
+            <p>Constructs a graph where t-links encode P(voxel = vessel) from the vesselness map; n-links encode intensity similarity. Min-cut separates vessel from background globally, correcting leaks and gaps from region growing. User background scribbles add hard background constraints.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Centreline Extraction</h4>
+            <p>Topological thinning (skeletonisation) of the segmented binary volume extracts the vessel centreline — a topologically correct tree used for stenosis measurement and surgical planning.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Frangi Vesselness Measure</span>
+        R_A = |λ₂|/|λ₃|   (plate vs. tube),   R_B = |λ₁|/√(|λ₂λ₃|)   (blob)<br>
+        S = ||H||_F = √(λ₁²+λ₂²+λ₃²)   (structureness)<br>
+        V(s) = (1−exp(−R_B²/2β²)) · exp(−R_A²/2α²) · (1−exp(−S²/2c²))
+      </div>
+      <div class="math-box">
+        <span class="label">Adaptive Region Growing Criterion</span>
+        Add voxel q to region R iff:<br>
+        |I(q) − μ_R| ≤ k · σ_R   and   V(q) ≥ θ_vessel<br>
+        μ_R = mean intensity of region,   σ_R = std dev of region
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Hessian detects thin 1–2 voxel vessels missed by thresholding</li>
+          <li>Multi-scale vesselness handles varying vessel calibres</li>
+          <li>Graph-Cut globally optimal — prevents topological errors</li>
+          <li>User seeds enable interactive refinement</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Hessian fails at vessel bifurcations (eigenvalue structure breaks down)</li>
+          <li>Region growing can still leak at stenotic regions</li>
+          <li>Graph-Cut memory O(V³) for 3-D — volumetric graphs are large</li>
+          <li>Centreline extraction sensitive to holes in segmentation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q8 ═══════════════════════════════ -->
+<div class="q-block" id="q8">
+  <div class="q-header">
+    <div class="q-num">Q8</div>
+    <h2>Hybrid pattern-recognition scheme for fault detection in industrial vibration sensor data</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Industrial vibration signals exhibit complex multi-modal distributions; fault signatures are rare and subtle. Pipeline: <strong>K-Means++ (unsupervised grouping) → Bayesian Classifier with Mahalanobis Distance (supervised discriminant)</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Vibration<br>Signal Window</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Feature Ext.<br>(FFT + MFCC)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">K-Means++<br>Clustering</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Cluster Labelling<br>(Few Labels)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">Bayes + Mahal.<br>Discriminant</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Fault / Normal<br>Decision</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Feature Extraction</h4>
+            <p>FFT spectrum (top-k frequency amplitudes corresponding to bearing fault frequencies), RMS, kurtosis, crest factor. Kurtosis is particularly sensitive to impulsive fault signatures. These form the high-dimensional input feature vector.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>K-Means++ Clustering</h4>
+            <p>Initialises centroids with D²-weighted probability (each new centroid chosen with probability proportional to squared distance from existing centroids), avoiding the worst-case clustering of K-Means random init. Minimises Σ||xᵢ−μ_{c(i)}||². Discovers k natural operating modes (e.g. normal, worn bearing, misalignment). Better initialisation than GMM for high-dimensional vibration data.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Cluster Labelling with Scarce Labels</h4>
+            <p>Expert labels a few samples from each cluster. Propagate labels to all cluster members. This is semi-supervised: we exploit the unlabelled structure found by K-Means++ to amplify scarce labels.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Bayesian Classifier + Mahalanobis Distance Discriminant</h4>
+            <p>Each class k is modelled as a Gaussian N(μₖ, Σₖ) estimated from cluster members. The Mahalanobis distance d_M(x,k) = √((x−μₖ)ᵀ Σₖ⁻¹ (x−μₖ)) accounts for inter-feature correlations, unlike Euclidean distance. Bayesian decision: class* = argmax P(k)·N(x;μₖ,Σₖ). A sample declared anomalous if min_k d_M(x,k) &gt; threshold T (χ² distribution with d.f. = feature dimension).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">K-Means++ Initialisation</span>
+        P(x chosen as next centroid) ∝ min_c ||x − c||²<br>
+        Convergence guarantee: E[cost] ≤ O(log k) · optimal cost
+      </div>
+      <div class="math-box">
+        <span class="label">Mahalanobis Distance &amp; Anomaly Decision</span>
+        d_M(x, μₖ, Σₖ) = √((x−μₖ)ᵀ Σₖ⁻¹ (x−μₖ))<br>
+        Under normality: d_M² ~ χ²(p),   p = feature dimension<br>
+        Anomaly if: min_k d_M(x,k) &gt; χ²_{p, 0.99}   (99th percentile)
+      </div>
+      <div class="math-box">
+        <span class="label">Bayesian Decision Rule</span>
+        class* = argmax_k log P(k) − ½log|Σₖ| − ½d_M²(x, μₖ, Σₖ)
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>K-Means++ avoids poor local minima</li>
+          <li>Mahalanobis handles correlated features (vibration bands correlate)</li>
+          <li>Works with very few labelled faults</li>
+          <li>χ² threshold is theoretically grounded</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>K-Means++ assumes spherical clusters (GMM better for ellipsoidal)</li>
+          <li>Σₖ inversion ill-conditioned when features &gt; samples</li>
+          <li>k must be specified (requires domain knowledge of fault types)</li>
+          <li>Sensitive to non-Gaussian distributions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q9 ═══════════════════════════════ -->
+<div class="q-block" id="q9">
+  <div class="q-header">
+    <div class="q-num">Q9</div>
+    <h2>Dimensionality-reduction and tracking pipeline for multi-camera surveillance video</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Multi-camera feature vectors are high-dimensional (appearance + spatial + temporal). Real-time tracking requires compact representations. Pipeline: <strong>PCA (reduction) → Kernel Density Estimator (non-parametric) → MOG2 Background Subtraction + Lucas-Kanade Optical Flow</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Multi-cam<br>Feature Vectors</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">PCA<br>Reduction</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">KDE<br>Density Est.</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">MOG2 BG<br>Subtraction</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">Lucas-Kanade<br>Optical Flow</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Tracked<br>Trajectories</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>PCA Dimensionality Reduction</h4>
+            <p>Projects D-dimensional appearance+spatial features to d-dimensional subspace. Preserves maximum variance, removes correlated noise from multiple cameras. Real-time: projection is a d×D matrix multiply per frame, O(dD) per vector.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Kernel Density Estimator (KDE)</h4>
+            <p>Non-parametric: p(x) = (1/nh^d) Σ K((x−xᵢ)/h). In the PCA space, KDE models the distribution of pedestrian appearances without assuming Gaussianity. High-density regions = common appearances (normal crowd); low-density = unusual persons. Bandwidth h chosen by Silverman's rule: h = 1.06 σ n^(-1/(d+4)). Used to flag anomalous appearances before motion analysis.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>MOG2 Background Subtraction</h4>
+            <p>In the PCA-reduced colour/texture space, models each pixel's temporal history as a mixture of Gaussians. Foreground = pixels whose current value is improbable under background model. PCA reduction means fewer Gaussian components needed, improving speed and reducing false positives from noise.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Lucas-Kanade Sparse Optical Flow</h4>
+            <p>Tracks FAST keypoints in foreground regions. LK assumes brightness constancy and small motion, solving the overconstrained system ∇I·v = −I_t in a W×W window via least squares. Pyramidal implementation handles large inter-frame motion (running persons). Provides velocity vectors for each tracked foreground object, enabling trajectory construction and speed estimation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">KDE with Gaussian Kernel</span>
+        p̂(x) = 1/(n·h^d) · Σᵢ exp(−||x−xᵢ||²/2h²)<br>
+        Silverman bandwidth: h = 1.06·σ̂·n^{−1/(d+4)}
+      </div>
+      <div class="math-box">
+        <span class="label">Lucas-Kanade Optical Flow (Least Squares)</span>
+        [u, v]ᵀ = (AᵀA)⁻¹Aᵀb<br>
+        A = [Ix₁,Iy₁; Ix₂,Iy₂; …],   b = −[It₁; It₂; …]<br>
+        Condition: AᵀA = Σ[Ix², IxIy; IxIy, Iy²] well-conditioned → Harris corner
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>PCA enables real-time processing</li>
+          <li>KDE non-parametric: handles multi-modal crowds</li>
+          <li>LK tracks individual keypoints precisely</li>
+          <li>MOG2 adapts to slow background change (lighting)</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>PCA is linear — misses non-linear appearance manifolds (ICA or Autoencoder better)</li>
+          <li>KDE scales as O(n) per query for n training samples</li>
+          <li>LK assumes small motion; fails for fast-moving objects</li>
+          <li>MOG2 slow to adapt when camera shakes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q10 ═══════════════════════════════ -->
+<div class="q-block" id="q10">
+  <div class="q-header">
+    <div class="q-num">Q10</div>
+    <h2>Hybrid feature extraction for dermoscopic skin lesion segmentation with specular noise</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Dermoscopic images have specular highlights (specular reflections from oily skin), hair artefacts, irregular lesion textures, and colour variations. A hybrid strategy: <strong>Gaussian Scale-Space + Derivatives</strong>, <strong>Gabor Filters</strong>, <strong>DWT</strong>, and <strong>LBP</strong>, followed by SVM classification.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Dermoscopic<br>Image</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Specular<br>Noise Removal</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Gaussian Pyramid<br>+ Derivatives</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Gabor<br>Filter Bank</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">DWT<br>(2-level)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">LBP<br>Texture</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">SVM<br>Lesion Mask</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Specular Highlight Removal</h4>
+            <p>Detect specular pixels (all three RGB channels saturated simultaneously, I_R&gt;240 &amp; I_G&gt;240 &amp; I_B&gt;240). Inpaint using Telea algorithm (fast marching method). Removes the largest source of false edges.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Gaussian Scale-Space + Derivatives</h4>
+            <p>Multi-scale gradient magnitude, LoG (blob detector for moles/nevi), and Hessian-based ridge detector for hair artefacts. Provides <em>scale-invariant</em> structural information. Hair = elongated ridge structures → large Hessian eigenvalue ratio at fine scales.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Gabor Filter Bank (6 ori × 4 scales)</h4>
+            <p>Captures pigment pattern orientation in lesions. Dermoscopic lesions exhibit radial streaming (directed Gabor response) and reticular networks (lattice Gabor response). Gabor features concatenated per pixel: 6×4 = 24 values per channel.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>DWT (2-level Daubechies-4)</h4>
+            <p>Decomposes into LH/HL/HH subbands at 2 levels. Hair and vessel structures appear in HH (diagonal detail). Lesion border irregularity is captured in LH/HL subbands. Subband energies and standard deviations form texture features. Acts as multi-resolution noise separator.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S5</div>
+          <div class="stage-content">
+            <h4>LBP (Local Binary Pattern)</h4>
+            <p>For each pixel, compare its intensity to P=8 circular neighbours at radius R. Encode comparisons as binary string; compute histogram over local patch. LBP is illumination-invariant (monotonic intensity transform doesn't change ordering), making it robust to the uneven dermoscope illumination. Uniform LBP (≤2 bit transitions) captures lesion microtextures.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">LBP Formula</span>
+        LBP_{P,R}(xc,yc) = Σ_{p=0}^{P-1} s(g_p − g_c)·2^p<br>
+        s(x) = 1 if x≥0, else 0<br>
+        Uniform: at most 2 circular bit transitions → 58 patterns + 1 non-uniform bin
+      </div>
+      <div class="math-box">
+        <span class="label">Gabor Feature Vector per Pixel</span>
+        F(x,y) = [|I * g_{θ₁,λ₁}|, |I * g_{θ₁,λ₂}|, …, |I * g_{θ₆,λ₄}|]ᵀ<br>
+        24-dimensional per colour channel → 72-D Gabor feature per pixel
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-justify">✓</div><h3>5. Comparison vs. Single Methods</h3></div>
+      <table>
+        <tr><th>Property</th><th>Hybrid (Proposed)</th><th>Canny Only</th><th>Harris Only</th><th>Hough Only</th></tr>
+        <tr><td>Noise Resilience</td><td><strong>High</strong> (DWT + specular removal)</td><td>Low</td><td>Low</td><td>Low</td></tr>
+        <tr><td>Texture Capture</td><td><strong>Yes</strong> (LBP + Gabor)</td><td>No</td><td>No</td><td>No</td></tr>
+        <tr><td>Scale Invariance</td><td><strong>Yes</strong> (pyramid)</td><td>No</td><td>No</td><td>Partial</td></tr>
+        <tr><td>Hair Artefact Handling</td><td><strong>Yes</strong> (DWT HH bands)</td><td>Sees hair as edges</td><td>No</td><td>No</td></tr>
+      </table>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>LBP illumination-invariant — robust to dermoscope lighting</li>
+          <li>Gabor captures pigment pattern orientation</li>
+          <li>DWT naturally denoises and multi-resolves</li>
+          <li>Scale-space handles lesion size variation</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>High-dimensional feature vector (Gabor+DWT+LBP) → needs PCA</li>
+          <li>Gabor parameters (λ, θ) require tuning to lesion structure</li>
+          <li>LBP not rotation-invariant in basic form</li>
+          <li>Specular removal inpainting can distort lesion borders</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q11 ═══════════════════════════════ -->
+<div class="q-block" id="q11">
+  <div class="q-header">
+    <div class="q-num">Q11</div>
+    <h2>Feature pipeline for lane-marking and road-sign detection in adverse weather (fog, rain, low light)</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Fog degrades contrast; rain creates specular streaks; low light reduces SNR. Standard Canny edges degrade. The selected pipeline: <strong>Phase Congruency (illumination-invariant edges) → Progressive Probabilistic Hough (line detection) → AGAST Keypoints → HOG Descriptors</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Frame<br>(Adverse Weather)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Image Pyramid<br>Dehazing</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Phase<br>Congruency</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Progressive Prob.<br>Hough Transform</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">AGAST<br>Keypoints</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">HOG<br>Descriptors</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">SVM<br>Sign/Lane ID</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Image Pyramid + Dehazing</h4>
+            <p>Apply dark channel prior or Retinex-based dehazing at each pyramid level to restore contrast lost in fog. Gaussian pyramid (5 levels) then provides scale-space for detecting lane markings near and far.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Phase Congruency (Kovesi)</h4>
+            <p>Unlike Canny which detects intensity gradient maxima, Phase Congruency detects features where Fourier components are maximally in phase: PC(x) = E(x) / (Σ_n A_n + ε). This measure is independent of absolute intensity (illumination invariant) and relative to noise level. Critically superior to Canny and LoG in fog and rain where gradients are weak but phase coherence persists at lane markings.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Progressive Probabilistic Hough Transform (PPHT)</h4>
+            <p>Samples a random subset of edge points; accumulates in (ρ,θ) space. When a peak exceeds threshold, traces the full line segment; removes those edge points. Terminates when remaining edge density is low. ~10× faster than standard Hough with comparable accuracy. LSD (Line Segment Detector) is gradient-based and faster still but less robust to fog-degraded gradients.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>AGAST (Adaptive &amp; Generic Accelerated Segment Test)</h4>
+            <p>An optimised decision tree for FAST corner detection, 2× faster than FAST. Adapts the decision tree based on observed pixel distribution, achieving ~200 fps. Critical for real-time sign detection under rain where temporal coherence must be exploited by tracking keypoints frame to frame.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S5</div>
+          <div class="stage-content">
+            <h4>HOG Descriptors</h4>
+            <p>Divide detection window into 8×8 cell blocks; compute gradient orientation histogram (9 bins, 0–180°) per cell; normalise over 2×2 block (L2-Hys). HOG captures shape and silhouette of traffic signs robustly. Unlike SIFT, HOG operates on a dense grid — crucial for detecting standardised sign shapes even in low contrast. HOG + linear SVM is the classic pedestrian/sign detector (Dalal &amp; Triggs 2005).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Phase Congruency</span>
+        PC(x) = Σ_n W(x) ⌊A_n(x)(cos(φ_n(x)−φ̄(x)) − |sin(φ_n(x)−φ̄(x))|) − T⌋₊<br>
+             / (Σ_n A_n(x) + ε)<br>
+        A_n = amplitude of n-th Fourier component at scale n<br>
+        φ̄(x) = weighted mean phase
+      </div>
+      <div class="math-box">
+        <span class="label">Standard Hough Transform (for PPHT base)</span>
+        ρ = x·cos(θ) + y·sin(θ)   (line parameterisation)<br>
+        Accumulator H(ρ,θ) += 1 for each edge point<br>
+        PPHT: samples subset, finds peaks, extracts segments
+      </div>
+      <div class="math-box">
+        <span class="label">HOG Gradient &amp; Histogram</span>
+        For each pixel (x,y): θ = atan2(Gy,Gx),  m = √(Gx²+Gy²)<br>
+        Bin index b = floor(θ/20°)  [9 bins for 0-180°]<br>
+        Block normalisation: v_norm = v / √(||v||² + ε²)
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-justify">✓</div><h3>5. Comparison: Canny vs. LoG vs. Phase Congruency</h3></div>
+      <table>
+        <tr><th>Property</th><th>Canny</th><th>LoG</th><th>Phase Congruency</th></tr>
+        <tr><td>Illumination Invariance</td><td>No (gradient-based)</td><td>Partial</td><td><strong>Yes</strong> (phase-based)</td></tr>
+        <tr><td>Performance in Fog</td><td>Poor (low gradients)</td><td>Poor</td><td><strong>Good</strong></td></tr>
+        <tr><td>Scale Invariance</td><td>Partial (σ tuning)</td><td>With multi-scale</td><td>Built-in (multi-scale Fourier)</td></tr>
+        <tr><td>Computational Cost</td><td>Low</td><td>Moderate</td><td>High (FFT-based)</td></tr>
+      </table>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Phase Congruency works where Canny fails in fog</li>
+          <li>AGAST 2× faster than FAST (real-time critical)</li>
+          <li>HOG robust sign descriptor (standardised shapes)</li>
+          <li>PPHT fast lane line extraction</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Phase Congruency: high FFT cost (slow for embedded)</li>
+          <li>HOG fixed window — misses multi-scale signs (needs pyramid)</li>
+          <li>PPHT probabilistic — may miss faint lane markings</li>
+          <li>Heavy rain streaks still confuse keypoints</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q12 ═══════════════════════════════ -->
+<div class="q-block" id="q12">
+  <div class="q-header">
+    <div class="q-num">Q12</div>
+    <h2>Interactive segmentation pipeline for organ extraction from noisy ultrasound volumes (fuzzy boundaries)</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Ultrasound is inherently noisy (speckle), has poorly defined organ boundaries (acoustic impedance mismatch varies), and suffers from shadowing artefacts. Pipeline: <strong>Marker-Controlled Watershed → Active Contours (Snakes) → Graph-Cut</strong>, in ascending order of refinement.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Ultrasound<br>3-D Volume</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Speckle<br>Filtering (NLM)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Marker-Ctrl<br>Watershed</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Active Contour<br>(Snakes / GVF)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">Graph-Cut<br>Refinement</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Shape<br>Analysis</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Non-Local Means (NLM) Speckle Filtering</h4>
+            <p>Replaces each pixel value with a weighted average of similar-appearing patches across the image: û(p) = Σ_q w(p,q)·u(q), w(p,q) ∝ exp(−||patch(p)−patch(q)||²/h²). Removes speckle while preserving organ boundary sharpness, unlike Gaussian smoothing which blurs boundaries.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Marker-Controlled Watershed</h4>
+            <p>User places markers inside the organ and in the background. Watershed flooding from these markers creates bounded catchment basins that prevent over-segmentation. Controls the #regions = #markers, preventing the thousands of regions standard watershed would produce on noisy ultrasound. Produces an over-estimate of organ boundary.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Active Contours with GVF (Gradient Vector Flow)</h4>
+            <p>Initialise snake on Watershed boundary. GVF extends the edge-attraction field deep into homogeneous regions: it solves ∂u/∂t = μ∇²u − (u−∇|∇I|)·(∇|∇I|)², where u(x,y) is the flow field. This allows the snake to reach into concave organ boundaries (e.g. kidney hilum) that classical Snakes cannot reach. The snake energy: E = α|v_s|²/2 + β|v_ss|²/2 − γ|GVF(v)|.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Graph-Cut Final Refinement</h4>
+            <p>The Snake boundary initialises the foreground/background appearance models. Graph-Cut then globally optimises the binary labelling, correcting errors at shadow artefact regions where the Snake may have leaked. User scribbles on shadow regions provide additional background constraints.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Snake Energy Functional</span>
+        E_snake = ∫₀¹ [α|v_s|² + β|v_ss|² − γ|∇I(v)|²] ds<br>
+        α: elasticity,  β: bending rigidity,  γ: edge-attraction weight<br>
+        Euler-Lagrange: αv_ss − βv_ssss − γ∇(|∇I|²) = 0
+      </div>
+      <div class="math-box">
+        <span class="label">GVF Diffusion Equations</span>
+        u_t = μ(u_xx+u_yy) − (u−f_x)(f_x²+f_y²)<br>
+        v_t = μ(v_xx+v_yy) − (v−f_y)(f_x²+f_y²)<br>
+        f = |∇I|,  (u,v) = GVF field,  μ = regularisation weight
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Marker-Watershed prevents over-segmentation</li>
+          <li>GVF-Snake handles concave boundaries</li>
+          <li>Graph-Cut handles acoustic shadow artefacts</li>
+          <li>Fully interactive — user corrections at each stage</li>
+          <li>Topologically correct mask for shape analysis</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>NLM is computationally heavy (patch search)</li>
+          <li>Snake: discrete approximation sensitive to initialisation</li>
+          <li>GVF parameter μ needs tuning</li>
+          <li>Graph-Cut 3-D: high memory for large ultrasound volumes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q13 ═══════════════════════════════ -->
+<div class="q-block" id="q13">
+  <div class="q-header">
+    <div class="q-num">Q13</div>
+    <h2>Hybrid anomaly-detection framework for high-dimensional network-traffic feature vectors</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Network traffic has <em>extremely rare attack examples</em>, <em>high dimensionality</em> (100+ features), and <em>concept drift</em> (new attack types). Pipeline: <strong>Spectral Clustering (natural groupings) → Autoencoder (semi-supervised anomaly via reconstruction error)</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Traffic<br>Feature Stream</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Standardise<br>+ PCA(50D)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Spectral<br>Clustering</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Autoencoder<br>Training (normal)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">Reconstruction<br>Error Threshold</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Attack<br>Alert</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Spectral Clustering</h4>
+            <p>Constructs affinity matrix W where W_{ij} = exp(−||xᵢ−xⱼ||²/2σ²). Graph Laplacian L = D − W; compute top k eigenvectors of L. Cluster in the eigenspace using K-Means. Spectral Clustering finds non-convex clusters (e.g. ring-shaped DDoS traffic patterns) that K-Medoids (Euclidean-based) cannot. Groups traffic into: normal HTTP, DNS, FTP, and potentially anomalous clusters.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Autoencoder (Reconstruction Error)</h4>
+            <p>Architecture: encoder h = σ(Wx+b), decoder x̂ = σ(W'h+b'). Trained only on normal traffic samples to minimise ||x−x̂||². Normal traffic → low reconstruction error. Attack traffic (unseen patterns) → high reconstruction error. Decision: flag as attack if ||x−x̂||² &gt; τ (threshold set at 99th percentile of normal training error). Robust to unknown attack types (no attack labels needed).</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Online Updating</h4>
+            <p>Confirmed normal flows (low error, no alert) retrain the autoencoder via mini-batch SGD every T minutes. The spectral clustering affinity matrix is updated with an exponential moving average of recent pairwise distances, adapting to new normal protocol versions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Spectral Clustering — Normalised Laplacian</span>
+        L_sym = D^{-1/2}(D−W)D^{-1/2}<br>
+        Eigenvectors u₁,…,uₖ of L_sym → embed to ℝᵏ → K-Means<br>
+        W_{ij} = exp(−||xᵢ−xⱼ||²/2σ²)
+      </div>
+      <div class="math-box">
+        <span class="label">Autoencoder Reconstruction Error</span>
+        L(x) = ||x − Dec(Enc(x))||²_F<br>
+        Anomaly: L(x) &gt; τ,  τ = μ_train + 3·σ_train  (3-sigma rule)<br>
+        Or: τ = percentile_99 of {L(xᵢ) : xᵢ ∈ normal train set}
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Spectral clustering captures non-convex attack clusters</li>
+          <li>Autoencoder works with zero attack labels</li>
+          <li>Detects novel (zero-day) attack types</li>
+          <li>Online updating handles concept drift</li>
+          <li>Reconstruction error is interpretable</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Spectral clustering O(n³) affinity matrix — bottleneck for streaming</li>
+          <li>Autoencoder may reconstruct some attack patterns if they resemble normal (adversarial attacks)</li>
+          <li>Threshold τ requires periodic recalibration</li>
+          <li>Deep autoencoder training needs GPU and significant normal data</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q14 ═══════════════════════════════ -->
+<div class="q-block" id="q14">
+  <div class="q-header">
+    <div class="q-num">Q14</div>
+    <h2>Dimensionality-reduction + motion-analysis pipeline for multi-spectral image sequences and object tracking</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>Multi-spectral sequences have many bands with different noise characteristics per band. Tracking objects across frames requires both appearance discrimination and motion estimation. Pipeline: <strong>LDA (supervised class-discriminative reduction) → Parzen Window KDE → MOG2 Background Subtraction + Farneback Dense Optical Flow</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">Multi-spectral<br>Frame Sequence</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">LDA<br>Reduction</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Parzen Window<br>KDE</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">MOG2<br>BG Subtraction</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">Farneback<br>Dense Flow</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Object<br>Trajectories</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>Linear Discriminant Analysis (LDA)</h4>
+            <p>Finds the d = C−1 linear projections that maximise between-class scatter S_B while minimising within-class scatter S_W: W = argmax |WᵀS_BW| / |WᵀS_WW|. Unlike PCA (maximises total variance), LDA explicitly preserves class-discriminative information between object classes (vehicles, pedestrians, vegetation). This improves both MOG2 segmentation (class-specific background models) and KDE density estimation. Solves generalised eigenvalue problem: S_B·w = λ·S_W·w.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Parzen Window KDE (Non-parametric Density)</h4>
+            <p>In the LDA subspace, models the appearance distribution of each object class non-parametrically. Used for object likelihood computation during tracking: P(class=k | observation) ∝ p̂_k(x). The LDA subspace makes KDE effective because it concentrates class-specific density, reducing bandwidth requirements.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>MOG2 Background Subtraction in LDA Space</h4>
+            <p>Background model in the compact LDA space requires fewer Gaussian components per pixel. Foreground detection is class-aware: spectral signatures of vehicles differ strongly from vegetation in the LDA projection, reducing false positives.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Farneback Dense Optical Flow</h4>
+            <p>Computed on the LDA-compressed representation between frames t and t+1. Polynomial expansion approximates the local signal as a quadratic, and the displacement field is estimated by equating polynomials after motion. Dense flow gives a velocity vector at every foreground pixel, enabling accurate trajectory estimation for all tracked objects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">LDA Fisher Criterion</span>
+        J(W) = |WᵀS_B W| / |WᵀS_W W|<br>
+        S_B = Σ_c nₓ(μ_c − μ)(μ_c − μ)ᵀ<br>
+        S_W = Σ_c Σ_{x∈Xc} (x − μ_c)(x − μ_c)ᵀ<br>
+        Solution: S_W⁻¹S_B·w = λ·w,  keep top C−1 eigenvectors
+      </div>
+      <div class="math-box">
+        <span class="label">Farneback Polynomial Expansion</span>
+        f(x) ≈ xᵀA(x)x + b(x)ᵀx + c(x)<br>
+        After displacement d: f(x−d) ≈ xᵀA'x + (b+2A'd)ᵀx + ...<br>
+        Equating: b + 2A'd = b' → d = −A'^{-1}(b'−b)/2
+      </div>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>LDA maximises class separability (better than PCA for tracking)</li>
+          <li>Compact subspace reduces MOG2 and KDE computation</li>
+          <li>Dense optical flow — every pixel tracked</li>
+          <li>NMF alternative: parts-based (useful for vehicle part tracking)</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>LDA requires class labels (supervised) — costly to obtain</li>
+          <li>LDA assumes Gaussian class distributions</li>
+          <li>Dense Farneback flow is compute-heavy (GPU recommended)</li>
+          <li>Brightness constancy violated in multi-spectral band changes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ Q15 ═══════════════════════════════ -->
+<div class="q-block" id="q15">
+  <div class="q-header">
+    <div class="q-num">Q15</div>
+    <h2>Hybrid feature extraction for oriented microstructures in SEM/TEM images</h2>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-select">⚙</div><h3>1. Problem &amp; Technique Selection</h3></div>
+      <p>SEM/TEM images contain grain boundaries (lines), crystal lattice patterns (periodic textures), nanoparticle clusters (blobs), and significant electron beam shot noise. Multi-scale and multi-orientation coverage is essential. Pipeline: <strong>Scale-Space Pyramids + Gaussian Derivatives → Log-Gabor Filters → Curvelet Transform → SIFT</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-pipeline">→</div><h3>2. Pipeline</h3></div>
+      <div class="pipeline">
+        <div class="pipe-flow">
+          <div class="pipe-box highlight">SEM/TEM<br>Image</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Noise<br>Suppression (BM3D)</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight2">Gaussian Pyramid<br>+ Derivatives</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight3">Log-Gabor<br>Filter Bank</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight4">Curvelet<br>Transform</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box highlight5">SIFT<br>Keypoints</div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-box">Phase + Texture<br>Classifier</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-stage">📋</div><h3>3. Stage Explanations</h3></div>
+      <div class="stage-list">
+        <div class="stage-card">
+          <div class="stage-num">S1</div>
+          <div class="stage-content">
+            <h4>BM3D Noise Suppression</h4>
+            <p>Block-Matching 3D filtering: groups similar patches into 3-D arrays, applies 3-D transform (wavelet), thresholds, reconstructs. Preserves grain boundary sharpness better than Gaussian smoothing. Electron shot noise in TEM is approximately Poisson-distributed, and BM3D handles this effectively.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S2</div>
+          <div class="stage-content">
+            <h4>Gaussian Pyramid + Derivative Filters</h4>
+            <p>Gaussian derivatives ∂G/∂x, ∂G/∂y, ∂²G/∂x², ∂²G/∂x∂y at scales σ, 2σ, 4σ. These form a complete set of local jet descriptors. Second derivatives (Hessian eigenvalues) detect ridge/valley structures = grain boundaries. LoG detects nanoparticles as blobs. All scale-dependent: fine scales capture lattice planes; coarse scales capture grain structure.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S3</div>
+          <div class="stage-content">
+            <h4>Log-Gabor Filter Bank</h4>
+            <p>Log-Gabor avoids the DC component issue of standard Gabor (standard Gabor has a non-zero mean if the bandwidth is large): it is symmetric on a log-frequency axis. Ideal for bandpass filtering: g(f) = exp(−(log(f/f₀))²/2(log(σ_f/f₀))²). Bank of 6 orientations × 4 frequencies captures grain boundary orientations and periodic lattice spacings in crystal materials with high sensitivity. Avoids the artificial constraint of even-symmetric Gabor at high bandwidth.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S4</div>
+          <div class="stage-content">
+            <h4>Curvelet Transform</h4>
+            <p>Curvelets are a multi-scale representation optimally suited to represent <em>curve-like singularities</em> (grain boundaries, dislocation lines). Unlike wavelets (isotropic), curvelets are directional at each scale with anisotropy ratio = 2^{-j/2} at scale j. This makes curvelet coefficients sparse for grain boundary images: few large coefficients → efficient boundary encoding. Replaces DWT when structures are elongated/curved rather than axis-aligned.</p>
+          </div>
+        </div>
+        <div class="stage-card">
+          <div class="stage-num">S5</div>
+          <div class="stage-content">
+            <h4>SIFT Keypoints</h4>
+            <p>Detects reproducible feature points at nanoparticle locations, lattice defects, and grain triple junctions. SIFT descriptors enable cross-sample matching: identifying the same grain structure across multiple TEM images of different sample regions, supporting statistical grain analysis.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-math">∑</div><h3>4. Mathematical Principles</h3></div>
+      <div class="math-box">
+        <span class="label">Log-Gabor Frequency Response</span>
+        G(f,θ) = exp(−(log(f/f₀))²/2σ_r²) · exp(−(θ−θ₀)²/2σ_θ²)<br>
+        f₀: centre frequency,  σ_r: bandwidth on log scale<br>
+        Advantage: symmetric bandwidth, no DC component
+      </div>
+      <div class="math-box">
+        <span class="label">Curvelet Anisotropy Scaling</span>
+        Curvelet at scale j, direction ℓ: ψ_{j,ℓ}(x)<br>
+        Support size: 2^{-j} × 2^{-j/2}  (anisotropic: width² ∝ length)<br>
+        Parabolic scaling law: optimal for C² curves (Candès &amp; Donoho 2004)<br>
+        N-term approximation error: ||f − f_N||² ≲ C·(log N)³·N^{-2}  vs. wavelet N^{-1}
+      </div>
+      <div class="math-box">
+        <span class="label">Gaussian Derivative Filter Bank (Jet)</span>
+        J^n(x;σ) = G(x;σ) * ∂ⁿI/∂xⁿ∂yᵐ,  n+m ≤ N<br>
+        Local jet descriptor: J = [G, G_x, G_y, G_xx, G_xy, G_yy, …]  at each scale σ
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="section-icon icon-justify">✓</div><h3>5. Comparison vs. Canny / Harris / Hough</h3></div>
+      <table>
+        <tr><th>Property</th><th>Hybrid Proposed</th><th>Canny</th><th>Harris</th><th>Hough</th></tr>
+        <tr><td>Curved Boundary Handling</td><td><strong>Excellent</strong> (Curvelet)</td><td>Poor</td><td>No</td><td>Straight lines only</td></tr>
+        <tr><td>Periodic Texture</td><td><strong>Yes</strong> (Log-Gabor)</td><td>No</td><td>No</td><td>No</td></tr>
+        <tr><td>Scale Invariance</td><td><strong>Yes</strong> (pyramid + SIFT)</td><td>No</td><td>No</td><td>No</td></tr>
+        <tr><td>Noise Resilience</td><td><strong>High</strong> (BM3D + Curvelet)</td><td>Low</td><td>Low</td><td>Moderate</td></tr>
+        <tr><td>Grain Boundary Sparsity</td><td><strong>Yes</strong> (Curvelet sparse)</td><td>Dense edges</td><td>Only corners</td><td>Only lines</td></tr>
+      </table>
+    </div>
+
+    <div class="al-grid">
+      <div class="al-box adv">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Curvelet sparse representation of grain boundaries</li>
+          <li>Log-Gabor handles broad bandwidth lattice frequencies</li>
+          <li>Multi-scale covers atomic-scale to grain-scale</li>
+          <li>SIFT enables cross-image grain matching</li>
+          <li>BM3D preserves sharp boundaries despite heavy noise</li>
+        </ul>
+      </div>
+      <div class="al-box lim">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Curvelet transform is computationally expensive (wrapping implementation needed)</li>
+          <li>Log-Gabor frequency centre f₀ and bandwidth need domain calibration (TEM accelerating voltage affects lattice spacing)</li>
+          <li>SIFT may miss sub-pixel lattice defects</li>
+          <li>High-dimensional feature vector requires supervised dimensionality reduction (LDA) before classification</li>
+          <li>BM3D assumes stationary noise — TEM dose rate variation violates this</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer style="text-align:center; padding:40px 20px; color:var(--text-dim); font-size:0.82rem; border-top:1px solid var(--border); margin-top:20px;">
+  Pattern Recognition &amp; Computer Vision · Practice Answers · 15 Questions × 10 Marks Each · VIT Bhopal
+</footer>
+
+</body>
+</html>

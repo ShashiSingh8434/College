@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@page { margin: 20mm 16mm 20mm 16mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #1f2933;
+  font-size: 10.5pt;
+  line-height: 1.45;
+}
+.cover {
+  text-align: center;
+  padding-top: 200px;
+  page-break-after: always;
+}
+.cover h1 {
+  font-size: 26pt;
+  color: #0b3d91;
+  margin-bottom: 6px;
+}
+.cover h2 {
+  font-size: 16pt;
+  color: #444;
+  font-weight: normal;
+  margin-top: 0;
+}
+.cover .badge {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 8px 18px;
+  border: 1.5px solid #0b3d91;
+  border-radius: 6px;
+  color: #0b3d91;
+  font-size: 11pt;
+  letter-spacing: 0.5px;
+}
+.toc {
+  page-break-after: always;
+}
+.toc h1 { color: #0b3d91; border-bottom: 2px solid #0b3d91; padding-bottom: 6px; }
+.toc ol { font-size: 11pt; line-height: 2; }
+.toc a { color: #1f2933; text-decoration: none; }
+.toc .sub { font-size: 9.5pt; color: #555; margin-left: 18px; line-height: 1.6; }
+
+h1.topic {
+  color: #ffffff;
+  background: #0b3d91;
+  padding: 10px 14px;
+  font-size: 17pt;
+  margin-top: 0;
+  page-break-before: always;
+  border-radius: 4px;
+}
+h1.topic:first-of-type { page-break-before: avoid; }
+
+h2 {
+  font-size: 12.5pt;
+  color: #0b3d91;
+  border-bottom: 1.5px solid #9db8e8;
+  padding-bottom: 3px;
+  margin-top: 22px;
+  margin-bottom: 8px;
+}
+h3 {
+  font-size: 11pt;
+  color: #1a4fa0;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+h4 {
+  font-size: 10.5pt;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+p { margin: 4px 0 8px 0; text-align: justify; }
+ul, ol { margin: 4px 0 8px 22px; padding: 0; }
+li { margin-bottom: 3px; }
+li ul, li ol { margin-top: 3px; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0 12px 0;
+  font-size: 9.5pt;
+}
+th, td {
+  border: 1px solid #b7c3d0;
+  padding: 5px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: #dbe6f8;
+  color: #0b3d91;
+}
+tr:nth-child(even) td { background: #f5f8fc; }
+
+.diagram {
+  background: #f4f6fa;
+  border: 1px solid #b7c3d0;
+  border-left: 4px solid #0b3d91;
+  padding: 10px 14px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 9pt;
+  white-space: pre;
+  margin: 8px 0 14px 0;
+  border-radius: 3px;
+  overflow-x: auto;
+  page-break-inside: avoid;
+}
+table, .box, .confuse, .def { page-break-inside: avoid; }
+h2, h3, h4 { page-break-after: avoid; }
+.diagram-title { page-break-after: avoid; }
+.diagram-title {
+  font-weight: bold;
+  color: #0b3d91;
+  font-size: 9.5pt;
+  margin-bottom: 4px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.box {
+  border: 1px solid #cfd8e3;
+  background: #fbfcfe;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 8px 0 12px 0;
+}
+.confuse {
+  border: 1px solid #e8c46a;
+  background: #fff8e6;
+  border-left: 4px solid #d99a1b;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 8px 0 12px 0;
+}
+.confuse h4 { margin-top: 0; color: #8a5a00; }
+.def {
+  border-left: 4px solid #2e8b57;
+  background: #f1faf4;
+  padding: 6px 12px;
+  margin: 6px 0 10px 0;
+  border-radius: 3px;
+}
+.tag {
+  display: inline-block;
+  background: #eef2fb;
+  color: #0b3d91;
+  border: 1px solid #c3d2ee;
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-size: 8.5pt;
+  margin-right: 4px;
+}
+code {
+  background: #eef1f6;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 9.3pt;
+  color: #b0270a;
+}
+hr.sep { border: none; border-top: 1px dashed #b7c3d0; margin: 16px 0; }
+.small { font-size: 9pt; color: #555; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <h1>CSE3015 &ndash; AWS Cloud Practitioner</h1>
+  <h2>MODULE 3 &mdash; PART 1</h2>
+  <h2 style="margin-top:2px;">AWS Networking &amp; Content Delivery</h2>
+  <div class="badge">CONCEPT-FOCUSED STUDY NOTES</div>
+  <p class="small" style="margin-top:60px;">Route 53 &bull; API Gateway &bull; VPC &bull; Subnets &bull; Route Tables &bull; Security Groups &bull; NAT Gateway</p>
+</div>
+
+<!-- ============ TOC ============ -->
+<div class="toc">
+<h1>Table of Contents</h1>
+<ol>
+  <li>Amazon Route 53
+    <div class="sub">DNS Fundamentals &middot; Hosted Zones &middot; DNS Records &middot; Health Checks &middot; Routing Policies</div>
+  </li>
+  <li>Amazon API Gateway
+    <div class="sub">API Types &middot; Integrations &middot; Throttling &amp; Caching &middot; Comparisons</div>
+  </li>
+  <li>Amazon VPC
+    <div class="sub">Core Components &middot; Architecture &middot; Multi-Tier Application Design</div>
+  </li>
+  <li>VPC Subnets
+    <div class="sub">CIDR Blocks &middot; Public vs Private Subnets &middot; Availability Zones</div>
+  </li>
+  <li>Route Tables
+    <div class="sub">Routes &middot; Targets &middot; 0.0.0.0/0 &middot; Public vs Private Routing</div>
+  </li>
+  <li>Security Groups
+    <div class="sub">Stateful Firewalls &middot; Inbound/Outbound Rules &middot; SG vs NACL</div>
+  </li>
+  <li>NAT Gateway
+    <div class="sub">Outbound-Only Internet Access &middot; NAT Gateway vs NAT Instance</div>
+  </li>
+  <li>Module 3 &ndash; How It All Fits Together (Final Architecture)</li>
+</ol>
+</div>
+
+<!-- ======================================================= -->
+<!-- TOPIC 1: AMAZON ROUTE 53 -->
+<!-- ======================================================= -->
+<h1 class="topic">1. Amazon Route 53</h1>
+
+<h2>DNS Fundamentals (Prerequisite Concepts)</h2>
+<div class="def"><b>DNS (Domain Name System)</b> is the distributed naming system that translates human-readable domain names (e.g. <code>www.example.com</code>) into machine-readable IP addresses (e.g. <code>192.0.2.10</code>).</div>
+<ul>
+  <li><b>Why DNS is required</b>
+    <ul>
+      <li>Computers communicate using IP addresses, not names.</li>
+      <li>Humans cannot easily remember numeric IP addresses.</li>
+      <li>DNS acts as the "phonebook of the internet".</li>
+    </ul>
+  </li>
+  <li><b>Domain name</b> &mdash; a human-friendly address for a resource (e.g. <code>amazon.com</code>).</li>
+  <li><b>IP address</b> &mdash; the actual numeric network address a computer uses to route traffic.</li>
+  <li><b>DNS resolution</b> &mdash; the overall process of converting a domain name into an IP address.</li>
+  <li><b>DNS resolver</b> &mdash; a server (often run by an ISP or public service) that receives a client's query and finds the answer on its behalf.</li>
+  <li><b>DNS hierarchy</b> &mdash; DNS is organized as an inverted tree: Root &rarr; Top-Level Domain (TLD, e.g. <code>.com</code>) &rarr; Authoritative domain (e.g. <code>example.com</code>) &rarr; Subdomain (e.g. <code>www</code>).</li>
+  <li><b>Authoritative DNS server</b> &mdash; the server that holds the actual, final DNS records for a domain and gives the definitive answer.</li>
+  <li><b>Name servers (NS)</b> &mdash; servers that are delegated authority to answer for a specific domain.</li>
+  <li><b>Recursive resolution</b> &mdash; a resolver queries multiple servers step-by-step (root &rarr; TLD &rarr; authoritative) on behalf of the client until it gets the final answer, then caches and returns it.</li>
+</ul>
+
+<div class="diagram-title">Diagram: DNS Resolution Flow</div>
+<div class="diagram">
+Client (Browser)
+     |
+     v
+Recursive DNS Resolver  ---->  Root Name Server
+     |                              |
+     |  <---------------------------+ (returns TLD server info)
+     v
+   TLD Name Server (.com)
+     |
+     |  <--- returns authoritative NS info
+     v
+Authoritative Name Server (example.com / Route 53)
+     |
+     |  <--- returns final IP address
+     v
+Recursive Resolver ----> Client receives IP address
+     |
+     v
+Client connects directly to the IP address
+</div>
+
+<h2>Amazon Route 53</h2>
+<div class="def"><b>Definition:</b> Amazon Route 53 is AWS's highly available and scalable managed <b>DNS web service</b>, also used for <b>domain registration</b> and <b>traffic routing/health checking</b>.</div>
+<ul>
+  <li><b>In simple language:</b> Route 53 is AWS's phonebook service &mdash; it tells the internet which IP address (or AWS resource) a domain name points to, while also letting you buy domains and intelligently route traffic.</li>
+  <li><b>Why Route 53 is used</b>
+    <ul>
+      <li>To manage DNS records for domains without running your own DNS servers.</li>
+      <li>To route users to the closest, healthiest, or best-performing endpoint automatically.</li>
+      <li>To integrate DNS tightly with other AWS resources (ELB, S3, CloudFront) via Alias records.</li>
+      <li>Name "53" refers to port 53, the standard port used for DNS traffic.</li>
+    </ul>
+  </li>
+  <li><b>Route 53 architecture (high level)</b>
+    <ul>
+      <li>Domain registration component &mdash; register/manage domain names.</li>
+      <li>Hosted zone component &mdash; stores DNS records for a domain.</li>
+      <li>Routing policy engine &mdash; decides which record to return based on rules.</li>
+      <li>Health checking component &mdash; monitors endpoint health and feeds routing decisions.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Hosted Zones</h3>
+<table>
+<tr><th>Type</th><th>Description</th><th>When Used</th></tr>
+<tr><td><b>Public Hosted Zone</b></td><td>Controls how traffic is routed on the public internet for a domain.</td><td>Public-facing websites/applications reachable from anywhere.</td></tr>
+<tr><td><b>Private Hosted Zone</b></td><td>Controls DNS resolution only within one or more associated VPCs.</td><td>Internal applications, microservices, or resources that should not be resolvable from the public internet.</td></tr>
+</table>
+<ul>
+  <li>A hosted zone is essentially a <b>container for DNS records</b> belonging to a domain.</li>
+  <li>Private hosted zones require explicit VPC association and DNS resolution/hostnames enabled on the VPC.</li>
+</ul>
+
+<h3>DNS Records in Route 53</h3>
+<table>
+<tr><th>Record</th><th>Stores / Meaning</th><th>Typical Use</th><th>Example</th></tr>
+<tr><td><b>A</b></td><td>Maps a domain name to an IPv4 address</td><td>Point a domain directly to a server's IP</td><td><code>example.com &rarr; 192.0.2.10</code></td></tr>
+<tr><td><b>AAAA</b></td><td>Maps a domain name to an IPv6 address</td><td>Same as A record but for IPv6</td><td><code>example.com &rarr; 2001:db8::1</code></td></tr>
+<tr><td><b>CNAME</b></td><td>Maps a domain name to another domain name (not an IP)</td><td>Alias a subdomain to another hostname (cannot be used at zone apex)</td><td><code>shop.example.com &rarr; shop.myapp.io</code></td></tr>
+<tr><td><b>Alias Record</b></td><td>Route 53&ndash;specific record that maps a name directly to an AWS resource</td><td>Point root/zone-apex domain to ELB, CloudFront, S3, API Gateway &mdash; free, and resolves at the DNS level</td><td><code>example.com &rarr; ALB DNS name</code></td></tr>
+<tr><td><b>NS</b></td><td>Lists the authoritative name servers for a domain/hosted zone</td><td>Delegation of a domain or subdomain</td><td><code>ns-123.awsdns-45.com</code></td></tr>
+<tr><td><b>SOA</b></td><td>Start of Authority &mdash; administrative information about the zone (primary NS, admin email, serial number, refresh/retry timers)</td><td>Automatically created with every hosted zone</td><td>&mdash;</td></tr>
+<tr><td><b>TTL</b></td><td>Time To Live &mdash; how long (in seconds) a resolver may cache a record before re-querying</td><td>Controls propagation speed of DNS changes</td><td><code>TTL = 300</code> (5 minutes)</td></tr>
+</table>
+<div class="confuse">
+  <h4>Commonly Confused: CNAME vs Alias Record</h4>
+  <ul>
+    <li><b>CNAME</b> cannot be used at the zone apex (e.g. <code>example.com</code>) &mdash; only on subdomains.</li>
+    <li><b>Alias</b> can be used at the zone apex, is free of charge, and Route 53 resolves it internally to the target AWS resource without an extra DNS lookup.</li>
+    <li>Alias records also automatically track changes to the underlying resource's IP (e.g. when an ELB's IP changes).</li>
+  </ul>
+</div>
+
+<h3>Route 53 Health Checks</h3>
+<ul>
+  <li><b>Purpose:</b> continuously monitor the health/availability of an endpoint (IP address, domain, or CloudWatch alarm).</li>
+  <li><b>How health checks work</b>
+    <ol>
+      <li>Route 53 sends automated requests to the configured endpoint at set intervals.</li>
+      <li>The endpoint must respond within a threshold (e.g. HTTP 200) to be considered "healthy".</li>
+      <li>If a set number of checks fail, the endpoint is marked "unhealthy".</li>
+      <li>Route 53 stops routing traffic to unhealthy endpoints (depending on routing policy).</li>
+    </ol>
+  </li>
+  <li><b>Relationship with routing:</b> Health check status is fed into routing policies (especially Failover, Weighted, and Multivalue) so Route 53 avoids sending users to unhealthy resources.</li>
+  <li><b>Failover concept:</b> A primary resource is used under normal conditions; if its health check fails, Route 53 automatically starts responding with the secondary (backup) resource's record instead.</li>
+</ul>
+
+<h2>Routing Policies</h2>
+
+<h3>1. Simple Routing</h3>
+<ul>
+  <li><b>Definition:</b> Maps one domain name to one resource (or a fixed set with no health-based logic); no special routing logic applied.</li>
+  <li><b>How it works:</b> Returns the record value(s) as-is; if multiple values are given, one is chosen randomly by the client.</li>
+  <li><b>Example:</b> <code>example.com &rarr; 192.0.2.10</code></li>
+  <li><b>Use case:</b> Single-server websites, basic setups with no need for failover.</li>
+</ul>
+
+<h3>2. Weighted Routing</h3>
+<ul>
+  <li><b>Definition:</b> Distributes traffic across multiple resources according to assigned weights.</li>
+  <li><b>How it works:</b> Each record gets a relative weight; probability of being chosen = weight &divide; sum of all weights.</li>
+  <li><b>Example:</b> Server A weight 70, Server B weight 30 &rarr; ~70% of traffic to A, ~30% to B.</li>
+  <li><b>Use case:</b> A/B testing, canary/gradual deployments, blue-green rollouts.</li>
+</ul>
+
+<h3>3. Latency-Based Routing</h3>
+<ul>
+  <li><b>Definition:</b> Routes users to the AWS region that provides the <b>lowest network latency</b>.</li>
+  <li><b>How it works:</b> Uses latency measurements between users and AWS regions, not physical distance.</li>
+  <li><b>Example:</b> A user in Singapore is routed to the ap-southeast-1 endpoint instead of us-east-1 if it has lower latency.</li>
+  <li><b>Use case:</b> Globally distributed applications where response speed matters.</li>
+</ul>
+
+<h3>4. Failover Routing</h3>
+<ul>
+  <li><b>Definition:</b> Routes traffic to a primary resource, and automatically switches to a secondary resource if the primary is unhealthy.</li>
+  <li><b>How it works:</b> Requires a health check on the primary record; failover is automatic and based on health check status.</li>
+  <li><b>Example:</b> Primary web server in Mumbai; failover to a DR (disaster recovery) site in Singapore if Mumbai goes down.</li>
+  <li><b>Use case:</b> Disaster recovery and high-availability architectures.</li>
+</ul>
+
+<h3>5. Geolocation Routing</h3>
+<ul>
+  <li><b>Definition:</b> Routes traffic based on the <b>geographic location of the user</b> (continent, country, or state).</li>
+  <li><b>How it works:</b> Route 53 checks the source of the DNS query and matches it to the most specific configured location record.</li>
+  <li><b>Example:</b> Users in the EU are routed to an EU endpoint to comply with data-residency requirements.</li>
+  <li><b>Use case:</b> Content localization, regulatory/compliance restrictions, restricting content by country.</li>
+</ul>
+
+<h3>6. Geoproximity Routing</h3>
+<ul>
+  <li><b>Definition:</b> Routes traffic based on the geographic location of users <b>and</b> resources, with the ability to shift more or less traffic using a "bias" value. (Requires Route 53 Traffic Flow.)</li>
+  <li><b>How it works:</b> Draws a bias-adjusted geographic boundary around each resource; increasing bias expands the resource's traffic "pull" radius.</li>
+  <li><b>Example:</b> Shifting more traffic toward a Mumbai data center by increasing its bias value, even for users slightly closer to Singapore.</li>
+  <li><b>Use case:</b> Fine-grained control over traffic distribution across regional resources.</li>
+</ul>
+
+<h3>7. Multivalue Answer Routing</h3>
+<ul>
+  <li><b>Definition:</b> Returns multiple healthy IP addresses (up to 8) in response to a DNS query, chosen at random.</li>
+  <li><b>How it works:</b> Combines multiple records with optional health checks; only healthy records are returned.</li>
+  <li><b>Example:</b> Three web servers configured; Route 53 returns all three healthy IPs, client picks one.</li>
+  <li><b>Use case:</b> Simple client-side load balancing with basic health awareness (not a replacement for a full load balancer).</li>
+</ul>
+
+<h2>Comparison: Route 53 Routing Policies</h2>
+<table>
+<tr><th>Policy</th><th>Decision Basis</th><th>Health Check Aware?</th><th>Best For</th></tr>
+<tr><td>Simple</td><td>Fixed/random</td><td>No</td><td>Single resource, no logic needed</td></tr>
+<tr><td>Weighted</td><td>Assigned weight ratio</td><td>Optional</td><td>A/B testing, gradual rollout</td></tr>
+<tr><td>Latency-based</td><td>Lowest network latency</td><td>Optional</td><td>Global apps needing speed</td></tr>
+<tr><td>Failover</td><td>Primary/secondary health</td><td>Yes (required)</td><td>Disaster recovery</td></tr>
+<tr><td>Geolocation</td><td>User's geographic location</td><td>Optional</td><td>Localization/compliance</td></tr>
+<tr><td>Geoproximity</td><td>Location + bias</td><td>Optional</td><td>Fine-tuned regional traffic shift</td></tr>
+<tr><td>Multivalue Answer</td><td>Multiple healthy records</td><td>Yes (recommended)</td><td>Simple client-side load balancing</td></tr>
+</table>
+
+<h2>Real-World Examples</h2>
+<ul>
+  <li><b>E-commerce site with global customers:</b> Uses latency-based routing so users worldwide connect to the nearest low-latency region.</li>
+  <li><b>Banking application with DR requirements:</b> Uses failover routing with health checks to switch to a backup data center during an outage.</li>
+  <li><b>SaaS company running a canary release:</b> Uses weighted routing to send 5% of traffic to a new backend version before a full rollout.</li>
+</ul>
+
+<h2>Use Cases</h2>
+<ul>
+  <li>Domain registration and management for a business website.</li>
+  <li>DNS failover for high-availability applications.</li>
+  <li>Global traffic distribution for multi-region deployments.</li>
+  <li>Private internal DNS for microservices inside a VPC.</li>
+  <li>Health monitoring of public endpoints.</li>
+</ul>
+
+<h2>Advantages</h2>
+<ul>
+  <li>Highly available and scalable (100% availability SLA).</li>
+  <li>Tight integration with AWS resources via Alias records (no extra cost).</li>
+  <li>Multiple intelligent routing policies for different business needs.</li>
+  <li>Built-in health checking and automatic failover.</li>
+  <li>Pay-as-you-go pricing; no infrastructure to manage.</li>
+</ul>
+
+<h2>Limitations / Disadvantages</h2>
+<ul>
+  <li>DNS propagation depends on TTL &mdash; changes are not instantaneous everywhere.</li>
+  <li>Geolocation accuracy depends on the resolver's IP database, which is not always precise.</li>
+  <li>Complex routing setups (geoproximity, traffic flow policies) have a steeper learning curve.</li>
+  <li>Cannot control application-layer load balancing decisions (that is the role of ELB).</li>
+</ul>
+
+<h2>Important Terminology</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Hosted Zone</td><td>Container for DNS records of a domain</td></tr>
+<tr><td>TTL</td><td>Cache duration for a DNS record</td></tr>
+<tr><td>Alias Record</td><td>Route 53 record mapping a name to an AWS resource</td></tr>
+<tr><td>Health Check</td><td>Automated monitor of an endpoint's availability</td></tr>
+<tr><td>Routing Policy</td><td>Rule set determining which record Route 53 returns</td></tr>
+<tr><td>Zone Apex</td><td>The root domain itself (e.g. <code>example.com</code>, no subdomain)</td></tr>
+</table>
+
+<h2>Related AWS Services</h2>
+<ul>
+  <li><b>Elastic Load Balancing (ELB)</b> &mdash; Route 53 Alias records often point to an ELB.</li>
+  <li><b>CloudFront</b> &mdash; Route 53 can route a custom domain to a CloudFront distribution.</li>
+  <li><b>S3</b> &mdash; Route 53 can route a domain to a static website hosted on S3.</li>
+  <li><b>API Gateway</b> &mdash; Custom domains for APIs are mapped via Route 53.</li>
+  <li><b>CloudWatch</b> &mdash; Health checks can be based on CloudWatch alarms.</li>
+</ul>
+
+<h2>Important Relationships (Module 3 Context)</h2>
+<div class="diagram">
+User types domain name
+        |
+        v
+   Route 53 (DNS)
+        |
+        v
+Resolves to: API Gateway / Load Balancer endpoint
+        |
+        v
+Traffic enters the target AWS architecture (e.g. VPC)
+</div>
+<p>Route 53 is the <b>entry point</b> for Module 3's architecture &mdash; it is the first service a user's request touches before reaching API Gateway, a Load Balancer, or any resource inside a VPC.</p>
+
+<div class="confuse">
+<h4>Commonly Confused: Public Hosted Zone vs Private Hosted Zone</h4>
+<ul>
+  <li>Public hosted zone answers DNS queries from anywhere on the internet.</li>
+  <li>Private hosted zone answers DNS queries only from within associated VPC(s) &mdash; used for internal-only resolution.</li>
+</ul>
+</div>
+
+
+
+<!-- ======================================================= -->
+<!-- TOPIC 2: AMAZON API GATEWAY -->
+<!-- ======================================================= -->
+<h1 class="topic">2. Amazon API Gateway</h1>
+
+<div class="def"><b>Definition:</b> Amazon API Gateway is a fully managed AWS service that lets developers create, publish, secure, monitor, and maintain APIs at any scale, acting as the "front door" for applications to access backend services.</div>
+
+<h2>What Is an API?</h2>
+<ul>
+  <li><b>API (Application Programming Interface)</b> &mdash; a defined contract that lets one piece of software request services/data from another.</li>
+  <li><b>Why APIs are required</b>
+    <ul>
+      <li>They decouple frontend clients from backend implementation details.</li>
+      <li>They provide a standard, predictable way for different systems (web, mobile, IoT) to communicate.</li>
+      <li>They allow backend logic to change without breaking client integrations, as long as the contract is preserved.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Why API Gateway Is Needed</h2>
+<ul>
+  <li>Exposing backend compute (Lambda, EC2, containers) directly to the internet is insecure and hard to manage.</li>
+  <li>Without API Gateway, developers would need to build authentication, throttling, caching, and monitoring manually for every backend.</li>
+  <li>API Gateway centralizes these cross-cutting concerns in a single managed layer.</li>
+</ul>
+
+<h2>API Gateway Architecture &mdash; Core Concepts</h2>
+<table>
+<tr><th>Component</th><th>Purpose</th></tr>
+<tr><td>Client</td><td>The consumer of the API &mdash; browser, mobile app, another service</td></tr>
+<tr><td>API Endpoint</td><td>The public URL clients call to reach the API</td></tr>
+<tr><td>Resource</td><td>A logical object/path in the API (e.g. <code>/users</code>, <code>/orders</code>)</td></tr>
+<tr><td>Method</td><td>An HTTP verb attached to a resource (GET, POST, PUT, DELETE, etc.)</td></tr>
+<tr><td>Integration</td><td>The backend that a method is connected to (Lambda, HTTP endpoint, AWS service)</td></tr>
+<tr><td>Request / Response</td><td>Data sent by the client and returned by the backend, which API Gateway can transform</td></tr>
+<tr><td>Stage</td><td>A named, versioned snapshot of the API configuration (e.g. <code>dev</code>, <code>prod</code>)</td></tr>
+<tr><td>Deployment</td><td>The action of publishing the current API configuration to a stage</td></tr>
+<tr><td>Backend</td><td>The actual compute/service that fulfills the request (Lambda, EC2, DynamoDB, etc.)</td></tr>
+</table>
+<ul>
+  <li>Resources and methods together define the API's surface (e.g. <code>GET /users/{id}</code>).</li>
+  <li>Stages allow the same API definition to exist in multiple environments simultaneously.</li>
+  <li>A deployment must be made for changes to a stage to become live.</li>
+</ul>
+
+<h2>API Types</h2>
+<table>
+<tr><th>Type</th><th>Description</th><th>Typical Use</th></tr>
+<tr><td><b>REST API</b></td><td>Full-featured API type supporting request validation, API keys, usage plans, per-method transformations, and detailed configuration</td><td>Enterprise-grade APIs needing fine-grained control</td></tr>
+<tr><td><b>HTTP API</b></td><td>A lighter, lower-latency, lower-cost alternative to REST APIs with a reduced feature set</td><td>Simple proxy APIs to Lambda or HTTP backends where cost/speed matter more than advanced features</td></tr>
+<tr><td><b>WebSocket API</b></td><td>Maintains persistent, two-way connections between client and server</td><td>Real-time applications: chat apps, live dashboards, multiplayer games</td></tr>
+</table>
+
+<h3>Comparison: REST API vs HTTP API vs WebSocket API</h3>
+<table>
+<tr><th>Feature</th><th>REST API</th><th>HTTP API</th><th>WebSocket API</th></tr>
+<tr><td>Connection type</td><td>Request/response</td><td>Request/response</td><td>Persistent, bi-directional</td></tr>
+<tr><td>Cost</td><td>Higher</td><td>Lower (~70% cheaper)</td><td>Based on connection minutes + messages</td></tr>
+<tr><td>Latency</td><td>Standard</td><td>Lower</td><td>Real-time</td></tr>
+<tr><td>Feature richness</td><td>Very high (API keys, usage plans, request validation)</td><td>Basic (JWT auth, simple routing)</td><td>Route-based message handling</td></tr>
+<tr><td>Use case</td><td>Complex, enterprise APIs</td><td>Simple proxy/serverless APIs</td><td>Chat, live feeds, gaming</td></tr>
+</table>
+
+<h2>Integrations</h2>
+<div class="diagram-title">API Gateway &rarr; AWS Lambda (Serverless)</div>
+<div class="diagram">
+Client
+  |
+  v
+API Gateway  --(invokes)-->  AWS Lambda  --(reads/writes)-->  DynamoDB
+  |                               |
+  +----------- Response &lt;--------+
+</div>
+
+<div class="diagram-title">API Gateway &rarr; EC2 / Backend Servers</div>
+<div class="diagram">
+Client
+  |
+  v
+API Gateway --(HTTP proxy)--> Application Load Balancer --> EC2 instances (in VPC)
+</div>
+
+<div class="diagram-title">API Gateway &rarr; Other AWS Services (Direct Integration)</div>
+<div class="diagram">
+Client --> API Gateway --(direct service integration)--> S3 / SQS / Step Functions
+</div>
+<ul>
+  <li>API Gateway can integrate directly with many AWS services without needing a Lambda function in between, reducing cost and complexity for simple pass-through operations.</li>
+  <li>For private backends inside a VPC (e.g. internal ALB, EC2), a <b>VPC Link</b> is used to connect API Gateway securely without exposing the backend publicly.</li>
+</ul>
+
+<h2>Other Core Concepts</h2>
+<ul>
+  <li><b>Authentication</b> &mdash; verifying who the caller is (e.g. via IAM, Cognito User Pools, or Lambda authorizers).</li>
+  <li><b>Authorization</b> &mdash; verifying what the authenticated caller is allowed to do (e.g. IAM policies, custom authorizers, scopes).</li>
+  <li><b>Throttling</b> &mdash; limiting the rate of requests (requests per second) to protect backend systems from being overwhelmed; configurable per API/stage/method via usage plans.</li>
+  <li><b>Caching</b> &mdash; API Gateway can cache responses for a configurable TTL, reducing backend calls and latency for repeated requests.</li>
+  <li><b>Monitoring</b> &mdash; integrates with CloudWatch for metrics (latency, error rates, request counts) and logging.</li>
+  <li><b>Error handling</b> &mdash; API Gateway can map backend errors to custom HTTP status codes/response bodies via gateway responses and integration responses.</li>
+</ul>
+
+<h2>How It Works &mdash; Step by Step</h2>
+<div class="diagram-title">Example Architecture: Client &rarr; API Gateway &rarr; Lambda &rarr; Database</div>
+<div class="diagram">
+Client
+  |
+  v
+API Gateway
+  |
+  v
+Lambda
+  |
+  v
+Database
+</div>
+<ol>
+  <li>Client sends an HTTPS request to the API Gateway endpoint (e.g. <code>POST /orders</code>).</li>
+  <li>API Gateway checks authentication/authorization (e.g. validates a JWT or IAM signature).</li>
+  <li>API Gateway applies throttling limits and checks the response cache (if enabled).</li>
+  <li>Request is transformed (if configured) and forwarded to the integrated backend &mdash; here, an AWS Lambda function.</li>
+  <li>Lambda executes business logic and reads/writes to the database (e.g. DynamoDB or RDS inside a VPC).</li>
+  <li>Lambda returns a response to API Gateway.</li>
+  <li>API Gateway transforms the response (if configured) and sends it back to the client.</li>
+  <li>CloudWatch logs and metrics are recorded for the request.</li>
+</ol>
+
+<h2>Real-World Examples</h2>
+<ul>
+  <li><b>Mobile banking app:</b> Uses a REST API on API Gateway with API keys and usage plans to expose account and transaction endpoints backed by Lambda functions.</li>
+  <li><b>Serverless e-commerce backend:</b> Uses an HTTP API for low-cost, low-latency product catalog and checkout endpoints backed by Lambda and DynamoDB.</li>
+  <li><b>Live customer support chat:</b> Uses a WebSocket API to maintain persistent connections between agents and customers for real-time messaging.</li>
+</ul>
+
+<h2>Use Cases</h2>
+<ul>
+  <li>Building serverless backends for web and mobile apps.</li>
+  <li>Exposing microservices through a single unified API surface.</li>
+  <li>Rate-limiting and securing access to internal services.</li>
+  <li>Real-time applications using WebSocket APIs.</li>
+  <li>API monetization using API keys and usage plans.</li>
+</ul>
+
+<h2>Advantages</h2>
+<ul>
+  <li>Fully managed &mdash; no servers to provision or patch.</li>
+  <li>Built-in security, throttling, and monitoring.</li>
+  <li>Scales automatically with traffic.</li>
+  <li>Tight integration with Lambda for serverless architectures.</li>
+  <li>Supports multiple API styles (REST, HTTP, WebSocket).</li>
+</ul>
+
+<h2>Limitations / Disadvantages</h2>
+<ul>
+  <li>Can introduce additional latency compared to direct backend access.</li>
+  <li>Cost can grow significantly at very high request volumes.</li>
+  <li>REST API feature richness comes with added configuration complexity.</li>
+  <li>Payload size and timeout limits apply (e.g. 29-second integration timeout, 10 MB payload limit).</li>
+</ul>
+
+<h2>Important Terminology</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Stage</td><td>Named deployment environment of an API (dev/test/prod)</td></tr>
+<tr><td>Throttling</td><td>Limiting request rate to protect backend</td></tr>
+<tr><td>VPC Link</td><td>Private connection from API Gateway to resources inside a VPC</td></tr>
+<tr><td>Usage Plan</td><td>Defines API key access, quotas, and throttling limits</td></tr>
+<tr><td>Mapping Template</td><td>Transforms request/response payloads between client and backend format</td></tr>
+</table>
+
+<h2>Related AWS Services</h2>
+<ul>
+  <li><b>AWS Lambda</b> &mdash; most common serverless backend integration.</li>
+  <li><b>Amazon Cognito</b> &mdash; user authentication for APIs.</li>
+  <li><b>CloudWatch</b> &mdash; monitoring, logging, alarms.</li>
+  <li><b>VPC (via VPC Link)</b> &mdash; connecting to private backend resources.</li>
+  <li><b>Route 53</b> &mdash; custom domain names for APIs.</li>
+</ul>
+
+<h2>Comparisons</h2>
+<h3>API Gateway vs Application Load Balancer (ALB)</h3>
+<table>
+<tr><th>Aspect</th><th>API Gateway</th><th>Application Load Balancer</th></tr>
+<tr><td>Layer</td><td>Application layer, API-focused</td><td>Application layer, traffic distribution-focused</td></tr>
+<tr><td>Features</td><td>Auth, throttling, caching, transformations, API keys</td><td>Path/host-based routing, health checks, SSL termination</td></tr>
+<tr><td>Serverless-friendly</td><td>Yes &mdash; native Lambda integration</td><td>Requires Lambda target group support</td></tr>
+<tr><td>Cost model</td><td>Pay per request</td><td>Pay per load balancer hour + LCU</td></tr>
+<tr><td>Best for</td><td>API-centric, serverless workloads</td><td>General HTTP(S) traffic distribution to servers/containers</td></tr>
+</table>
+
+<h3>API Gateway vs Direct Backend Access</h3>
+<table>
+<tr><th>Aspect</th><th>Via API Gateway</th><th>Direct Backend Access</th></tr>
+<tr><td>Security</td><td>Centralized auth, throttling</td><td>Must be implemented manually per backend</td></tr>
+<tr><td>Backend exposure</td><td>Backend can remain private</td><td>Backend often must be public</td></tr>
+<tr><td>Monitoring</td><td>Centralized via CloudWatch</td><td>Must be built separately</td></tr>
+<tr><td>Latency</td><td>Slight added hop</td><td>Lower (direct)</td></tr>
+</table>
+
+<h2>Important Relationships (Module 3 Context)</h2>
+<div class="diagram">
+Route 53 (DNS)
+     |
+     v
+API Gateway (or ALB)
+     |
+     v
+VPC  --> Private Subnet --> Lambda / EC2 --> Database
+</div>
+<p>API Gateway commonly sits just after Route 53 in the traffic path, acting as the controlled entry point into an application before requests reach compute resources inside a VPC.</p>
+
+
+<!-- ======================================================= -->
+<!-- TOPIC 3: AMAZON VPC -->
+<!-- ======================================================= -->
+<h1 class="topic">3. Amazon VPC</h1>
+<p class="small"><b>This is a core, high-weightage topic &mdash; all other Module 3 topics (Subnets, Route Tables, Security Groups, NAT Gateway) are components of a VPC.</b></p>
+
+<div class="def"><b>Definition:</b> Amazon Virtual Private Cloud (VPC) is a logically isolated virtual network within AWS where you launch AWS resources, with full control over IP addressing, subnetting, routing, and security.</div>
+
+<h2>Purpose &amp; Fundamentals</h2>
+<ul>
+  <li><b>Virtual networking:</b> A VPC is software-defined networking &mdash; it mimics a traditional physical data-center network (subnets, routers, firewalls) but is entirely virtualized inside AWS.</li>
+  <li><b>AWS networking fundamentals</b>
+    <ul>
+      <li>Every VPC lives inside one AWS Region and can span multiple Availability Zones (AZs).</li>
+      <li>A VPC is isolated by default &mdash; nothing outside it can reach resources inside unless explicitly allowed.</li>
+    </ul>
+  </li>
+  <li><b>Default VPC:</b> AWS automatically creates one per region with public subnets in every AZ, pre-configured for immediate internet access &mdash; convenient for quick starts, not recommended for production.</li>
+  <li><b>Custom VPC:</b> A VPC you design yourself &mdash; custom CIDR block, subnets, routing, and security &mdash; used for production-grade, intentional architectures.</li>
+</ul>
+
+<h3>Addressing Concepts</h3>
+<ul>
+  <li><b>CIDR (Classless Inter-Domain Routing):</b> A notation (e.g. <code>10.0.0.0/16</code>) that defines a block of IP addresses; the number after "/" is the prefix length, indicating how many bits are fixed for the network portion.</li>
+  <li><b>IPv4:</b> 32-bit addressing scheme; the traditional and most commonly used addressing method in VPCs.</li>
+  <li><b>IPv6:</b> 128-bit addressing scheme; optional in a VPC, provides a much larger address space, all IPv6 addresses in AWS VPCs are globally unique (public) by design.</li>
+  <li><b>Private IP:</b> An address only reachable within the VPC (or connected private networks) &mdash; not routable on the public internet.</li>
+  <li><b>Public IP:</b> An address reachable from the internet; can be auto-assigned and changes if the instance is stopped/started.</li>
+  <li><b>Elastic IP:</b> A static, persistent public IPv4 address that you allocate to your account and can attach/detach from instances as needed &mdash; unlike a normal public IP, it doesn't change.</li>
+</ul>
+
+<h2>Why VPC Is Needed</h2>
+<ul>
+  <li>Without a VPC, AWS resources would have no network isolation or boundary &mdash; anyone could potentially reach them.</li>
+  <li>Enterprises need to replicate on-premises network segmentation practices (public-facing tier vs private internal tier) in the cloud.</li>
+  <li>Provides control over IP ranges, routing, and traffic filtering, which is essential for security and compliance.</li>
+</ul>
+
+<h2>Key VPC Components</h2>
+<table>
+<tr><th>Component</th><th>Purpose</th></tr>
+<tr><td>Subnet</td><td>A segment of the VPC's IP range tied to one Availability Zone</td></tr>
+<tr><td>Route Table</td><td>Set of rules that determine where network traffic is directed</td></tr>
+<tr><td>Internet Gateway (IGW)</td><td>Allows communication between the VPC and the public internet</td></tr>
+<tr><td>NAT Gateway</td><td>Allows private subnet resources to initiate outbound internet traffic without being publicly reachable</td></tr>
+<tr><td>Security Group</td><td>Stateful, instance-level virtual firewall</td></tr>
+<tr><td>Network ACL (NACL)</td><td>Stateless, subnet-level virtual firewall</td></tr>
+</table>
+<p>Each of these is explored in depth as a dedicated topic later in this module &mdash; here they are introduced as parts of the overall VPC picture.</p>
+
+<h2>VPC Architecture</h2>
+<div class="diagram-title">Basic VPC Layout: Public + Private Subnet</div>
+<div class="diagram">
+                          INTERNET
+                             |
+                      INTERNET GATEWAY
+                             |
+                 +------------------------+
+                 |          VPC           |
+                 |     (10.0.0.0/16)      |
+                 |                        |
+        PUBLIC SUBNET              PRIVATE SUBNET
+        (10.0.1.0/24)              (10.0.2.0/24)
+                 |                        |
+               EC2                   EC2 / DB
+       (Web/Bastion Server)       (App Server / Database)
+                 |                        |
+          ROUTE TABLE               ROUTE TABLE
+       (0.0.0.0/0 -> IGW)      (0.0.0.0/0 -> NAT GW)
+</div>
+<ul>
+  <li>The VPC itself is defined by a single top-level CIDR block (e.g. <code>10.0.0.0/16</code>).</li>
+  <li>Subnets are carved out of that CIDR block and each lives entirely within one AZ.</li>
+  <li>The Internet Gateway is attached to the VPC (not to any specific subnet) and enables internet connectivity.</li>
+  <li>Whether a subnet is "public" or "private" is determined entirely by its route table (explained in the Subnets topic).</li>
+</ul>
+
+<h2>How It Works &mdash; Traffic Flow Example</h2>
+<ol>
+  <li>A user's request reaches the Internet Gateway attached to the VPC.</li>
+  <li>The Internet Gateway forwards the traffic based on the destination IP.</li>
+  <li>The public subnet's route table sends internet-bound and inbound traffic through the IGW to the target EC2 instance.</li>
+  <li>Security Groups on the EC2 instance check whether the inbound traffic is permitted.</li>
+  <li>If the request needs to reach a private backend, it is forwarded internally within the VPC (private IP routing) to the private subnet.</li>
+  <li>Return traffic follows the reverse path back to the user.</li>
+</ol>
+
+<h2>Multi-Tier Application Architecture</h2>
+<div class="diagram-title">3-Tier Application inside a VPC</div>
+<div class="diagram">
+Internet
+   |
+Internet Gateway
+   |
+Public Subnet
+   |
+Load Balancer
+   |
+Private Application Subnet
+   |
+Application Server(s)
+   |
+Private Database Subnet
+   |
+Database
+</div>
+<ul>
+  <li><b>Why each component exists</b>
+    <ul>
+      <li>Public subnet + Load Balancer: single controlled internet-facing entry point.</li>
+      <li>Private application subnet: business logic isolated from direct internet exposure.</li>
+      <li>Private database subnet: most sensitive tier, given the strictest isolation.</li>
+    </ul>
+  </li>
+  <li><b>Why different tiers are separated</b>
+    <ul>
+      <li>Limits the "blast radius" if one tier is compromised.</li>
+      <li>Enables tier-specific security rules (e.g. database only accepts traffic from the app tier, never from the internet).</li>
+      <li>Matches the principle of least privilege at the network level.</li>
+    </ul>
+  </li>
+  <li><b>How traffic flows:</b> Internet &rarr; IGW &rarr; Load Balancer (public subnet) &rarr; App servers (private subnet) &rarr; Database (private subnet, most restricted).</li>
+  <li><b>How security is improved:</b> Only the load balancer is internet-reachable; app and database tiers have no direct route to/from the internet, drastically reducing the attack surface.</li>
+</ul>
+
+<h2>Real-World Examples</h2>
+<ul>
+  <li><b>Startup web application:</b> A single VPC with one public subnet (web servers behind a load balancer) and one private subnet (database), isolating the database from direct internet access.</li>
+  <li><b>Enterprise multi-tier system:</b> A VPC spanning multiple AZs with separate public, app, and database subnet tiers replicated per AZ for high availability.</li>
+  <li><b>Hybrid cloud company:</b> Uses a VPC connected to an on-premises data center via VPN/Direct Connect, extending the corporate network into AWS.</li>
+</ul>
+
+<h2>Use Cases</h2>
+<ul>
+  <li>Hosting secure, isolated multi-tier web applications.</li>
+  <li>Creating separate environments (dev/test/prod) using separate VPCs.</li>
+  <li>Isolating sensitive workloads (databases, internal tools) from the public internet.</li>
+  <li>Hybrid connectivity between on-premises networks and AWS.</li>
+</ul>
+
+<h2>Advantages</h2>
+<ul>
+  <li>Full control over IP addressing, subnetting, and routing.</li>
+  <li>Strong network isolation and security boundary by default.</li>
+  <li>Highly customizable (route tables, gateways, peering, endpoints).</li>
+  <li>Supports hybrid connectivity (VPN, Direct Connect) and VPC-to-VPC peering.</li>
+</ul>
+
+<h2>Limitations / Disadvantages</h2>
+<ul>
+  <li>Requires careful planning of CIDR ranges to avoid future IP conflicts (especially with peering/hybrid setups).</li>
+  <li>Complex architectures (multiple subnets, route tables, gateways) require networking expertise to design correctly.</li>
+  <li>Some AWS services and resource limits (e.g. subnets per VPC, route table entries) impose design constraints.</li>
+</ul>
+
+<h2>Important Terminology</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>CIDR Block</td><td>Range of IP addresses assigned to the VPC/subnet</td></tr>
+<tr><td>Availability Zone (AZ)</td><td>An isolated physical data center location within a region</td></tr>
+<tr><td>Internet Gateway</td><td>VPC component enabling internet connectivity</td></tr>
+<tr><td>Elastic IP</td><td>Static, persistent public IPv4 address</td></tr>
+<tr><td>Default VPC</td><td>Auto-created VPC ready for immediate use</td></tr>
+</table>
+
+<h2>Related AWS Services</h2>
+<ul>
+  <li><b>EC2</b> &mdash; compute instances launched inside VPC subnets.</li>
+  <li><b>RDS / DynamoDB</b> &mdash; databases often placed in private subnets.</li>
+  <li><b>Elastic Load Balancing</b> &mdash; distributes traffic across instances in a VPC.</li>
+  <li><b>AWS Direct Connect / VPN</b> &mdash; hybrid connectivity to a VPC.</li>
+  <li><b>VPC Peering / Transit Gateway</b> &mdash; connecting multiple VPCs together.</li>
+</ul>
+
+<h2>Important Relationships (Module 3 Context)</h2>
+<div class="diagram">
+VPC
+ -> Subnet
+ -> Route Table
+ -> Internet Gateway
+ -> NAT Gateway
+ -> Security Group
+</div>
+<ul>
+  <li>A <b>VPC</b> is the outer container; everything else in Module 3 exists inside or attached to it.</li>
+  <li><b>Subnets</b> divide the VPC's CIDR block into smaller network segments across AZs.</li>
+  <li><b>Route Tables</b> attached to subnets decide where traffic goes (internet, NAT, local, etc.).</li>
+  <li>The <b>Internet Gateway</b> is what a public subnet's route table points to for direct internet access.</li>
+  <li>The <b>NAT Gateway</b> is what a private subnet's route table points to for outbound-only internet access.</li>
+  <li><b>Security Groups</b> attach directly to resources (like EC2 instances) inside the subnets to filter traffic at the instance level.</li>
+</ul>
+
+<div class="confuse">
+<h4>Commonly Confused: Default VPC vs Custom VPC</h4>
+<ul>
+  <li>Default VPC comes pre-configured with public subnets and internet access in every AZ &mdash; good for quick testing.</li>
+  <li>Custom VPC is built intentionally by the user/architect with tailored CIDR, subnet, and routing design &mdash; recommended for production workloads.</li>
+</ul>
+</div>
+
+
+
+<!-- ======================================================= -->
+<!-- TOPIC 4: VPC SUBNETS -->
+<!-- ======================================================= -->
+<h1 class="topic">4. VPC Subnets</h1>
+
+<div class="def"><b>Definition:</b> A subnet is a range of IP addresses within a VPC's CIDR block, tied to exactly one Availability Zone, used to logically segment and organize resources.</div>
+
+<h2>Purpose</h2>
+<ul>
+  <li>Break a large VPC network into smaller, manageable, and independently securable segments.</li>
+  <li>Allow different resources (web servers, app servers, databases) to be placed in appropriately isolated network zones.</li>
+  <li>Enable resource placement across multiple Availability Zones for fault tolerance.</li>
+</ul>
+
+<h2>Core Concepts</h2>
+<ul>
+  <li><b>CIDR blocks:</b> Each subnet has its own CIDR range, which must be a subset of (and non-overlapping within) the parent VPC's CIDR block.</li>
+  <li><b>IP address allocation:</b> AWS reserves 5 IP addresses in every subnet (network address, VPC router, DNS, future use, and broadcast address placeholder) &mdash; these are not usable by resources.</li>
+  <li><b>Subnet size:</b> Determined by the CIDR prefix length; smaller prefix number (e.g. /24) = larger address range than a larger prefix (e.g. /28).</li>
+  <li><b>Availability Zones (AZs):</b> Isolated data centers within a region; a subnet must be created within exactly one AZ and cannot span multiple AZs.</li>
+  <li><b>Subnet-to-AZ relationship:</b> One subnet &rarr; one AZ, but one AZ can contain multiple subnets.</li>
+  <li><b>Route table association:</b> Every subnet must be associated with exactly one route table (either the main route table or a custom one), which determines its traffic behavior.</li>
+</ul>
+
+<div class="box">
+<b>Important concept:</b> "A subnet is not public simply because it is <i>named</i> public subnet."
+<ul>
+  <li>AWS does not have a special "public subnet" resource type &mdash; "public" and "private" are just labels people use.</li>
+  <li>What actually makes a subnet public is its <b>route table</b>: if it has a route sending <code>0.0.0.0/0</code> traffic to an <b>Internet Gateway</b>, it behaves as a public subnet.</li>
+  <li>A subnet named "public-subnet" with no IGW route in its route table is, functionally, a private subnet &mdash; naming has no effect on actual behavior.</li>
+  <li>Therefore: routing configuration determines internet connectivity, not naming conventions.</li>
+</ul>
+</div>
+
+<h2>CIDR Notation Explained</h2>
+<ul>
+  <li><b>CIDR notation:</b> Written as <code>IP_address/prefix_length</code> (e.g. <code>10.0.0.0/16</code>).</li>
+  <li><b>Prefix length:</b> Number of bits fixed as the "network" portion; remaining bits are available for host addresses.</li>
+  <li><b>Network address:</b> The base address of the range (all host bits set to 0).</li>
+  <li><b>Host addresses:</b> The usable IP addresses within that range for resources.</li>
+  <li><b>Subnet ranges:</b> Smaller subnets are carved out from the larger VPC range by increasing the prefix length.</li>
+</ul>
+
+<h3>CIDR Examples</h3>
+<table>
+<tr><th>CIDR</th><th>Meaning</th><th>Approx. Usable Addresses</th></tr>
+<tr><td><code>10.0.0.0/16</code></td><td>VPC-level range (large block)</td><td>65,536 total addresses</td></tr>
+<tr><td><code>10.0.1.0/24</code></td><td>Subnet 1, carved from the VPC range</td><td>256 addresses (251 usable after AWS reservations)</td></tr>
+<tr><td><code>10.0.2.0/24</code></td><td>Subnet 2, carved from the VPC range</td><td>256 addresses (251 usable)</td></tr>
+</table>
+<div class="diagram-title">Relationship: VPC CIDR Split into Subnets</div>
+<div class="diagram">
+VPC CIDR: 10.0.0.0/16   (65,536 addresses)
+   |
+   +-- Subnet A: 10.0.1.0/24   (Public Subnet - AZ-a)
+   |
+   +-- Subnet B: 10.0.2.0/24   (Private Subnet - AZ-a)
+   |
+   +-- Subnet C: 10.0.3.0/24   (Public Subnet - AZ-b)
+   |
+   +-- Subnet D: 10.0.4.0/24   (Private Subnet - AZ-b)
+</div>
+<p>Each subnet's range is a non-overlapping slice of the parent VPC's CIDR block; together they must stay within the VPC's total address space.</p>
+
+<h2>Public vs Private Subnet</h2>
+<div class="diagram-title">Architecture: Public and Private Subnets</div>
+<div class="diagram">
+                     INTERNET
+                        |
+                 INTERNET GATEWAY
+                        |
+        +-------------------------------+
+        |               VPC             |
+        |                                |
+   PUBLIC SUBNET                 PRIVATE SUBNET
+   Route: 0.0.0.0/0->IGW         Route: 0.0.0.0/0->NAT GW
+        |                                |
+    Web Server (EC2)              App Server / DB
+</div>
+
+<table>
+<tr><th>Aspect</th><th>Public Subnet</th><th>Private Subnet</th></tr>
+<tr><td>Route to internet</td><td>Direct, via Internet Gateway</td><td>Indirect (outbound-only), via NAT Gateway, or none</td></tr>
+<tr><td>Publicly reachable?</td><td>Yes, if resource has a public IP</td><td>No</td></tr>
+<tr><td>Typical resources</td><td>Load balancers, bastion hosts, NAT Gateway itself</td><td>Application servers, databases</td></tr>
+<tr><td>Security exposure</td><td>Higher &mdash; internet-facing</td><td>Lower &mdash; shielded from direct internet access</td></tr>
+</table>
+
+<ul>
+  <li><b>Traffic flow (public):</b> Internet &rarr; IGW &rarr; Public Subnet Route Table &rarr; Resource (if SG/NACL allow).</li>
+  <li><b>Traffic flow (private, outbound):</b> Private Resource &rarr; Private Subnet Route Table &rarr; NAT Gateway (in public subnet) &rarr; IGW &rarr; Internet.</li>
+  <li><b>Traffic flow (private, inbound from internet):</b> Not possible by default &mdash; there is no route from the internet directly into a private subnet.</li>
+</ul>
+
+<h2>Real-World Examples</h2>
+<ul>
+  <li><b>Web application:</b> Public subnet hosts the load balancer; private subnet hosts application servers that only accept traffic from the load balancer.</li>
+  <li><b>Database tier:</b> A private subnet with no route to the internet at all, hosting an RDS instance only reachable from the app tier.</li>
+  <li><b>Bastion host setup:</b> A small EC2 instance in a public subnet used as a secure jump box to access resources in private subnets via SSH.</li>
+</ul>
+
+<h2>Use Cases</h2>
+<ul>
+  <li>Separating internet-facing components from internal/backend components.</li>
+  <li>Distributing resources across AZs for high availability within a subnet tier.</li>
+  <li>Enforcing compliance requirements that mandate isolated network segments for sensitive data.</li>
+</ul>
+
+<h2>Advantages</h2>
+<ul>
+  <li>Granular control over which resources can be reached from the internet.</li>
+  <li>Enables clear network segmentation aligned with application tiers.</li>
+  <li>Supports high availability by spreading subnets across multiple AZs.</li>
+</ul>
+
+<h2>Limitations / Disadvantages</h2>
+<ul>
+  <li>Subnet CIDR sizes are fixed at creation time and cannot be resized later (must create a new subnet).</li>
+  <li>Poor subnet/CIDR planning can lead to IP exhaustion or wasted address space.</li>
+  <li>Managing many subnets across AZs and tiers adds operational complexity.</li>
+</ul>
+
+<h2>Important Terminology</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>CIDR Block</td><td>Range of IP addresses assigned to a subnet</td></tr>
+<tr><td>Availability Zone</td><td>Isolated data center location a subnet belongs to</td></tr>
+<tr><td>Public Subnet</td><td>Subnet whose route table sends 0.0.0.0/0 to an Internet Gateway</td></tr>
+<tr><td>Private Subnet</td><td>Subnet with no direct route to an Internet Gateway</td></tr>
+</table>
+
+<h2>Related AWS Services</h2>
+<ul>
+  <li><b>Route Tables</b> &mdash; determine a subnet's actual public/private behavior.</li>
+  <li><b>Internet Gateway</b> &mdash; target for public subnet routing.</li>
+  <li><b>NAT Gateway</b> &mdash; typically deployed inside a public subnet to serve private subnets.</li>
+  <li><b>Security Groups / NACLs</b> &mdash; apply additional traffic filtering within subnets.</li>
+</ul>
+
+<h2>Important Relationships (Module 3 Context)</h2>
+<p>Subnets are the direct child of a VPC and the direct parent of a Route Table association: <b>VPC &rarr; Subnet &rarr; Route Table &rarr; (Internet Gateway or NAT Gateway)</b>. The subnet itself only defines an IP range and an AZ &mdash; the route table is what gives it public or private behavior.</p>
+
+<div class="confuse">
+<h4>Commonly Confused: Public Subnet vs Private Subnet</h4>
+<ul>
+  <li>Determined entirely by the associated route table's routes, not by name or by whether resources inside have public IPs.</li>
+  <li>A resource can have a public IP but still be unreachable if the subnet's route table lacks an IGW route.</li>
+</ul>
+</div>
+
+
+
+<!-- ======================================================= -->
+<!-- TOPIC 5: ROUTE TABLES -->
+<!-- ======================================================= -->
+<h1 class="topic">5. Route Tables</h1>
+
+<div class="def"><b>Definition:</b> A route table is a set of rules (routes) associated with a subnet or VPC that determines where network traffic from that subnet is directed.</div>
+
+<h2>Purpose</h2>
+<ul>
+  <li>Controls how traffic leaving a subnet is forwarded &mdash; to the internet, to other subnets, to a NAT Gateway, to peered VPCs, or nowhere at all.</li>
+  <li>Is the single deciding factor for whether a subnet behaves as "public" or "private".</li>
+</ul>
+
+<h2>Core Concepts</h2>
+<ul>
+  <li><b>Route:</b> A single rule mapping a destination CIDR range to a target.</li>
+  <li><b>Destination:</b> The IP range the rule applies to (e.g. <code>10.0.0.0/16</code> for local traffic, <code>0.0.0.0/0</code> for "everything else").</li>
+  <li><b>Target:</b> Where matching traffic should be sent &mdash; e.g. <code>local</code>, an Internet Gateway, a NAT Gateway, a peering connection.</li>
+  <li><b>Main route table:</b> The default route table automatically assigned to a VPC; any subnet not explicitly associated with another table uses this one.</li>
+  <li><b>Custom route table:</b> A route table you create and explicitly associate with specific subnets for tailored routing behavior.</li>
+  <li><b>Subnet association:</b> Each subnet must be linked to exactly one route table at a time.</li>
+  <li><b>Local route:</b> An automatic, non-removable route that allows all resources within the VPC's CIDR range to communicate with each other.</li>
+  <li><b>Internet Gateway route:</b> A route sending internet-bound traffic (<code>0.0.0.0/0</code>) to the VPC's Internet Gateway.</li>
+  <li><b>NAT Gateway route:</b> A route sending internet-bound traffic (<code>0.0.0.0/0</code>) to a NAT Gateway instead of directly to the IGW.</li>
+  <li><b>Default route:</b> Commonly refers to the <code>0.0.0.0/0</code> entry &mdash; the "catch-all" rule for any destination not otherwise matched.</li>
+</ul>
+
+<h2>0.0.0.0/0 &rarr; Internet Gateway vs 0.0.0.0/0 &rarr; NAT Gateway</h2>
+<table>
+<tr><th>Route</th><th>Meaning</th><th>Effect</th></tr>
+<tr><td><code>0.0.0.0/0 &rarr; Internet Gateway</code></td><td>All non-local traffic goes directly to/from the internet</td><td>Subnet is <b>public</b>; resources with public IPs are directly reachable both ways</td></tr>
+<tr><td><code>0.0.0.0/0 &rarr; NAT Gateway</code></td><td>All non-local outbound traffic is routed through a NAT Gateway</td><td>Subnet is <b>private</b>; resources can initiate outbound connections but cannot be reached from the internet</td></tr>
+</table>
+<ul>
+  <li>The destination (<code>0.0.0.0/0</code>) is identical in both cases &mdash; the difference is entirely in the <b>target</b>.</li>
+  <li>Routing through an IGW allows bidirectional internet communication.</li>
+  <li>Routing through a NAT Gateway only allows outbound-initiated communication; unsolicited inbound connections from the internet are still blocked.</li>
+</ul>
+
+<h2>Route Table Examples</h2>
+<div class="diagram-title">Public Subnet Route Table</div>
+<table>
+<tr><th>Destination</th><th>Target</th></tr>
+<tr><td>10.0.0.0/16</td><td>local</td></tr>
+<tr><td>0.0.0.0/0</td><td>Internet Gateway (igw-xxxx)</td></tr>
+</table>
+
+<div class="diagram-title">Private Subnet Route Table</div>
+<table>
+<tr><th>Destination</th><th>Target</th></tr>
+<tr><td>10.0.0.0/16</td><td>local</td></tr>
+<tr><td>0.0.0.0/0</td><td>NAT Gateway (nat-xxxx)</td></tr>
+</table>
+
+<h2>Traffic Flow Diagrams</h2>
+<div class="diagram-title">Public Subnet Traffic Flow</div>
+<div class="diagram">
+Internet
+   |
+Internet Gateway
+   |
+Public Subnet Route Table (0.0.0.0/0 -> IGW)
+   |
+EC2 instance (public IP)
+</div>
+
+<div class="diagram-title">Private Subnet Traffic Flow (Outbound Only)</div>
+<div class="diagram">
+Private EC2 instance
+   |
+Private Subnet Route Table (0.0.0.0/0 -> NAT GW)
+   |
+NAT Gateway (sits in Public Subnet)
+   |
+Internet Gateway
+   |
+Internet
+</div>
+
+<h2>How It Works &mdash; Step by Step</h2>
+<ol>
+  <li>A packet leaves an instance destined for an external IP address.</li>
+  <li>The subnet's associated route table is checked for the <b>most specific matching</b> destination rule.</li>
+  <li>Local VPC traffic matches the automatic <code>local</code> route and stays inside the VPC.</li>
+  <li>Non-local traffic matches the <code>0.0.0.0/0</code> rule and is sent to whatever target is configured (IGW or NAT Gateway).</li>
+  <li>The target device (IGW/NAT Gateway) forwards the packet onward according to its own function.</li>
+</ol>
+
+<h2>Real-World Examples</h2>
+<ul>
+  <li><b>Public web tier:</b> Route table sends all non-local traffic to the Internet Gateway so users can directly reach the web servers.</li>
+  <li><b>Private database tier:</b> Route table has no internet route at all (only the local route), fully isolating the database from any internet access.</li>
+  <li><b>Private application tier needing software updates:</b> Route table sends outbound traffic to a NAT Gateway so servers can download patches without being exposed inbound.</li>
+</ul>
+
+<h2>Use Cases</h2>
+<ul>
+  <li>Enforcing public vs private network behavior per subnet.</li>
+  <li>Directing traffic to VPC peering connections or VPN/Direct Connect gateways.</li>
+  <li>Creating fully isolated subnets with no internet route at all (for highly sensitive resources).</li>
+</ul>
+
+<h2>Advantages</h2>
+<ul>
+  <li>Fine-grained, explicit control over traffic direction per subnet.</li>
+  <li>Central mechanism for enforcing the public/private network model.</li>
+  <li>Supports advanced routing to peering connections, VPNs, and gateways.</li>
+</ul>
+
+<h2>Limitations / Disadvantages</h2>
+<ul>
+  <li>Misconfigured routes are a common source of connectivity issues (e.g. forgetting the NAT Gateway route).</li>
+  <li>Route tables alone do not provide security filtering &mdash; they only control path, not permission (that is the job of Security Groups/NACLs).</li>
+  <li>Each subnet can only be associated with one route table at a time.</li>
+</ul>
+
+<h2>Important Terminology</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Route</td><td>A rule mapping a destination CIDR to a target</td></tr>
+<tr><td>Local Route</td><td>Automatic route enabling intra-VPC communication</td></tr>
+<tr><td>Main Route Table</td><td>Default table for the VPC, used by unassociated subnets</td></tr>
+<tr><td>0.0.0.0/0</td><td>Catch-all destination representing "the entire internet"/anything not matched</td></tr>
+</table>
+
+<h2>Related AWS Services</h2>
+<ul>
+  <li><b>Internet Gateway</b> &mdash; common target for public subnet routes.</li>
+  <li><b>NAT Gateway</b> &mdash; common target for private subnet outbound routes.</li>
+  <li><b>VPC Peering / Transit Gateway</b> &mdash; additional route targets for inter-VPC traffic.</li>
+  <li><b>Subnets</b> &mdash; the entities that route tables are associated with.</li>
+</ul>
+
+<h2>Important Relationships (Module 3 Context)</h2>
+<p>Route tables are the "decision layer" sitting between a subnet and the gateways: <b>Subnet &rarr; Route Table &rarr; Internet Gateway (public) / NAT Gateway (private)</b>. They directly determine the public/private classification discussed in the Subnets topic.</p>
+
+<div class="confuse">
+<h4>Commonly Confused: Main Route Table vs Custom Route Table</h4>
+<ul>
+  <li>Main route table is the automatic default; any subnet not explicitly associated elsewhere falls back to it.</li>
+  <li>Custom route tables are created intentionally and must be explicitly associated with chosen subnets &mdash; this is the recommended production practice for predictable routing.</li>
+</ul>
+</div>
+
+
+
+<!-- ======================================================= -->
+<!-- TOPIC 6: SECURITY GROUPS -->
+<!-- ======================================================= -->
+<h1 class="topic">6. Security Groups</h1>
+
+<div class="def"><b>Definition:</b> A Security Group is a virtual, <b>stateful firewall</b> that controls inbound and outbound traffic at the instance (ENI) level for resources such as EC2 instances.</div>
+
+<h2>Purpose</h2>
+<ul>
+  <li>Provides fine-grained control over exactly what traffic is allowed to/from a specific resource.</li>
+  <li>Acts as the last line of defense at the individual instance level, complementing subnet-level and route-level controls.</li>
+</ul>
+
+<h2>Core Concepts</h2>
+<ul>
+  <li><b>Virtual firewall:</b> Security Groups exist logically at the AWS network layer, not as a physical device &mdash; but they behave functionally like a firewall attached to each resource.</li>
+  <li><b>Stateful firewall:</b> If inbound traffic is allowed in, the corresponding outbound response traffic is <b>automatically allowed</b> out, and vice versa &mdash; there is no need to write a matching return rule.</li>
+  <li><b>Inbound rules:</b> Define what traffic is allowed to reach the resource.</li>
+  <li><b>Outbound rules:</b> Define what traffic is allowed to leave the resource (default: all outbound traffic allowed).</li>
+  <li><b>Protocol:</b> The network protocol being filtered (TCP, UDP, ICMP, etc.).</li>
+  <li><b>Port:</b> The specific port number (or range) the rule applies to (e.g. 443 for HTTPS).</li>
+  <li><b>Source (inbound) / Destination (outbound):</b> Defines where allowed traffic may come from or go to &mdash; can be a specific IP/CIDR, or another Security Group.</li>
+  <li><b>IP-based rules:</b> Allow traffic from/to a specific IP address or CIDR range.</li>
+  <li><b>Security-group-based rules:</b> Allow traffic from/to any resource that belongs to a referenced Security Group (very useful for dynamic environments where IPs change).</li>
+  <li><b>Multiple security groups:</b> An instance can have multiple Security Groups attached; the <b>combined (union)</b> set of all their rules applies.</li>
+  <li><b>Default behavior:</b> A new Security Group denies all inbound traffic by default and allows all outbound traffic by default &mdash; you must explicitly add inbound rules to allow anything in.</li>
+</ul>
+
+<h2>Common Rule Examples</h2>
+<table>
+<tr><th>Rule Name</th><th>Protocol</th><th>Port</th><th>Meaning</th></tr>
+<tr><td>HTTP</td><td>TCP</td><td>80</td><td>Allows unencrypted web traffic</td></tr>
+<tr><td>HTTPS</td><td>TCP</td><td>443</td><td>Allows encrypted web traffic</td></tr>
+<tr><td>SSH</td><td>TCP</td><td>22</td><td>Allows secure remote login (Linux)</td></tr>
+</table>
+<ul>
+  <li><b>Protocol (TCP):</b> Transmission Control Protocol &mdash; reliable, connection-oriented; used by HTTP, HTTPS, SSH.</li>
+  <li><b>Port:</b> A numbered "channel" that identifies which service on the instance should receive the traffic.</li>
+  <li><b>Why SSH should generally be restricted:</b>
+    <ul>
+      <li>Port 22 exposed to <code>0.0.0.0/0</code> invites brute-force login attempts from anywhere on the internet.</li>
+      <li>Best practice: restrict the SSH rule's source to a specific trusted IP range (e.g. office/VPN IP) or route access through a bastion host / Systems Manager Session Manager instead.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Stateful Behavior Explained</h2>
+<div class="diagram-title">Stateful Traffic Flow Example</div>
+<div class="diagram">
+Client -----> (Inbound Rule: allow TCP 443) -----> EC2 Instance
+Client <----- (Return traffic automatically allowed, no outbound rule needed) <----- EC2 Instance
+</div>
+<p>Because Security Groups are stateful, once an inbound request is permitted, the response traffic tied to that same connection is automatically allowed back out &mdash; regardless of the outbound rules configured.</p>
+
+<h2>How It Works &mdash; Step by Step</h2>
+<ol>
+  <li>Traffic arrives at the network interface of an EC2 instance.</li>
+  <li>AWS checks all Security Groups attached to that instance.</li>
+  <li>If <b>any</b> attached Security Group has a matching inbound "allow" rule, the traffic is permitted (Security Groups only support "allow" rules, never explicit "deny").</li>
+  <li>If no rule matches, the traffic is dropped by default.</li>
+  <li>Once allowed in, return traffic for that same connection is automatically permitted out due to statefulness.</li>
+</ol>
+
+<h2>Real-World Examples</h2>
+<ul>
+  <li><b>Public web server:</b> Security Group allows inbound HTTP (80) and HTTPS (443) from <code>0.0.0.0/0</code>, and SSH (22) only from the company's office IP.</li>
+  <li><b>Private database server:</b> Security Group only allows inbound traffic on the database port (e.g. 3306 for MySQL) from the application tier's Security Group &mdash; not from any raw IP.</li>
+  <li><b>Internal microservice:</b> Security Group allows traffic only from other Security Groups belonging to trusted internal services, not from the public internet at all.</li>
+</ul>
+
+<h2>Use Cases</h2>
+<ul>
+  <li>Restricting SSH/RDP administrative access to trusted IPs only.</li>
+  <li>Allowing an application tier's Security Group to reach a database tier's Security Group exclusively.</li>
+  <li>Exposing only specific ports (80/443) to the public internet on web servers.</li>
+</ul>
+
+<h2>Advantages</h2>
+<ul>
+  <li>Simple, stateful, and easy to reason about (no need to write matching return rules).</li>
+  <li>Can reference other Security Groups instead of hard-coded IPs, which scales well in dynamic environments.</li>
+  <li>Applied at the instance/ENI level for precise, resource-specific control.</li>
+</ul>
+
+<h2>Limitations / Disadvantages</h2>
+<ul>
+  <li>Only supports "allow" rules &mdash; cannot explicitly deny/block specific traffic.</li>
+  <li>Rule limits per Security Group and per network interface apply (soft limits, can be raised).</li>
+  <li>Being stateful means it cannot be used to selectively block specific outbound response traffic once inbound is allowed.</li>
+</ul>
+
+<h2>Important Terminology</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Stateful</td><td>Return traffic is automatically allowed once initiating traffic is permitted</td></tr>
+<tr><td>Inbound Rule</td><td>Controls traffic coming into the resource</td></tr>
+<tr><td>Outbound Rule</td><td>Controls traffic leaving the resource</td></tr>
+<tr><td>ENI</td><td>Elastic Network Interface &mdash; the virtual network card a Security Group protects</td></tr>
+</table>
+
+<h2>Related AWS Services</h2>
+<ul>
+  <li><b>EC2</b> &mdash; most common resource protected by Security Groups.</li>
+  <li><b>RDS / Lambda (in VPC)</b> &mdash; can also have Security Groups attached.</li>
+  <li><b>Network ACLs</b> &mdash; work alongside Security Groups at the subnet level.</li>
+  <li><b>Elastic Load Balancer</b> &mdash; typically has its own Security Group controlling access to backend instances.</li>
+</ul>
+
+<h2>Security Group vs Network ACL</h2>
+<table>
+<tr><th>Aspect</th><th>Security Group</th><th>Network ACL (NACL)</th></tr>
+<tr><td>Level applied</td><td>Instance / ENI level</td><td>Subnet level</td></tr>
+<tr><td>State</td><td>Stateful (return traffic auto-allowed)</td><td>Stateless (return traffic must be explicitly allowed)</td></tr>
+<tr><td>Rule types</td><td>Allow rules only</td><td>Allow and Deny rules</td></tr>
+<tr><td>Rule evaluation</td><td>All rules evaluated together (union)</td><td>Rules processed in numbered order, first match wins</td></tr>
+<tr><td>Scope</td><td>Applies only to associated resources</td><td>Applies to all resources in the subnet</td></tr>
+</table>
+
+<h2>Important Relationships (Module 3 Context)</h2>
+<p>Security Groups sit at the innermost layer of the Module 3 traffic path: <b>VPC &rarr; Subnet &rarr; Route Table (gets traffic to the resource) &rarr; Security Group (decides if the resource accepts it)</b>. Even if routing allows traffic to physically reach an instance, the Security Group makes the final allow/deny decision.</p>
+
+<div class="confuse">
+<h4>Commonly Confused: Security Group vs Network ACL</h4>
+<ul>
+  <li>Security Group = stateful, instance-level, allow-only.</li>
+  <li>Network ACL = stateless, subnet-level, supports both allow and deny, evaluated in rule-number order.</li>
+</ul>
+</div>
+
+
+
+<!-- ======================================================= -->
+<!-- TOPIC 7: NAT GATEWAY -->
+<!-- ======================================================= -->
+<h1 class="topic">7. NAT Gateway</h1>
+
+<div class="def"><b>Definition:</b> A NAT (Network Address Translation) Gateway is a managed AWS service that allows resources in a private subnet to initiate <b>outbound</b> connections to the internet (or other AWS services) while preventing the internet from initiating <b>inbound</b> connections to them.</div>
+
+<h2>Why NAT Is Needed</h2>
+<ul>
+  <li>Private subnet resources (e.g. app servers, databases) still often need outbound internet access &mdash; for software updates, calling external APIs, downloading patches.</li>
+  <li>Without NAT, private resources would need a public IP and a direct IGW route to reach the internet, which would defeat the purpose of keeping them private/unreachable.</li>
+  <li>NAT solves this by translating the private instance's private IP to the NAT Gateway's own address for outbound requests, while keeping the private instance itself unreachable from outside.</li>
+</ul>
+
+<h2>Core Concepts</h2>
+<ul>
+  <li><b>Private subnet internet access:</b> Achieved indirectly &mdash; private instance &rarr; NAT Gateway &rarr; Internet Gateway &rarr; Internet.</li>
+  <li><b>Public subnet requirement:</b> A NAT Gateway itself must be deployed inside a <b>public subnet</b> (it needs a route to the IGW to reach the internet on behalf of private resources).</li>
+  <li><b>Elastic IP:</b> A NAT Gateway requires an Elastic IP address attached to it, which it uses as the source address for outbound traffic it forwards.</li>
+  <li><b>Route table relationship:</b> Private subnets must have a route sending <code>0.0.0.0/0</code> traffic to the NAT Gateway (not the IGW).</li>
+  <li><b>Outbound traffic:</b> Freely allowed &mdash; the private instance can initiate connections to the internet.</li>
+  <li><b>Inbound traffic:</b> Unsolicited connections from the internet are not allowed to reach the private instance through the NAT Gateway.</li>
+</ul>
+
+<h2>NAT Gateway Architecture</h2>
+<div class="diagram-title">Private Instance Reaching the Internet via NAT</div>
+<div class="diagram">
+Private EC2
+    |
+Private Route Table  (0.0.0.0/0 -> NAT Gateway)
+    |
+NAT Gateway  (lives in a Public Subnet, has an Elastic IP)
+    |
+Public Route Table  (0.0.0.0/0 -> Internet Gateway)
+    |
+Internet Gateway
+    |
+Internet
+</div>
+
+<h2>How It Works &mdash; Step by Step</h2>
+<ol>
+  <li>A private EC2 instance sends an outbound request (e.g. to download a software update).</li>
+  <li>The private subnet's route table sends the request to the NAT Gateway.</li>
+  <li>The NAT Gateway (sitting in a public subnet) translates the private IP source address to its own Elastic IP.</li>
+  <li>The NAT Gateway forwards the request through the Internet Gateway to the internet.</li>
+  <li>The response returns to the NAT Gateway's Elastic IP.</li>
+  <li>The NAT Gateway translates the destination back to the original private instance's IP and forwards the response.</li>
+  <li>The private instance receives the response &mdash; but no external party could have <i>initiated</i> a new connection to it.</li>
+</ol>
+
+<h2>Why Private Instances Can Initiate but Not Receive Connections</h2>
+<ul>
+  <li><b>Outbound initiation works</b> because the NAT Gateway keeps track of the connection it started and knows where to route the response back.</li>
+  <li><b>Unsolicited inbound does not work</b> because there is no route table entry allowing the internet to target the private instance directly, and the NAT Gateway does not forward brand-new inbound connection attempts &mdash; only responses to connections the private side initiated.</li>
+</ul>
+
+<h2>Real-World Examples</h2>
+<ul>
+  <li><b>Patch management:</b> Private application servers use a NAT Gateway to download OS/security patches without being exposed to inbound internet traffic.</li>
+  <li><b>Third-party API calls:</b> A private backend service calls an external payment gateway API through the NAT Gateway.</li>
+  <li><b>Package installation:</b> Private EC2 instances pull software packages (e.g. via a package manager) through NAT during deployment automation.</li>
+</ul>
+
+<h2>Use Cases</h2>
+<ul>
+  <li>Allowing private application/database servers limited, safe internet access.</li>
+  <li>Supporting outbound-only integrations with external services.</li>
+  <li>Maintaining strict inbound isolation for compliance-sensitive workloads while still enabling updates.</li>
+</ul>
+
+<h2>NAT Gateway vs Internet Gateway</h2>
+<table>
+<tr><th>Aspect</th><th>NAT Gateway</th><th>Internet Gateway</th></tr>
+<tr><td>Direction</td><td>Outbound-only (from private resources)</td><td>Bidirectional (inbound + outbound)</td></tr>
+<tr><td>Used by</td><td>Private subnets</td><td>Public subnets</td></tr>
+<tr><td>Requires Elastic IP</td><td>Yes</td><td>No</td></tr>
+<tr><td>Cost</td><td>Hourly + data processing charges</td><td>No additional charge</td></tr>
+<tr><td>Makes resources publicly reachable?</td><td>No</td><td>Yes (if resource has a public IP)</td></tr>
+</table>
+
+<h2>NAT Gateway vs NAT Instance</h2>
+<table>
+<tr><th>Aspect</th><th>NAT Gateway</th><th>NAT Instance</th></tr>
+<tr><td>Management</td><td>Fully managed by AWS</td><td>Self-managed EC2 instance running NAT software</td></tr>
+<tr><td>Availability</td><td>Highly available within an AZ (managed, redundant internally)</td><td>Single point of failure unless manually configured for HA</td></tr>
+<tr><td>Bandwidth</td><td>Scales automatically up to very high throughput</td><td>Limited by the chosen EC2 instance type</td></tr>
+<tr><td>Maintenance</td><td>No patching/maintenance required</td><td>Requires OS patching and manual scaling</td></tr>
+<tr><td>Cost model</td><td>Hourly + per-GB data processing</td><td>EC2 instance hourly cost</td></tr>
+<tr><td>Security Groups</td><td>Not associated with a Security Group</td><td>Can be secured with Security Groups</td></tr>
+</table>
+
+<h2>Advantages</h2>
+<ul>
+  <li>Fully managed &mdash; no patching, scaling, or maintenance required.</li>
+  <li>Highly available and automatically scales bandwidth.</li>
+  <li>Keeps private resources shielded from inbound internet exposure.</li>
+</ul>
+
+<h2>Limitations / Disadvantages</h2>
+<ul>
+  <li><b>Cost:</b> Charged hourly plus per-GB of data processed, which can add up for high-traffic workloads.</li>
+  <li><b>Availability:</b> A NAT Gateway is deployed in a single AZ; for full high availability, one NAT Gateway per AZ is recommended (with corresponding cost).</li>
+  <li>Cannot be used to allow inbound connections from the internet &mdash; strictly outbound-initiated only.</li>
+  <li>Adds a dependency: if the NAT Gateway or its AZ has issues, private subnet outbound access in that AZ is affected.</li>
+</ul>
+
+<h2>Important Terminology</h2>
+<table>
+<tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>NAT</td><td>Network Address Translation &mdash; translating private IPs to a shared public-facing IP</td></tr>
+<tr><td>Elastic IP</td><td>Static public IP required by the NAT Gateway</td></tr>
+<tr><td>Outbound-only access</td><td>Ability to initiate connections out, but not receive unsolicited ones in</td></tr>
+</table>
+
+<h2>Related AWS Services</h2>
+<ul>
+  <li><b>Internet Gateway</b> &mdash; the NAT Gateway relies on the IGW to actually reach the internet.</li>
+  <li><b>Route Tables</b> &mdash; define which subnets send traffic to the NAT Gateway.</li>
+  <li><b>Subnets</b> &mdash; NAT Gateway sits in a public subnet, serves private subnets.</li>
+  <li><b>VPC</b> &mdash; the NAT Gateway is a component within a VPC's architecture.</li>
+</ul>
+
+<h2>Important Relationships (Module 3 Context)</h2>
+<p>The NAT Gateway is the private-subnet counterpart to the Internet Gateway: <b>Private Subnet &rarr; Route Table &rarr; NAT Gateway (in Public Subnet) &rarr; Internet Gateway &rarr; Internet</b>. It exists specifically to give private resources safe, outbound-only internet access without compromising the isolation established by subnetting and routing.</p>
+
+<div class="confuse">
+<h4>Commonly Confused: Internet Gateway vs NAT Gateway</h4>
+<ul>
+  <li>Internet Gateway enables full bidirectional internet access for public subnets.</li>
+  <li>NAT Gateway enables outbound-only internet access for private subnets and itself depends on an Internet Gateway to function.</li>
+</ul>
+</div>
+
+<!-- ======================================================= -->
+<!-- FINAL SECTION: HOW MODULE 3 FITS TOGETHER -->
+<!-- ======================================================= -->
+<h1 class="topic">8. How Module 3 Networking Fits Together</h1>
+
+<div class="diagram-title">Complete Request Path Through Module 3 Services</div>
+<div class="diagram">
+                              USER
+                               |
+                               v
+                          ROUTE 53 (DNS)
+                               |
+                               v
+                API GATEWAY  /  LOAD BALANCER
+                               |
+                               v
+                +--------------------------+
+                |            VPC           |
+                |                          |
+        PUBLIC SUBNET                PRIVATE SUBNET
+                |                          |
+          ROUTE TABLE                 ROUTE TABLE
+     (0.0.0.0/0 -> IGW)          (0.0.0.0/0 -> NAT GW)
+                |                          |
+        INTERNET GATEWAY              NAT GATEWAY
+                |                          |
+        SECURITY GROUP               (routes out via IGW)
+                |                          |
+          EC2 / ALB                  SECURITY GROUP
+                                            |
+                                  APPLICATION SERVER (EC2)
+                                            |
+                                     SECURITY GROUP
+                                            |
+                                   DATABASE (Private Subnet)
+</div>
+
+<h2>Explanation of the Full Flow</h2>
+<ul>
+  <li><b>Route 53</b> resolves the user's domain name to the entry point of the architecture (an API Gateway endpoint or a Load Balancer's Alias record).</li>
+  <li><b>API Gateway / Load Balancer</b> receives the request and forwards it into the VPC, applying auth, throttling, or routing logic as needed.</li>
+  <li><b>VPC</b> is the isolated network boundary containing all downstream infrastructure.</li>
+  <li><b>Public Subnet</b> hosts internet-facing resources (e.g. load balancer, bastion host); its <b>Route Table</b> sends internet traffic to the <b>Internet Gateway</b>.</li>
+  <li><b>Private Subnet</b> hosts application servers and databases; its <b>Route Table</b> sends outbound traffic to the <b>NAT Gateway</b>, which relies on the Internet Gateway to actually reach the internet.</li>
+  <li><b>Security Groups</b> are attached to individual resources (EC2 instances, databases) in both subnet tiers, providing the final, instance-level allow/deny decision regardless of which subnet the traffic is routed through.</li>
+  <li><b>Application Servers</b> in the private subnet process business logic and are only reachable from the load balancer/API Gateway layer, not directly from the internet.</li>
+  <li><b>Databases</b> sit in the most restricted private subnet tier, reachable only from the application server's Security Group.</li>
+</ul>
+
+<h2>Summary of Component Roles</h2>
+<table>
+<tr><th>Service</th><th>Role in the Architecture</th></tr>
+<tr><td>Route 53</td><td>DNS resolution and traffic routing entry point</td></tr>
+<tr><td>API Gateway</td><td>Managed, secured entry point for API-based backends</td></tr>
+<tr><td>VPC</td><td>Isolated virtual network boundary for all resources</td></tr>
+<tr><td>Subnets</td><td>Segment the VPC by AZ and by public/private tier</td></tr>
+<tr><td>Route Tables</td><td>Decide where each subnet's traffic is directed</td></tr>
+<tr><td>Internet Gateway</td><td>Enables bidirectional internet access for public subnets</td></tr>
+<tr><td>NAT Gateway</td><td>Enables outbound-only internet access for private subnets</td></tr>
+<tr><td>Security Groups</td><td>Instance-level stateful firewall &mdash; the final access decision</td></tr>
+</table>
+
+<p class="small">End of Module 3 &ndash; Part 1 study notes. These notes are concept-focused and intended for understanding architecture and relationships between AWS networking services, not for exam drills or console walkthroughs.</p>
+
+</body>
+</html>

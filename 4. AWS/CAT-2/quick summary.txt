@@ -1,0 +1,88 @@
+PRIVATE APPLICATION
+        ↓
+VPC + Private Subnet + NAT Gateway
+
+----------------------------------------
+PRIVATE DATABASE
+        ↓
+RDS in Private Subnet
+
+
+----------------------------------------
+PUBLIC WEB APPLICATION
+        ↓
+ALB + WAF
+
+
+----------------------------------------
+MOBILE/API
+        ↓
+API Gateway + Cognito + ACM
+
+
+----------------------------------------
+RDS HEAVY READS
+        ↓
+Read Replicas
+
+
+----------------------------------------
+HIGH-SCALE NoSQL
+        ↓
+DynamoDB
+
+
+----------------------------------------
+TRAFFIC DISTRIBUTION
+        ↓
+ELB
+
+
+----------------------------------------
+AUTOMATIC EC2 CAPACITY
+        ↓
+Auto Scaling
+
+
+----------------------------------------
+KNOWN EXACT SPIKE
+        ↓
+Scheduled Scaling
+
+
+----------------------------------------
+REPEATING PREDICTABLE PATTERN
+        ↓
+Predictive Scaling
+
+
+----------------------------------------
+WHO DID WHAT AND WHEN?
+        ↓
+CloudTrail
+
+
+----------------------------------------
+MONITORING / ALARMS
+        ↓
+CloudWatch
+
+
+----------------------------------------
+AUDIT LOG STORAGE
+        ↓
+S3 + KMS
+
+
+----------------------------------------
+IMMUTABLE AUDIT LOGS
+        ↓
+S3 Object Lock
+
+
+----------------------------------------
+PRIVATE AWS CONNECTIVITY
+        ↓
+VPC Endpoint
+
+----------------------------------------

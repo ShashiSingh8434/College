@@ -1,0 +1,23 @@
+Module 1 
+Osi layer and tcp ip (explain both or comparison)
+Signal types and 
+Pcm and data modulation 
+Difference between ask fsk dsk 
+Line coding techniques(types) (tutorial problems and questions in unit)
+Make graphs properly
+No need for analog to analog conversion 
+
+Module 2 
+Difference between unguided and guided media 
+Circuit switching and packed switching 
+Problem related to bit stuffing and byte stuffing 
+Protocols all 4
+Numericals from redundancy (crc and lrc)
+Draw the Encoder and decoder example
+
+
+Chat Links: 
+
+
+
+

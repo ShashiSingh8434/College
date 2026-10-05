@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSE3015 – AWS Cloud Practitioner | Module 3 Part 2</title>
+<style>
+  /* ── Reset & Base ── */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    color: #1a1a2e;
+    background: #ffffff;
+    line-height: 1.6;
+  }
+
+  /* ── Page Layout ── */
+  @page { margin: 18mm 16mm 18mm 16mm; size: A4; }
+
+  /* ── Cover Page ── */
+  .cover {
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 260mm;
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    text-align: center;
+    padding: 40px;
+    border-radius: 0;
+  }
+  .cover .badge {
+    background: rgba(255,165,0,0.2);
+    border: 2px solid #f5a623;
+    color: #f5a623;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 9pt;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+  .cover h1 {
+    font-size: 26pt;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .cover h2 {
+    font-size: 15pt;
+    font-weight: 400;
+    color: #90caf9;
+    margin-bottom: 6px;
+  }
+  .cover h3 {
+    font-size: 13pt;
+    font-weight: 600;
+    color: #f5a623;
+    margin-bottom: 40px;
+  }
+  .cover-divider {
+    width: 80px;
+    height: 3px;
+    background: #f5a623;
+    margin: 20px auto;
+    border-radius: 2px;
+  }
+  .cover .topics {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cover .topic-pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #e0e0e0;
+  }
+  .cover .topic-pill span {
+    display: block;
+    font-size: 7pt;
+    color: #90caf9;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+  .cover .footer-note {
+    margin-top: 50px;
+    font-size: 8.5pt;
+    color: rgba(255,255,255,0.5);
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 16px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ── Table of Contents ── */
+  .toc-page {
+    page-break-after: always;
+    padding: 10px 0;
+  }
+  .toc-title {
+    font-size: 16pt;
+    font-weight: 800;
+    color: #0f3460;
+    border-bottom: 3px solid #f5a623;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+  }
+  .toc-section {
+    margin-bottom: 18px;
+  }
+  .toc-section-header {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0f3460;
+    background: #eef2ff;
+    padding: 6px 12px;
+    border-left: 4px solid #3f51b5;
+    margin-bottom: 6px;
+    border-radius: 0 4px 4px 0;
+  }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 3px 12px 3px 24px;
+    font-size: 10pt;
+    color: #333;
+    border-bottom: 1px dotted #ccc;
+  }
+  .toc-item:hover { background: #f5f5f5; }
+  .toc-item .toc-dots { flex: 1; border-bottom: 1px dotted #aaa; margin: 0 8px; }
+  .toc-item .toc-page-num { color: #0f3460; font-weight: 600; min-width: 24px; text-align: right; }
+
+  /* ── Sections ── */
+  .section {
+    page-break-before: always;
+    padding: 4px 0 10px 0;
+  }
+
+  /* ── Headings ── */
+  .section-header {
+    background: linear-gradient(135deg, #0f3460, #1565c0);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .section-header .topic-label {
+    font-size: 8pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #f5a623;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .section-header h2 {
+    font-size: 18pt;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .section-header .subtitle {
+    font-size: 9pt;
+    color: rgba(255,255,255,0.7);
+  }
+
+  h3 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0f3460;
+    border-left: 4px solid #f5a623;
+    padding: 6px 10px;
+    background: #fafafa;
+    margin: 20px 0 10px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  h4 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1565c0;
+    margin: 14px 0 6px 0;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #c5cae9;
+  }
+  h5 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #333;
+    margin: 10px 0 4px 0;
+  }
+
+  /* ── Lists ── */
+  ul, ol { padding-left: 22px; margin: 6px 0 10px 0; }
+  li { margin-bottom: 4px; font-size: 10.5pt; }
+  ul li::marker { color: #1565c0; }
+  ol li::marker { color: #f5a623; font-weight: 700; }
+  ul ul { margin: 3px 0 3px 0; }
+  ul ul li { font-size: 10pt; color: #333; }
+  ul ul li::marker { color: #f5a623; }
+
+  /* ── Info Boxes ── */
+  .box {
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 10.5pt;
+  }
+  .box-blue {
+    background: #e3f2fd;
+    border-left: 4px solid #1565c0;
+    color: #0d47a1;
+  }
+  .box-orange {
+    background: #fff3e0;
+    border-left: 4px solid #f5a623;
+    color: #7a4100;
+  }
+  .box-green {
+    background: #e8f5e9;
+    border-left: 4px solid #388e3c;
+    color: #1b5e20;
+  }
+  .box-red {
+    background: #fce4ec;
+    border-left: 4px solid #c62828;
+    color: #b71c1c;
+  }
+  .box-purple {
+    background: #ede7f6;
+    border-left: 4px solid #6a1b9a;
+    color: #4a148c;
+  }
+  .box-grey {
+    background: #f5f5f5;
+    border-left: 4px solid #757575;
+    color: #212121;
+  }
+  .box strong { display: block; margin-bottom: 4px; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── Definition Block ── */
+  .definition {
+    background: #0f3460;
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 10.5pt;
+  }
+  .definition .def-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #f5a623;
+    margin-bottom: 4px;
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 10pt;
+  }
+  th {
+    background: #0f3460;
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9.5pt;
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f5f7ff; }
+  tr:nth-child(odd) td { background: #ffffff; }
+  .table-caption {
+    font-size: 8.5pt;
+    color: #555;
+    text-align: center;
+    margin-top: -8px;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+
+  /* ── Code / JSON ── */
+  pre {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 14px 16px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 9pt;
+    margin: 10px 0;
+    overflow-x: auto;
+    border-left: 4px solid #f5a623;
+  }
+  .json-key { color: #90caf9; }
+  .json-str { color: #a5d6a7; }
+  .json-comment { color: #888; font-style: italic; }
+
+  /* ── Diagram / Architecture ── */
+  .diagram {
+    background: #f0f4ff;
+    border: 2px solid #c5cae9;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 14px 0;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5pt;
+    color: #1a237e;
+    line-height: 1.8;
+  }
+  .diagram .diagram-title {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f3460;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    background: #c5cae9;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .node {
+    display: inline-block;
+    background: #0f3460;
+    color: white;
+    padding: 5px 14px;
+    border-radius: 5px;
+    font-size: 9pt;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: 600;
+    margin: 2px;
+  }
+  .node-orange {
+    background: #f5a623;
+    color: #1a1a2e;
+  }
+  .node-green {
+    background: #388e3c;
+    color: white;
+  }
+  .node-purple {
+    background: #6a1b9a;
+    color: white;
+  }
+  .node-red {
+    background: #c62828;
+    color: white;
+  }
+  .arrow { color: #1565c0; font-size: 12pt; display: block; }
+
+  /* ── Flow Steps ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin: 14px 0;
+  }
+  .flow-step {
+    background: #e3f2fd;
+    border: 1px solid #90caf9;
+    border-radius: 6px;
+    padding: 6px 20px;
+    font-size: 10pt;
+    color: #0d47a1;
+    font-weight: 600;
+    min-width: 220px;
+    text-align: center;
+  }
+  .flow-arrow {
+    font-size: 14pt;
+    color: #f5a623;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* ── Two Columns ── */
+  .two-col {
+    display: flex;
+    gap: 14px;
+    margin: 10px 0;
+  }
+  .two-col > div {
+    flex: 1;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .two-col > div h5 {
+    text-align: center;
+    background: #0f3460;
+    color: white;
+    margin: -12px -12px 8px -12px;
+    padding: 6px 10px;
+    border-radius: 6px 6px 0 0;
+    font-size: 10pt;
+  }
+
+  /* ── Tag / Badge ── */
+  .tag {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 8.5pt;
+    font-weight: 600;
+    margin: 1px;
+  }
+
+  /* ── Concept Map ── */
+  .concept-map {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5pt;
+    color: #333;
+    line-height: 2;
+    margin: 12px 0;
+  }
+  .concept-root { color: #0f3460; font-weight: 700; font-size: 11pt; }
+  .concept-child { color: #1565c0; font-weight: 600; }
+  .concept-leaf { color: #555; }
+
+  /* ── Comparison highlight ── */
+  .vs-table th:nth-child(1) { background: #1565c0; }
+  .vs-table th:nth-child(2) { background: #0f3460; }
+  .vs-table th:nth-child(3) { background: #388e3c; }
+
+  /* ── Page Break helpers ── */
+  .pb { page-break-before: always; }
+  .no-break { page-break-inside: avoid; }
+
+  /* ── Section divider ── */
+  .section-divider {
+    border: none;
+    border-top: 2px solid #e0e0e0;
+    margin: 18px 0;
+  }
+
+  /* ── Terminology grid ── */
+  .term-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .term-card {
+    background: #f5f7ff;
+    border: 1px solid #c5cae9;
+    border-radius: 5px;
+    padding: 8px 10px;
+  }
+  .term-card .term-name {
+    font-weight: 700;
+    color: #0f3460;
+    font-size: 10pt;
+  }
+  .term-card .term-def {
+    font-size: 9.5pt;
+    color: #444;
+    margin-top: 2px;
+  }
+
+  p { margin: 6px 0 8px 0; font-size: 10.5pt; }
+
+  .highlight { background: #fff9c4; padding: 1px 4px; border-radius: 2px; }
+  .important { color: #c62828; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ COVER ═══ -->
+<div class="cover">
+  <div class="badge">Study Notes &nbsp;|&nbsp; CSE3015</div>
+  <h1>AWS Cloud Practitioner</h1>
+  <h2>MODULE 3 — CO3 — PART 2</h2>
+  <div class="cover-divider"></div>
+  <h3>AWS Security, Identification &amp; Compliance</h3>
+  <div class="topics">
+    <div class="topic-pill">AWS IAM<span>Identity &amp; Access Management</span></div>
+    <div class="topic-pill">AWS ACM<span>Certificate Manager</span></div>
+    <div class="topic-pill">AWS KMS<span>Key Management Service</span></div>
+  </div>
+  <div class="footer-note">
+    Concept-focused study notes &nbsp;|&nbsp; Definitions · Architecture · Diagrams · Comparisons · Examples<br>
+    Not for exam prep — for deep conceptual understanding
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ TABLE OF CONTENTS ═══ -->
+<div class="toc-page">
+  <div class="toc-title">📋 Table of Contents</div>
+
+  <div class="toc-section">
+    <div class="toc-section-header">TOPIC 1 — AWS Identity and Access Management (IAM)</div>
+    <div class="toc-item"><span>1.1 Definition &amp; Purpose</span><span class="toc-dots"></span><span class="toc-page-num">3</span></div>
+    <div class="toc-item"><span>1.2 Authentication vs Authorization</span><span class="toc-dots"></span><span class="toc-page-num">3</span></div>
+    <div class="toc-item"><span>1.3 IAM Components Overview</span><span class="toc-dots"></span><span class="toc-page-num">4</span></div>
+    <div class="toc-item"><span>1.4 Root User</span><span class="toc-dots"></span><span class="toc-page-num">4</span></div>
+    <div class="toc-item"><span>1.5 IAM Users</span><span class="toc-dots"></span><span class="toc-page-num">5</span></div>
+    <div class="toc-item"><span>1.6 IAM Groups</span><span class="toc-dots"></span><span class="toc-page-num">5</span></div>
+    <div class="toc-item"><span>1.7 IAM Roles</span><span class="toc-dots"></span><span class="toc-page-num">6</span></div>
+    <div class="toc-item"><span>1.8 IAM Policies — Structure &amp; Types</span><span class="toc-dots"></span><span class="toc-page-num">7</span></div>
+    <div class="toc-item"><span>1.9 Least Privilege Principle</span><span class="toc-dots"></span><span class="toc-page-num">9</span></div>
+    <div class="toc-item"><span>1.10 Multi-Factor Authentication (MFA)</span><span class="toc-dots"></span><span class="toc-page-num">9</span></div>
+    <div class="toc-item"><span>1.11 IAM Architecture</span><span class="toc-dots"></span><span class="toc-page-num">10</span></div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-header">TOPIC 2 — AWS Certificate Manager (ACM)</div>
+    <div class="toc-item"><span>2.1 Definition &amp; Purpose</span><span class="toc-dots"></span><span class="toc-page-num">11</span></div>
+    <div class="toc-item"><span>2.2 Digital Certificates, SSL, TLS, HTTPS</span><span class="toc-dots"></span><span class="toc-page-num">11</span></div>
+    <div class="toc-item"><span>2.3 Certificate Types &amp; Lifecycle</span><span class="toc-dots"></span><span class="toc-page-num">12</span></div>
+    <div class="toc-item"><span>2.4 ACM Architecture &amp; Request Flow</span><span class="toc-dots"></span><span class="toc-page-num">13</span></div>
+    <div class="toc-item"><span>2.5 Real-World Example</span><span class="toc-dots"></span><span class="toc-page-num">13</span></div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-header">TOPIC 3 — AWS Key Management Service (KMS)</div>
+    <div class="toc-item"><span>3.1 Definition &amp; Purpose</span><span class="toc-dots"></span><span class="toc-page-num">14</span></div>
+    <div class="toc-item"><span>3.2 Encryption at Rest vs In Transit</span><span class="toc-dots"></span><span class="toc-page-num">14</span></div>
+    <div class="toc-item"><span>3.3 KMS Keys — Types &amp; Management</span><span class="toc-dots"></span><span class="toc-page-num">15</span></div>
+    <div class="toc-item"><span>3.4 Symmetric Encryption</span><span class="toc-dots"></span><span class="toc-page-num">15</span></div>
+    <div class="toc-item"><span>3.5 Asymmetric Encryption</span><span class="toc-dots"></span><span class="toc-page-num">16</span></div>
+    <div class="toc-item"><span>3.6 Envelope Encryption</span><span class="toc-dots"></span><span class="toc-page-num">17</span></div>
+    <div class="toc-item"><span>3.7 AWS Service Integration</span><span class="toc-dots"></span><span class="toc-page-num">18</span></div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-header">COMPARISONS &amp; ARCHITECTURE</div>
+    <div class="toc-item"><span>Important Comparison Tables (15 tables)</span><span class="toc-dots"></span><span class="toc-page-num">19</span></div>
+    <div class="toc-item"><span>Integrated Security Architecture</span><span class="toc-dots"></span><span class="toc-page-num">23</span></div>
+    <div class="toc-item"><span>Final Concept Map</span><span class="toc-dots"></span><span class="toc-page-num">24</span></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ TOPIC 1: IAM ═══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="topic-label">Topic 1 of 3</div>
+    <h2>AWS Identity and Access Management (IAM)</h2>
+    <div class="subtitle">Control who can do what on your AWS account — securely and granularly</div>
+  </div>
+
+  <!-- 1.1 Definition -->
+  <h3>1.1 Definition &amp; Purpose</h3>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    AWS IAM (Identity and Access Management) is a <strong>global AWS service</strong> that enables you to manage <strong>who</strong> (identity) can access AWS resources and <strong>what</strong> (access) they are allowed to do — without incurring additional cost.
+  </div>
+
+  <h4>Why IAM is Required</h4>
+  <ul>
+    <li>AWS accounts can host dozens of services (EC2, S3, RDS, Lambda…)</li>
+    <li>Multiple users (developers, admins, auditors) need different levels of access</li>
+    <li>Without IAM, every user would need the root account credentials — a catastrophic security risk</li>
+    <li>IAM provides <strong>granular control</strong>: each user/service gets only what it needs</li>
+    <li>Supports compliance requirements (least privilege, audit trails)</li>
+  </ul>
+
+  <h4>Key Concepts Before Components</h4>
+  <div class="term-grid">
+    <div class="term-card"><div class="term-name">🪪 Identity</div><div class="term-def">Who you are — a user, group, role, or service. The <em>subject</em> requesting access.</div></div>
+    <div class="term-card"><div class="term-name">🔑 Access</div><div class="term-def">What you can do — read, write, delete, execute. The <em>action</em> permitted on a resource.</div></div>
+    <div class="term-card"><div class="term-name">✅ Permission</div><div class="term-def">A granted right to perform a specific action on a specific resource.</div></div>
+    <div class="term-card"><div class="term-name">🔐 Authentication</div><div class="term-def">Verifying <em>who you are</em> — "Prove your identity."</div></div>
+    <div class="term-card"><div class="term-name">🛂 Authorization</div><div class="term-def">Determining <em>what you can do</em> — "You are allowed to do X."</div></div>
+    <div class="term-card"><div class="term-name">📄 Policy</div><div class="term-def">A JSON document defining what is allowed or denied on which resources.</div></div>
+  </div>
+
+  <!-- 1.2 Auth vs Authz -->
+  <h3>1.2 Authentication vs Authorization</h3>
+  <div class="box box-orange"><strong>🔑 Important Distinction</strong>These two concepts are often confused but are fundamentally different steps in the security flow.</div>
+
+  <table class="vs-table">
+    <tr>
+      <th>Aspect</th>
+      <th>Authentication</th>
+      <th>Authorization</th>
+    </tr>
+    <tr><td><strong>Question</strong></td><td>Who are you?</td><td>What can you do?</td></tr>
+    <tr><td><strong>Purpose</strong></td><td>Verify identity</td><td>Grant/deny access</td></tr>
+    <tr><td><strong>How</strong></td><td>Password, MFA, key pair</td><td>IAM policies &amp; permissions</td></tr>
+    <tr><td><strong>Happens</strong></td><td>First (before authorization)</td><td>Second (after authentication)</td></tr>
+    <tr><td><strong>IAM Element</strong></td><td>Username + Password / Access Keys</td><td>Policies attached to identities</td></tr>
+    <tr><td><strong>Failure result</strong></td><td>Login rejected</td><td>Access denied (403)</td></tr>
+    <tr><td><strong>Example</strong></td><td>Alice logs in with her password ✓</td><td>Alice tries to delete S3 bucket — DENIED ✗</td></tr>
+  </table>
+
+  <div class="box box-blue"><strong>🌍 Real-World Analogy</strong>
+    <ul>
+      <li><strong>Authentication</strong> = Showing your ID card at the office building entrance — security confirms you work there</li>
+      <li><strong>Authorization</strong> = Your ID card only lets you access floors 1–3, not the server room on floor 5</li>
+    </ul>
+  </div>
+
+  <!-- 1.3 Components -->
+  <h3>1.3 IAM Components Overview</h3>
+
+  <div class="diagram">
+    <div class="diagram-title">IAM Component Relationships</div>
+    <table style="margin: 0 auto; text-align: center; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none;">
+      <tr>
+        <td style="padding: 4px;"><span class="node">Root Account</span></td>
+        <td style="padding: 4px; color: #888;">creates ↓</td>
+        <td style="padding: 4px;"><span class="node">IAM Users</span></td>
+        <td style="padding: 4px; color: #888;">belong to →</td>
+        <td style="padding: 4px;"><span class="node">IAM Groups</span></td>
+      </tr>
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 4px; color: #888;">↓ attach / ↓ assume</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding: 4px;"><span class="node node-orange">IAM Policies</span></td>
+        <td style="padding: 4px; color: #888;">← attached to →</td>
+        <td colspan="2" style="padding: 4px;"><span class="node node-purple">IAM Roles</span></td>
+      </tr>
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 4px; color: #888;">↓ define permissions on ↓</td>
+      </tr>
+      <tr>
+        <td colspan="5" style="padding: 4px; text-align: center;"><span class="node node-green">AWS Resources (S3, EC2, RDS, Lambda...)</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.4 Root User -->
+  <h3>1.4 Root User</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    The <strong>root user</strong> is the initial account owner identity created when an AWS account is first set up. It uses the email address and password used to create the account and has <strong>unrestricted access to all AWS services and resources</strong>.
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h5>Why Root Has Extensive Privileges</h5>
+      <ul>
+        <li>It is the account's original owner identity</li>
+        <li>Can perform actions no other user can — e.g., close the account, change account settings</li>
+        <li>Can access all services with no permission restrictions</li>
+        <li>Acts as the "super administrator" of the AWS account</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Security Best Practices</h5>
+      <ul>
+        <li><span class="important">Never use root for day-to-day tasks</span></li>
+        <li>Enable MFA on root immediately after account creation</li>
+        <li>Create IAM admin users for routine administration</li>
+        <li>Lock away root credentials (store securely, rarely accessed)</li>
+        <li>Root has no IAM permissions restrictions — extremely dangerous if compromised</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box box-red"><strong>⚠️ Tasks ONLY Root Can Perform</strong>
+    Close AWS account &nbsp;|&nbsp; Change account email / password &nbsp;|&nbsp; Enable MFA delete on S3 &nbsp;|&nbsp; Restore IAM user permissions &nbsp;|&nbsp; Activate IAM access to billing
+  </div>
+
+  <!-- 1.5 IAM Users -->
+  <h3>1.5 IAM Users</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    An <strong>IAM User</strong> is a persistent identity within an AWS account representing a specific <em>person or application</em>. It has long-term credentials (username/password or access keys) and is granted specific permissions.
+  </div>
+
+  <h4>What a User Represents</h4>
+  <ul>
+    <li>A specific human (e.g., Alice the developer, Bob the DBA)</li>
+    <li>An application or service running outside AWS needing programmatic access</li>
+    <li>A system account for automation scripts</li>
+  </ul>
+
+  <h4>User Credentials — Two Types</h4>
+  <table>
+    <tr><th>Credential Type</th><th>Used For</th><th>Components</th></tr>
+    <tr><td><strong>Console Password</strong></td><td>AWS Management Console (web UI) login</td><td>Username + Password (+MFA)</td></tr>
+    <tr><td><strong>Access Keys</strong></td><td>Programmatic access (CLI, SDK, API)</td><td>Access Key ID + Secret Access Key</td></tr>
+  </table>
+
+  <h4>When IAM Users Are Appropriate</h4>
+  <ul>
+    <li>Human users who need to sign into AWS Console</li>
+    <li>Applications running outside AWS that need API access</li>
+    <li>Cross-account access when roles aren't feasible</li>
+    <li><span class="important">NOT recommended</span> for applications running on AWS services (use Roles instead)</li>
+  </ul>
+
+  <div class="box box-orange"><strong>📌 Key Relationship</strong>An IAM User by itself has NO permissions. Permissions must be explicitly granted via policies — either directly or through group membership.</div>
+
+  <!-- 1.6 IAM Groups -->
+  <h3>1.6 IAM Groups</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    An <strong>IAM Group</strong> is a collection of IAM users. Policies attached to a group apply to <em>all users in that group</em>. Groups are used to manage permissions for multiple users efficiently.
+  </div>
+
+  <h4>Why Groups Simplify Administration</h4>
+  <ul>
+    <li>Assign one policy to the group → all members inherit it instantly</li>
+    <li>When a user's role changes, move them to a different group</li>
+    <li>No need to update permissions for individual users one by one</li>
+    <li>Easier to audit — look at one group to understand all its members' permissions</li>
+  </ul>
+
+  <div class="diagram">
+    <div class="diagram-title">Groups Simplify Permission Management</div>
+    <table style="margin: 0 auto; text-align: center; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none;">
+      <tr>
+        <td style="padding: 6px;"><span class="node">Developers Group</span><br><small style="color:#555;">S3 Read+Write, EC2 Full</small></td>
+        <td style="padding: 6px;"></td>
+        <td style="padding: 6px;"><span class="node node-purple">Auditors Group</span><br><small style="color:#555;">Read-Only All Services</small></td>
+        <td style="padding: 6px;"></td>
+        <td style="padding: 6px;"><span class="node node-green">Admins Group</span><br><small style="color:#555;">Full Access All</small></td>
+      </tr>
+      <tr>
+        <td style="padding: 3px; font-size: 8pt; color: #888;">Alice, Bob, Charlie</td>
+        <td></td>
+        <td style="padding: 3px; font-size: 8pt; color: #888;">Dave, Eve</td>
+        <td></td>
+        <td style="padding: 3px; font-size: 8pt; color: #888;">Frank</td>
+      </tr>
+    </table>
+  </div>
+
+  <h4>Important Rules About Groups</h4>
+  <ul>
+    <li>A user can belong to <strong>multiple groups</strong></li>
+    <li>Groups cannot contain other groups (no nested groups)</li>
+    <li>Groups have no credentials — they are purely a permission management mechanism</li>
+    <li>Policies are attached to the group, not the individual user</li>
+  </ul>
+
+  <!-- 1.7 IAM Roles -->
+  <div class="pb"></div>
+  <h3>1.7 IAM Roles</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    An <strong>IAM Role</strong> is an identity with specific permissions that can be <em>assumed</em> by trusted entities (AWS services, users, or external identities). Unlike users, roles have <strong>no long-term credentials</strong> — they provide temporary security credentials when assumed.
+  </div>
+
+  <h4>Key Concepts of Roles</h4>
+  <ul>
+    <li><strong>Trust Relationship:</strong> Defines <em>who</em> is allowed to assume (use) the role — e.g., EC2 service, another AWS account, a Lambda function</li>
+    <li><strong>Permissions Policy:</strong> Defines <em>what</em> the role can do once assumed — same JSON policy format as user policies</li>
+    <li><strong>Temporary Credentials:</strong> When a role is assumed, AWS STS (Security Token Service) generates short-lived credentials (Access Key ID, Secret Access Key, Session Token) — they expire automatically</li>
+    <li><strong>Role Assumption:</strong> The act of "taking on" a role to gain its permissions temporarily</li>
+  </ul>
+
+  <h4>Common Role Types</h4>
+  <table>
+    <tr><th>Role Type</th><th>Who Assumes It</th><th>Use Case</th></tr>
+    <tr><td><strong>EC2 Instance Role</strong></td><td>EC2 instances</td><td>Allow an EC2 app to read from S3 without embedding access keys</td></tr>
+    <tr><td><strong>Lambda Execution Role</strong></td><td>Lambda functions</td><td>Allow Lambda to write logs to CloudWatch, read from DynamoDB</td></tr>
+    <tr><td><strong>Cross-Account Role</strong></td><td>Users in another AWS account</td><td>Allow Account B users to access resources in Account A</td></tr>
+    <tr><td><strong>Service-Linked Role</strong></td><td>AWS managed services</td><td>Created and managed by AWS for specific service integrations</td></tr>
+    <tr><td><strong>Federated Role</strong></td><td>External identity providers</td><td>Allow corporate directory (Active Directory) users to access AWS</td></tr>
+  </table>
+
+  <h4>Why Roles Are Preferred Over Embedding Credentials in AWS Services</h4>
+  <div class="box box-green">
+    <ul>
+      <li><strong>No static credentials:</strong> Access keys embedded in code/config can be leaked in version control or logs</li>
+      <li><strong>Auto-rotation:</strong> Temporary credentials expire automatically — no manual rotation needed</li>
+      <li><strong>Least privilege:</strong> Roles grant only the permissions needed for the task</li>
+      <li><strong>Auditability:</strong> CloudTrail logs which role performed which action</li>
+      <li><strong>No sharing:</strong> Each service instance gets its own temporary credentials</li>
+    </ul>
+  </div>
+
+  <div class="diagram">
+    <div class="diagram-title">EC2 Role — How an Application Accesses AWS Without Keys</div>
+    <div class="flow">
+      <div class="flow-step">👩‍💻 EC2 Instance running Application</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Assumes IAM Role (attached at launch)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">AWS STS issues Temporary Credentials</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Application uses credentials automatically</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">🪣 Accesses S3 Bucket / RDS / DynamoDB</div>
+    </div>
+  </div>
+
+  <!-- 1.8 IAM Policies -->
+  <h3>1.8 IAM Policies — Structure &amp; Types</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    An <strong>IAM Policy</strong> is a JSON document that defines <em>permissions</em>. It specifies what actions are allowed or denied on which AWS resources, optionally under certain conditions.
+  </div>
+
+  <h4>Policy JSON Structure</h4>
+  <pre>{
+  <span class="json-key">"Version"</span>: <span class="json-str">"2012-10-17"</span>,          <span class="json-comment">// Policy language version (always use this)</span>
+  <span class="json-key">"Statement"</span>: [              <span class="json-comment">// Array of permission rules</span>
+    {
+      <span class="json-key">"Sid"</span>: <span class="json-str">"AllowS3ReadAccess"</span>,  <span class="json-comment">// Optional: Statement ID (label)</span>
+      <span class="json-key">"Effect"</span>: <span class="json-str">"Allow"</span>,          <span class="json-comment">// Allow OR Deny</span>
+      <span class="json-key">"Action"</span>: [              <span class="json-comment">// What action(s) are permitted</span>
+        <span class="json-str">"s3:GetObject"</span>,
+        <span class="json-str">"s3:ListBucket"</span>
+      ],
+      <span class="json-key">"Resource"</span>: [            <span class="json-comment">// Which AWS resource(s)</span>
+        <span class="json-str">"arn:aws:s3:::my-bucket"</span>,
+        <span class="json-str">"arn:aws:s3:::my-bucket/*"</span>
+      ],
+      <span class="json-key">"Condition"</span>: {           <span class="json-comment">// Optional: extra conditions</span>
+        <span class="json-str">"StringEquals"</span>: {
+          <span class="json-str">"aws:RequestedRegion"</span>: <span class="json-str">"us-east-1"</span>
+        }
+      }
+    }
+  ]
+}</pre>
+
+  <h4>Explaining Every Field</h4>
+  <table>
+    <tr><th>Field</th><th>Required</th><th>Values</th><th>Meaning</th></tr>
+    <tr><td><strong>Version</strong></td><td>Yes</td><td>"2012-10-17"</td><td>Policy language version — always use 2012-10-17</td></tr>
+    <tr><td><strong>Statement</strong></td><td>Yes</td><td>Array of rules</td><td>One or more permission rules in the policy</td></tr>
+    <tr><td><strong>Sid</strong></td><td>No</td><td>Any string</td><td>Statement identifier — a label for the rule</td></tr>
+    <tr><td><strong>Effect</strong></td><td>Yes</td><td>Allow / Deny</td><td>Whether to permit or block the action. Deny overrides Allow.</td></tr>
+    <tr><td><strong>Action</strong></td><td>Yes</td><td>service:operation</td><td>The AWS API action(s) — e.g., s3:GetObject, ec2:StartInstances</td></tr>
+    <tr><td><strong>Resource</strong></td><td>Yes</td><td>ARN or *</td><td>The specific AWS resource(s) the action applies to. * = all</td></tr>
+    <tr><td><strong>Condition</strong></td><td>No</td><td>Key-value pairs</td><td>Extra constraints — time, IP, MFA, region, tags</td></tr>
+  </table>
+
+  <div class="box box-red"><strong>⚠️ Explicit Deny Always Wins</strong>If multiple policies apply and one says Deny, the action is ALWAYS denied — regardless of any Allow statement elsewhere.</div>
+
+  <h4>Default Deny</h4>
+  <ul>
+    <li>In AWS IAM, everything is <strong>denied by default</strong></li>
+    <li>You must explicitly <em>Allow</em> an action for it to be permitted</li>
+    <li>The permission evaluation order: <strong>Explicit Deny → Explicit Allow → Default Deny</strong></li>
+  </ul>
+
+  <div class="pb"></div>
+  <h4>Policy Types</h4>
+
+  <table>
+    <tr><th>Policy Type</th><th>Attached To</th><th>Who Creates/Manages</th><th>Portability</th></tr>
+    <tr><td><strong>Identity-based</strong></td><td>User, Group, Role</td><td>You (customer)</td><td>Follows the identity</td></tr>
+    <tr><td><strong>Resource-based</strong></td><td>AWS Resource (S3, KMS…)</td><td>You (customer)</td><td>Stays with the resource</td></tr>
+    <tr><td><strong>AWS Managed</strong></td><td>Any identity</td><td>AWS creates &amp; maintains</td><td>Reusable across accounts</td></tr>
+    <tr><td><strong>Customer Managed</strong></td><td>Any identity</td><td>You create &amp; maintain</td><td>Reusable within your account</td></tr>
+    <tr><td><strong>Inline</strong></td><td>Single user/group/role</td><td>You create &amp; maintain</td><td>Embedded — not reusable</td></tr>
+    <tr><td><strong>Permissions Boundary</strong></td><td>User or Role</td><td>You (admin)</td><td>Sets maximum permission ceiling</td></tr>
+  </table>
+
+  <h5>Identity-based vs Resource-based Policy</h5>
+  <div class="two-col">
+    <div>
+      <h5>Identity-Based Policy</h5>
+      <ul>
+        <li>Attached to an IAM <strong>user, group, or role</strong></li>
+        <li>Controls what that identity <em>can do</em></li>
+        <li>Example: "Alice can read from any S3 bucket"</li>
+        <li>Most common type of IAM policy</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Resource-Based Policy</h5>
+      <ul>
+        <li>Attached directly to an <strong>AWS resource</strong> (e.g., S3 bucket policy)</li>
+        <li>Controls <em>who can access</em> that resource</li>
+        <li>Example: "This S3 bucket can only be accessed by Account 123456"</li>
+        <li>Can grant cross-account access without assuming a role</li>
+      </ul>
+    </div>
+  </div>
+
+  <h5>AWS Managed vs Customer Managed vs Inline Policy</h5>
+  <table>
+    <tr><th>Aspect</th><th>AWS Managed</th><th>Customer Managed</th><th>Inline</th></tr>
+    <tr><td>Creator</td><td>AWS</td><td>You</td><td>You</td></tr>
+    <tr><td>Management</td><td>AWS updates it</td><td>You maintain it</td><td>You maintain it</td></tr>
+    <tr><td>Reusability</td><td>Any AWS account</td><td>Within your account</td><td>Only 1 identity</td></tr>
+    <tr><td>Versioning</td><td>Automatic by AWS</td><td>Supported</td><td>Not supported</td></tr>
+    <tr><td>Best for</td><td>Common standard permissions</td><td>Custom fine-grained access</td><td>Strict 1:1 binding</td></tr>
+    <tr><td>Example</td><td>AmazonS3ReadOnlyAccess</td><td>MyAppS3Policy</td><td>Embedded in 1 role</td></tr>
+  </table>
+
+  <!-- 1.9 Least Privilege -->
+  <h3>1.9 Least Privilege Principle</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    The <strong>Principle of Least Privilege</strong> states that every identity (user, role, service) should be granted <em>only the minimum permissions necessary</em> to perform its intended function — and nothing more.
+  </div>
+
+  <h4>Why It Matters</h4>
+  <ul>
+    <li><strong>Limits blast radius:</strong> If credentials are compromised, the attacker can only do what that identity was allowed to do</li>
+    <li><strong>Reduces insider threats:</strong> Employees can only access what they need for their job</li>
+    <li><strong>Compliance:</strong> Many security standards (PCI-DSS, HIPAA, SOC2) mandate least privilege</li>
+    <li><strong>Better audit trail:</strong> Narrow permissions make suspicious activity more visible</li>
+  </ul>
+
+  <h4>Example</h4>
+  <div class="box box-blue">
+    <strong>Scenario: A Lambda function processes images and stores them in S3</strong>
+    <ul>
+      <li><span class="important">Bad practice:</span> Grant Lambda the <em>AdministratorAccess</em> managed policy — it can now delete EC2 instances, modify IAM, etc.</li>
+      <li><span class="highlight">Good practice:</span> Grant Lambda <em>only</em> <code>s3:PutObject</code> on <em>only</em> the specific bucket it writes to</li>
+    </ul>
+  </div>
+
+  <!-- 1.10 MFA -->
+  <h3>1.10 Multi-Factor Authentication (MFA)</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <strong>MFA</strong> adds an extra layer of security by requiring a user to provide <em>two or more verification factors</em> to authenticate — something they <strong>know</strong> (password) and something they <strong>have</strong> (authentication device/code).
+  </div>
+
+  <h4>MFA Authentication Factors</h4>
+  <table>
+    <tr><th>Factor Type</th><th>What It Is</th><th>Example</th></tr>
+    <tr><td>Something you <strong>know</strong></td><td>Knowledge factor</td><td>Password, PIN</td></tr>
+    <tr><td>Something you <strong>have</strong></td><td>Possession factor</td><td>Authenticator app, hardware token, OTP SMS</td></tr>
+    <tr><td>Something you <strong>are</strong></td><td>Biometric factor</td><td>Fingerprint, face recognition</td></tr>
+  </table>
+
+  <h4>Why MFA Improves Security</h4>
+  <ul>
+    <li>Password alone is vulnerable to phishing, brute force, data breaches</li>
+    <li>Even if a password is stolen, the attacker still cannot log in without the second factor</li>
+    <li>AWS strongly recommends MFA on root user and all privileged IAM users</li>
+  </ul>
+
+  <div class="diagram">
+    <div class="diagram-title">MFA Authentication Flow</div>
+    <div class="flow">
+      <div class="flow-step">User enters Username + Password</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">AWS validates credentials (Authentication — Factor 1)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">AWS prompts for MFA token</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">User provides time-based OTP from authenticator app (Factor 2)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">AWS grants Console / API access ✓</div>
+    </div>
+  </div>
+
+  <!-- 1.11 IAM Architecture -->
+  <div class="pb"></div>
+  <h3>1.11 IAM Full Architecture</h3>
+
+  <div class="diagram">
+    <div class="diagram-title">Architecture 1 — User → Group → Policy → Resource</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none; text-align: center;">
+      <tr>
+        <td colspan="3" style="padding:4px;"><span class="node">IAM User (Alice)</span></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">member of ↓</td></tr>
+      <tr>
+        <td colspan="3" style="padding:4px;"><span class="node">IAM Group (Developers)</span></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">has attached ↓</td></tr>
+      <tr>
+        <td colspan="3" style="padding:4px;"><span class="node node-orange">IAM Policy (Allow S3 Read, EC2 Describe)</span></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">grants access to ↓</td></tr>
+      <tr>
+        <td style="padding:4px;"><span class="node node-green">S3 Bucket</span></td>
+        <td style="padding:4px;"><span class="node node-green">EC2 Instances</span></td>
+        <td style="padding:4px;"><span class="node node-green">CloudWatch</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="diagram">
+    <div class="diagram-title">Architecture 2 — EC2 Role → Service Access (No Hardcoded Keys)</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none; text-align: center;">
+      <tr>
+        <td style="padding:4px;"><span class="node">EC2 Instance</span><br><small style="color:#888;">running web app</small></td>
+      </tr>
+      <tr><td style="color:#888; padding:2px;">assumes ↓ (via instance profile)</td></tr>
+      <tr>
+        <td style="padding:4px;"><span class="node node-purple">IAM Role: EC2-S3-ReadRole</span></td>
+      </tr>
+      <tr><td style="color:#888; padding:2px;">has trust relationship with EC2 service</td></tr>
+      <tr><td style="color:#888; padding:2px;">has permissions policy ↓</td></tr>
+      <tr>
+        <td style="padding:4px;"><span class="node node-orange">Policy: Allow s3:GetObject on my-data-bucket</span></td>
+      </tr>
+      <tr><td style="color:#888; padding:2px;">↓ AWS STS issues temporary credentials ↓</td></tr>
+      <tr>
+        <td style="padding:4px;"><span class="node node-green">S3 Bucket: my-data-bucket ✓ Access Granted</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <h4>Important Relationships Summary</h4>
+  <ul>
+    <li><strong>User ↔ Group:</strong> A user can be in multiple groups; groups cannot be nested</li>
+    <li><strong>Group → Policy:</strong> Policy attached to group grants permissions to all members</li>
+    <li><strong>Role ↔ Policy:</strong> Roles have permission policies (what they can do) + trust policies (who can assume them)</li>
+    <li><strong>Policy → Resource:</strong> Policy's Resource field specifies the ARN of the target AWS resource</li>
+    <li><strong>User ↔ Role:</strong> Users can assume roles to temporarily gain different permissions</li>
+  </ul>
+
+  <h4>Terminology Quick Reference</h4>
+  <div class="term-grid">
+    <div class="term-card"><div class="term-name">ARN</div><div class="term-def">Amazon Resource Name — globally unique identifier for any AWS resource. Format: arn:partition:service:region:account:resource</div></div>
+    <div class="term-card"><div class="term-name">STS</div><div class="term-def">Security Token Service — issues temporary credentials when a role is assumed</div></div>
+    <div class="term-card"><div class="term-name">Principal</div><div class="term-def">The entity (user, role, service) making the API request</div></div>
+    <div class="term-card"><div class="term-name">Trust Policy</div><div class="term-def">Part of a role definition that specifies who is allowed to assume it</div></div>
+    <div class="term-card"><div class="term-name">Instance Profile</div><div class="term-def">Container for a single IAM role that can be attached to an EC2 instance</div></div>
+    <div class="term-card"><div class="term-name">Permission Boundary</div><div class="term-def">Policy that sets the maximum permissions an identity can ever have</div></div>
+  </div>
+
+  <h4>Commonly Confused IAM Concepts</h4>
+  <table>
+    <tr><th>Confusion</th><th>Clarification</th></tr>
+    <tr><td>Role vs User</td><td>Users have permanent credentials; Roles provide temporary credentials and are assumed by entities</td></tr>
+    <tr><td>Group vs Role</td><td>Groups are for collecting users; Roles are for assigning permissions to services/apps</td></tr>
+    <tr><td>Policy vs Permission</td><td>A Policy is the document; a Permission is the individual Allow/Deny rule within it</td></tr>
+    <tr><td>Authentication vs Authorization</td><td>Auth = "who you are"; Authz = "what you can do" — two separate steps</td></tr>
+    <tr><td>Inline vs Managed Policy</td><td>Inline is embedded and non-reusable; Managed is standalone and can be reused</td></tr>
+    <tr><td>Trust Policy vs Permissions Policy</td><td>Trust Policy = who can assume the role; Permissions Policy = what the role can do</td></tr>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ TOPIC 2: ACM ═══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="topic-label">Topic 2 of 3</div>
+    <h2>AWS Certificate Manager (ACM)</h2>
+    <div class="subtitle">Provision, manage, and deploy SSL/TLS certificates — automatically and at no cost</div>
+  </div>
+
+  <!-- 2.1 Definition -->
+  <h3>2.1 Definition &amp; Purpose</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <strong>AWS Certificate Manager (ACM)</strong> is a managed AWS service that handles the complexity of provisioning, managing, deploying, and renewing <em>SSL/TLS certificates</em> for use with AWS services like Elastic Load Balancing, CloudFront, and API Gateway.
+  </div>
+
+  <h4>Purpose</h4>
+  <ul>
+    <li>Eliminate manual certificate management — no more buying, installing, or renewing certs manually</li>
+    <li>Enable <strong>HTTPS</strong> (encrypted) communication between clients and AWS-hosted applications</li>
+    <li>Provide <strong>public</strong> certificates (for internet-facing sites) at <strong>no cost</strong></li>
+    <li>Provide <strong>private</strong> certificates (for internal infrastructure) via ACM Private CA</li>
+    <li>Auto-renewal prevents certificate expiry outages</li>
+  </ul>
+
+  <!-- 2.2 SSL TLS HTTPS -->
+  <h3>2.2 Digital Certificates, SSL, TLS &amp; HTTPS</h3>
+
+  <div class="term-grid">
+    <div class="term-card"><div class="term-name">📜 Digital Certificate</div><div class="term-def">An electronic credential that proves the identity of a server/entity and contains its public key. Issued by a trusted Certificate Authority (CA).</div></div>
+    <div class="term-card"><div class="term-name">🔒 SSL (Secure Sockets Layer)</div><div class="term-def">Older cryptographic protocol (now deprecated). Established the concept of encrypting web traffic between client and server.</div></div>
+    <div class="term-card"><div class="term-name">🔐 TLS (Transport Layer Security)</div><div class="term-def">The modern, more secure successor to SSL. The actual protocol used today for encrypting internet communication.</div></div>
+    <div class="term-card"><div class="term-name">🌐 HTTPS</div><div class="term-def">HTTP + TLS. The web protocol that uses TLS to encrypt HTTP traffic. URLs start with https:// and use port 443.</div></div>
+  </table>
+
+  <h4>HTTP vs HTTPS</h4>
+  <table>
+    <tr><th>Aspect</th><th>HTTP</th><th>HTTPS</th></tr>
+    <tr><td>Full Name</td><td>HyperText Transfer Protocol</td><td>HTTP Secure</td></tr>
+    <tr><td>Port</td><td>80</td><td>443</td></tr>
+    <tr><td>Encryption</td><td>No — data sent in plaintext</td><td>Yes — data encrypted via TLS</td></tr>
+    <tr><td>Authentication</td><td>No server verification</td><td>Server identity verified via certificate</td></tr>
+    <tr><td>Data Integrity</td><td>Data can be tampered in transit</td><td>Data integrity guaranteed by TLS MAC</td></tr>
+    <tr><td>Certificate Required</td><td>No</td><td>Yes — SSL/TLS certificate</td></tr>
+    <tr><td>Browser indicator</td><td>⚠️ Not Secure</td><td>🔒 Padlock icon</td></tr>
+    <tr><td>Use case</td><td>Avoid for any real use</td><td>All production web applications</td></tr>
+  </table>
+
+  <h4>SSL vs TLS</h4>
+  <table>
+    <tr><th>Aspect</th><th>SSL</th><th>TLS</th></tr>
+    <tr><td>Status</td><td>Deprecated, insecure</td><td>Current standard</td></tr>
+    <tr><td>Versions</td><td>SSL 2.0, 3.0</td><td>TLS 1.0, 1.1, 1.2, 1.3</td></tr>
+    <tr><td>Security</td><td>Vulnerable (POODLE, BEAST attacks)</td><td>Secure with TLS 1.2+ (TLS 1.3 best)</td></tr>
+    <tr><td>Used Today?</td><td>No — disabled on modern servers</td><td>Yes — TLS 1.2 and 1.3</td></tr>
+    <tr><td>Common usage</td><td>Term still used colloquially for TLS</td><td>Actual protocol used</td></tr>
+  </table>
+
+  <h4>Relationship: Certificate → TLS → HTTPS → Encryption</h4>
+  <div class="diagram">
+    <div class="diagram-title">How These Concepts Relate</div>
+    <div class="flow">
+      <div class="flow-step">🌐 HTTPS = HTTP running over TLS</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">🔐 TLS = Protocol that performs the encryption handshake</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">📜 Certificate = Presented by server during TLS handshake to prove identity</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">🔑 Encryption = The result — data is now protected from eavesdropping</div>
+    </div>
+  </div>
+
+  <!-- 2.3 Certificate Types -->
+  <h3>2.3 Certificate Types &amp; Lifecycle</h3>
+
+  <h4>Public vs Private Certificates</h4>
+  <table>
+    <tr><th>Aspect</th><th>Public Certificate</th><th>Private Certificate</th></tr>
+    <tr><td>Issued by</td><td>Public CA (ACM acts as CA or uses Amazon's CA)</td><td>Private CA (ACM Private CA)</td></tr>
+    <tr><td>Trusted by</td><td>All browsers &amp; OS automatically</td><td>Only within your organization</td></tr>
+    <tr><td>Cost</td><td>Free via ACM</td><td>ACM Private CA has a cost</td></tr>
+    <tr><td>Use case</td><td>Public-facing websites, APIs</td><td>Internal microservices, private apps</td></tr>
+    <tr><td>Validation</td><td>DNS or Email validation required</td><td>No public validation needed</td></tr>
+    <tr><td>Example</td><td>www.mycompany.com (public website)</td><td>internal.api.mycompany.local</td></tr>
+  </table>
+
+  <h4>Certificate Lifecycle</h4>
+  <div class="flow">
+    <div class="flow-step">1. Request Certificate (from ACM)</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">2. Validate Domain Ownership (DNS or Email)</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">3. Certificate Issued (ACM signs and stores)</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">4. Deploy to AWS Service (ALB, CloudFront, API GW)</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">5. Certificate Serves HTTPS Traffic</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">6. Auto-Renewal ~60 days before expiry (ACM managed)</div>
+  </div>
+
+  <h4>Domain Validation Methods</h4>
+  <div class="two-col">
+    <div>
+      <h5>DNS Validation ✅ Recommended</h5>
+      <ul>
+        <li>ACM gives you a CNAME record to add to your DNS</li>
+        <li>ACM periodically checks for the CNAME</li>
+        <li>Supports <strong>automatic renewal</strong> — no manual action needed</li>
+        <li>Best for when you control the DNS</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Email Validation</h5>
+      <ul>
+        <li>ACM sends a validation email to domain admin contacts</li>
+        <li>Admin must click approval link in the email</li>
+        <li>Requires <strong>manual action on each renewal</strong></li>
+        <li>Use when you don't control DNS</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2.4 Architecture -->
+  <h3>2.4 ACM Architecture &amp; Request Flow</h3>
+
+  <div class="diagram">
+    <div class="diagram-title">HTTPS Request Flow with ACM Certificate</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none; text-align: center;">
+      <tr><td><span class="node">🧑 User's Browser</span></td></tr>
+      <tr><td style="color:#888; padding:2px;">sends HTTPS request (port 443) ↓</td></tr>
+      <tr><td><span class="node">🌐 DNS (Route 53)</span><br><small style="color:#888;">resolves domain to AWS endpoint</small></td></tr>
+      <tr><td style="color:#888; padding:2px;">↓</td></tr>
+      <tr><td><span class="node node-orange">📜 ACM Certificate (TLS Termination)</span><br><small style="color:#888;">presented during TLS handshake — browser verifies trust</small></td></tr>
+      <tr><td style="color:#888; padding:2px;">↓ encrypted channel established ↓</td></tr>
+      <tr><td><span class="node node-purple">⚖️ Elastic Load Balancer / CloudFront</span><br><small style="color:#888;">ACM certificate is attached here</small></td></tr>
+      <tr><td style="color:#888; padding:2px;">↓ forwards request (may be HTTP internally) ↓</td></tr>
+      <tr><td><span class="node node-green">💻 Application (EC2 / ECS / Lambda)</span></td></tr>
+    </table>
+  </div>
+
+  <h4>Architecture Explanation</h4>
+  <ul>
+    <li><strong>TLS Termination at LB/CloudFront:</strong> The ACM certificate is installed at the load balancer or CloudFront — not on the application itself</li>
+    <li><strong>Encrypted externally:</strong> All traffic between users and the load balancer is encrypted</li>
+    <li><strong>Internal traffic:</strong> Traffic between load balancer and app servers may be HTTP (within AWS's private network) or HTTPS (for end-to-end encryption)</li>
+    <li><strong>ACM manages the certificate:</strong> The private key of the certificate never leaves AWS — it's stored and managed by ACM</li>
+  </ul>
+
+  <!-- 2.5 Example -->
+  <h3>2.5 Real-World Example: HTTPS for a Web Application</h3>
+
+  <div class="box box-blue"><strong>Scenario</strong>You are launching an e-commerce website at <em>shop.mystore.com</em>. Customers must have a secure, encrypted connection to trust the site and submit payment info.</div>
+
+  <h4>Why ACM Is Useful Here</h4>
+  <ul>
+    <li>Without a certificate, the browser shows "Not Secure" — customers won't trust the site</li>
+    <li>Without HTTPS, payment data travels in plaintext — major security risk</li>
+    <li>Buying and managing certificates from a commercial CA is costly and requires annual renewal</li>
+    <li>ACM provides a <strong>free, auto-renewing certificate</strong> for <em>shop.mystore.com</em></li>
+  </ul>
+
+  <h4>Conceptual Flow</h4>
+  <div class="flow">
+    <div class="flow-step">Customer visits https://shop.mystore.com</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">Browser connects to CloudFront/ALB endpoint</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">TLS Handshake: Server presents ACM certificate for shop.mystore.com</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">Browser validates certificate (trusted CA, valid, not expired, domain matches)</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">Encrypted HTTPS session established 🔒</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">Customer safely enters payment information</div>
+  </div>
+
+  <h4>ACM Advantages</h4>
+  <ul>
+    <li>Free public certificates for AWS-integrated services</li>
+    <li>Automatic renewal — no expiry surprises</li>
+    <li>Integrated with ALB, CloudFront, API Gateway, AppSync — one-click deployment</li>
+    <li>Private key never exported from AWS — highly secure</li>
+    <li>Supports wildcard certificates (*.mystore.com)</li>
+  </ul>
+
+  <h4>ACM Limitations</h4>
+  <ul>
+    <li>ACM certificates <strong>cannot be downloaded / exported</strong> (private key stays in AWS)</li>
+    <li>Only usable with supported AWS services — cannot install on a self-managed server</li>
+    <li>Private certificates (ACM Private CA) have an associated cost</li>
+    <li>Only available for domains you can validate (DNS or email)</li>
+  </ul>
+
+  <h4>ACM Terminology</h4>
+  <div class="term-grid">
+    <div class="term-card"><div class="term-name">CA (Certificate Authority)</div><div class="term-def">Trusted organization that issues digital certificates and vouches for domain ownership</div></div>
+    <div class="term-card"><div class="term-name">TLS Handshake</div><div class="term-def">The initial negotiation process where client and server agree on encryption parameters and exchange certificate</div></div>
+    <div class="term-card"><div class="term-name">Domain Validation (DV)</div><div class="term-def">Certificate type that only verifies domain ownership (ACM provides DV certificates)</div></div>
+    <div class="term-card"><div class="term-name">Wildcard Certificate</div><div class="term-def">A certificate valid for all subdomains — e.g., *.mystore.com covers shop.mystore.com, api.mystore.com</div></div>
+    <div class="term-card"><div class="term-name">SANs</div><div class="term-def">Subject Alternative Names — a single certificate that covers multiple different domain names</div></div>
+    <div class="term-card"><div class="term-name">Encryption in Transit</div><div class="term-def">Data encrypted while traveling across the network — this is what TLS/HTTPS provides</div></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ TOPIC 3: KMS ═══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="topic-label">Topic 3 of 3</div>
+    <h2>AWS Key Management Service (KMS)</h2>
+    <div class="subtitle">Create, manage, and control cryptographic keys to encrypt your data across AWS</div>
+  </div>
+
+  <!-- 3.1 Definition -->
+  <h3>3.1 Definition &amp; Purpose</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <strong>AWS Key Management Service (KMS)</strong> is a fully managed service that enables you to create, manage, and use <em>cryptographic keys</em> to encrypt and decrypt data. KMS integrates deeply with other AWS services to protect data at rest.
+  </div>
+
+  <h4>Core Concepts</h4>
+  <div class="term-grid">
+    <div class="term-card"><div class="term-name">🔐 Encryption</div><div class="term-def">Transforming readable data (plaintext) into an unreadable format (ciphertext) using a cryptographic algorithm and key. Only those with the correct key can decrypt it.</div></div>
+    <div class="term-card"><div class="term-name">🗝️ Cryptographic Key</div><div class="term-def">A piece of data (a string of bits) used by an algorithm to encrypt or decrypt information. The security of encryption depends on protecting the key.</div></div>
+    <div class="term-card"><div class="term-name">🔧 Key Management</div><div class="term-def">The full lifecycle management of keys: creation, storage, rotation, access control, auditing, and deletion.</div></div>
+    <div class="term-card"><div class="term-name">📦 KMS Key (CMK)</div><div class="term-def">Customer Master Key — the primary resource in KMS. A logical key that KMS manages securely. Never leaves KMS in plaintext.</div></div>
+  </div>
+
+  <!-- 3.2 At Rest vs In Transit -->
+  <h3>3.2 Encryption at Rest vs Encryption in Transit</h3>
+  <div class="box box-orange"><strong>📌 Critical Distinction</strong>These are two different types of encryption for different threat scenarios. AWS uses KMS for at-rest; TLS/ACM for in-transit.</div>
+
+  <table>
+    <tr><th>Aspect</th><th>Encryption at Rest</th><th>Encryption in Transit</th></tr>
+    <tr><td><strong>What</strong></td><td>Data stored on disk / database is encrypted</td><td>Data moving over network is encrypted</td></tr>
+    <tr><td><strong>Threat Protected</strong></td><td>Unauthorized physical/storage access</td><td>Network eavesdropping, man-in-the-middle</td></tr>
+    <tr><td><strong>When Active</strong></td><td>When data is stored and not being accessed</td><td>During network transmission</td></tr>
+    <tr><td><strong>AWS Service</strong></td><td>AWS KMS (with S3, EBS, RDS…)</td><td>ACM / TLS / HTTPS</td></tr>
+    <tr><td><strong>Protocol/Standard</strong></td><td>AES-256 typically</td><td>TLS 1.2 / TLS 1.3</td></tr>
+    <tr><td><strong>Example</strong></td><td>RDS database files on disk are encrypted</td><td>HTTPS connection to your web API</td></tr>
+    <tr><td><strong>Key used by</strong></td><td>KMS key (symmetric encryption)</td><td>TLS session keys (derived from certificate)</td></tr>
+  </table>
+
+  <div class="box box-green"><strong>Best Practice:</strong> Use <em>both</em> — encrypt data at rest <strong>AND</strong> in transit for complete protection. A strongly encrypted database accessed over plain HTTP is still vulnerable.</div>
+
+  <!-- 3.3 KMS Keys -->
+  <h3>3.3 KMS Keys — Types &amp; Management</h3>
+
+  <h4>KMS Key Types</h4>
+  <table>
+    <tr><th>Key Type</th><th>Created By</th><th>Managed By</th><th>Rotation</th><th>Cost</th><th>Control Level</th></tr>
+    <tr><td><strong>AWS Managed Key</strong></td><td>AWS automatically</td><td>AWS</td><td>Automatic (yearly)</td><td>Free</td><td>Limited — cannot customize policy</td></tr>
+    <tr><td><strong>Customer Managed Key (CMK)</strong></td><td>You</td><td>You</td><td>Optional (enable/disable)</td><td>$1/month</td><td>Full — custom key policies, grants</td></tr>
+    <tr><td><strong>AWS Owned Key</strong></td><td>AWS (internal)</td><td>AWS</td><td>AWS managed</td><td>Free</td><td>None — invisible to you</td></tr>
+  </table>
+
+  <h4>Key Policies</h4>
+  <ul>
+    <li>Every KMS key has a <strong>key policy</strong> — a resource-based policy that controls who can use and manage the key</li>
+    <li>Key policies are the <em>primary</em> way to control access to KMS keys</li>
+    <li>IAM policies can supplement key policies but cannot override them</li>
+    <li>Key policies specify: key administrators (who manages), key users (who encrypts/decrypts)</li>
+  </ul>
+
+  <h4>Key Rotation</h4>
+  <ul>
+    <li>The practice of periodically generating new key material while keeping the same KMS key ID</li>
+    <li>Old key material is retained to decrypt data encrypted with it</li>
+    <li>New data is encrypted with the new key material</li>
+    <li>AWS Managed Keys rotate automatically every year</li>
+    <li>Customer Managed Keys: rotation must be explicitly enabled (annual automatic rotation)</li>
+    <li><strong>Why rotate?</strong> Limits the amount of data encrypted with any single key version — limits exposure if a key is compromised</li>
+  </ul>
+
+  <!-- 3.4 Symmetric -->
+  <h3>3.4 Symmetric Encryption</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <strong>Symmetric encryption</strong> uses the <em>same single key</em> for both encryption and decryption. The sender and receiver must both possess the same secret key.
+  </div>
+
+  <div class="diagram">
+    <div class="diagram-title">Symmetric Encryption Flow</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none; text-align: center;">
+      <tr>
+        <td style="padding: 4px;"><span class="node">Plaintext Data</span></td>
+        <td style="padding: 4px; color: #888;">+</td>
+        <td style="padding: 4px;"><span class="node node-orange">🗝️ Secret Key</span></td>
+        <td style="padding: 4px; color: #888;">→ Encrypt →</td>
+        <td style="padding: 4px;"><span class="node node-red">Ciphertext</span></td>
+      </tr>
+      <tr>
+        <td colspan="5" style="padding: 6px; color: #888; font-style: italic;">--- transmission / storage ---</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px;"><span class="node node-red">Ciphertext</span></td>
+        <td style="padding: 4px; color: #888;">+</td>
+        <td style="padding: 4px;"><span class="node node-orange">🗝️ Same Secret Key</span></td>
+        <td style="padding: 4px; color: #888;">→ Decrypt →</td>
+        <td style="padding: 4px;"><span class="node node-green">Plaintext Data ✓</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h5>Advantages</h5>
+      <ul>
+        <li>Very fast — computationally efficient</li>
+        <li>Suitable for encrypting large amounts of data</li>
+        <li>Simple implementation</li>
+        <li>Standard: AES-256 is extremely secure</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Limitations</h5>
+      <ul>
+        <li>Key distribution problem — how do you securely share the secret key?</li>
+        <li>If the key is intercepted, all encrypted data is compromised</li>
+        <li>Doesn't work well across untrusted channels</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box box-blue"><strong>AWS KMS &amp; Symmetric Keys:</strong> By default, KMS keys are symmetric (AES-256-GCM). When you call <em>kms:Encrypt</em>, KMS uses the symmetric key internally — the key never leaves KMS in plaintext.</div>
+
+  <!-- 3.5 Asymmetric -->
+  <h3>3.5 Asymmetric Encryption</h3>
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <strong>Asymmetric encryption</strong> uses a <em>mathematically linked key pair</em>: a <strong>public key</strong> (can be shared freely) and a <strong>private key</strong> (kept secret). What one key encrypts, only the other can decrypt.
+  </div>
+
+  <div class="diagram">
+    <div class="diagram-title">Asymmetric Encryption — Sending Encrypted Data</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none; text-align: center;">
+      <tr>
+        <td style="padding: 4px;"><span class="node">Sender has Plaintext</span></td>
+      </tr>
+      <tr><td style="color:#888; padding:2px;">encrypts using Recipient's Public Key ↓</td></tr>
+      <tr>
+        <td style="padding: 4px;"><span class="node node-red">Ciphertext</span></td>
+      </tr>
+      <tr><td style="color:#888; padding:2px;">transmitted over network ↓</td></tr>
+      <tr>
+        <td style="padding: 4px;"><span class="node node-red">Ciphertext received by Recipient</span></td>
+      </tr>
+      <tr><td style="color:#888; padding:2px;">decrypts using own Private Key ↓</td></tr>
+      <tr>
+        <td style="padding: 4px;"><span class="node node-green">Plaintext Recovered ✓</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <h4>Digital Signatures (Asymmetric in reverse)</h4>
+  <ul>
+    <li>Sender signs data using their <strong>private key</strong></li>
+    <li>Anyone with the sender's <strong>public key</strong> can verify the signature</li>
+    <li>Proves: <em>the sender really sent this</em> (authenticity) and <em>the data wasn't changed</em> (integrity)</li>
+    <li>Used in TLS certificates — the CA signs the certificate with its private key; browsers verify with CA's public key</li>
+  </ul>
+
+  <div class="two-col">
+    <div>
+      <h5>Advantages</h5>
+      <ul>
+        <li>Solves key distribution — public key can be shared openly</li>
+        <li>Enables digital signatures for non-repudiation</li>
+        <li>Basis for TLS/HTTPS certificate trust</li>
+        <li>Secure key exchange over untrusted channels</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Limitations</h5>
+      <ul>
+        <li>Computationally expensive — much slower than symmetric</li>
+        <li>Not suitable for encrypting large data directly</li>
+        <li>Key management complexity (public/private key pairs)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>Symmetric vs Asymmetric — Full Comparison</h4>
+  <table>
+    <tr><th>Aspect</th><th>Symmetric</th><th>Asymmetric</th></tr>
+    <tr><td>Keys</td><td>One shared secret key</td><td>Key pair (public + private)</td></tr>
+    <tr><td>Speed</td><td>Fast (ideal for large data)</td><td>Slow (limited to small data)</td></tr>
+    <tr><td>Key sharing</td><td>Difficult — key must be kept secret</td><td>Easy — public key shared freely</td></tr>
+    <tr><td>Use in AWS</td><td>KMS data encryption (AES-256)</td><td>TLS handshake, digital signatures</td></tr>
+    <tr><td>Algorithm examples</td><td>AES-128, AES-256</td><td>RSA, ECC</td></tr>
+    <tr><td>Best for</td><td>Bulk data encryption</td><td>Key exchange, authentication, signatures</td></tr>
+    <tr><td>KMS support</td><td>Default KMS key type</td><td>Available as asymmetric KMS key</td></tr>
+  </table>
+
+  <div class="box box-purple"><strong>In Practice:</strong> TLS (HTTPS) uses BOTH — asymmetric encryption during the handshake to securely exchange a symmetric session key, then uses that symmetric key for the actual data encryption. Best of both worlds.</div>
+
+  <!-- 3.6 Envelope Encryption -->
+  <div class="pb"></div>
+  <h3>3.6 Envelope Encryption ⭐ Important Concept</h3>
+  <div class="box box-orange"><strong>⭐ Core KMS Concept</strong>Envelope encryption is how AWS services encrypt large amounts of data using KMS without sending all data through the KMS API — which would be slow and expensive.</div>
+
+  <div class="definition">
+    <div class="def-label">Definition</div>
+    <strong>Envelope Encryption</strong> is a technique where data is encrypted with a <em>Data Encryption Key (DEK)</em>, and that DEK is itself encrypted with a <em>KMS Key</em> (master key). The encrypted DEK is stored alongside the encrypted data — like sealing a letter in an envelope.
+  </div>
+
+  <h4>Why Envelope Encryption?</h4>
+  <ul>
+    <li>KMS API has a limit — you can only encrypt up to <strong>4 KB</strong> of data directly via <code>kms:Encrypt</code></li>
+    <li>Real data (files, database records, videos) is much larger than 4 KB</li>
+    <li>Sending all data to KMS API would be: very slow, expensive, and bandwidth-intensive</li>
+    <li>Solution: Generate a local DEK, use it to encrypt data locally, then use KMS only to protect the DEK</li>
+  </ul>
+
+  <div class="diagram">
+    <div class="diagram-title">Envelope Encryption — Encryption Process</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none; text-align: center;">
+      <tr>
+        <td colspan="3" style="padding: 6px;"><span class="node">🗃️ Large Plaintext Data (e.g., 100 MB file)</span></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">Step 1: Ask KMS to generate a Data Key ↓</td></tr>
+      <tr>
+        <td style="padding: 4px;"><span class="node node-orange">🗝️ Plaintext DEK</span><br><small style="color:#888;">(Data Encryption Key)</small></td>
+        <td style="padding: 4px; color:#888;">+</td>
+        <td style="padding: 4px;"><span class="node node-red">🔐 Encrypted DEK</span><br><small style="color:#888;">(encrypted by KMS Key)</small></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">Step 2: Encrypt data locally with Plaintext DEK ↓</td></tr>
+      <tr>
+        <td colspan="3" style="padding: 4px;"><span class="node node-red">🔒 Encrypted Data (Ciphertext)</span></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">Step 3: Discard Plaintext DEK from memory ↓</td></tr>
+      <tr>
+        <td colspan="3" style="padding: 4px; font-size: 9pt; color: #1a237e;">Store Together: [ Encrypted Data ] + [ Encrypted DEK ]</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="diagram">
+    <div class="diagram-title">Envelope Encryption — Decryption Process</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; border: none; text-align: center;">
+      <tr>
+        <td style="padding: 4px;"><span class="node node-red">Encrypted Data</span></td>
+        <td style="padding: 4px; color:#888;">+</td>
+        <td style="padding: 4px;"><span class="node node-red">Encrypted DEK</span></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">Step 1: Send Encrypted DEK to KMS ↓</td></tr>
+      <tr>
+        <td colspan="3" style="padding: 4px;"><span class="node node-orange">KMS decrypts DEK → returns Plaintext DEK</span><br><small style="color:#888;">(KMS verifies you have permission)</small></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">Step 2: Use Plaintext DEK to decrypt data locally ↓</td></tr>
+      <tr>
+        <td colspan="3" style="padding: 4px;"><span class="node node-green">✅ Plaintext Data Recovered</span></td>
+      </tr>
+      <tr><td colspan="3" style="color:#888; padding:2px;">Step 3: Discard Plaintext DEK from memory</td></tr>
+    </table>
+  </div>
+
+  <h4>Key Terms in Envelope Encryption</h4>
+  <table>
+    <tr><th>Term</th><th>Full Name</th><th>Role</th></tr>
+    <tr><td><strong>KMS Key</strong></td><td>Key Encryption Key (KEK) / Master Key</td><td>Encrypts and decrypts the DEK. Never leaves KMS. Used minimally.</td></tr>
+    <tr><td><strong>DEK</strong></td><td>Data Encryption Key</td><td>Locally generated; encrypts the actual data. Used per-object. Discarded after use.</td></tr>
+    <tr><td><strong>Ciphertext</strong></td><td>Encrypted Data</td><td>The encrypted version of your actual data, produced by the DEK</td></tr>
+    <tr><td><strong>Encrypted DEK</strong></td><td>Wrapped Data Key</td><td>The DEK encrypted by the KMS Key — stored alongside the encrypted data</td></tr>
+  </table>
+
+  <div class="box box-green"><strong>Why It's Called "Envelope":</strong> The plaintext data is encrypted (put in an envelope) with the DEK. That envelope (encrypted data) is stored with the encrypted DEK (the key is "in the envelope"). KMS only ever handles the small DEK, not the large data.</div>
+
+  <!-- 3.7 AWS Service Integration -->
+  <h3>3.7 KMS Integration with AWS Services</h3>
+
+  <h4>Amazon S3 + KMS</h4>
+  <div class="box box-blue">
+    <strong>What Gets Encrypted</strong>
+    <ul>
+      <li>Object data (files, images, documents) stored in S3 buckets</li>
+      <li>Each object can be encrypted with its own DEK</li>
+    </ul>
+    <strong>Encryption Flow</strong>
+    <ul>
+      <li>You upload a file → S3 requests a DEK from KMS → S3 encrypts the file locally with the DEK → stores encrypted file + encrypted DEK in S3 → plaintext DEK discarded</li>
+      <li>On download: S3 retrieves encrypted DEK → asks KMS to decrypt it → uses DEK to decrypt file → returns plaintext file to you</li>
+    </ul>
+    <strong>Options:</strong> SSE-S3 (S3 managed), SSE-KMS (KMS managed — more control), SSE-C (customer provided keys)
+  </div>
+
+  <h4>Amazon EBS + KMS</h4>
+  <div class="box box-purple">
+    <strong>What Gets Encrypted</strong>
+    <ul>
+      <li>EBS volume data — the entire block storage volume is encrypted</li>
+      <li>Snapshots of encrypted volumes are also encrypted</li>
+    </ul>
+    <strong>Encryption Flow</strong>
+    <ul>
+      <li>Create encrypted EBS volume → specify KMS key → AWS generates a volume encryption key (DEK) encrypted by KMS key → all data written to disk is encrypted at the block level → EC2 reads/writes transparently (decryption happens in the hypervisor)</li>
+    </ul>
+    <strong>Key point:</strong> EC2 instance is unaware of encryption — it reads plaintext; encryption/decryption is handled transparently by the infrastructure
+  </div>
+
+  <h4>Amazon RDS + KMS</h4>
+  <div class="box box-green">
+    <strong>What Gets Encrypted</strong>
+    <ul>
+      <li>Database storage files (data files, logs, backups, snapshots)</li>
+      <li>Encryption is at the storage layer — not the application layer</li>
+    </ul>
+    <strong>Encryption Flow</strong>
+    <ul>
+      <li>Create RDS instance with encryption enabled → specify KMS key → RDS uses envelope encryption → all storage I/O is encrypted → automated backups and snapshots are also encrypted</li>
+    </ul>
+    <strong>Important:</strong> Encryption must be enabled at RDS instance creation — cannot encrypt an existing unencrypted instance directly (must snapshot → copy with encryption → restore)
+  </div>
+
+  <h4>KMS Advantages</h4>
+  <ul>
+    <li>Centralized key management — one service for all your encryption keys</li>
+    <li>Audit trail via CloudTrail — every KMS API call is logged</li>
+    <li>FIPS 140-2 validated hardware security modules (HSMs) — government-grade security</li>
+    <li>Deep integration with 100+ AWS services</li>
+    <li>Fine-grained access control via key policies + IAM</li>
+    <li>Key rotation support</li>
+  </ul>
+
+  <h4>KMS Limitations</h4>
+  <ul>
+    <li>Customer managed keys cost $1/month per key + API call charges</li>
+    <li>KMS API rate limits — high-throughput applications may hit throttling</li>
+    <li>Keys are regional — a key in us-east-1 cannot decrypt data in eu-west-1 (use multi-region keys for this)</li>
+    <li>KMS is not a secrets manager — use AWS Secrets Manager for database passwords and API keys</li>
+  </ul>
+
+  <h4>Related Services</h4>
+  <table>
+    <tr><th>Service</th><th>Relationship to KMS</th></tr>
+    <tr><td><strong>AWS CloudTrail</strong></td><td>Logs all KMS API calls — who used which key, when, from where</td></tr>
+    <tr><td><strong>AWS Secrets Manager</strong></td><td>Stores and rotates secrets (passwords, API keys); uses KMS to encrypt the stored secrets</td></tr>
+    <tr><td><strong>AWS CloudHSM</strong></td><td>Dedicated hardware security module for highest compliance; customer-managed HSMs. KMS can use CloudHSM as its key store.</td></tr>
+    <tr><td><strong>AWS IAM</strong></td><td>Controls who can make KMS API calls (e.g., kms:Decrypt); works with key policies</td></tr>
+    <tr><td><strong>ACM</strong></td><td>Uses KMS-managed key storage internally for certificate private keys</td></tr>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════ COMPARISONS ═══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="topic-label">Reference Tables</div>
+    <h2>Important Comparisons — All 15 Tables</h2>
+    <div class="subtitle">Side-by-side comparison of all key concepts from IAM, ACM, and KMS</div>
+  </div>
+
+  <h3>Table 1: IAM User vs IAM Role</h3>
+  <table>
+    <tr><th>Aspect</th><th>IAM User</th><th>IAM Role</th></tr>
+    <tr><td>Represents</td><td>Specific person or application</td><td>Assumable identity for any trusted entity</td></tr>
+    <tr><td>Credentials</td><td>Long-term (password, access keys)</td><td>Temporary (expires automatically via STS)</td></tr>
+    <tr><td>Best For</td><td>Human users needing console access</td><td>AWS services, cross-account, federated access</td></tr>
+    <tr><td>Security Risk</td><td>Long-term keys can be leaked/stolen</td><td>Lower — credentials auto-expire</td></tr>
+    <tr><td>Key Rotation</td><td>Manual rotation needed</td><td>Automatic — new temp credentials each time</td></tr>
+    <tr><td>Can be in Groups</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Trust Policy</td><td>No</td><td>Yes — defines who can assume it</td></tr>
+    <tr><td>Use on EC2</td><td>Requires embedding access keys (bad)</td><td>Attach role to EC2 (best practice)</td></tr>
+  </table>
+
+  <h3>Table 2: IAM User vs IAM Group</h3>
+  <table>
+    <tr><th>Aspect</th><th>IAM User</th><th>IAM Group</th></tr>
+    <tr><td>What It Is</td><td>Individual identity</td><td>Collection of users</td></tr>
+    <tr><td>Has Credentials</td><td>Yes (password, access keys)</td><td>No</td></tr>
+    <tr><td>Can Log In</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Policies Attached</td><td>Yes (directly or via group)</td><td>Yes (apply to all members)</td></tr>
+    <tr><td>Nesting</td><td>Can be in multiple groups</td><td>Cannot contain other groups</td></tr>
+    <tr><td>Purpose</td><td>Authenticate and act</td><td>Organize users for permission management</td></tr>
+  </table>
+
+  <h3>Table 3: IAM Role vs IAM Policy</h3>
+  <table>
+    <tr><th>Aspect</th><th>IAM Role</th><th>IAM Policy</th></tr>
+    <tr><td>What It Is</td><td>An identity that can be assumed</td><td>A document defining permissions</td></tr>
+    <tr><td>Format</td><td>AWS resource with ARN</td><td>JSON document</td></tr>
+    <tr><td>Relationship</td><td>Has policies attached to it</td><td>Attached to users, groups, or roles</td></tr>
+    <tr><td>Independently Exists</td><td>Yes</td><td>Yes (managed) or No (inline)</td></tr>
+    <tr><td>Does Work</td><td>Role enables you to act</td><td>Policy defines what actions are permitted</td></tr>
+  </table>
+
+  <div class="pb"></div>
+  <h3>Table 4: Authentication vs Authorization</h3>
+  <table>
+    <tr><th>Aspect</th><th>Authentication</th><th>Authorization</th></tr>
+    <tr><td>Question</td><td>Who are you?</td><td>What can you do?</td></tr>
+    <tr><td>Purpose</td><td>Verify identity</td><td>Grant/deny access to resources</td></tr>
+    <tr><td>Occurs</td><td>First (before authorization)</td><td>After successful authentication</td></tr>
+    <tr><td>AWS mechanism</td><td>Password, MFA, access keys</td><td>IAM policies &amp; permission evaluation</td></tr>
+    <tr><td>Failure response</td><td>Login rejected / credentials invalid</td><td>403 Access Denied</td></tr>
+    <tr><td>Analogy</td><td>Security guard checks your ID</td><td>ID badge only opens certain doors</td></tr>
+  </table>
+
+  <h3>Table 5: Identity-based vs Resource-based Policy</h3>
+  <table>
+    <tr><th>Aspect</th><th>Identity-Based Policy</th><th>Resource-Based Policy</th></tr>
+    <tr><td>Attached To</td><td>IAM User, Group, or Role</td><td>AWS Resource (S3 bucket, KMS key, SQS queue)</td></tr>
+    <tr><td>Controls</td><td>What the identity can do</td><td>Who can access the resource</td></tr>
+    <tr><td>Principal Field</td><td>Implied (the attached identity)</td><td>Explicit (specifies who)</td></tr>
+    <tr><td>Cross-account</td><td>Needs role assumption</td><td>Can directly grant cross-account access</td></tr>
+    <tr><td>Most common</td><td>Yes — standard permission management</td><td>Less common — used for specific sharing scenarios</td></tr>
+  </table>
+
+  <h3>Table 6: AWS Managed vs Customer Managed Policy</h3>
+  <table>
+    <tr><th>Aspect</th><th>AWS Managed Policy</th><th>Customer Managed Policy</th></tr>
+    <tr><td>Creator</td><td>AWS</td><td>You</td></tr>
+    <tr><td>Updates</td><td>AWS updates automatically</td><td>You update manually</td></tr>
+    <tr><td>Customization</td><td>None — read-only</td><td>Full — modify as needed</td></tr>
+    <tr><td>Versioning</td><td>AWS manages versions</td><td>You manage versions</td></tr>
+    <tr><td>Reusability</td><td>Any AWS account worldwide</td><td>Within your AWS account</td></tr>
+    <tr><td>Best for</td><td>Common standard permissions</td><td>Precise, organization-specific access</td></tr>
+    <tr><td>Example</td><td>AmazonS3ReadOnlyAccess</td><td>MyAppDatabasePolicy</td></tr>
+  </table>
+
+  <h3>Table 7: Managed vs Inline Policy</h3>
+  <table>
+    <tr><th>Aspect</th><th>Managed Policy</th><th>Inline Policy</th></tr>
+    <tr><td>Existence</td><td>Standalone — has its own ARN</td><td>Embedded inside user/group/role</td></tr>
+    <tr><td>Reusability</td><td>Attach to multiple identities</td><td>Only for one specific identity</td></tr>
+    <tr><td>Versioning</td><td>Supported (up to 5 versions)</td><td>Not supported</td></tr>
+    <tr><td>Visibility</td><td>Visible in IAM policies list</td><td>Only visible within the identity</td></tr>
+    <tr><td>Deletion</td><td>Persists after detaching</td><td>Deleted when the identity is deleted</td></tr>
+    <tr><td>Best for</td><td>Shared, reusable permissions</td><td>Strict 1:1 binding that must not be shared</td></tr>
+  </table>
+
+  <h3>Table 8: ACM vs KMS</h3>
+  <table>
+    <tr><th>Aspect</th><th>AWS ACM</th><th>AWS KMS</th></tr>
+    <tr><td>Primary Purpose</td><td>SSL/TLS certificate management</td><td>Encryption key management</td></tr>
+    <tr><td>Protects</td><td>Data in transit (network encryption)</td><td>Data at rest (storage encryption)</td></tr>
+    <tr><td>Key Type</td><td>Asymmetric (RSA/ECC certificate keys)</td><td>Symmetric (AES-256) or asymmetric</td></tr>
+    <tr><td>Used With</td><td>ALB, CloudFront, API GW, Route 53</td><td>S3, EBS, RDS, Lambda, DynamoDB…</td></tr>
+    <tr><td>Certificates</td><td>Yes — issues and manages them</td><td>No — manages encryption keys, not certs</td></tr>
+    <tr><td>Cost</td><td>Free for public certificates</td><td>$1/month per CMK + API calls</td></tr>
+    <tr><td>Related Protocol</td><td>TLS / HTTPS</td><td>AES, RSA (algorithm-level)</td></tr>
+    <tr><td>Overlap</td><td>ACM uses KMS-backed storage for private keys</td><td>KMS can manage asymmetric keys used in signing</td></tr>
+  </table>
+
+  <div class="pb"></div>
+  <h3>Table 9: Encryption vs Hashing</h3>
+  <table>
+    <tr><th>Aspect</th><th>Encryption</th><th>Hashing</th></tr>
+    <tr><td>Reversible</td><td>Yes — with the correct key</td><td>No — one-way function</td></tr>
+    <tr><td>Output</td><td>Ciphertext (variable size)</td><td>Fixed-length hash digest</td></tr>
+    <tr><td>Key Required</td><td>Yes — to encrypt and decrypt</td><td>No key — deterministic function</td></tr>
+    <tr><td>Purpose</td><td>Confidentiality — protect data</td><td>Integrity — verify data hasn't changed</td></tr>
+    <tr><td>Use cases</td><td>S3, EBS, RDS, HTTPS</td><td>Password storage, file integrity, digital signatures</td></tr>
+    <tr><td>Algorithm examples</td><td>AES-256, RSA</td><td>SHA-256, SHA-3, bcrypt</td></tr>
+    <tr><td>AWS service</td><td>KMS, ACM</td><td>Used internally in many AWS services</td></tr>
+  </table>
+
+  <h3>Table 10: Encryption at Rest vs Encryption in Transit</h3>
+  <table>
+    <tr><th>Aspect</th><th>At Rest</th><th>In Transit</th></tr>
+    <tr><td>When</td><td>Data stored on disk/DB</td><td>Data moving across network</td></tr>
+    <tr><td>Threat</td><td>Physical theft, unauthorized storage access</td><td>Network eavesdropping, MITM attacks</td></tr>
+    <tr><td>AWS Service</td><td>KMS (with S3, EBS, RDS…)</td><td>ACM / TLS</td></tr>
+    <tr><td>Protocol</td><td>AES-256 (symmetric)</td><td>TLS 1.2 / 1.3</td></tr>
+    <tr><td>Example</td><td>RDS database files encrypted on disk</td><td>HTTPS browser-to-server connection</td></tr>
+  </table>
+
+  <h3>Table 11: Symmetric vs Asymmetric Encryption</h3>
+  <table>
+    <tr><th>Aspect</th><th>Symmetric</th><th>Asymmetric</th></tr>
+    <tr><td>Keys Used</td><td>One secret key (shared)</td><td>Two keys: public + private</td></tr>
+    <tr><td>Speed</td><td>Fast</td><td>Slow</td></tr>
+    <tr><td>Data Size</td><td>Any size (bulk encryption)</td><td>Small data only</td></tr>
+    <tr><td>Key Exchange</td><td>Challenging — key must stay secret</td><td>Easy — share public key openly</td></tr>
+    <tr><td>Use in KMS</td><td>Default key type (AES-256)</td><td>Available for signing and specific use cases</td></tr>
+    <tr><td>Algorithm</td><td>AES-128, AES-256</td><td>RSA-2048, RSA-4096, ECC</td></tr>
+    <tr><td>TLS usage</td><td>Bulk data encryption after handshake</td><td>Key exchange and server authentication in handshake</td></tr>
+  </table>
+
+  <h3>Table 12: HTTP vs HTTPS</h3>
+  <table>
+    <tr><th>Aspect</th><th>HTTP</th><th>HTTPS</th></tr>
+    <tr><td>Full Form</td><td>HyperText Transfer Protocol</td><td>HTTP Secure</td></tr>
+    <tr><td>Port</td><td>80</td><td>443</td></tr>
+    <tr><td>Encryption</td><td>None (plaintext)</td><td>TLS encryption</td></tr>
+    <tr><td>Authentication</td><td>No server identity verification</td><td>Server verified via certificate</td></tr>
+    <tr><td>Data Integrity</td><td>Not guaranteed</td><td>Guaranteed via TLS MAC</td></tr>
+    <tr><td>Certificate</td><td>Not needed</td><td>Required (ACM provides it)</td></tr>
+    <tr><td>Browser display</td><td>⚠️ Not Secure warning</td><td>🔒 Padlock — Secure</td></tr>
+    <tr><td>Use cases</td><td>Internal testing only</td><td>All production applications</td></tr>
+  </table>
+
+  <h3>Table 13: SSL vs TLS</h3>
+  <table>
+    <tr><th>Aspect</th><th>SSL</th><th>TLS</th></tr>
+    <tr><td>Status</td><td>Deprecated and insecure</td><td>Current standard</td></tr>
+    <tr><td>Versions</td><td>SSL 2.0, SSL 3.0</td><td>TLS 1.0, 1.1, 1.2, 1.3</td></tr>
+    <tr><td>Security</td><td>Vulnerable (POODLE, BEAST, DROWN)</td><td>Secure (TLS 1.2+ recommended)</td></tr>
+    <tr><td>In use today?</td><td>No — disabled on all modern servers</td><td>Yes — TLS 1.2 and TLS 1.3</td></tr>
+    <tr><td>Colloquial use</td><td>People still say "SSL certificate"</td><td>Actual protocol behind it is TLS</td></tr>
+    <tr><td>ACM provides</td><td>No SSL — TLS certificates only</td><td>Yes — TLS certificates</td></tr>
+  </table>
+
+  <h3>Table 14: Public vs Private Certificate</h3>
+  <table>
+    <tr><th>Aspect</th><th>Public Certificate</th><th>Private Certificate</th></tr>
+    <tr><td>Issued By</td><td>Public CA (trust included in OS/browser)</td><td>Private CA (ACM Private CA)</td></tr>
+    <tr><td>Trusted By</td><td>All browsers and devices globally</td><td>Only systems configured to trust your CA</td></tr>
+    <tr><td>Cost</td><td>Free via ACM (for integrated AWS services)</td><td>ACM Private CA charges apply</td></tr>
+    <tr><td>Use Case</td><td>Public websites, public APIs</td><td>Internal apps, microservices, private networks</td></tr>
+    <tr><td>Domain Validation</td><td>Required (DNS or Email)</td><td>Not publicly validated</td></tr>
+    <tr><td>Example</td><td>www.mycompany.com</td><td>internal.api.corp.local</td></tr>
+  </table>
+
+  <h3>Table 15: AWS Managed Key vs Customer Managed Key</h3>
+  <table>
+    <tr><th>Aspect</th><th>AWS Managed Key</th><th>Customer Managed Key (CMK)</th></tr>
+    <tr><td>Created By</td><td>AWS automatically (per service)</td><td>You explicitly create it</td></tr>
+    <tr><td>Key ID Format</td><td>aws/service (e.g., aws/s3)</td><td>Custom alias you define</td></tr>
+    <tr><td>Key Policy</td><td>AWS controls — cannot customize</td><td>You define and manage key policy</td></tr>
+    <tr><td>Rotation</td><td>Automatic (yearly)</td><td>Configurable (optional, annual)</td></tr>
+    <tr><td>Cost</td><td>Free</td><td>$1/month + API call charges</td></tr>
+    <tr><td>Access Control</td><td>Limited</td><td>Full — define exactly who can use/manage</td></tr>
+    <tr><td>Cross-account use</td><td>Not shareable</td><td>Can grant cross-account access</td></tr>
+    <tr><td>Audit</td><td>CloudTrail logs usage</td><td>CloudTrail logs all usage (full audit)</td></tr>
+    <tr><td>Best for</td><td>Basic encryption needs, simple setup</td><td>Compliance, fine-grained control, custom rotation</td></tr>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════ SECURITY ARCHITECTURE ═══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="topic-label">Integrated View</div>
+    <h2>Complete AWS Security Architecture</h2>
+    <div class="subtitle">How IAM, ACM, and KMS work together to secure a complete AWS application</div>
+  </div>
+
+  <div class="diagram">
+    <div class="diagram-title">Full Security Architecture — IAM + ACM + KMS</div>
+    <table style="margin: 0 auto; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9pt; border: none; text-align: center; width: 95%;">
+      <tr>
+        <td colspan="5" style="padding: 5px;"><span class="node">🧑 End User (Browser / Mobile App)</span></td>
+      </tr>
+      <tr><td colspan="5" style="color:#888; padding:2px; font-size:8pt;">HTTPS Request (port 443) ↓</td></tr>
+      <tr>
+        <td colspan="5" style="padding: 5px;"><span class="node node-orange">📜 ACM Certificate (TLS) — Presented at Load Balancer</span></td>
+      </tr>
+      <tr><td colspan="5" style="color:#888; padding:2px; font-size:8pt;">Encrypted Channel Established — TLS Handshake ↓</td></tr>
+      <tr>
+        <td colspan="5" style="padding: 5px;"><span class="node node-purple">⚖️ Elastic Load Balancer (ALB)</span></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="color:#888; padding:2px; font-size:8pt; text-align:right;">IAM Auth ↓</td>
+        <td></td>
+        <td colspan="2" style="color:#888; padding:2px; font-size:8pt; text-align:left;">↓ Routes Traffic</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding: 4px;"><span class="node">🖥️ EC2 Instance</span><br><small style="color:#888;">has IAM Role attached</small></td>
+        <td style="padding:4px;"></td>
+        <td colspan="2" style="padding: 4px;"><span class="node">⚡ Lambda Function</span><br><small style="color:#888;">has IAM Execution Role</small></td>
+      </tr>
+      <tr>
+        <td style="padding: 3px;"><span class="node node-green" style="font-size:8pt;">IAM Role<br>S3 Access</span></td>
+        <td style="padding: 3px;"><span class="node node-green" style="font-size:8pt;">IAM Role<br>RDS Access</span></td>
+        <td></td>
+        <td style="padding: 3px;"><span class="node node-green" style="font-size:8pt;">IAM Role<br>DynamoDB</span></td>
+        <td style="padding: 3px;"><span class="node node-green" style="font-size:8pt;">IAM Role<br>SNS/SQS</span></td>
+      </tr>
+      <tr><td colspan="5" style="color:#888; padding:3px; font-size:8pt;">↓ IAM policies authorize access ↓ — KMS encrypts data at rest ↓</td></tr>
+      <tr>
+        <td style="padding: 4px;"><span class="node node-red" style="font-size:8pt;">🪣 S3 Bucket<br>KMS-Encrypted</span></td>
+        <td style="padding: 4px;"><span class="node node-red" style="font-size:8pt;">💾 EBS Volume<br>KMS-Encrypted</span></td>
+        <td style="padding: 4px;"><span class="node node-red" style="font-size:8pt;">🗄️ RDS Database<br>KMS-Encrypted</span></td>
+        <td style="padding: 4px;"><span class="node node-red" style="font-size:8pt;">🔑 Secrets<br>Mgr + KMS</span></td>
+        <td style="padding: 4px;"><span class="node node-red" style="font-size:8pt;">📊 DynamoDB<br>KMS-Encrypted</span></td>
+      </tr>
+      <tr><td colspan="5" style="color:#888; padding:3px; font-size:8pt;">All storage encrypted at rest using KMS Keys ↑</td></tr>
+    </table>
+  </div>
+
+  <h3>Architecture Component Explanation</h3>
+
+  <h4>Layer 1: User Access (ACM / TLS)</h4>
+  <ul>
+    <li>All user traffic enters via <strong>HTTPS only</strong> — HTTP redirected to HTTPS</li>
+    <li><strong>ACM certificate</strong> attached to ALB or CloudFront terminates TLS</li>
+    <li>TLS ensures <em>encryption in transit</em> — eavesdroppers cannot read traffic</li>
+    <li>Certificate validates server identity — users can trust they're on the real site</li>
+  </ul>
+
+  <h4>Layer 2: Access Control (IAM)</h4>
+  <ul>
+    <li>EC2 instances and Lambda functions have <strong>IAM Roles</strong> attached — no hardcoded credentials</li>
+    <li>IAM Roles grant <em>only the permissions needed</em> for each component (least privilege)</li>
+    <li>EC2 for the web tier: can read from S3 and query RDS — but cannot delete KMS keys</li>
+    <li>Lambda for processing: can write to DynamoDB — but cannot access EC2</li>
+    <li>IAM policies evaluated for every AWS API call made by any component</li>
+    <li>Administrators access AWS using <strong>IAM Users + MFA</strong> — not root</li>
+  </ul>
+
+  <h4>Layer 3: Data Encryption (KMS)</h4>
+  <ul>
+    <li><strong>S3 buckets</strong> use SSE-KMS — each uploaded object encrypted with a DEK wrapped by KMS key</li>
+    <li><strong>EBS volumes</strong> — OS and application data encrypted at block level using KMS</li>
+    <li><strong>RDS databases</strong> — all database files, logs, and backups encrypted with KMS</li>
+    <li><strong>Secrets Manager</strong> — stores DB passwords encrypted with KMS, rotated automatically</li>
+    <li>All encryption uses <strong>envelope encryption</strong> — KMS never directly handles large data</li>
+    <li>CloudTrail logs every KMS decrypt/encrypt call — full audit trail</li>
+  </ul>
+
+  <h4>Security Best Practices Illustrated in This Architecture</h4>
+  <table>
+    <tr><th>Best Practice</th><th>How It's Implemented</th></tr>
+    <tr><td>Encrypt in transit</td><td>ACM certificate on ALB, HTTPS enforced</td></tr>
+    <tr><td>Encrypt at rest</td><td>KMS encryption on all storage services</td></tr>
+    <tr><td>Least privilege</td><td>Each EC2/Lambda role has minimal permissions</td></tr>
+    <tr><td>No root usage</td><td>Root account locked; IAM admin users for management</td></tr>
+    <tr><td>No hardcoded credentials</td><td>IAM Roles instead of access keys on EC2</td></tr>
+    <tr><td>MFA enforced</td><td>IAM users require MFA for console access</td></tr>
+    <tr><td>Audit trail</td><td>CloudTrail logs all IAM and KMS API calls</td></tr>
+    <tr><td>Key rotation</td><td>KMS customer managed keys have rotation enabled</td></tr>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════ CONCEPT MAP ═══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="topic-label">Final Summary</div>
+    <h2>Concept Map — Complete Module Summary</h2>
+    <div class="subtitle">Everything learned in one visual map — IAM, ACM, KMS and their relationships</div>
+  </div>
+
+  <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+
+    <!-- IAM map -->
+    <div style="flex: 1; background: #e3f2fd; border: 2px solid #1565c0; border-radius: 8px; padding: 14px;">
+      <div style="background: #1565c0; color: white; text-align: center; padding: 6px; border-radius: 4px; font-weight: 700; font-size: 11pt; margin-bottom: 10px;">🔑 IAM</div>
+      <div class="concept-map">
+<span class="concept-root">IAM</span>
+├── <span class="concept-child">Authentication</span>
+│   ├── <span class="concept-leaf">Password</span>
+│   ├── <span class="concept-leaf">Access Keys</span>
+│   └── <span class="concept-leaf">MFA</span>
+├── <span class="concept-child">Authorization</span>
+│   └── <span class="concept-leaf">Policy Evaluation</span>
+├── <span class="concept-child">Users</span>
+│   ├── <span class="concept-leaf">Console Password</span>
+│   └── <span class="concept-leaf">Access Keys</span>
+├── <span class="concept-child">Groups</span>
+│   └── <span class="concept-leaf">Permission Grouping</span>
+├── <span class="concept-child">Roles</span>
+│   ├── <span class="concept-leaf">Trust Policy</span>
+│   ├── <span class="concept-leaf">Temp Credentials</span>
+│   └── <span class="concept-leaf">STS</span>
+├── <span class="concept-child">Policies</span>
+│   ├── <span class="concept-leaf">Identity-based</span>
+│   ├── <span class="concept-leaf">Resource-based</span>
+│   ├── <span class="concept-leaf">AWS Managed</span>
+│   ├── <span class="concept-leaf">Customer Managed</span>
+│   └── <span class="concept-leaf">Inline</span>
+└── <span class="concept-child">Principles</span>
+    ├── <span class="concept-leaf">Least Privilege</span>
+    └── <span class="concept-leaf">Root Protection</span>
+      </div>
+    </div>
+
+    <!-- ACM map -->
+    <div style="flex: 1; background: #e8f5e9; border: 2px solid #388e3c; border-radius: 8px; padding: 14px;">
+      <div style="background: #388e3c; color: white; text-align: center; padding: 6px; border-radius: 4px; font-weight: 700; font-size: 11pt; margin-bottom: 10px;">📜 ACM</div>
+      <div class="concept-map">
+<span class="concept-root">ACM</span>
+├── <span class="concept-child">Certificates</span>
+│   ├── <span class="concept-leaf">Public Certs (free)</span>
+│   └── <span class="concept-leaf">Private Certs (paid)</span>
+├── <span class="concept-child">Protocols</span>
+│   ├── <span class="concept-leaf">TLS 1.2 / 1.3</span>
+│   └── <span class="concept-leaf">HTTPS</span>
+├── <span class="concept-child">Validation</span>
+│   ├── <span class="concept-leaf">DNS Validation</span>
+│   └── <span class="concept-leaf">Email Validation</span>
+├── <span class="concept-child">Lifecycle</span>
+│   ├── <span class="concept-leaf">Request</span>
+│   ├── <span class="concept-leaf">Validate</span>
+│   ├── <span class="concept-leaf">Issue</span>
+│   ├── <span class="concept-leaf">Deploy</span>
+│   └── <span class="concept-leaf">Auto-Renew</span>
+├── <span class="concept-child">Integrations</span>
+│   ├── <span class="concept-leaf">ALB</span>
+│   ├── <span class="concept-leaf">CloudFront</span>
+│   └── <span class="concept-leaf">API Gateway</span>
+└── <span class="concept-child">Security Goal</span>
+    └── <span class="concept-leaf">Encryption in Transit</span>
+      </div>
+    </div>
+
+    <!-- KMS map -->
+    <div style="flex: 1; background: #fce4ec; border: 2px solid #c62828; border-radius: 8px; padding: 14px;">
+      <div style="background: #c62828; color: white; text-align: center; padding: 6px; border-radius: 4px; font-weight: 700; font-size: 11pt; margin-bottom: 10px;">🗝️ KMS</div>
+      <div class="concept-map">
+<span class="concept-root">KMS</span>
+├── <span class="concept-child">Encryption Types</span>
+│   ├── <span class="concept-leaf">Symmetric (default)</span>
+│   └── <span class="concept-leaf">Asymmetric</span>
+├── <span class="concept-child">Keys</span>
+│   ├── <span class="concept-leaf">AWS Managed</span>
+│   └── <span class="concept-leaf">Customer Managed</span>
+├── <span class="concept-child">Key Policies</span>
+│   ├── <span class="concept-leaf">Key Admins</span>
+│   └── <span class="concept-leaf">Key Users</span>
+├── <span class="concept-child">Key Rotation</span>
+│   ├── <span class="concept-leaf">Automatic (annual)</span>
+│   └── <span class="concept-leaf">Old material kept</span>
+├── <span class="concept-child">Envelope Encryption</span>
+│   ├── <span class="concept-leaf">DEK (Data Key)</span>
+│   ├── <span class="concept-leaf">KMS Key wraps DEK</span>
+│   └── <span class="concept-leaf">Local encryption</span>
+└── <span class="concept-child">Integrations</span>
+    ├── <span class="concept-leaf">S3 SSE-KMS</span>
+    ├── <span class="concept-leaf">EBS Encryption</span>
+    └── <span class="concept-leaf">RDS Encryption</span>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Concept Map Explained</h3>
+  <ul>
+    <li><strong>IAM</strong> is the foundation — it controls <em>who</em> can access <em>what</em>. Everything in AWS is accessed via IAM-authenticated and authorized calls. Authentication proves identity; authorization (via policies) determines permissions. Users are for humans, Groups simplify management, Roles enable services to act securely without static credentials, and Policies define the rules.</li>
+    <li><strong>ACM</strong> solves the <em>encryption in transit</em> problem — ensuring data traveling between users and AWS services is encrypted and the server's identity is verified. It does this by managing the full lifecycle of TLS certificates, integrating with AWS load balancers and CDN, and automatically renewing them.</li>
+    <li><strong>KMS</strong> solves the <em>encryption at rest</em> problem — ensuring stored data is unreadable without the correct key. It manages cryptographic keys securely (keys never leave KMS in plaintext), integrates with storage services (S3, EBS, RDS), and uses envelope encryption to handle large data efficiently without performance penalties.</li>
+    <li><strong>Together:</strong> IAM controls access, ACM secures the network channel, and KMS protects the stored data — a complete three-layer security model for AWS applications.</li>
+  </ul>
+
+  <div class="box box-orange" style="margin-top: 20px;">
+    <strong>📌 The Three Questions of AWS Security</strong>
+    <ul>
+      <li><strong>Who are you?</strong> → <span class="tag">IAM Authentication</span> (username, password, MFA, access keys)</li>
+      <li><strong>What can you do?</strong> → <span class="tag">IAM Authorization</span> (policies, roles, permissions)</li>
+      <li><strong>Is the connection and data safe?</strong> → <span class="tag">ACM</span> (in-transit) + <span class="tag">KMS</span> (at-rest)</li>
+    </ul>
+  </div>
+
+  <hr class="section-divider">
+  <div style="text-align:center; font-size:9pt; color:#888; margin-top: 14px;">
+    CSE3015 — AWS Cloud Practitioner &nbsp;|&nbsp; Module 3 / CO3 — Part 2 &nbsp;|&nbsp; AWS Security, Identification &amp; Compliance<br>
+    Study notes for conceptual learning only — not for exam preparation
+  </div>
+</div>
+
+</body>
+</html>

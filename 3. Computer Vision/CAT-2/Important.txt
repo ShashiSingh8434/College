@@ -1,0 +1,3 @@
+SIFT SURF HOG algorithms
+Graph Cut, Mean Shift, MRFs
+K means, K medoids

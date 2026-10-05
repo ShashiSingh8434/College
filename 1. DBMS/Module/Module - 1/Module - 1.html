@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { margin: 22mm 18mm 20mm 18mm; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #222; font-size: 12.5px; line-height: 1.5; }
+  h1.doctitle { text-align: center; color: #0b3d66; margin-bottom: 2px; font-size: 24px; }
+  .subtitle { text-align:center; color:#555; margin-bottom:18px; font-size:13px;}
+  hr.top { border: none; border-top: 3px solid #0b3d66; margin-bottom: 20px;}
+  h2 { background: #0b3d66; color: #fff; padding: 6px 12px; border-radius: 4px; font-size: 16px; margin-top: 26px; }
+  h3 { color: #0b3d66; border-bottom: 2px solid #cfe0ee; padding-bottom: 3px; font-size: 14px; margin-top: 18px;}
+  h4 { color: #1a5a91; font-size: 13px; margin-bottom:4px;}
+  p.def { background: #f4f8fb; border-left: 4px solid #0b3d66; padding: 8px 12px; margin: 8px 0; text-align: justify;}
+  ul, ol { margin: 6px 0 10px 0; padding-left: 22px; }
+  li { margin-bottom: 3px; }
+  .adv { color: #1b6b1b; font-weight: 600; }
+  .disadv { color: #a33; font-weight: 600; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 11.5px;}
+  th, td { border: 1px solid #b9c9d6; padding: 5px 8px; text-align: left; }
+  th { background: #dbe9f5; color:#0b3d66; }
+  tr:nth-child(even) { background: #f7fafc; }
+  code, .code { background: #eef3f7; padding: 1px 5px; border-radius: 3px; font-family: Consolas, monospace; font-size: 11.5px; }
+  pre.sql { background:#0b3d66; color:#eaf3fb; padding:10px 14px; border-radius:5px; font-size:11px; overflow-x:auto; white-space:pre-wrap;}
+  img.fig { display:block; margin: 10px auto; max-width: 88%; max-height: 300px; border: 1px solid #cfd8e0; border-radius:4px; padding:4px; background:#fff;}
+  .cap { text-align:center; font-size: 10.5px; color:#666; margin-top:-4px; margin-bottom:12px; font-style: italic;}
+  .twocol { display:flex; gap:14px; }
+  .twocol > div { flex:1; }
+  .box { background:#fbf6e8; border:1px solid #e6d59a; border-radius:5px; padding:8px 12px; margin:8px 0;}
+  .note { background:#eef7ee; border-left:4px solid #3c8c3c; padding:6px 12px; margin:8px 0; font-size:11.5px;}
+  .toc { background:#f4f8fb; border:1px solid #cfe0ee; border-radius:6px; padding:14px 20px; }
+  .toc h2 { margin-top:0; }
+  .toc ol > li { margin-bottom:5px; }
+  .pagebreak { page-break-before: always; }
+  .small { font-size: 11px; color:#555;}
+</style>
+</head>
+<body>
+
+<h1 class="doctitle">CSE3001 – Database Management Systems</h1>
+<div class="subtitle">Module 1 Notes — Introduction to DBMS, Architecture, SQL Languages &amp; ER Modeling<br>Compiled from lecture material by Prof. Rajneesh Kumar Patel, Asst. Professor, CSE</div>
+<hr class="top">
+
+<div class="toc">
+<h2 style="background:none;color:#0b3d66;padding:0;">Contents</h2>
+<ol>
+<li>Data, Database &amp; DBMS</li>
+<li>File System vs Database System</li>
+<li>DBMS Architecture (Three-Tier &amp; Structure)</li>
+<li>Three-Level Schema Architecture &amp; Data Independence</li>
+<li>Database Schemas &amp; Instances</li>
+<li>Database Languages — DDL, DML, DCL, TCL (with SQL examples)</li>
+<li>Functions of a DBA</li>
+<li>Data Models &amp; their Evolution</li>
+<li>Entity-Relationship (ER) Model — Entities, Attributes, Relationships</li>
+<li>Participation Constraints &amp; Recursive Relationships</li>
+<li>Steps to Draw an ER Diagram</li>
+<li>Extended ER Features — Aggregation, Generalization, Specialization</li>
+<li>Converting an ER Model into a Relational Model</li>
+</ol>
+</div>
+
+<h2>1. Data, Database &amp; DBMS</h2>
+
+<h3>1.1 Data</h3>
+<p class="def">Data refers to a collection of raw, unprocessed facts. These are facts that can be recorded and that carry an implicit meaning — for example, a student's roll number, name, and address. By itself, data is just raw material; it becomes useful information only once it is organized and interpreted.</p>
+
+<h3>1.2 Database</h3>
+<p class="def">A database is a collection of interrelated data, typically stored in the form of tables. The data inside it can be stored, updated, or deleted either manually or through a computerized system, and the records are logically connected to one another (e.g., a Student table linked to a Department table).</p>
+
+<h3>1.3 Database Management System (DBMS)</h3>
+<p class="def">A DBMS is a collection of interrelated data together with a set of programs that allow users to easily store, update, and retrieve that data. In short: <b>Interrelated Data + Set of Programs (Instructions) = DBMS</b>. Its primary goal is to let operations be performed on data without anomalies such as redundancy, inconsistency, or loss of integrity.</p>
+
+<h2>2. File System vs Database System</h2>
+
+<img class="fig" src="pages/trim_page-08.png">
+<div class="cap">Fig. Traditional file-based data management vs a Relational Database Management System</div>
+
+<h3>2.1 Disadvantages of File Processing Systems</h3>
+<ul>
+<li><b>Data Redundancy</b> — the same data gets duplicated across multiple files.</li>
+<li><b>Difficulty in accessing data</b> — no unified way to query across files.</li>
+<li><b>Data Isolation</b> — related data scattered in several files/formats, hard to combine.</li>
+<li><b>Atomicity problems</b> — no guarantee of "all or none" execution of operations.</li>
+<li><b>Concurrency control anomalies</b> — no built-in mechanism for simultaneous access.</li>
+<li><b>Poor security</b> — data is spread out and hard to protect uniformly.</li>
+<li><b>Weak integrity constraints</b> — domain constraints, key constraints, and referential integrity are difficult to enforce.</li>
+</ul>
+
+<h3>2.2 File-Based Approach vs Database Approach</h3>
+<table>
+<tr><th>#</th><th>File-Based Approach</th><th>Database Approach</th></tr>
+<tr><td>1</td><td>Program and data are interdependent.</td><td>Program and data are independent of each other.</td></tr>
+<tr><td>2</td><td>Data may be duplicated across files, causing redundancy.</td><td>Data is not duplicated — it appears only once.</td></tr>
+<tr><td>3</td><td>Same data in different files may differ, causing inconsistency.</td><td>Since data appears once, it stays consistent.</td></tr>
+<tr><td>4</td><td>Data is scattered, making retrieval difficult.</td><td>Data is stored in linked tables; applications retrieve it easily.</td></tr>
+<tr><td>5</td><td>Data is distributed across files and cannot be shared.</td><td>Data is centralized and easily shared.</td></tr>
+<tr><td>6</td><td>Difficult to apply data-integrity checks.</td><td>Provides many built-in constraints for integrity.</td></tr>
+<tr><td>7</td><td>Poor security since data is widely spread.</td><td>Provides many procedures to maintain security.</td></tr>
+<tr><td>8</td><td>Difficult to maintain — few controlling facilities.</td><td>Provides many facilities to maintain programs easily.</td></tr>
+<tr><td>9</td><td>Less complex system.</td><td>Very complex system.</td></tr>
+<tr><td>10</td><td>Cost is much less than a DBMS.</td><td>Cost is much higher than a file system.</td></tr>
+<tr><td>11</td><td>If one application fails, others are unaffected.</td><td>All applications relying on the database fail if the database fails.</td></tr>
+</table>
+
+<h2>3. DBMS Architecture</h2>
+
+<h3>3.1 Three-Tier Architecture of DBMS</h3>
+<img class="fig" src="pages/trim_page-11.png" style="max-height:230px;">
+<ul>
+<li><b>Presentation Tier</b> — the user interface / view level, where the end user interacts with the system.</li>
+<li><b>Application Tier</b> — contains the application server &amp; programs, business logic, and abstraction.</li>
+<li><b>Database Tier</b> — handles query-processing language, relations of data, and constraints.</li>
+</ul>
+
+<h3>3.2 Structure of DBMS</h3>
+<img class="fig" src="pages/trim_page-12.png" style="max-height:260px;">
+<p class="def">Inside the DBMS, the <b>DML Compiler</b> (with its Query Optimizer) handles data-manipulation requests from applications and end users, while the <b>DDL Compiler</b> handles schema-definition statements. Both route through the <b>Stored Data Manager</b>, which interacts with the physically stored Data Files, Compiled DML, and Data Dictionary on disk.</p>
+
+<h2>4. Three-Level Schema Architecture &amp; Data Independence</h2>
+
+<img class="fig" src="pages/trim_page-13.png" style="max-height:280px;">
+<div class="cap">Fig. External, Conceptual and Internal levels of a database</div>
+
+<h3>4.1 The Three Levels</h3>
+<h4>(a) Internal Level</h4>
+<ul>
+<li>Also called the <b>physical schema</b>; uses a physical data model.</li>
+<li>Describes the physical storage structure of the database.</li>
+<li>Defines how the data will be stored in a block.</li>
+</ul>
+
+<h4>(b) Conceptual Level</h4>
+<ul>
+<li>Also called the <b>logical level</b>; describes the design of the database at a conceptual level.</li>
+<li>Describes what data is stored and what relationships exist among the data.</li>
+<li>Hides internal implementation details such as the physical data structure.</li>
+<li>This is the level where programmers and database administrators work.</li>
+</ul>
+
+<h4>(c) External Level</h4>
+<ul>
+<li>Also called the <b>view schema</b>; describes different views of the database.</li>
+<li>Each view describes the part of the database that a particular user group is interested in, hiding the rest.</li>
+<li>Represents the end user's interaction with the database system.</li>
+</ul>
+
+<h3>4.2 Data Independence</h3>
+<p class="def">A database system that can separate these three levels of abstraction becomes flexible and adaptable — this property is called <b>Data Independence</b>. It means that a change at a lower level should not affect the level above it.</p>
+<ul>
+<li><b>Physical Data Independence</b> — separation of the Conceptual and External views from the Internal view; the physical structure of the database can change without affecting the conceptual/external levels.</li>
+<li><b>Logical Data Independence</b> — separation of the External view from the Conceptual view; changes to the conceptual schema (e.g., adding a new entity) do not affect existing external views.</li>
+</ul>
+
+<h2>5. Database Schemas &amp; Instances</h2>
+
+<h3>5.1 Database Schema</h3>
+<p class="def">A schema is the description of the database — its overall design. It is specified during database design and is not expected to change frequently.</p>
+<div class="box">
+<span class="code">Student (Roll_No Varchar(10), Name Char(30), Address varchar(30), Phone_No Number(10), DOB date...)</span><br>
+<span class="code">Department (Dept_Id Varchar(10), Dept_Name Char(10), Course_Name Char(20)...)</span>
+</div>
+
+<h3>5.2 Database Instance</h3>
+<p class="def">An instance is the collection of information stored in the database at a particular moment in time — essentially a "snapshot" of the database.</p>
+<table>
+<tr><th>Roll No</th><th>Name</th><th>Contact No</th><th>Address</th></tr>
+<tr><td>101</td><td>Ajay</td><td>123</td><td>BPL</td></tr>
+<tr><td>125</td><td>Kartik</td><td>456</td><td>BPL</td></tr>
+<tr><td>140</td><td>Rahul</td><td>789</td><td>BPL</td></tr>
+</table>
+
+<h2>6. Database Languages</h2>
+
+<h3>6.1 DDL — Data Definition Language</h3>
+<p class="def">DDL is used to define the database structure or pattern — creating schemas, tables, indexes, and constraints. It stores metadata such as the number of tables and schemas, their names, indexes, columns, and constraints.</p>
+<ul>
+<li><b>CREATE</b> — creates objects in the database.</li>
+<li><b>ALTER</b> — alters the structure of the database.</li>
+<li><b>DROP</b> — deletes objects from the database.</li>
+<li><b>TRUNCATE</b> — removes all records from a table.</li>
+<li><b>RENAME</b> — renames an object.</li>
+</ul>
+<pre class="sql">SQL> create table student_detail(roll_no number(10), name char(30));
+Table created.
+
+SQL> alter table student_detail add(contact_no number(10), address varchar(20));
+Table altered.
+
+SQL> alter table student_detail modify(roll_no varchar(20) primary key);
+Table altered.
+
+SQL> alter table student_detail drop(contact_no);
+Table altered.
+
+SQL> rename student_detail to student;
+Table renamed.
+
+SQL> desc student;
+Name                          Null?     Type
+----------------------------- --------  ----------------------------
+ROLL_NO                       NOT NULL  VARCHAR2(20)
+NAME                                    CHAR(30)
+ADDRESS                                 VARCHAR2(20)
+
+SQL> truncate table student;      Table truncated.
+SQL> drop table student;          Table dropped.</pre>
+
+<h3>6.2 DML — Data Manipulation Language</h3>
+<p class="def">DML is used for accessing and manipulating data already stored in the database; it handles user requests for reading and modifying data.</p>
+<ul>
+<li><b>SELECT</b> — retrieves data from the database.</li>
+<li><b>INSERT</b> — inserts data into a table.</li>
+<li><b>UPDATE</b> — updates existing data within a table.</li>
+<li><b>DELETE</b> — deletes records from a table.</li>
+</ul>
+<pre class="sql">SQL> insert into student values ('CS101', 'Ajay', 'Bhopal');
+SQL> insert into student values ('CS102', 'Aman', 'Ujjain');
+SQL> insert into student (roll_no) values ('CS104');
+SQL> insert into student (name) values ('Anuj');
+* ERROR at line 1: ORA-01400: cannot insert NULL into ("ROLL_NO")  -- Roll_No is NOT NULL
+
+SQL> select * from student where address = 'Bhopal';
+SQL> select roll_no as roll_number from student;      -- column aliasing
+
+SQL> update student set address='Bhopal' where roll_no='CS103';
+SQL> update student set name='Anay', address='Ujjain' where roll_no='CS104';
+
+SQL> delete from student where roll_no='CS104';        1 row deleted.
+SQL> delete from student where address='Bhopal';       2 rows deleted.</pre>
+
+<div class="note"><b>Note:</b> Because <span class="code">ROLL_NO</span> was set as <span class="code">NOT NULL</span> (a PRIMARY KEY via ALTER), inserting a row without a roll number raises <span class="code">ORA-01400</span>.</div>
+
+<h3>6.3 DCL — Data Control Language</h3>
+<p class="def">DCL is used to control access to data stored in the database — essentially managing user permissions.</p>
+<ul>
+<li><b>GRANT</b> — gives a user access privileges to the database.</li>
+<li><b>REVOKE</b> — takes back permissions from a user.</li>
+</ul>
+
+<h3>6.4 TCL — Transaction Control Language</h3>
+<p class="def">TCL is used to manage the changes made by DML statements; these statements are grouped into logical transactions.</p>
+<ul>
+<li><b>COMMIT</b> — saves the transaction to the database permanently.</li>
+<li><b>ROLLBACK</b> — restores the database to its state at the last COMMIT.</li>
+</ul>
+
+<h2>7. Functions of a Database Administrator (DBA)</h2>
+<ul>
+<li>Designing the Conceptual &amp; Physical Schema.</li>
+<li>Security &amp; Authorization management.</li>
+<li>Ensuring Data Availability &amp; Recovery from failures.</li>
+<li>Defining Storage Structures and Access Methods.</li>
+<li>Specifying Integrity Constraints.</li>
+</ul>
+
+<div class="pagebreak"></div>
+<h2>8. Data Models &amp; their Evolution</h2>
+
+<p class="def">A data model is a collection of concepts used to describe the structure of a database — its data types, relationships, and constraints. It specifies the dynamic aspects and behaviour of database applications, offers relatively simple (usually graphical) representations of complex real-world structures, and facilitates interaction among the designer, application programmer, and end user.</p>
+
+<h3>8.1 Three Levels of Modeling (analogy: Civil Engineering)</h3>
+<div class="twocol">
+<div>
+<b>In Civil Engineering:</b>
+<ul>
+<li>Final project (built structure)</li>
+<li>Charts / Blueprint (representation)</li>
+<li>High-level / conceptual view (idea/design)</li>
+</ul>
+</div>
+<div>
+<b>In DBMS:</b>
+<ul>
+<li><b>High-level / Conceptual view</b> → ER Model</li>
+<li><b>Representation / Implementation</b> → Relational Model (Tables — what programmers use via SQL)</li>
+<li><b>Low-level / Physical data model</b> → How tables are stored in memory: structure of records, data types, data retrieval</li>
+</ul>
+</div>
+</div>
+
+<h3>8.2 Evolution of Data Models</h3>
+<ul>
+<li><b>High Level / Object-Based Data Model</b>
+  <ul><li>Entity-Relationship (ER) Model</li><li>Object-Oriented Data Model</li></ul>
+</li>
+<li><b>Representation / Record-Based Data Model</b>
+  <ul><li>Relational Model</li><li>Network Model</li><li>Hierarchical Model</li></ul>
+</li>
+<li><b>Low Level / Physical Data Model</b>
+  <ul><li>Unifying Model</li><li>Frame Memory Model</li></ul>
+</li>
+</ul>
+
+<h3>8.3 Entity-Relationship (ER) Model — Overview</h3>
+<ul>
+<li>A widely accepted, graphical tool for data modeling.</li>
+<li>A high-level conceptual data-model diagram that helps analyze data requirements to produce a well-designed database.</li>
+<li>Graphically represents entities and their relationships in a database structure, explaining its logical structure.</li>
+<li><b>Components:</b> Entity, Relationship, Attributes.</li>
+</ul>
+
+<h3>8.4 Object-Oriented Data Model (OODM)</h3>
+<ul>
+<li>Models both data and their relationships in a single structure called an <b>object</b>.</li>
+<li>Forms the basis for Object-Oriented Database Management Systems (OODBMS).</li>
+<li>The object becomes the basic building block for autonomous structures.</li>
+<li><b>Object</b> — an abstraction of a real-world entity; <b>Attributes</b> describe its properties.</li>
+<li>Objects sharing similar characteristics are grouped into <b>Classes</b>.</li>
+<li><b>Inheritance</b> — the ability of an object within a class hierarchy to inherit attributes and methods of classes above it.</li>
+</ul>
+
+<h3>8.5 Relational Model</h3>
+<ul>
+<li>Developed by <b>Codd (IBM) in 1970</b>; conceptually simple.</li>
+<li>Forms the extension for the Relational Database Management System (RDBMS).</li>
+<li>Its greatest advantage is hiding the complexities of the relational model from the user.</li>
+<li>Represents a database's entities, their attributes, and the relationships between entities.</li>
+</ul>
+<p class="def"><b>Relational Table (relation):</b> stores a collection of related entities as a matrix of row/column intersections. It is a purely logical structure — how data is physically stored is of no concern to the user or designer. This property triggered a real database revolution.</p>
+<p class="def"><b>SQL (Structured Query Language):</b> lets users specify <i>what</i> must be done, without specifying <i>how</i>. A SQL-based relational application involves a user interface, a set of tables stored in the database, and a SQL engine.</p>
+
+<h3>8.6 Hierarchical Model</h3>
+<img class="fig" src="pages/trim_page-49.png" style="max-height:190px; display:none;">
+<ul>
+<li>Developed in the <b>1960s</b> to manage large amounts of data for complex manufacturing projects.</li>
+<li>Basic logical structure represented by an upside-down "tree".</li>
+<li>Structure contains levels or segments.</li>
+<li>Depicts a set of <b>one-to-many (1:M)</b> relationships between a parent and its children's segments.</li>
+</ul>
+<p><span class="adv">Advantages:</span> many of its features formed the foundation of current data models; its database-application advantages are still replicated in modern environments.</p>
+<p><span class="disadv">Disadvantages:</span> complex to implement, difficult to manage, and has implementation limitations.</p>
+
+<h3>8.7 Network Model</h3>
+<ul>
+<li>Developed to represent complex data relationships more effectively.</li>
+<li>Improves database performance with the help of links/connections.</li>
+<li>Represents a collection of records connected via <b>M:M (many-to-many)</b> relationships.</li>
+</ul>
+
+<div class="pagebreak"></div>
+<h2>9. Entity-Relationship (ER) Model — In Detail</h2>
+
+<p class="def">The ER Model represents real-world entities and the relationships between them in a high-level conceptual diagram. It helps analyze data requirements to produce a well-designed database and explains the logical structure of a database. Its three components are <b>Entity, Attribute,</b> and <b>Relationship</b>.</p>
+
+<img class="fig" src="pages/trim_page-46.png" style="max-height:220px;">
+<div class="cap">Fig. Components in the ER Model</div>
+
+<h3>9.1 Symbols Used in ER Diagrams</h3>
+<img class="fig" src="pages/trim_page-47.png" style="max-height:330px;">
+<table>
+<tr><th>Symbol</th><th>Represents</th></tr>
+<tr><td>Rectangle</td><td>Entity</td></tr>
+<tr><td>Oval</td><td>Attribute</td></tr>
+<tr><td>Diamond</td><td>Relationship</td></tr>
+<tr><td>Straight line</td><td>Links attribute(s) to entity set(s), or entity set(s) to relationship set(s)</td></tr>
+<tr><td>Double oval</td><td>Multivalued attribute</td></tr>
+<tr><td>Dashed oval</td><td>Derived attribute</td></tr>
+<tr><td>Double line</td><td>Total participation of an entity</td></tr>
+<tr><td>Double rectangle</td><td>Weak entity</td></tr>
+<tr><td>Double diamond</td><td>Weak relationship</td></tr>
+<tr><td>Connected ovals</td><td>Composite attribute</td></tr>
+<tr><td>Underlined oval</td><td>Key attribute / single-valued attribute</td></tr>
+</table>
+
+<h3>9.2 Entity &amp; Entity Types</h3>
+<ul>
+<li>An entity may have a <b>physical existence</b> — a person, car, house, or employee.</li>
+<li>An entity may have a <b>conceptual existence</b> — a company, a job, or a university course.</li>
+<li>An entity is an object of an entity type; the set of all entities is called an <b>entity set</b>.</li>
+<li>An entity is represented as a rectangle in an ER diagram.</li>
+</ul>
+<img class="fig" src="pages/trim_page-49.png" style="max-height:210px;">
+<div class="cap">Fig. Strong Entity (Customer) and Weak Entity (Loan) in a Borrows relationship</div>
+<ul>
+<li><b>Strong Entity</b> — an entity that contains a unique key attribute (its own primary key).</li>
+<li><b>Weak Entity</b> — an entity set that does not have sufficient attributes to form its own primary key; it depends on a strong (owner) entity and is represented by a <b>double rectangle</b>.</li>
+</ul>
+
+<h3>9.3 Attributes &amp; their Types</h3>
+<p class="def">An attribute describes a property of an entity and is represented as an oval in an ER diagram. There are four broad categories of attributes.</p>
+<img class="fig" src="pages/trim_page-55.png" style="max-height:280px;">
+<div class="cap">Fig. Simple, composite, multivalued, key and derived attributes of the Student entity</div>
+
+<ol>
+<li><b>Key Attribute</b> — uniquely identifies an entity within an entity set; represented as an oval with the text <u>underlined</u> (e.g., RollNo).</li>
+<li><b>Simple &amp; Composite Attribute</b> — a <b>composite</b> attribute is a combination of other attributes (e.g., Address = Pin + State + Country); a <b>simple</b> attribute cannot be divided further.</li>
+<li><b>Single-valued &amp; Multivalued Attribute</b> — a <b>multivalued</b> attribute can hold multiple values (e.g., a person's Phone_No) and is drawn with a <b>double oval</b>.</li>
+<li><b>Stored &amp; Derived Attribute</b> — a <b>derived</b> attribute's value is dynamic and computed from another attribute (e.g., Age derived from DOB); it is shown with a <b>dashed oval</b>.</li>
+</ol>
+
+<h3>9.4 Relationships in the ER Model</h3>
+<p class="def">A relationship is the association among entities, represented by a diamond shape in an ER diagram. There are four cardinality types of relationships.</p>
+
+<h4>(a) One-to-One (1:1)</h4>
+<p>When a single instance of an entity is associated with a single instance of another entity. <i>Example: a person has only one passport, and a passport is issued to only one person.</i></p>
+
+<h4>(b) One-to-Many (1:M)</h4>
+<p>When a single instance of an entity is associated with more than one instance of another entity. <i>Example: a customer can place many orders, but an order cannot be placed by many customers.</i></p>
+
+<h4>(c) Many-to-One (M:1)</h4>
+<p>When more than one instance of an entity is associated with a single instance of another entity. <i>Example: many students can study in a single college, but a student cannot study in many colleges at once.</i></p>
+<img class="fig" src="pages/trim_page-59.png" style="max-height:210px;">
+<div class="cap">Fig. Many-to-One relationship (Student — Study → College)</div>
+
+<h4>(d) Many-to-Many (M:M)</h4>
+<p>When more than one instance of an entity is associated with more than one instance of another entity. <i>Example: a student can be assigned to many projects, and a project can be assigned to many students.</i></p>
+<img class="fig" src="pages/trim_page-60.png" style="max-height:210px;">
+<div class="cap">Fig. Many-to-Many relationship (Student — Assigned → Project)</div>
+
+<h2>10. Participation Constraints &amp; Recursive Relationships</h2>
+
+<h3>10.1 Participation Constraints</h3>
+<img class="fig" src="pages/trim_page-61.png" style="max-height:280px;">
+<ul>
+<li><b>Total Participation</b> — every entity in the entity set occurs in at least one relationship instance in that relationship set. It is drawn with a <b>double line</b>. Example: every Loan entity must be associated with at least one Customer (via "Borrows").</li>
+<li><b>Partial Participation</b> — an entity in the entity set may or may not occur in a relationship instance. Example: every Department must be managed by at least one Employee (total participation of Department), but not every Employee manages a department (partial participation of Employee).</li>
+</ul>
+
+<h3>10.2 Recursive Relationship</h3>
+<p class="def">A recursive relationship occurs when the same entity participates more than once in a relationship. <i>Example: an Employee entity that can play the role of both "Manager" and "Worker" in a "WorksFor" relationship with itself.</i></p>
+
+<div class="pagebreak"></div>
+<h2>11. Steps to Draw an ER Diagram</h2>
+
+<div class="box"><b>Problem statement:</b> In a university, a Student enrolls in Courses. A student must be assigned to at least one or more Courses. Each course is taught by a single Professor. To maintain instruction quality, a Professor can deliver only one course.</div>
+
+<h4>Step 1 — Entity Identification</h4>
+<p>Identify the entities: <b>Student, Course, Professor.</b></p>
+
+<h4>Step 2 — Relationship Identification</h4>
+<p>Identify the relationships: the Student is <b>assigned</b> a Course; the Professor <b>delivers</b> a Course.</p>
+
+<h4>Step 3 — Cardinality Identification</h4>
+<p>Determine cardinalities from the statement: many students can be assigned to multiple courses (M:N); a professor can deliver only one course (1:1).</p>
+
+<h4>Step 4 — Identify Attributes</h4>
+<p>Identify the attributes for each entity without initially mapping them, then pair each attribute with exactly one entity (use a modifier if an attribute could belong to more than one entity).</p>
+<img class="fig" src="pages/trim_page-68.png" style="max-height:230px;">
+<div class="cap">Fig. Completed ER diagram — Student, Course, Professor with cardinalities and key attributes</div>
+
+<h4>Step 5 — Create the ER Diagram</h4>
+<p>Combine entities, relationships, cardinalities, and attributes into the final ER diagram (shown above).</p>
+
+<div class="note"><b>Worked example:</b> A larger, hand-drawn ER diagram for a college management system (Administrator, Students, Courses, Department, Fees, Attendance, Exam, Section) is shown below to illustrate how multiple entities and relationships combine in a real system.</div>
+<img class="fig" src="pages/trim_page-69.png" style="max-height:330px;">
+
+<h2>12. Extended ER Features</h2>
+
+<h3>12.1 Aggregation</h3>
+<p class="def">Aggregation represents a "relationship among a relationship" — it is used to express a relationship between a whole object and its component part. It allows a relationship set to participate in another relationship set, acting as an abstraction for building composite objects out of their component objects. It is drawn using a dashed line/box around the inner relationship in an ER diagram.</p>
+<img class="fig" src="pages/trim_page-71.png" style="max-height:280px;">
+<div class="cap">Fig. Aggregation — the (Customer–Borrows–Loan) relationship is treated as a single object, verified by a Loan Officer</div>
+
+<h3>12.2 Generalization</h3>
+<p class="def">Generalization is a <b>bottom-up</b> approach where two or more lower-level entities (with their own attributes) combine to form a single higher-level (generalized) entity, based on their common attributes. For example, Employee and Customer entities can both be generalized into a single "Person" entity.</p>
+
+<h3>12.3 Specialization</h3>
+<p class="def">Specialization is the reverse — a <b>top-down</b> approach where a higher-level entity is split into two or more lower-level, more specific entities. For example, an "MBBS" entity can be specialized into "Physician" (MD) and "Surgeon" (MS).</p>
+<img class="fig" src="pages/trim_page-74.png" style="max-height:230px;">
+<div class="cap">Fig. Specialization — MBBS specialized into Physician and Surgeon</div>
+
+<h3>12.4 Combined Generalization &amp; Specialization</h3>
+<img class="fig" src="pages/trim_page-76.png" style="max-height:330px;">
+<div class="cap">Fig. Account generalized/specialized into Saving Account and Current Account, further specialized into Gold, Silver, and Platinum</div>
+<ul>
+<li>The "is-a" triangle symbol is used for both generalization and specialization hierarchies.</li>
+<li>Reading bottom-up (from sub-types to a super-type) = <b>Generalization</b>.</li>
+<li>Reading top-down (from a super-type to sub-types) = <b>Specialization</b>.</li>
+</ul>
+
+<div class="pagebreak"></div>
+<h2>13. Converting an ER Model into a Relational Model</h2>
+<p class="def">Once an ER diagram is finalized, it must be mapped into a set of relational tables so it can be implemented in an RDBMS. The rules below cover the common cases.</p>
+
+<h3>13.1 Entity with a Key Attribute</h3>
+<p>A simple entity with a key and normal attributes maps directly to one table, with the key attribute becoming the <b>Primary Key</b>.</p>
+<img class="fig" src="pages/trim_page-77.png" style="max-height:230px;">
+
+<h3>13.2 Entity Set with a Composite Attribute</h3>
+<p>A composite attribute (e.g., Salary = Basic + HRA + TA + DA) is "flattened" — each of its sub-parts becomes its own column in the table.</p>
+<img class="fig" src="pages/trim_page-78.png" style="max-height:220px;">
+
+<h3>13.3 Entity with a Multivalued Attribute</h3>
+<p>A multivalued attribute (e.g., City, where an employee can have multiple cities) <b>cannot</b> stay in the main table as a single column — it must be split into a <b>separate table</b> containing the entity's key and the multivalued attribute, linked by a foreign key.</p>
+<img class="fig" src="pages/trim_page-79.png" style="max-height:290px;">
+
+<h3>13.4 Translating a Relationship Set into Relations</h3>
+<p>A relationship set (e.g., "Works_in" between Employee and Department) becomes its own table containing the primary keys of both participating entities (as foreign keys) plus any relationship attributes (e.g., "Since").</p>
+<img class="fig" src="pages/trim_page-80.png" style="max-height:300px;">
+
+<h3>13.5 Relationship with Key Constraints (1:M)</h3>
+<p>For a <b>One-to-Many</b> relationship (e.g., a department has at most one employee as manager), the relation can be represented with a separate "Manages" table, or the foreign key can be merged into the "many" side / "one" side depending on the constraint, avoiding a redundant extra table.</p>
+<img class="fig" src="pages/trim_page-81.png" style="max-height:230px;">
+
+<h3>13.6 General Mapping Rules by Cardinality</h3>
+<table>
+<tr><th>Relationship type</th><th>Minimum tables required</th><th>Mapping rule</th></tr>
+<tr><td><b>One-to-Many (1:M)</b><br>A(a1,a2) —R→ B(b1,b2)</td><td>2</td><td>Table A(a1,a2); Table B(b1,b2,a1) — the "one" side's key (a1) becomes a <b>foreign key</b> in the "many" side (B).</td></tr>
+<tr><td><b>Many-to-One (M:1)</b><br>A(a1,a2) —R→ B(b1,b2)</td><td>2</td><td>Table A(a1,a2,b1); Table B(b1,b2) — the "one" side's key (b1) becomes a <b>foreign key</b> in the "many" side (A).</td></tr>
+<tr><td><b>Many-to-Many (M:M)</b></td><td>3</td><td>Since there is no key constraint, 3 tables are needed: A(a1,a2), B(b1,b2), and a separate relationship table R(a1,b1) holding both keys as a composite/foreign key.</td></tr>
+<tr><td><b>One-to-One (1:1)</b></td><td>2 (max)</td><td>Either merge B's key into A → A(a1,a2,b1), B(b1,b2); or merge A's key into B → A(a1,a2), B(b1,b2,a1).</td></tr>
+</table>
+
+<div class="twocol">
+<div>
+<img class="fig" src="pages/trim_page-83.png" style="max-height:210px;">
+<div class="cap">One-to-Many mapping</div>
+</div>
+<div>
+<img class="fig" src="pages/trim_page-84.png" style="max-height:210px;">
+<div class="cap">Many-to-One mapping</div>
+</div>
+</div>
+<div class="twocol">
+<div>
+<img class="fig" src="pages/trim_page-85.png" style="max-height:210px;">
+<div class="cap">Many-to-Many mapping</div>
+</div>
+<div>
+<img class="fig" src="pages/trim_page-86.png" style="max-height:210px;">
+<div class="cap">One-to-One mapping</div>
+</div>
+</div>
+
+<h3>13.7 Worked Example — Minimum Number of Tables</h3>
+<p>For a chain of entities A, B, C connected through relationships R1 (M:1, A→B), R2 (M:1, A→C) and R3 (M:N, B→C), the minimum number of tables required is <b>4</b>: since A participates in two many-to-one relationships (R1 and R2), both foreign keys (from B and C) can be merged into A's own table.</p>
+<img class="fig" src="pages/trim_page-87.png" style="max-height:270px;">
+<div class="cap">A combined with R1 &amp; R2 → A(a1,a2,c1,b1); B(b1,b2); C(c1,c2); R3(b1,c1) as a separate table (foreign keys)</div>
+
+<div class="note">
+<b>Key takeaway for mapping ER → Relational:</b>
+<ul>
+<li>Every strong entity → one table, key attribute → primary key.</li>
+<li>Weak entity → its own table, including the owner entity's key as part of its primary key (foreign key).</li>
+<li>1:1 and 1:M / M:1 relationships can often be merged into an existing entity's table using a foreign key — no separate relationship table is strictly needed.</li>
+<li>M:N relationships <b>always</b> require a separate table holding both participating entities' keys.</li>
+<li>Multivalued attributes always require a separate table.</li>
+</ul>
+</div>
+
+<div style="text-align:center; margin-top:30px; color:#888; font-size:11px;">— End of Module 1 Notes —<br>Compiled from lecture slides by Prof. Rajneesh Kumar Patel, Asst. Professor, CSE (CSE3001)</div>
+
+</body>
+</html>

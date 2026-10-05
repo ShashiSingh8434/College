@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tutorial 3 Solutions - Computer Networks (CSE3006)</title>
+<style>
+  :root{
+    --navy:#1b2a4a;
+    --blue:#2b5cb8;
+    --accent:#e8722c;
+    --bg:#f6f7fb;
+    --card:#ffffff;
+    --border:#e1e5ee;
+    --text:#232734;
+    --muted:#5b6273;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    margin:0;
+    padding:0;
+    line-height:1.6;
+  }
+  .header{
+    background:linear-gradient(135deg,var(--navy),var(--blue));
+    color:#fff;
+    padding:36px 5% 28px;
+  }
+  .header h1{margin:0 0 6px;font-size:1.7rem;}
+  .header p{margin:2px 0;font-size:0.95rem;opacity:0.92;}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;font-size:0.85rem;
+  }
+  .meta-row span{
+    background:rgba(255,255,255,0.15);
+    padding:4px 12px;border-radius:20px;
+  }
+  .container{
+    max-width:960px;
+    margin:0 auto;
+    padding:30px 5% 80px;
+  }
+  .qcard{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:24px 28px;
+    margin-bottom:26px;
+    box-shadow:0 1px 3px rgba(20,30,60,0.06);
+  }
+  .qnum{
+    display:inline-block;
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:0.85rem;
+    padding:4px 12px;
+    border-radius:6px;
+    margin-bottom:10px;
+  }
+  .qtext{
+    font-weight:600;
+    color:var(--navy);
+    margin:0 0 14px;
+    font-size:1.02rem;
+  }
+  .sol-label{
+    font-weight:700;
+    color:var(--accent);
+    margin:16px 0 6px;
+    font-size:0.92rem;
+    text-transform:uppercase;
+    letter-spacing:0.4px;
+  }
+  .step{
+    margin:6px 0;
+    padding-left:2px;
+  }
+  table{
+    border-collapse:collapse;
+    width:100%;
+    margin:12px 0;
+    font-size:0.92rem;
+  }
+  th,td{
+    border:1px solid var(--border);
+    padding:8px 10px;
+    text-align:left;
+  }
+  th{
+    background:#eef1f9;
+    color:var(--navy);
+  }
+  code, .mono{
+    font-family:'Consolas','Courier New',monospace;
+    background:#eef1f8;
+    padding:1px 6px;
+    border-radius:4px;
+    color:#1b2a4a;
+  }
+  .formula{
+    background:#fff7ef;
+    border-left:4px solid var(--accent);
+    padding:10px 14px;
+    margin:10px 0;
+    font-family:'Consolas',monospace;
+    font-size:0.92rem;
+  }
+  .final-ans{
+    background:#eef7ee;
+    border-left:4px solid #3a9d4d;
+    padding:10px 14px;
+    margin-top:12px;
+    font-weight:600;
+  }
+  .subnet-diagram{
+    margin:14px 0;
+    padding:14px;
+    background:#fbfbfd;
+    border:1px dashed var(--border);
+    border-radius:8px;
+  }
+  .bar{
+    display:flex;
+    height:40px;
+    border-radius:6px;
+    overflow:hidden;
+    margin-bottom:8px;
+    font-size:0.78rem;
+    color:#fff;
+    font-weight:600;
+  }
+  .bar div{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:2px;
+  }
+  .d1{background:#2b5cb8;flex-basis:50%;}
+  .d2{background:#e8722c;flex-basis:25%;}
+  .d3{background:#3a9d4d;flex-basis:12.5%;}
+  .d4{background:#9b9fae;flex-basis:12.5%;}
+  ul{margin:6px 0;padding-left:22px;}
+  li{margin:4px 0;}
+  svg{background:#fbfbfd;border:1px dashed var(--border);border-radius:8px;}
+  .toc{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px 24px;
+    margin-bottom:26px;
+  }
+  .toc h3{margin-top:0;color:var(--navy);}
+  .toc a{
+    color:var(--blue);
+    text-decoration:none;
+    font-size:0.9rem;
+  }
+  .toc-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:8px;
+  }
+  .toc-grid a:hover{text-decoration:underline;}
+  .footer-note{
+    text-align:center;
+    color:var(--muted);
+    font-size:0.82rem;
+    margin-top:30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Tutorial 3 &mdash; Solutions</h1>
+  <p>Computer Networks (CSE3006) &nbsp;|&nbsp; Fall Semester 2026-27</p>
+  <p>Faculty: Dr. S. Periyanayagi &nbsp;|&nbsp; Slot: B11+B12+B13</p>
+  <div class="meta-row">
+    <span>Max Marks: 50</span>
+    <span>Submission Date: 05.09.2026</span>
+    <span>Total Questions: 11</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="toc">
+    <h3>Contents</h3>
+    <div class="toc-grid">
+      <a href="#q1">Q1. TCP/IP Efficiency</a>
+      <a href="#q2">Q2. CSMA/CD Frame Size</a>
+      <a href="#q3">Q3. IP &rarr; Binary</a>
+      <a href="#q4">Q4. Binary &rarr; IP</a>
+      <a href="#q5">Q5. Subnetting</a>
+      <a href="#q6">Q6. Combine Blocks</a>
+      <a href="#q7">Q7. VLSM 1024 subnets</a>
+      <a href="#q8">Q8. Congestion Control</a>
+      <a href="#q9">Q9. Leaky Bucket</a>
+      <a href="#q10">Q10. Link State / Dijkstra</a>
+      <a href="#q11">Q11. Distance Vector</a>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="qcard" id="q1">
+    <span class="qnum">Question 1</span>
+    <p class="qtext">Application creates a 200-byte message. Each layer (5 layers total, including the fifth and the first) adds a 10-byte header. Find the efficiency of the system.</p>
+
+    <div class="sol-label">Step 1: Identify data and overhead</div>
+    <div class="step">Application layer data = 200 bytes</div>
+    <div class="step">Number of layers = 5 (Application, Transport, Network, Data Link, Physical)</div>
+    <div class="step">Header added by each layer = 10 bytes</div>
+
+    <div class="sol-label">Step 2: Total header overhead</div>
+    <div class="formula">Total overhead = 5 &times; 10 bytes = 50 bytes</div>
+
+    <div class="sol-label">Step 3: Total bytes transmitted</div>
+    <div class="formula">Total transmitted = Data + Overhead = 200 + 50 = 250 bytes</div>
+
+    <div class="sol-label">Step 4: Efficiency</div>
+    <div class="formula">Efficiency = (Application bytes / Total bytes transmitted) &times; 100
+= (200 / 250) &times; 100</div>
+
+    <div class="final-ans">Efficiency = 80%</div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qcard" id="q2">
+    <span class="qnum">Question 2</span>
+    <p class="qtext">A CSMA/CD network has bandwidth 5 Mbps and maximum propagation time (Tp) = 25.6 &micro;s (ignore jamming signal time). Calculate the minimum frame size.</p>
+
+    <div class="sol-label">Step 1: Recall the CSMA/CD constraint</div>
+    <div class="step">For collision detection to work, transmission time must be at least twice the propagation time:</div>
+    <div class="formula">T<sub>fr</sub> &ge; 2 &times; T<sub>p</sub></div>
+
+    <div class="sol-label">Step 2: Compute minimum transmission time</div>
+    <div class="formula">T<sub>fr</sub> = 2 &times; 25.6 &micro;s = 51.2 &micro;s</div>
+
+    <div class="sol-label">Step 3: Compute minimum frame size</div>
+    <div class="formula">Frame size = Bandwidth &times; T<sub>fr</sub>
+= 5 &times; 10<sup>6</sup> bps &times; 51.2 &times; 10<sup>-6</sup> s</div>
+
+    <div class="final-ans">Minimum frame size = 256 bits (32 bytes)</div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qcard" id="q3">
+    <span class="qnum">Question 3</span>
+    <p class="qtext">Rewrite the following IP addresses using binary notation.</p>
+
+    <div class="sol-label">Method: Convert each decimal octet to its 8-bit binary equivalent</div>
+
+    <table>
+      <tr><th>#</th><th>Dotted-Decimal</th><th>Octet-by-Octet Conversion</th><th>Binary Result</th></tr>
+      <tr>
+        <td>a</td><td>110.11.5.88</td>
+        <td>110=01101110, 11=00001011, 5=00000101, 88=01011000</td>
+        <td class="mono">01101110.00001011.00000101.01011000</td>
+      </tr>
+      <tr>
+        <td>b</td><td>12.74.16.18</td>
+        <td>12=00001100, 74=01001010, 16=00010000, 18=00010010</td>
+        <td class="mono">00001100.01001010.00010000.00010010</td>
+      </tr>
+      <tr>
+        <td>c</td><td>201.24.44.32</td>
+        <td>201=11001001, 24=00011000, 44=00101100, 32=00100000</td>
+        <td class="mono">11001001.00011000.00101100.00100000</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qcard" id="q4">
+    <span class="qnum">Question 4</span>
+    <p class="qtext">Rewrite the following IP addresses using dotted-decimal notation.</p>
+
+    <div class="sol-label">Method: Convert each 8-bit binary octet to its decimal value</div>
+
+    <table>
+      <tr><th>#</th><th>Binary</th><th>Octet-by-Octet Conversion</th><th>Dotted-Decimal Result</th></tr>
+      <tr>
+        <td>a</td>
+        <td class="mono">01011110 10110000 01110101 00010101</td>
+        <td>94, 176, 117, 21</td>
+        <td class="mono">94.176.117.21</td>
+      </tr>
+      <tr>
+        <td>b</td>
+        <td class="mono">10001001 10001110 11010000 00110001</td>
+        <td>137, 142, 208, 49</td>
+        <td class="mono">137.142.208.49</td>
+      </tr>
+      <tr>
+        <td>c</td>
+        <td class="mono">01010111 10000100 00110111 00001111</td>
+        <td>87, 132, 55, 15</td>
+        <td class="mono">87.132.55.15</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qcard" id="q5">
+    <span class="qnum">Question 5</span>
+    <p class="qtext">ISP provides IP block 192.100.0.0/24 to ABC company (3 departments): Dept1 = 60 users (/25), Dept2 = 50 users (/26), Dept3 = 30 users (/27). Create the 3 subnets and show the configuration.</p>
+
+    <div class="sol-label">Step 1: Total addresses available</div>
+    <div class="step">/24 network &rarr; 256 total addresses (192.100.0.0 &ndash; 192.100.0.255)</div>
+
+    <div class="sol-label">Step 2: Allocate subnets in decreasing order of size</div>
+    <table>
+      <tr><th>Department</th><th>Users</th><th>Subnet Mask</th><th>Block Size</th><th>Network Address</th><th>Usable Range</th><th>Broadcast</th></tr>
+      <tr>
+        <td>Dept 1 &ndash; Product Development</td><td>60</td><td>/25 (255.255.255.128)</td><td>128</td>
+        <td class="mono">192.100.0.0</td><td class="mono">192.100.0.1 &ndash; 192.100.0.126</td><td class="mono">192.100.0.127</td>
+      </tr>
+      <tr>
+        <td>Dept 2 &ndash; Training &amp; Testing</td><td>50</td><td>/26 (255.255.255.192)</td><td>64</td>
+        <td class="mono">192.100.0.128</td><td class="mono">192.100.0.129 &ndash; 192.100.0.190</td><td class="mono">192.100.0.191</td>
+      </tr>
+      <tr>
+        <td>Dept 3 &ndash; HR</td><td>30</td><td>/27 (255.255.255.224)</td><td>32</td>
+        <td class="mono">192.100.0.192</td><td class="mono">192.100.0.193 &ndash; 192.100.0.222</td><td class="mono">192.100.0.223</td>
+      </tr>
+    </table>
+    <div class="step">Remaining unused block: <span class="mono">192.100.0.224 &ndash; 192.100.0.255</span> (32 addresses, reserved for future expansion)</div>
+
+    <div class="sol-label">Step 3: Visual configuration of the /24 block</div>
+    <div class="subnet-diagram">
+      <div class="bar">
+        <div class="d1">Dept 1 (/25)<br>128 addr</div>
+        <div class="d2">Dept 2 (/26)<br>64 addr</div>
+        <div class="d3">Dept 3 (/27)<br>32 addr</div>
+        <div class="d4">Unused<br>32 addr</div>
+      </div>
+      <div style="font-size:0.8rem;color:var(--muted);">192.100.0.0 &nbsp;&harr;&nbsp; full /24 block spans to 192.100.0.255</div>
+    </div>
+
+    <div class="final-ans">3 subnets created: 192.100.0.0/25, 192.100.0.128/26, 192.100.0.192/27</div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qcard" id="q6">
+    <span class="qnum">Question 6</span>
+    <p class="qtext">Combine the following three blocks into a single block: 16.27.24.0/26, 16.27.24.64/26, 16.27.24.128/25.</p>
+
+    <div class="sol-label">Step 1: Find the address range of each block</div>
+    <table>
+      <tr><th>Block</th><th>Range</th><th># Addresses</th></tr>
+      <tr><td>16.27.24.0/26</td><td class="mono">16.27.24.0 &ndash; 16.27.24.63</td><td>64</td></tr>
+      <tr><td>16.27.24.64/26</td><td class="mono">16.27.24.64 &ndash; 16.27.24.127</td><td>64</td></tr>
+      <tr><td>16.27.24.128/25</td><td class="mono">16.27.24.128 &ndash; 16.27.24.255</td><td>128</td></tr>
+    </table>
+
+    <div class="sol-label">Step 2: Check contiguity and total size</div>
+    <div class="step">The three ranges are contiguous and together span <span class="mono">16.27.24.0</span> to <span class="mono">16.27.24.255</span></div>
+    <div class="formula">Total addresses = 64 + 64 + 128 = 256 = 2<sup>8</sup></div>
+
+    <div class="sol-label">Step 3: Determine combined prefix</div>
+    <div class="step">256 addresses &rArr; requires 8 host bits &rArr; prefix = 32 &minus; 8 = /24</div>
+
+    <div class="final-ans">Combined block = 16.27.24.0/24</div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="qcard" id="q7">
+    <span class="qnum">Question 7</span>
+    <p class="qtext">Organization is granted 172.20.0.0/16, to be divided into 1024 equal-sized subnets.</p>
+
+    <div class="sol-label">Step 1: Bits needed for 1024 subnets</div>
+    <div class="formula">1024 = 2<sup>10</sup> &rArr; 10 extra subnet bits needed</div>
+
+    <div class="sol-label">(b) New subnet prefix and mask</div>
+    <div class="formula">New prefix = /16 + 10 = /26
+Subnet mask = 255.255.255.192</div>
+
+    <div class="sol-label">(a) Addresses available per subnet</div>
+    <div class="formula">Host bits remaining = 32 &minus; 26 = 6
+Addresses per subnet = 2<sup>6</sup> = 64 (62 usable)</div>
+
+    <div class="sol-label">(c) First and last address of the FIRST subnet</div>
+    <div class="formula">First subnet: 172.20.0.0/26
+First address = 172.20.0.0
+Last address  = 172.20.0.63</div>
+
+    <div class="sol-label">(d) First and last address of the LAST subnet</div>
+    <div class="step">Total subnets = 1024, so last subnet index = 1023 (0-based)</div>
+    <div class="formula">Offset = 1023 &times; 64 = 65472
+65472 &divide; 256 = 255 remainder 192
+&rArr; 3rd octet = 255, 4th octet start = 192</div>
+    <div class="formula">Last subnet: 172.20.255.192/26
+First address = 172.20.255.192
+Last address  = 172.20.255.255</div>
+
+    <table>
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Addresses per subnet</td><td>64 (62 usable)</td></tr>
+      <tr><td>New subnet prefix / mask</td><td>/26 &nbsp;/&nbsp; 255.255.255.192</td></tr>
+      <tr><td>First subnet range</td><td class="mono">172.20.0.0 &ndash; 172.20.0.63</td></tr>
+      <tr><td>Last subnet range</td><td class="mono">172.20.255.192 &ndash; 172.20.255.255</td></tr>
+    </table>
+  </div>
+
+  <!-- Q8 -->
+  <div class="qcard" id="q8">
+    <span class="qnum">Question 8</span>
+    <p class="qtext">During an online exam, thousands of students access the server simultaneously, overloading routers. Explain congestion control using: Backpressure, Choke Packet, Implicit Signaling, Explicit Signaling.</p>
+
+    <div class="sol-label">(i) Backpressure</div>
+    <div class="step"><b>Detection:</b> A congested router notices its buffers filling up (it cannot forward packets as fast as they arrive).</div>
+    <div class="step"><b>Action:</b> It refuses to accept further packets from the immediately upstream node, or asks it to slow down. That upstream node in turn slows down or refuses packets from its own upstream neighbour, and the effect propagates hop-by-hop, all the way back toward the source (the exam servers/students), until the sending rate is throttled. This works only in networks with virtual-circuit / hop-by-hop flow control (e.g., X.25), not natively in datagram networks like the Internet.</div>
+
+    <div class="sol-label">(ii) Choke Packet</div>
+    <div class="step"><b>Detection:</b> A congested router directly detects buffer overflow or rising queue length.</div>
+    <div class="step"><b>Action:</b> Instead of notifying only the previous hop, the congested router sends a special "choke packet" directly to the source host (e.g., the exam server), bypassing intermediate nodes. On receiving it, the source reduces its sending rate by a fixed percentage. The source ignores further choke packets for a fixed time interval to allow the reduction to take effect, then again listens for new choke packets.</div>
+
+    <div class="sol-label">(iii) Implicit Signaling</div>
+    <div class="step"><b>Detection:</b> There is no explicit congestion message from the network. Instead, the source infers congestion indirectly &mdash; for example, by observing increased round-trip delay, packet loss, or retransmission timeouts (as TCP does).</div>
+    <div class="step"><b>Action:</b> On detecting these implicit signs, the source (student's machine / server) assumes the network is congested and voluntarily reduces its transmission window/rate (e.g., TCP's slow start and congestion-avoidance mechanisms after a timeout).</div>
+
+    <div class="sol-label">(iv) Explicit Signaling</div>
+    <div class="step"><b>Detection:</b> The congested router itself detects the buildup of its queue.</div>
+    <div class="step"><b>Action:</b> The router explicitly marks or sends a notification bit within the data packets themselves &mdash; either forward to the destination (Forward Explicit Congestion Notification, FECN) or backward to the source (Backward Explicit Congestion Notification, BECN). The receiving end system then explicitly signals the sender to reduce the rate. This is used in Frame Relay and in the ECN field of IP/TCP headers on the modern Internet.</div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="qcard" id="q9">
+    <span class="qnum">Question 9</span>
+    <p class="qtext">University network with 500 students uses Leaky Bucket. Bucket capacity = 10 packets, output rate = 2 packets/second. 8 packets arrive at t=0, then 6 more packets arrive at t=1s.</p>
+
+    <div class="sol-label">(a) How the Leaky Bucket algorithm handles this traffic</div>
+    <div class="step">The bucket accepts incoming (bursty) packets up to its capacity of 10. Regardless of how fast packets arrive, they are released ("leaked") onto the network at a fixed, constant rate of 2 packets/second, smoothing out the burst into a steady stream. Any packet that arrives when the bucket is already full is dropped.</div>
+
+    <div class="sol-label">(b) &amp; (c) Step-by-step timeline and overflow check</div>
+    <table>
+      <tr><th>Time</th><th>Event</th><th>Bucket Level Before</th><th>Bucket Level After</th><th>Discarded</th></tr>
+      <tr><td>t = 0 s</td><td>8 packets arrive</td><td>0</td><td>8 (all accepted, capacity=10)</td><td>0</td></tr>
+      <tr><td>t = 0 &rarr; 1 s</td><td>Leaks at 2 pkt/s for 1 second</td><td>8</td><td>8 &minus; 2 = 6</td><td>&mdash;</td></tr>
+      <tr><td>t = 1 s</td><td>6 new packets arrive</td><td>6</td><td>Room = 10&minus;6 = 4, so only 4 accepted &rarr; 10 (full)</td><td>6 &minus; 4 = <b>2 discarded</b></td></tr>
+      <tr><td>t = 1 &rarr; 6 s</td><td>Bucket drains fully at 2 pkt/s</td><td>10</td><td>0 (takes 10/2 = 5 more seconds)</td><td>&mdash;</td></tr>
+    </table>
+
+    <div class="formula">Total packets arrived = 8 + 6 = 14
+Total accepted (transmitted) = 8 + 4 = 12
+Total discarded (overflow)   = 2</div>
+
+    <div class="final-ans">2 packets are discarded due to bucket overflow; 12 packets are transmitted in total, released at the constant rate of 2 packets/second.</div>
+
+    <div class="sol-label">(d) How Leaky Bucket improves QoS</div>
+    <div class="step">It converts an unpredictable, bursty arrival pattern into a smooth, constant-rate output stream. This prevents sudden traffic spikes from overwhelming downstream routers/links, reduces jitter and congestion, and enforces a predictable, fair average bandwidth usage per host &mdash; directly improving QoS for all 500 students sharing the network, though at the cost of dropping packets during sustained bursts since it does not allow flexibility above the set rate.</div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="qcard" id="q10">
+    <span class="qnum">Question 10</span>
+    <p class="qtext">Link State Algorithm on the given 5-router topology (A,B,C,D,E).</p>
+
+    <svg viewBox="0 0 420 260" width="100%" height="240">
+      <line x1="210" y1="40"  x2="90"  y2="120" stroke="#5b6273" stroke-width="2"/>
+      <line x1="210" y1="40"  x2="330" y2="120" stroke="#5b6273" stroke-width="2"/>
+      <line x1="90"  y1="120" x2="330" y2="120" stroke="#5b6273" stroke-width="2"/>
+      <line x1="90"  y1="120" x2="150" y2="220" stroke="#5b6273" stroke-width="2"/>
+      <line x1="330" y1="120" x2="270" y2="220" stroke="#5b6273" stroke-width="2"/>
+      <line x1="150" y1="220" x2="270" y2="220" stroke="#5b6273" stroke-width="2"/>
+      <text x="145" y="75" font-size="13" fill="#e8722c" font-weight="600">2</text>
+      <text x="275" y="75" font-size="13" fill="#e8722c" font-weight="600">3</text>
+      <text x="205" y="112" font-size="13" fill="#e8722c" font-weight="600">4</text>
+      <text x="105" y="175" font-size="13" fill="#e8722c" font-weight="600">6</text>
+      <text x="305" y="175" font-size="13" fill="#e8722c" font-weight="600">1</text>
+      <text x="205" y="215" font-size="13" fill="#e8722c" font-weight="600">2</text>
+      <circle cx="210" cy="40"  r="20" fill="#2b5cb8"/><text x="205" y="45" fill="#fff" font-weight="700">A</text>
+      <circle cx="90"  cy="120" r="20" fill="#2b5cb8"/><text x="85"  y="125" fill="#fff" font-weight="700">B</text>
+      <circle cx="330" cy="120" r="20" fill="#2b5cb8"/><text x="325" y="125" fill="#fff" font-weight="700">C</text>
+      <circle cx="150" cy="220" r="20" fill="#2b5cb8"/><text x="145" y="225" fill="#fff" font-weight="700">D</text>
+      <circle cx="270" cy="220" r="20" fill="#2b5cb8"/><text x="265" y="225" fill="#fff" font-weight="700">E</text>
+    </svg>
+
+    <div class="sol-label">(a) How router A obtains topology information</div>
+    <div class="step">Each router (including A) creates a Link State Packet (LSP) listing its ID, its directly connected neighbours, and the cost (link weight) to each. Every router floods its LSP to all other routers in the network (reliable flooding, using sequence numbers to avoid loops/duplicates). Because every router floods its own LSP, router A eventually receives an LSP from every other router (B, C, D, E) and thus learns the complete topology of the network, not just its own local links.</div>
+
+    <div class="sol-label">(b) Link State Database at router A</div>
+    <table>
+      <tr><th>Link</th><th>Cost</th></tr>
+      <tr><td>A &ndash; B</td><td>2</td></tr>
+      <tr><td>A &ndash; C</td><td>3</td></tr>
+      <tr><td>B &ndash; C</td><td>4</td></tr>
+      <tr><td>B &ndash; D</td><td>6</td></tr>
+      <tr><td>C &ndash; E</td><td>1</td></tr>
+      <tr><td>D &ndash; E</td><td>2</td></tr>
+    </table>
+
+    <div class="sol-label">(c) Dijkstra's Shortest Path First from A &mdash; step by step</div>
+    <table>
+      <tr><th>Step</th><th>Node Selected</th><th>dist(B)</th><th>dist(C)</th><th>dist(D)</th><th>dist(E)</th></tr>
+      <tr><td>Init</td><td>A (0)</td><td>2 (via A)</td><td>3 (via A)</td><td>&infin;</td><td>&infin;</td></tr>
+      <tr><td>1</td><td>B (2)</td><td>&mdash;</td><td>3 (min(3, 2+4=6))</td><td>8 (2+6)</td><td>&infin;</td></tr>
+      <tr><td>2</td><td>C (3)</td><td>&mdash;</td><td>&mdash;</td><td>8</td><td>4 (3+1)</td></tr>
+      <tr><td>3</td><td>E (4)</td><td>&mdash;</td><td>&mdash;</td><td>6 (min(8, 4+2=6))</td><td>&mdash;</td></tr>
+      <tr><td>4</td><td>D (6)</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </table>
+
+    <div class="sol-label">(d) Shortest-path tree and final routing table (rooted at A)</div>
+    <table>
+      <tr><th>Destination</th><th>Shortest Path</th><th>Total Cost</th></tr>
+      <tr><td>B</td><td>A &rarr; B</td><td>2</td></tr>
+      <tr><td>C</td><td>A &rarr; C</td><td>3</td></tr>
+      <tr><td>E</td><td>A &rarr; C &rarr; E</td><td>4</td></tr>
+      <tr><td>D</td><td>A &rarr; C &rarr; E &rarr; D</td><td>6</td></tr>
+    </table>
+    <div class="final-ans">Shortest-path tree edges: A&ndash;B, A&ndash;C, C&ndash;E, E&ndash;D</div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="qcard" id="q11">
+    <span class="qnum">Question 11</span>
+    <p class="qtext">Distance Vector Routing on the given topology (P, Q, R, S, T).</p>
+
+    <svg viewBox="0 0 420 260" width="100%" height="240">
+      <line x1="60"  y1="130" x2="200" y2="50"  stroke="#5b6273" stroke-width="2"/>
+      <line x1="60"  y1="130" x2="200" y2="200" stroke="#5b6273" stroke-width="2"/>
+      <line x1="200" y1="50"  x2="200" y2="200" stroke="#5b6273" stroke-width="2"/>
+      <line x1="200" y1="50"  x2="350" y2="50"  stroke="#5b6273" stroke-width="2"/>
+      <line x1="200" y1="200" x2="350" y2="50"  stroke="#5b6273" stroke-width="2"/>
+      <line x1="200" y1="200" x2="350" y2="200" stroke="#5b6273" stroke-width="2"/>
+      <line x1="350" y1="50"  x2="350" y2="200" stroke="#5b6273" stroke-width="2"/>
+      <text x="115" y="75"  font-size="13" fill="#e8722c" font-weight="600">3</text>
+      <text x="115" y="180" font-size="13" fill="#e8722c" font-weight="600">2</text>
+      <text x="185" y="130" font-size="13" fill="#e8722c" font-weight="600">1</text>
+      <text x="270" y="40"  font-size="13" fill="#e8722c" font-weight="600">4</text>
+      <text x="255" y="130" font-size="13" fill="#e8722c" font-weight="600">3</text>
+      <text x="270" y="215" font-size="13" fill="#e8722c" font-weight="600">5</text>
+      <text x="360" y="130" font-size="13" fill="#e8722c" font-weight="600">2</text>
+      <circle cx="60"  cy="130" r="20" fill="#2b5cb8"/><text x="53"  y="135" fill="#fff" font-weight="700">P</text>
+      <circle cx="200" cy="50"  r="20" fill="#2b5cb8"/><text x="193" y="55"  fill="#fff" font-weight="700">Q</text>
+      <circle cx="200" cy="200" r="20" fill="#2b5cb8"/><text x="193" y="205" fill="#fff" font-weight="700">R</text>
+      <circle cx="350" cy="50"  r="20" fill="#2b5cb8"/><text x="343" y="55"  fill="#fff" font-weight="700">S</text>
+      <circle cx="350" cy="200" r="20" fill="#2b5cb8"/><text x="343" y="205" fill="#fff" font-weight="700">T</text>
+    </svg>
+
+    <div class="sol-label">(i) Router P's initial distance vector (direct neighbours only)</div>
+    <div class="step">P is directly connected to Q (cost 3) and R (cost 2). S and T are not direct neighbours, so their cost is initially unknown (&infin;).</div>
+    <table>
+      <tr><th>Destination</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th></tr>
+      <tr><td>Initial DV of P</td><td>0</td><td>3</td><td>2</td><td>&infin;</td><td>&infin;</td></tr>
+    </table>
+
+    <div class="sol-label">(ii) Updating P's distance vector using neighbours' vectors</div>
+    <div class="step">Neighbour Q advertises: Q&rarr;R=1, Q&rarr;S=4</div>
+    <div class="step">Neighbour R advertises: R&rarr;Q=1, R&rarr;S=3, R&rarr;T=5</div>
+    <div class="formula">Via Q: D<sub>P</sub>(S) = cost(P,Q)+D<sub>Q</sub>(S) = 3+4 = 7
+Via R: D<sub>P</sub>(S) = cost(P,R)+D<sub>R</sub>(S) = 2+3 = 5  &larr; smaller, choose this
+Via R: D<sub>P</sub>(T) = cost(P,R)+D<sub>R</sub>(T) = 2+5 = 7
+Via Q: D<sub>P</sub>(R) = cost(P,Q)+D<sub>Q</sub>(R) = 3+1 = 4 (worse than direct 2, ignore)</div>
+    <table>
+      <tr><th>Destination</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th></tr>
+      <tr><td>Updated DV of P</td><td>0</td><td>3</td><td>2</td><td>5</td><td>7</td></tr>
+    </table>
+
+    <div class="sol-label">(iii) Bellman-Ford: shortest path &amp; minimum cost from P to every router</div>
+    <div class="formula">D<sub>x</sub>(y) = min<sub>v</sub> { c(x,v) + D<sub>v</sub>(y) }</div>
+    <table>
+      <tr><th>Destination</th><th>Candidate Paths &amp; Cost</th><th>Minimum Cost</th><th>Shortest Path</th></tr>
+      <tr><td>Q</td><td>P-Q=3 ,  P-R-Q=2+1=3</td><td>3</td><td>P&rarr;Q (tie with P&rarr;R&rarr;Q)</td></tr>
+      <tr><td>R</td><td>P-R=2 ,  P-Q-R=3+1=4</td><td>2</td><td>P&rarr;R</td></tr>
+      <tr><td>S</td><td>P-R-S=2+3=5 ,  P-Q-S=3+4=7</td><td>5</td><td>P&rarr;R&rarr;S</td></tr>
+      <tr><td>T</td><td>P-R-T=2+5=7 ,  P-R-S-T=2+3+2=7 ,  P-Q-S-T=3+4+2=9</td><td>7</td><td>P&rarr;R&rarr;T (tie with P&rarr;R&rarr;S&rarr;T)</td></tr>
+    </table>
+
+    <div class="sol-label">(iv) Final Routing Table of Router P</div>
+    <table>
+      <tr><th>Destination</th><th>Next Hop</th><th>Minimum Cost</th><th>Shortest Path</th></tr>
+      <tr><td>Q</td><td>Q</td><td>3</td><td>P&rarr;Q</td></tr>
+      <tr><td>R</td><td>R</td><td>2</td><td>P&rarr;R</td></tr>
+      <tr><td>S</td><td>R</td><td>5</td><td>P&rarr;R&rarr;S</td></tr>
+      <tr><td>T</td><td>R</td><td>7</td><td>P&rarr;R&rarr;T</td></tr>
+    </table>
+  </div>
+
+  <div class="footer-note">Prepared for CSE3006 &ndash; Computer Networks, Tutorial 3 submission.</div>
+
+</div>
+</body>
+</html>

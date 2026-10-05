@@ -1,0 +1,17 @@
+A food-delivery application receives thousands of orders during lunch hours. The order-processing service sometimes becomes overloaded because requests arrive faster than they can be processed.
+
+How would you use Amazon SQS to solve this problem? Draw a simple architecture showing the producer, SQS queue, and consumer. Explain what happens when the consumer is temporarily unavailable.
+
+-----------------------------------------------------------------------------
+A college application needs to send a notification whenever a student's examination result is published. The notification must reach:
+
+Mobile application
+Email service
+SMS service
+Notification service
+
+Would you use SQS, SNS, or both? Design the architecture and justify how the message should flow between the services.
+
+----------------------------------------------------------------------------
+
+Solution: https://chatgpt.com/c/6abb3784-3afc-83ee-ab7f-e934c53dcd9d

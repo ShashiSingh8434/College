@@ -1,0 +1,86 @@
+# overall important 
+
+1. Fundamentals of Image Formation ***
+2. Convolution and Filtering
+3. Image Enhancement
+4. Depth Estimation
+5. Fundamental Matrix
+6. Epipolar Geometry 			  ***
+7. Homography                     ***
+8. Rectification                  ***
+9. DLT 
+10. RANSAC                        
+11. Camera Calibration
+12. Histogram Processing          ***
+
+----------------------------------------------------------------------------------
+
+# Unit 1
+
+images formation
+case studies: drug discovery, medical and defense sector cv, criminal detection section applications
+homography
+fourier transform
+convolution and filtering
+chessboard
+feature descriptor in image formation/processing
+projection
+criminal - by face or by thumb
+histogram processing
+
+# Unit 2
+
+depth estimation
+create fundamental matrix for the image, capture by different angles
+fundamental matrix reln with epipolar geometry. with example.
+binocular view, function of binocular for long distance capturing (1 pg)
+rectification
+homography
+direct linear transformation
+auto calibration
+random sample consensus
+
+----------------------------------------------------------------------------------
+
+Intro to depth estimation 
+Fundamental matrix 
+Epipolar geometry 
+2d and 3d camera detection and projection, image formation 
+Random sample consensus 
+Concept of rectification with homography for combined images 
+Direct linear transformation 
+Explain with example, diagram and equation
+
+Module 1
+Calculation of convolution matrix
+Homography 
+Image formation
+Difference between Image, CV, Text Processing 
+How to identify image feature
+Feature descriptors in image processing 
+Projection imp
+Criminal detection
+Histogram processing
+
+Module 2
+Depth estimation
+Fundamental matrix for image - 2 image
+Epipolar geometry with example
+Binocular view
+Binocular functioning 1 page 
+Homography rectification 
+Direct Linear Transform
+Auto calibration 
+Multicamera view
+
+Explain with the help of example
+
+----------------------------------------------------------------------------------
+
+# Questions
+
+- What do you understand by sampling and quantization of an image ?
+
+- What is filter/mask/kernels ?
+
+- What are different types of noise available in an image ?

@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AWS Exam Study Guide — CO3 & CO4</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2128;
+    --border: #30363d;
+    --accent: #f78166;
+    --accent2: #58a6ff;
+    --accent3: #3fb950;
+    --accent4: #d2a8ff;
+    --accent5: #ffa657;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-dim: #6e7681;
+    --orange: #f0883e;
+    --yellow: #e3b341;
+    --red: #ff7b72;
+    --teal: #39d353;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 56px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-brand {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--surface); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1f29 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(247,129,102,0.12);
+    border: 1px solid rgba(247,129,102,0.3);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 span { color: var(--accent2); }
+
+  .hero p {
+    color: var(--text-muted);
+    max-width: 620px;
+    margin: 0 auto 1.5rem;
+    font-size: 16px;
+  }
+
+  .topic-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* CO SECTION HEADERS */
+  .co-header {
+    padding: 3rem 0 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+
+  .co-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .co-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  /* SERVICE CARDS */
+  .service-block {
+    margin-bottom: 3.5rem;
+    scroll-margin-top: 70px;
+  }
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .service-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .service-header h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+  }
+
+  .service-header .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(88,166,255,0.12);
+    color: var(--accent2);
+    border: 1px solid rgba(88,166,255,0.25);
+  }
+
+  /* EXPLANATION */
+  .explanation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--text-muted);
+  }
+
+  .explanation strong { color: var(--text); }
+
+  .key-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .kp {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    font-size: 13px;
+  }
+
+  .kp-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+  }
+
+  /* DIAGRAMS */
+  .diagram-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    overflow-x: auto;
+  }
+
+  .diagram-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .diagram-label::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent3);
+    flex-shrink: 0;
+  }
+
+  svg text { font-family: 'Inter', sans-serif; }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #e6edf3;
+    overflow-x: auto;
+    margin-top: 0.75rem;
+  }
+
+  .code-block .kw { color: #ff7b72; }
+  .code-block .str { color: #a5d6ff; }
+  .code-block .cm { color: #6e7681; font-style: italic; }
+  .code-block .val { color: #79c0ff; }
+
+  /* DIVIDER */
+  hr.section-div {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  /* SMALL COMPARISON TABLE */
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-top: 0.75rem;
+  }
+
+  table.compare th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+
+  table.compare td {
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  table.compare tr:nth-child(even) td { background: var(--surface2); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 4rem;
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ACCORDION for minor topics */
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+  }
+  summary {
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    user-select: none;
+  }
+  summary::after {
+    content: '+';
+    margin-left: auto;
+    color: var(--text-muted);
+    font-size: 18px;
+    font-weight: 300;
+  }
+  details[open] summary::after { content: '−'; }
+  .details-body {
+    padding: 0 1.2rem 1.2rem;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .container { padding: 0 1rem; }
+    .key-points { grid-template-columns: 1fr; }
+    .diagram-wrap { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">☁ AWS Study Guide</span>
+    <ul class="nav-links">
+      <li><a href="#vpc">VPC</a></li>
+      <li><a href="#route53">Route 53</a></li>
+      <li><a href="#apigateway">API GW</a></li>
+      <li><a href="#iam">IAM</a></li>
+      <li><a href="#acm-kms">ACM/KMS</a></li>
+      <li><a href="#rds">RDS</a></li>
+      <li><a href="#dynamodb">DynamoDB</a></li>
+      <li><a href="#redshift">Redshift</a></li>
+      <li><a href="#devtools">Dev Tools</a></li>
+      <li><a href="#elb">ELB/ASG</a></li>
+      <li><a href="#monitoring">Monitoring</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">VIT Bhopal · Cloud Computing Exam Prep</div>
+  <h1>AWS Services<br><span>CO3 & CO4 Study Reference</span></h1>
+  <p>Architecture diagrams, explanations, and key concepts for Networking, Security, Databases, Developer Tools, and Management services.</p>
+  <div class="topic-pills">
+    <span class="pill">VPC & Subnets</span>
+    <span class="pill">Route 53</span>
+    <span class="pill">IAM</span>
+    <span class="pill">ACM · KMS</span>
+    <span class="pill">RDS · DynamoDB</span>
+    <span class="pill">Redshift</span>
+    <span class="pill">CloudFormation</span>
+    <span class="pill">Elastic Beanstalk</span>
+    <span class="pill">CDK · CodePipeline</span>
+    <span class="pill">ELB · Auto Scaling</span>
+    <span class="pill">CloudWatch · CloudTrail</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════ CO3 ═══════ -->
+<div class="co-header" id="co3">
+  <div class="co-label">Course Outcome 3</div>
+  <h2>Networking, Content Delivery & Security</h2>
+</div>
+
+<!-- ─────────────────── AMAZON VPC ─────────────────── -->
+<div class="service-block" id="vpc">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(88,166,255,0.12)">🌐</div>
+    <h3>Amazon VPC — Virtual Private Cloud</h3>
+    <span class="tag">Core Networking</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Amazon VPC</strong> lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways.
+    <br><br>
+    A VPC spans all Availability Zones in a Region. Subnets are created within a single AZ. <strong>Public subnets</strong> have a route to an Internet Gateway; <strong>Private subnets</strong> do not, and rely on a NAT Gateway to reach the internet.
+  </div>
+
+  <!-- MAJOR DIAGRAM: Full VPC Architecture -->
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — VPC Architecture: Public & Private Subnets, IGW, NAT Gateway, Route Tables, Security Groups</div>
+    <svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:860px;display:block;margin:0 auto">
+      <!-- Region border -->
+      <rect x="10" y="10" width="840" height="500" rx="12" fill="none" stroke="#30363d" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="30" y="30" fill="#6e7681" font-size="12" font-weight="600">AWS Region (e.g. ap-south-1)</text>
+
+      <!-- VPC -->
+      <rect x="30" y="40" width="800" height="455" rx="10" fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="8,4"/>
+      <text x="50" y="58" fill="#58a6ff" font-size="11" font-weight="700">VPC — 10.0.0.0/16</text>
+
+      <!-- Internet Gateway -->
+      <rect x="350" y="60" width="140" height="44" rx="8" fill="#1c2128" stroke="#f0883e" stroke-width="1.5"/>
+      <text x="420" y="78" fill="#f0883e" font-size="12" font-weight="700" text-anchor="middle">🌐 Internet Gateway</text>
+      <text x="420" y="94" fill="#8b949e" font-size="10" text-anchor="middle">IGW</text>
+
+      <!-- Internet cloud above -->
+      <ellipse cx="420" cy="25" rx="55" ry="14" fill="none" stroke="#6e7681" stroke-dasharray="4,3" stroke-width="1.5"/>
+      <text x="420" y="29" fill="#6e7681" font-size="11" font-weight="600" text-anchor="middle">🌍 Internet</text>
+      <line x1="420" y1="39" x2="420" y2="60" stroke="#f0883e" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- AZ-A -->
+      <rect x="50" y="118" width="355" height="350" rx="8" fill="rgba(88,166,255,0.04)" stroke="#30363d" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <text x="66" y="136" fill="#6e7681" font-size="11" font-weight="600">Availability Zone A</text>
+
+      <!-- Public Subnet A -->
+      <rect x="65" y="145" width="325" height="140" rx="6" fill="rgba(63,185,80,0.06)" stroke="#3fb950" stroke-width="1.2"/>
+      <text x="80" y="162" fill="#3fb950" font-size="10" font-weight="700">PUBLIC SUBNET — 10.0.1.0/24</text>
+
+      <!-- NAT Gateway in public subnet -->
+      <rect x="80" y="170" width="130" height="48" rx="6" fill="#1c2128" stroke="#ffa657" stroke-width="1.5"/>
+      <text x="145" y="190" fill="#ffa657" font-size="11" font-weight="700" text-anchor="middle">NAT Gateway</text>
+      <text x="145" y="207" fill="#8b949e" font-size="9" text-anchor="middle">Elastic IP assigned</text>
+
+      <!-- EC2 in public subnet -->
+      <rect x="240" y="170" width="130" height="48" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="305" y="190" fill="#58a6ff" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 (Web)</text>
+      <text x="305" y="207" fill="#8b949e" font-size="9" text-anchor="middle">Public IP: 13.x.x.x</text>
+
+      <!-- SG badge -->
+      <rect x="240" y="225" width="130" height="50" rx="4" fill="rgba(247,129,102,0.08)" stroke="#f78166" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="305" y="242" fill="#f78166" font-size="9" font-weight="700" text-anchor="middle">🛡 Security Group</text>
+      <text x="305" y="256" fill="#8b949e" font-size="8.5" text-anchor="middle">Inbound: 80, 443</text>
+      <text x="305" y="267" fill="#8b949e" font-size="8.5" text-anchor="middle">Outbound: All</text>
+
+      <!-- Route Table Public -->
+      <rect x="80" y="230" width="130" height="55" rx="4" fill="#161b22" stroke="#e3b341" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="145" y="248" fill="#e3b341" font-size="9" font-weight="700" text-anchor="middle">📋 Route Table (Public)</text>
+      <text x="145" y="262" fill="#8b949e" font-size="8.5" text-anchor="middle">0.0.0.0/0 → IGW</text>
+      <text x="145" y="274" fill="#8b949e" font-size="8.5" text-anchor="middle">10.0.0.0/16 → local</text>
+
+      <!-- Private Subnet A -->
+      <rect x="65" y="302" width="325" height="150" rx="6" fill="rgba(210,168,255,0.05)" stroke="#d2a8ff" stroke-width="1.2"/>
+      <text x="80" y="320" fill="#d2a8ff" font-size="10" font-weight="700">PRIVATE SUBNET — 10.0.2.0/24</text>
+
+      <!-- App server -->
+      <rect x="80" y="330" width="130" height="48" rx="6" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.2"/>
+      <text x="145" y="350" fill="#d2a8ff" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 (App)</text>
+      <text x="145" y="367" fill="#8b949e" font-size="9" text-anchor="middle">No public IP</text>
+
+      <!-- RDS in private -->
+      <rect x="240" y="330" width="130" height="48" rx="6" fill="#1c2128" stroke="#ff7b72" stroke-width="1.2"/>
+      <text x="305" y="350" fill="#ff7b72" font-size="11" font-weight="600" text-anchor="middle">🗄 RDS</text>
+      <text x="305" y="367" fill="#8b949e" font-size="9" text-anchor="middle">Port 3306</text>
+
+      <!-- Route Table Private -->
+      <rect x="80" y="390" width="130" height="50" rx="4" fill="#161b22" stroke="#e3b341" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="145" y="408" fill="#e3b341" font-size="9" font-weight="700" text-anchor="middle">📋 Route Table (Private)</text>
+      <text x="145" y="422" fill="#8b949e" font-size="8.5" text-anchor="middle">0.0.0.0/0 → NAT GW</text>
+      <text x="145" y="434" fill="#8b949e" font-size="8.5" text-anchor="middle">10.0.0.0/16 → local</text>
+
+      <!-- AZ-B -->
+      <rect x="425" y="118" width="395" height="350" rx="8" fill="rgba(88,166,255,0.04)" stroke="#30363d" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <text x="441" y="136" fill="#6e7681" font-size="11" font-weight="600">Availability Zone B</text>
+
+      <!-- Public Subnet B -->
+      <rect x="440" y="145" width="365" height="140" rx="6" fill="rgba(63,185,80,0.06)" stroke="#3fb950" stroke-width="1.2"/>
+      <text x="455" y="162" fill="#3fb950" font-size="10" font-weight="700">PUBLIC SUBNET — 10.0.3.0/24</text>
+
+      <rect x="455" y="170" width="130" height="48" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="520" y="190" fill="#58a6ff" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 (Web)</text>
+      <text x="520" y="207" fill="#8b949e" font-size="9" text-anchor="middle">Public IP: 43.x.x.x</text>
+
+      <rect x="600" y="170" width="185" height="50" rx="4" fill="rgba(247,129,102,0.08)" stroke="#f78166" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="692" y="188" fill="#f78166" font-size="9" font-weight="700" text-anchor="middle">🛡 Security Group</text>
+      <text x="692" y="202" fill="#8b949e" font-size="8.5" text-anchor="middle">Inbound: 22 (from bastion)</text>
+      <text x="692" y="214" fill="#8b949e" font-size="8.5" text-anchor="middle">Outbound: All</text>
+
+      <!-- Private Subnet B -->
+      <rect x="440" y="302" width="365" height="150" rx="6" fill="rgba(210,168,255,0.05)" stroke="#d2a8ff" stroke-width="1.2"/>
+      <text x="455" y="320" fill="#d2a8ff" font-size="10" font-weight="700">PRIVATE SUBNET — 10.0.4.0/24</text>
+
+      <rect x="455" y="330" width="130" height="48" rx="6" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.2"/>
+      <text x="520" y="350" fill="#d2a8ff" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 (App)</text>
+      <text x="520" y="367" fill="#8b949e" font-size="9" text-anchor="middle">No public IP</text>
+
+      <rect x="600" y="330" width="130" height="48" rx="6" fill="#1c2128" stroke="#ff7b72" stroke-width="1.2"/>
+      <text x="665" y="350" fill="#ff7b72" font-size="11" font-weight="600" text-anchor="middle">🗄 RDS Standby</text>
+      <text x="665" y="367" fill="#8b949e" font-size="9" text-anchor="middle">Multi-AZ Replica</text>
+
+      <!-- ARROWS -->
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,0 L0,8 L8,4 Z" fill="#6e7681"/>
+        </marker>
+        <marker id="arrorange" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,0 L0,8 L8,4 Z" fill="#ffa657"/>
+        </marker>
+        <marker id="arrblue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,0 L0,8 L8,4 Z" fill="#58a6ff"/>
+        </marker>
+      </defs>
+
+      <!-- IGW → Public EC2 -->
+      <line x1="350" y1="82" x2="305" y2="170" stroke="#f0883e" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+      <line x1="490" y1="82" x2="520" y2="145" stroke="#f0883e" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+      <!-- App → NAT -->
+      <line x1="145" y1="378" x2="145" y2="285" stroke="#ffa657" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrorange)"/>
+
+      <!-- NAT → IGW -->
+      <line x1="210" y1="194" x2="350" y2="85" stroke="#ffa657" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arrorange)"/>
+
+      <!-- RDS sync arrow -->
+      <line x1="370" y1="354" x2="440" y2="354" stroke="#ff7b72" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arr)"/>
+      <text x="405" y="348" fill="#ff7b72" font-size="9" text-anchor="middle">sync</text>
+
+      <!-- Legend -->
+      <rect x="600" y="415" width="210" height="85" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+      <text x="615" y="432" fill="#8b949e" font-size="10" font-weight="700">LEGEND</text>
+      <line x1="615" y1="443" x2="640" y2="443" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="645" y="447" fill="#8b949e" font-size="9">Public Subnet</text>
+      <line x1="615" y1="458" x2="640" y2="458" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="645" y="462" fill="#8b949e" font-size="9">Private Subnet</text>
+      <line x1="615" y1="473" x2="640" y2="473" stroke="#f78166" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="645" y="477" fill="#8b949e" font-size="9">Security Group</text>
+      <line x1="615" y1="488" x2="640" y2="488" stroke="#ffa657" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <text x="645" y="492" fill="#8b949e" font-size="9">NAT → IGW (private egress)</text>
+    </svg>
+  </div>
+
+  <!-- MINOR DIAGRAM: Security Group vs NACL -->
+  <div class="diagram-wrap">
+    <div class="diagram-label">MINOR DIAGRAM — Security Group vs Network ACL comparison</div>
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto">
+      <!-- Security Group -->
+      <rect x="20" y="20" width="300" height="160" rx="10" fill="rgba(247,129,102,0.07)" stroke="#f78166" stroke-width="1.5"/>
+      <text x="170" y="45" fill="#f78166" font-size="13" font-weight="700" text-anchor="middle">🛡 Security Group</text>
+      <text x="170" y="63" fill="#8b949e" font-size="11" text-anchor="middle">Instance-level firewall</text>
+      <g fill="#e6edf3" font-size="11">
+        <text x="35" y="85">✅ Stateful</text>
+        <text x="35" y="103">✅ Allow rules only</text>
+        <text x="35" y="121">✅ Applies to ENI/instance</text>
+        <text x="35" y="139">✅ Evaluates all rules</text>
+        <text x="35" y="157">✅ No rule number order</text>
+      </g>
+
+      <!-- NACL -->
+      <rect x="380" y="20" width="300" height="160" rx="10" fill="rgba(88,166,255,0.07)" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="530" y="45" fill="#58a6ff" font-size="13" font-weight="700" text-anchor="middle">📋 Network ACL</text>
+      <text x="530" y="63" fill="#8b949e" font-size="11" text-anchor="middle">Subnet-level firewall</text>
+      <g fill="#e6edf3" font-size="11">
+        <text x="395" y="85">✅ Stateless</text>
+        <text x="395" y="103">✅ Allow &amp; Deny rules</text>
+        <text x="395" y="121">✅ Applies to whole subnet</text>
+        <text x="395" y="139">✅ Rules evaluated in order</text>
+        <text x="395" y="157">✅ Last rule = explicit deny</text>
+      </g>
+
+      <text x="350" y="110" fill="#6e7681" font-size="22" text-anchor="middle">VS</text>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#3fb950">VPC CIDR</div>e.g. 10.0.0.0/16 — gives 65,536 IPs. Subnets carve it into smaller blocks.</div>
+    <div class="kp"><div class="kp-label" style="color:#ffa657">NAT Gateway</div>Sits in a public subnet, lets private instances initiate outbound internet traffic while blocking inbound.</div>
+    <div class="kp"><div class="kp-label" style="color:#e3b341">Route Table</div>Each subnet has an associated route table. The local route covers VPC traffic; other routes point to IGW, NAT, peering connections, etc.</div>
+    <div class="kp"><div class="kp-label" style="color:#f78166">Security Groups</div>Stateful, applied to instances. Default: deny all inbound, allow all outbound. Rules added explicitly.</div>
+  </div>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── ROUTE 53 ─────────────────── -->
+<div class="service-block" id="route53">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(240,136,62,0.12)">🔀</div>
+    <h3>Amazon Route 53</h3>
+    <span class="tag">DNS & Routing</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Amazon Route 53</strong> is a highly available, scalable cloud DNS (Domain Name System) web service. It routes end users to internet applications by translating human-readable domain names into IP addresses. Route 53 also offers domain registration and health checking.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — Route 53 Routing Policies Flow</div>
+    <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto">
+      <!-- User -->
+      <rect x="30" y="130" width="100" height="50" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="80" y="152" fill="#58a6ff" font-size="12" font-weight="700" text-anchor="middle">👤 User</text>
+      <text x="80" y="168" fill="#8b949e" font-size="9" text-anchor="middle">DNS Query</text>
+
+      <!-- Route 53 -->
+      <rect x="190" y="110" width="140" height="90" rx="8" fill="#1c2128" stroke="#f0883e" stroke-width="2"/>
+      <text x="260" y="135" fill="#f0883e" font-size="13" font-weight="700" text-anchor="middle">🔀 Route 53</text>
+      <text x="260" y="152" fill="#8b949e" font-size="10" text-anchor="middle">Hosted Zone</text>
+      <text x="260" y="168" fill="#8b949e" font-size="9" text-anchor="middle">DNS Records</text>
+      <text x="260" y="183" fill="#8b949e" font-size="9" text-anchor="middle">A / CNAME / MX / TXT</text>
+
+      <line x1="130" y1="155" x2="190" y2="155" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- Routing types -->
+      <!-- Simple -->
+      <rect x="400" y="30" width="145" height="50" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1.2"/>
+      <text x="472" y="52" fill="#3fb950" font-size="11" font-weight="700" text-anchor="middle">Simple Routing</text>
+      <text x="472" y="68" fill="#8b949e" font-size="9" text-anchor="middle">Single resource</text>
+
+      <!-- Weighted -->
+      <rect x="400" y="95" width="145" height="50" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="472" y="117" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">Weighted Routing</text>
+      <text x="472" y="133" fill="#8b949e" font-size="9" text-anchor="middle">70% A / 30% B</text>
+
+      <!-- Latency -->
+      <rect x="400" y="160" width="145" height="50" rx="6" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.2"/>
+      <text x="472" y="182" fill="#d2a8ff" font-size="11" font-weight="700" text-anchor="middle">Latency Routing</text>
+      <text x="472" y="198" fill="#8b949e" font-size="9" text-anchor="middle">Nearest region</text>
+
+      <!-- Failover -->
+      <rect x="400" y="225" width="145" height="50" rx="6" fill="#1c2128" stroke="#ffa657" stroke-width="1.2"/>
+      <text x="472" y="247" fill="#ffa657" font-size="11" font-weight="700" text-anchor="middle">Failover Routing</text>
+      <text x="472" y="263" fill="#8b949e" font-size="9" text-anchor="middle">Primary / Secondary</text>
+
+      <!-- Geolocation -->
+      <rect x="400" y="290" width="145" height="22" rx="4" fill="rgba(240,136,62,0.08)" stroke="#f0883e" stroke-width="1"/>
+      <text x="472" y="305" fill="#f0883e" font-size="9" font-weight="600" text-anchor="middle">+ Geolocation, Geo-proximity</text>
+
+      <!-- Lines from R53 to routing types -->
+      <line x1="330" y1="140" x2="400" y2="55" stroke="#6e7681" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="330" y1="155" x2="400" y2="120" stroke="#6e7681" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="330" y1="165" x2="400" y2="185" stroke="#6e7681" stroke-width="1" stroke-dasharray="4,3"/>
+      <line x1="330" y1="175" x2="400" y2="250" stroke="#6e7681" stroke-width="1" stroke-dasharray="4,3"/>
+
+      <!-- Endpoints -->
+      <rect x="605" y="80" width="100" height="40" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1"/>
+      <text x="655" y="105" fill="#3fb950" font-size="10" font-weight="600" text-anchor="middle">EC2 / ELB</text>
+      <rect x="605" y="155" width="100" height="40" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1"/>
+      <text x="655" y="180" fill="#58a6ff" font-size="10" font-weight="600" text-anchor="middle">S3 Website</text>
+      <rect x="605" y="230" width="100" height="40" rx="6" fill="#1c2128" stroke="#d2a8ff" stroke-width="1"/>
+      <text x="655" y="255" fill="#d2a8ff" font-size="10" font-weight="600" text-anchor="middle">CloudFront</text>
+
+      <line x1="545" y1="100" x2="605" y2="100" stroke="#6e7681" stroke-width="1" marker-end="url(#arr)"/>
+      <line x1="545" y1="175" x2="605" y2="175" stroke="#6e7681" stroke-width="1" marker-end="url(#arr)"/>
+      <line x1="545" y1="250" x2="605" y2="250" stroke="#6e7681" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- Health check icon -->
+      <rect x="190" y="225" width="140" height="40" rx="6" fill="rgba(63,185,80,0.07)" stroke="#3fb950" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="260" y="248" fill="#3fb950" font-size="10" font-weight="600" text-anchor="middle">❤ Health Checks</text>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#3fb950">Hosted Zone</div>Container for DNS records for a domain. Public hosted zones route internet traffic; private ones route within VPC.</div>
+    <div class="kp"><div class="kp-label" style="color:#58a6ff">Record Types</div>A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), TXT (verification), NS (name server).</div>
+    <div class="kp"><div class="kp-label" style="color:#ffa657">TTL</div>Time-To-Live — how long a DNS resolver caches the response before querying again.</div>
+    <div class="kp"><div class="kp-label" style="color:#d2a8ff">Alias Record</div>Route 53 specific — maps to AWS resources (ELB, CloudFront) without needing an IP address.</div>
+  </div>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── API GATEWAY ─────────────────── -->
+<div class="service-block" id="apigateway">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(210,168,255,0.12)">🔗</div>
+    <h3>Amazon API Gateway</h3>
+    <span class="tag">API Management</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Amazon API Gateway</strong> is a fully managed service that makes it easy to create, publish, maintain, monitor, and secure APIs at any scale. It acts as the front door for applications to access backend services such as Lambda, EC2, or any public web service. Supports REST APIs, HTTP APIs, and WebSocket APIs.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — API Gateway Request Lifecycle</div>
+    <svg viewBox="0 0 780 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:780px;display:block;margin:0 auto">
+      <rect x="10" y="60" width="90" height="80" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="55" y="95" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">📱 Client</text>
+      <text x="55" y="111" fill="#8b949e" font-size="9" text-anchor="middle">HTTPS Request</text>
+      <text x="55" y="125" fill="#8b949e" font-size="9" text-anchor="middle">GET /users</text>
+
+      <line x1="100" y1="100" x2="135" y2="100" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <rect x="135" y="50" width="140" height="100" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="2"/>
+      <text x="205" y="75" fill="#d2a8ff" font-size="12" font-weight="700" text-anchor="middle">API Gateway</text>
+      <text x="205" y="93" fill="#8b949e" font-size="9" text-anchor="middle">Auth (IAM/Cognito)</text>
+      <text x="205" y="108" fill="#8b949e" font-size="9" text-anchor="middle">Rate Limiting</text>
+      <text x="205" y="123" fill="#8b949e" font-size="9" text-anchor="middle">Request Transform</text>
+      <text x="205" y="138" fill="#8b949e" font-size="9" text-anchor="middle">Caching (TTL)</text>
+
+      <line x1="275" y1="100" x2="310" y2="100" stroke="#d2a8ff" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <text x="340" y="40" fill="#6e7681" font-size="10" text-anchor="middle">Backend Integration</text>
+
+      <rect x="310" y="50" width="120" height="44" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="370" y="75" fill="#3fb950" font-size="11" font-weight="700" text-anchor="middle">λ Lambda</text>
+
+      <rect x="310" y="106" width="120" height="44" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="370" y="131" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">🖥 EC2 / HTTP</text>
+
+      <line x1="430" y1="72" x2="470" y2="72" stroke="#3fb950" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="430" y1="128" x2="470" y2="128" stroke="#58a6ff" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <rect x="470" y="50" width="130" height="100" rx="8" fill="#1c2128" stroke="#e3b341" stroke-width="1.5"/>
+      <text x="535" y="80" fill="#e3b341" font-size="12" font-weight="700" text-anchor="middle">Response</text>
+      <text x="535" y="98" fill="#8b949e" font-size="9" text-anchor="middle">Transform &amp; Map</text>
+      <text x="535" y="113" fill="#8b949e" font-size="9" text-anchor="middle">Status Codes</text>
+      <text x="535" y="128" fill="#8b949e" font-size="9" text-anchor="middle">CORS Headers</text>
+      <text x="535" y="143" fill="#8b949e" font-size="9" text-anchor="middle">Error Handling</text>
+
+      <line x1="600" y1="100" x2="635" y2="100" stroke="#e3b341" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <rect x="635" y="70" width="120" height="60" rx="8" fill="#1c2128" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="695" y="96" fill="#3fb950" font-size="11" font-weight="700" text-anchor="middle">✅ JSON</text>
+      <text x="695" y="115" fill="#8b949e" font-size="9" text-anchor="middle">200 OK Response</text>
+
+      <!-- Stages row -->
+      <rect x="135" y="165" width="510" height="28" rx="4" fill="rgba(210,168,255,0.06)" stroke="#d2a8ff" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="390" y="184" fill="#d2a8ff" font-size="10" font-weight="600" text-anchor="middle">Stages: dev → staging → prod  ·  SDK Generation  ·  Usage Plans &amp; API Keys</text>
+    </svg>
+  </div>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── IAM ─────────────────── -->
+<div class="service-block" id="iam">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(255,123,114,0.12)">🔐</div>
+    <h3>AWS Identity and Access Management (IAM)</h3>
+    <span class="tag">Security & Identity</span>
+  </div>
+
+  <div class="explanation">
+    <strong>AWS IAM</strong> enables you to manage access to AWS services and resources securely. IAM is free and global (not region-specific). The default behavior is <strong>deny all</strong> — you must explicitly grant permissions. IAM has four core components: <strong>Users</strong>, <strong>Groups</strong>, <strong>Roles</strong>, and <strong>Policies</strong>.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — IAM Components and their relationships</div>
+    <svg viewBox="0 0 820 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:0 auto">
+      <!-- Root User -->
+      <rect x="30" y="20" width="150" height="65" rx="8" fill="#1c2128" stroke="#ff7b72" stroke-width="2"/>
+      <text x="105" y="47" fill="#ff7b72" font-size="12" font-weight="700" text-anchor="middle">👑 Root User</text>
+      <text x="105" y="64" fill="#8b949e" font-size="9" text-anchor="middle">Full account access</text>
+      <text x="105" y="77" fill="#8b949e" font-size="9" text-anchor="middle">Use only for setup</text>
+
+      <!-- IAM User -->
+      <rect x="230" y="20" width="140" height="65" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="300" y="47" fill="#58a6ff" font-size="12" font-weight="700" text-anchor="middle">👤 IAM User</text>
+      <text x="300" y="64" fill="#8b949e" font-size="9" text-anchor="middle">dev@company.com</text>
+      <text x="300" y="77" fill="#8b949e" font-size="9" text-anchor="middle">Password + Access Keys</text>
+
+      <!-- IAM Group -->
+      <rect x="230" y="130" width="140" height="65" rx="8" fill="#1c2128" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="300" y="157" fill="#3fb950" font-size="12" font-weight="700" text-anchor="middle">👥 IAM Group</text>
+      <text x="300" y="174" fill="#8b949e" font-size="9" text-anchor="middle">Developers / Admins</text>
+      <text x="300" y="187" fill="#8b949e" font-size="9" text-anchor="middle">Users inherit policies</text>
+
+      <!-- IAM Role -->
+      <rect x="230" y="240" width="140" height="65" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="300" y="267" fill="#d2a8ff" font-size="12" font-weight="700" text-anchor="middle">🎭 IAM Role</text>
+      <text x="300" y="284" fill="#8b949e" font-size="9" text-anchor="middle">Assumed by Services</text>
+      <text x="300" y="297" fill="#8b949e" font-size="9" text-anchor="middle">Temporary credentials</text>
+
+      <!-- Policies box -->
+      <rect x="440" y="80" width="180" height="230" rx="8" fill="rgba(227,179,65,0.06)" stroke="#e3b341" stroke-width="1.5"/>
+      <text x="530" y="105" fill="#e3b341" font-size="13" font-weight="700" text-anchor="middle">📋 Policies</text>
+      <text x="530" y="122" fill="#8b949e" font-size="9" text-anchor="middle">JSON documents</text>
+
+      <rect x="455" y="132" width="148" height="48" rx="5" fill="#161b22" stroke="#e3b341" stroke-width="1"/>
+      <text x="529" y="152" fill="#e3b341" font-size="10" font-weight="600" text-anchor="middle">Identity-Based</text>
+      <text x="529" y="168" fill="#8b949e" font-size="8.5" text-anchor="middle">Attached to users/groups/roles</text>
+
+      <rect x="455" y="192" width="148" height="48" rx="5" fill="#161b22" stroke="#f0883e" stroke-width="1"/>
+      <text x="529" y="212" fill="#f0883e" font-size="10" font-weight="600" text-anchor="middle">Resource-Based</text>
+      <text x="529" y="228" fill="#8b949e" font-size="8.5" text-anchor="middle">Attached to resource (S3, etc.)</text>
+
+      <rect x="455" y="252" width="148" height="48" rx="5" fill="#161b22" stroke="#58a6ff" stroke-width="1"/>
+      <text x="529" y="272" fill="#58a6ff" font-size="10" font-weight="600" text-anchor="middle">AWS Managed</text>
+      <text x="529" y="288" fill="#8b949e" font-size="8.5" text-anchor="middle">Pre-built by AWS</text>
+
+      <!-- Lines -->
+      <line x1="300" y1="85" x2="300" y2="130" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+      <line x1="370" y1="50" x2="440" y2="155" stroke="#e3b341" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+      <line x1="370" y1="160" x2="440" y2="200" stroke="#e3b341" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+      <line x1="370" y1="270" x2="440" y2="270" stroke="#e3b341" stroke-width="1.2" stroke-dasharray="3,3" marker-end="url(#arr)"/>
+
+      <!-- AWS Services that Roles grant access to -->
+      <rect x="690" y="100" width="110" height="40" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1"/>
+      <text x="745" y="125" fill="#3fb950" font-size="10" font-weight="600" text-anchor="middle">EC2 → S3</text>
+      <rect x="690" y="160" width="110" height="40" rx="6" fill="#1c2128" stroke="#d2a8ff" stroke-width="1"/>
+      <text x="745" y="185" fill="#d2a8ff" font-size="10" font-weight="600" text-anchor="middle">Lambda → DDB</text>
+      <rect x="690" y="220" width="110" height="40" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1"/>
+      <text x="745" y="245" fill="#58a6ff" font-size="10" font-weight="600" text-anchor="middle">Cross-Account</text>
+
+      <line x1="620" y1="195" x2="690" y2="120" stroke="#d2a8ff" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+      <line x1="620" y1="210" x2="690" y2="180" stroke="#d2a8ff" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+      <line x1="620" y1="225" x2="690" y2="240" stroke="#d2a8ff" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+      <!-- Policy JSON snippet -->
+      <rect x="30" y="130" width="175" height="175" rx="8" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+      <text x="45" y="150" fill="#6e7681" font-size="10" font-weight="700">Policy JSON Structure</text>
+      <text x="40" y="170" fill="#ff7b72" font-size="10" font-family="monospace">"Effect": "Allow",</text>
+      <text x="40" y="187" fill="#79c0ff" font-size="10" font-family="monospace">"Action": [</text>
+      <text x="52" y="203" fill="#a5d6ff" font-size="10" font-family="monospace">"s3:GetObject",</text>
+      <text x="52" y="219" fill="#a5d6ff" font-size="10" font-family="monospace">"s3:PutObject"</text>
+      <text x="40" y="235" fill="#79c0ff" font-size="10" font-family="monospace">],</text>
+      <text x="40" y="251" fill="#79c0ff" font-size="10" font-family="monospace">"Resource": [</text>
+      <text x="52" y="267" fill="#a5d6ff" font-size="10" font-family="monospace">"arn:aws:s3:::*"</text>
+      <text x="40" y="283" fill="#79c0ff" font-size="10" font-family="monospace">]</text>
+
+      <!-- MFA badge -->
+      <rect x="30" y="320" width="175" height="40" rx="6" fill="rgba(63,185,80,0.08)" stroke="#3fb950" stroke-width="1"/>
+      <text x="117" y="344" fill="#3fb950" font-size="11" font-weight="600" text-anchor="middle">🔒 MFA Recommended</text>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#ff7b72">Least Privilege</div>Grant only the minimum permissions needed. Start with zero and add as required.</div>
+    <div class="kp"><div class="kp-label" style="color:#3fb950">Best Practices</div>Avoid using root user daily. Use MFA. Rotate access keys. Use Roles over Users for services.</div>
+    <div class="kp"><div class="kp-label" style="color:#e3b341">ARN</div>Amazon Resource Name uniquely identifies every AWS resource. Format: arn:aws:service:region:account-id:resource</div>
+    <div class="kp"><div class="kp-label" style="color:#d2a8ff">STS</div>Security Token Service issues temporary credentials when a Role is assumed. Credentials expire automatically.</div>
+  </div>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── ACM + KMS ─────────────────── -->
+<div class="service-block" id="acm-kms">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(63,185,80,0.12)">🔑</div>
+    <h3>AWS Certificate Manager (ACM) & Key Management Service (KMS)</h3>
+    <span class="tag">Encryption</span>
+  </div>
+
+  <div class="explanation">
+    <strong>ACM</strong> lets you provision, manage, and deploy SSL/TLS certificates for use with AWS services (ELB, CloudFront, API Gateway). Certificates can be issued free of charge for public domains and auto-renew.
+    <br><br>
+    <strong>AWS KMS</strong> makes it easy to create and control cryptographic keys used to encrypt your data. It integrates with most AWS services. Keys can be AWS-managed, Customer-managed (CMK), or imported.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">DIAGRAM — ACM and KMS: Where they fit in your architecture</div>
+    <svg viewBox="0 0 780 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:780px;display:block;margin:0 auto">
+      <!-- Internet -->
+      <ellipse cx="60" cy="120" rx="50" ry="30" fill="none" stroke="#6e7681" stroke-dasharray="4,3" stroke-width="1.5"/>
+      <text x="60" y="124" fill="#6e7681" font-size="11" text-anchor="middle">🌍 Internet</text>
+
+      <!-- ACM section -->
+      <rect x="140" y="60" width="160" height="120" rx="8" fill="rgba(63,185,80,0.06)" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="220" y="85" fill="#3fb950" font-size="12" font-weight="700" text-anchor="middle">ACM</text>
+      <text x="220" y="102" fill="#8b949e" font-size="9.5" text-anchor="middle">SSL/TLS Certificates</text>
+      <rect x="155" y="112" width="130" height="30" rx="4" fill="#161b22" stroke="#3fb950" stroke-width="1"/>
+      <text x="220" y="131" fill="#e6edf3" font-size="10" text-anchor="middle">ELB (HTTPS)</text>
+      <rect x="155" y="148" width="130" height="26" rx="4" fill="#161b22" stroke="#3fb950" stroke-width="1"/>
+      <text x="220" y="166" fill="#e6edf3" font-size="10" text-anchor="middle">CloudFront / API GW</text>
+
+      <line x1="110" y1="120" x2="140" y2="120" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <text x="125" y="113" fill="#3fb950" font-size="8" text-anchor="middle">HTTPS</text>
+
+      <!-- KMS -->
+      <rect x="350" y="40" width="200" height="165" rx="8" fill="rgba(240,136,62,0.06)" stroke="#f0883e" stroke-width="1.5"/>
+      <text x="450" y="65" fill="#f0883e" font-size="13" font-weight="700" text-anchor="middle">AWS KMS</text>
+      <text x="450" y="83" fill="#8b949e" font-size="9.5" text-anchor="middle">Key Management Service</text>
+
+      <rect x="365" y="95" width="168" height="28" rx="4" fill="#161b22" stroke="#f0883e" stroke-width="1"/>
+      <text x="449" y="114" fill="#e6edf3" font-size="10" text-anchor="middle">Customer Master Keys (CMK)</text>
+
+      <rect x="365" y="131" width="80" height="26" rx="4" fill="#161b22" stroke="#e3b341" stroke-width="1"/>
+      <text x="405" y="149" fill="#e3b341" font-size="9.5" text-anchor="middle">AWS Managed</text>
+
+      <rect x="453" y="131" width="80" height="26" rx="4" fill="#161b22" stroke="#ffa657" stroke-width="1"/>
+      <text x="493" y="149" fill="#ffa657" font-size="9.5" text-anchor="middle">Customer Key</text>
+
+      <rect x="365" y="168" width="168" height="28" rx="4" fill="#161b22" stroke="#58a6ff" stroke-width="1"/>
+      <text x="449" y="186" fill="#58a6ff" font-size="10" text-anchor="middle">Envelope Encryption</text>
+
+      <!-- KMS integrations -->
+      <rect x="610" y="50" width="140" height="150" rx="8" fill="#1c2128" stroke="#30363d" stroke-width="1.2"/>
+      <text x="680" y="72" fill="#6e7681" font-size="10" font-weight="700" text-anchor="middle">Encrypts</text>
+      <text x="680" y="92" fill="#e6edf3" font-size="10" text-anchor="middle">📦 S3 Objects</text>
+      <text x="680" y="112" fill="#e6edf3" font-size="10" text-anchor="middle">🗄 RDS Databases</text>
+      <text x="680" y="132" fill="#e6edf3" font-size="10" text-anchor="middle">📂 EBS Volumes</text>
+      <text x="680" y="152" fill="#e6edf3" font-size="10" text-anchor="middle">🔐 Secrets Manager</text>
+      <text x="680" y="172" fill="#e6edf3" font-size="10" text-anchor="middle">λ Lambda Env Vars</text>
+
+      <line x1="550" y1="120" x2="610" y2="120" stroke="#f0883e" stroke-width="1.5" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CO4 ═══════ -->
+<div class="co-header" id="co4" style="margin-top:3rem">
+  <div class="co-label">Course Outcome 4</div>
+  <h2>Databases, Developer Tools & Management</h2>
+</div>
+
+<!-- ─────────────────── RDS ─────────────────── -->
+<div class="service-block" id="rds">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(255,123,114,0.12)">🗄</div>
+    <h3>Amazon RDS — Relational Database Service</h3>
+    <span class="tag">Managed Database</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Amazon RDS</strong> makes it easy to set up, operate, and scale a relational database in the cloud. It automates time-consuming tasks such as backups, software patching, automatic failure detection, and recovery. Supported engines: <strong>MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, Aurora</strong>.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — RDS Multi-AZ vs Read Replicas</div>
+    <svg viewBox="0 0 820 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:0 auto">
+      <!-- Multi-AZ side -->
+      <rect x="10" y="30" width="385" height="310" rx="10" fill="rgba(255,123,114,0.04)" stroke="#ff7b72" stroke-width="1.5"/>
+      <text x="200" y="55" fill="#ff7b72" font-size="13" font-weight="700" text-anchor="middle">Multi-AZ Deployment (High Availability)</text>
+
+      <!-- AZ-A Primary -->
+      <rect x="30" y="75" width="155" height="210" rx="8" fill="rgba(58,199,112,0.05)" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="107" y="95" fill="#3fb950" font-size="10" font-weight="700" text-anchor="middle">AZ-A (Primary)</text>
+      <rect x="45" y="105" width="125" height="80" rx="6" fill="#1c2128" stroke="#ff7b72" stroke-width="1.5"/>
+      <text x="107" y="140" fill="#ff7b72" font-size="13" text-anchor="middle">🗄</text>
+      <text x="107" y="158" fill="#e6edf3" font-size="10" font-weight="600" text-anchor="middle">RDS Primary</text>
+      <text x="107" y="173" fill="#8b949e" font-size="9" text-anchor="middle">Read + Write</text>
+      <rect x="45" y="200" width="125" height="50" rx="4" fill="rgba(88,166,255,0.07)" stroke="#58a6ff" stroke-width="1"/>
+      <text x="107" y="220" fill="#58a6ff" font-size="9" font-weight="600" text-anchor="middle">App writes here</text>
+      <text x="107" y="235" fill="#8b949e" font-size="8.5" text-anchor="middle">Single DNS Endpoint</text>
+      <text x="107" y="270" fill="#8b949e" font-size="9" text-anchor="middle">Automated Backups</text>
+
+      <!-- Sync arrow -->
+      <line x1="195" y1="150" x2="225" y2="150" stroke="#e3b341" stroke-width="2" marker-end="url(#arr)"/>
+      <text x="210" y="143" fill="#e3b341" font-size="9" font-weight="700" text-anchor="middle">SYNC</text>
+
+      <!-- AZ-B Standby -->
+      <rect x="210" y="75" width="165" height="210" rx="8" fill="rgba(210,168,255,0.05)" stroke="#d2a8ff" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="292" y="95" fill="#d2a8ff" font-size="10" font-weight="700" text-anchor="middle">AZ-B (Standby)</text>
+      <rect x="225" y="105" width="135" height="80" rx="6" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="292" y="140" fill="#d2a8ff" font-size="13" text-anchor="middle">🗄</text>
+      <text x="292" y="158" fill="#e6edf3" font-size="10" font-weight="600" text-anchor="middle">RDS Standby</text>
+      <text x="292" y="173" fill="#8b949e" font-size="9" text-anchor="middle">Passive (no reads)</text>
+      <text x="292" y="255" fill="#8b949e" font-size="9" text-anchor="middle">Auto-failover on failure</text>
+      <text x="292" y="268" fill="#8b949e" font-size="9" text-anchor="middle">~1-2 min RTO</text>
+
+      <text x="200" y="315" fill="#6e7681" font-size="9" text-anchor="middle">Failover: DNS flips to standby. Same endpoint, no app change needed.</text>
+
+      <!-- Read Replicas side -->
+      <rect x="420" y="30" width="385" height="310" rx="10" fill="rgba(88,166,255,0.04)" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="612" y="55" fill="#58a6ff" font-size="13" font-weight="700" text-anchor="middle">Read Replicas (Read Scaling)</text>
+
+      <!-- Primary -->
+      <rect x="435" y="75" width="140" height="210" rx="8" fill="rgba(63,185,80,0.05)" stroke="#3fb950" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="505" y="95" fill="#3fb950" font-size="10" font-weight="700" text-anchor="middle">Primary DB</text>
+      <rect x="450" y="105" width="110" height="80" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="505" y="140" fill="#3fb950" font-size="13" text-anchor="middle">🗄</text>
+      <text x="505" y="158" fill="#e6edf3" font-size="10" font-weight="600" text-anchor="middle">Master</text>
+      <text x="505" y="173" fill="#8b949e" font-size="9" text-anchor="middle">Read + Write</text>
+      <text x="505" y="260" fill="#8b949e" font-size="9" text-anchor="middle">Up to 15 replicas</text>
+
+      <!-- Async arrows -->
+      <line x1="575" y1="135" x2="610" y2="110" stroke="#58a6ff" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <line x1="575" y1="150" x2="610" y2="175" stroke="#58a6ff" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <line x1="575" y1="165" x2="610" y2="240" stroke="#58a6ff" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <text x="592" y="155" fill="#8b949e" font-size="9">ASYNC</text>
+
+      <!-- Read replicas -->
+      <rect x="610" y="80" width="175" height="50" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="697" y="103" fill="#58a6ff" font-size="10" font-weight="600" text-anchor="middle">Read Replica 1 (Same AZ)</text>
+      <text x="697" y="120" fill="#8b949e" font-size="8.5" text-anchor="middle">Read traffic offloaded</text>
+
+      <rect x="610" y="150" width="175" height="50" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="697" y="173" fill="#58a6ff" font-size="10" font-weight="600" text-anchor="middle">Read Replica 2 (Diff AZ)</text>
+      <text x="697" y="190" fill="#8b949e" font-size="8.5" text-anchor="middle">Analytics queries</text>
+
+      <rect x="610" y="220" width="175" height="50" rx="6" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.2"/>
+      <text x="697" y="243" fill="#d2a8ff" font-size="10" font-weight="600" text-anchor="middle">Read Replica 3 (Cross-Region)</text>
+      <text x="697" y="260" fill="#8b949e" font-size="8.5" text-anchor="middle">DR + Low latency global reads</text>
+
+      <text x="612" y="318" fill="#6e7681" font-size="9" text-anchor="middle">Async replication → possible lag. Can be promoted to standalone DB.</text>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#ff7b72">Automated Backups</div>Enabled by default. Retention up to 35 days. Point-in-time recovery (PITR) supported.</div>
+    <div class="kp"><div class="kp-label" style="color:#3fb950">RDS Snapshots</div>Manual DB snapshots, can be shared/copied cross-region, retained even after instance deletion.</div>
+    <div class="kp"><div class="kp-label" style="color:#58a6ff">Instance Classes</div>General Purpose (M series), Memory Optimised (R series), Burstable (T series).</div>
+    <div class="kp"><div class="kp-label" style="color:#d2a8ff">Storage</div>Backed by EBS — gp2, gp3 (SSD) or io1 (Provisioned IOPS). Auto-scale storage supported.</div>
+  </div>
+
+  <details>
+    <summary>📋 Steps to Create an Amazon RDS Instance</summary>
+    <div class="details-body">
+      <strong style="color:#e6edf3">From AWS Console:</strong><br>
+      1. Go to <em>RDS → Create database</em>.<br>
+      2. Choose <em>Standard Create</em> and select engine (MySQL, PostgreSQL, etc.).<br>
+      3. Pick a template: <em>Production</em> (Multi-AZ enabled) or <em>Free tier</em>.<br>
+      4. Set DB instance identifier, master username and password.<br>
+      5. Choose instance class (e.g. db.t3.micro for free tier).<br>
+      6. Configure storage type (gp2/gp3) and allocated storage.<br>
+      7. Set VPC, subnet group, and Security Group (allow port 3306 for MySQL).<br>
+      8. Enable <em>Multi-AZ</em> if production. Enable automated backups and set retention.<br>
+      9. Click <em>Create database</em>. Endpoint available once status is <em>Available</em>.
+    </div>
+  </details>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── DynamoDB ─────────────────── -->
+<div class="service-block" id="dynamodb">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(63,185,80,0.12)">⚡</div>
+    <h3>Amazon DynamoDB</h3>
+    <span class="tag">NoSQL Database</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Amazon DynamoDB</strong> is a fully managed, serverless, key-value and document NoSQL database with single-digit millisecond performance at any scale. No infrastructure to manage. Tables scale automatically with on-demand or provisioned capacity modes.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — DynamoDB Data Model: Tables, Items, Attributes, Keys, GSI</div>
+    <svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto">
+      <!-- Table -->
+      <rect x="20" y="20" width="500" height="290" rx="10" fill="rgba(63,185,80,0.05)" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="270" y="45" fill="#3fb950" font-size="13" font-weight="700" text-anchor="middle">DynamoDB Table: "Users"</text>
+
+      <!-- Header row -->
+      <rect x="35" y="55" width="470" height="32" rx="4" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+      <text x="90" y="76" fill="#e3b341" font-size="10" font-weight="700" text-anchor="middle">Partition Key</text>
+      <text x="220" y="76" fill="#d2a8ff" font-size="10" font-weight="700" text-anchor="middle">Sort Key</text>
+      <text x="340" y="76" fill="#8b949e" font-size="10" font-weight="700" text-anchor="middle">Attribute</text>
+      <text x="460" y="76" fill="#8b949e" font-size="10" font-weight="700" text-anchor="middle">Attribute</text>
+
+      <line x1="35" y1="87" x2="505" y2="87" stroke="#30363d" stroke-width="1"/>
+      <text x="35" y="80" fill="#6e7681" font-size="9" dx="5">userId (PK)</text>
+      <text x="170" y="80" fill="#6e7681" font-size="9" dx="5">createdAt (SK)</text>
+      <text x="290" y="80" fill="#6e7681" font-size="9" dx="5">name</text>
+      <text x="420" y="80" fill="#6e7681" font-size="9" dx="5">email</text>
+
+      <!-- Item rows -->
+      <g font-size="10.5">
+        <rect x="35" y="92" width="470" height="38" rx="2" fill="#1c2128"/>
+        <text x="90" y="116" fill="#e3b341" text-anchor="middle" font-weight="600">u001</text>
+        <text x="220" y="116" fill="#d2a8ff" text-anchor="middle">2024-01-15</text>
+        <text x="340" y="116" fill="#e6edf3" text-anchor="middle">Shashi</text>
+        <text x="460" y="116" fill="#e6edf3" text-anchor="middle">s@vit.edu</text>
+        <rect x="35" y="83" width="110" height="50" rx="0" fill="none" stroke="#e3b341" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+        <rect x="35" y="136" width="470" height="38" rx="2" fill="#161b22"/>
+        <text x="90" y="160" fill="#e3b341" text-anchor="middle" font-weight="600">u002</text>
+        <text x="220" y="160" fill="#d2a8ff" text-anchor="middle">2024-02-10</text>
+        <text x="340" y="160" fill="#e6edf3" text-anchor="middle">Rahul</text>
+        <text x="460" y="160" fill="#e6edf3" text-anchor="middle">r@vit.edu</text>
+
+        <rect x="35" y="180" width="470" height="38" rx="2" fill="#1c2128"/>
+        <text x="90" y="204" fill="#e3b341" text-anchor="middle" font-weight="600">u001</text>
+        <text x="220" y="204" fill="#d2a8ff" text-anchor="middle">2024-03-05</text>
+        <text x="340" y="204" fill="#e6edf3" text-anchor="middle">Shashi</text>
+        <text x="460" y="204" fill="#8b949e" text-anchor="middle">(no email)</text>
+      </g>
+
+      <!-- Item brace -->
+      <text x="25" y="155" fill="#6e7681" font-size="10" text-anchor="middle" transform="rotate(-90,25,155)">Item</text>
+
+      <!-- Labels -->
+      <rect x="35" y="230" width="110" height="22" rx="4" fill="rgba(227,179,65,0.1)" stroke="#e3b341" stroke-width="1"/>
+      <text x="90" y="245" fill="#e3b341" font-size="9" font-weight="700" text-anchor="middle">Partition Key (PK)</text>
+      <rect x="155" y="230" width="110" height="22" rx="4" fill="rgba(210,168,255,0.1)" stroke="#d2a8ff" stroke-width="1"/>
+      <text x="210" y="245" fill="#d2a8ff" font-size="9" font-weight="700" text-anchor="middle">Sort Key (SK)</text>
+      <rect x="275" y="230" width="115" height="22" rx="4" fill="rgba(139,148,158,0.1)" stroke="#6e7681" stroke-width="1"/>
+      <text x="332" y="245" fill="#8b949e" font-size="9" font-weight="700" text-anchor="middle">Attributes (flexible)</text>
+      <text x="270" y="290" fill="#6e7681" font-size="10" text-anchor="middle">PK = required. SK = optional (composite key). No fixed schema per item.</text>
+
+      <!-- GSI box -->
+      <rect x="540" y="20" width="240" height="290" rx="10" fill="rgba(240,136,62,0.05)" stroke="#f0883e" stroke-width="1.5"/>
+      <text x="660" y="45" fill="#f0883e" font-size="12" font-weight="700" text-anchor="middle">Indexes</text>
+
+      <rect x="555" y="58" width="210" height="75" rx="6" fill="#1c2128" stroke="#f0883e" stroke-width="1"/>
+      <text x="660" y="78" fill="#f0883e" font-size="11" font-weight="700" text-anchor="middle">GSI (Global Secondary Index)</text>
+      <text x="660" y="96" fill="#8b949e" font-size="9" text-anchor="middle">Alternate partition + sort key</text>
+      <text x="660" y="112" fill="#8b949e" font-size="9" text-anchor="middle">Query by non-key attributes</text>
+      <text x="660" y="126" fill="#8b949e" font-size="9" text-anchor="middle">Different read/write capacity</text>
+
+      <rect x="555" y="145" width="210" height="65" rx="6" fill="#1c2128" stroke="#e3b341" stroke-width="1"/>
+      <text x="660" y="165" fill="#e3b341" font-size="11" font-weight="700" text-anchor="middle">LSI (Local Secondary Index)</text>
+      <text x="660" y="183" fill="#8b949e" font-size="9" text-anchor="middle">Same PK, different sort key</text>
+      <text x="660" y="199" fill="#8b949e" font-size="9" text-anchor="middle">Must be defined at creation</text>
+
+      <rect x="555" y="225" width="210" height="65" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1"/>
+      <text x="660" y="245" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">Capacity Modes</text>
+      <text x="660" y="263" fill="#8b949e" font-size="9" text-anchor="middle">On-Demand: auto-scale, pay-per-request</text>
+      <text x="660" y="279" fill="#8b949e" font-size="9" text-anchor="middle">Provisioned: set RCU/WCU</text>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#3fb950">Serverless</div>No servers to manage. Scales to zero, scales to petabytes. Pay only for what you use.</div>
+    <div class="kp"><div class="kp-label" style="color:#e3b341">DynamoDB Streams</div>Ordered stream of item-level changes. Used to trigger Lambda on inserts/updates/deletes.</div>
+    <div class="kp"><div class="kp-label" style="color:#58a6ff">DAX</div>DynamoDB Accelerator — in-memory cache, reduces read latency from ms to microseconds.</div>
+    <div class="kp"><div class="kp-label" style="color:#ffa657">Global Tables</div>Multi-region, multi-master replication for globally distributed apps.</div>
+  </div>
+
+  <details>
+    <summary>📋 Steps to Create a DynamoDB Table</summary>
+    <div class="details-body">
+      1. Go to <em>DynamoDB → Create table</em>.<br>
+      2. Enter <em>Table name</em> (e.g. Users) and <em>Partition key</em> (e.g. userId — String).<br>
+      3. Optionally add a <em>Sort key</em> (e.g. createdAt — String).<br>
+      4. Choose <em>Table settings</em>: Default settings (On-Demand) or Custom (Provisioned with RCU/WCU).<br>
+      5. Optionally create a GSI under <em>Indexes</em>.<br>
+      6. Configure encryption (default: AWS-owned key) and tags.<br>
+      7. Click <em>Create table</em>. Explore items via the <em>Explore table items</em> tab.
+    </div>
+  </details>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── Redshift ─────────────────── -->
+<div class="service-block" id="redshift">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(240,136,62,0.12)">📊</div>
+    <h3>Amazon Redshift</h3>
+    <span class="tag">Data Warehouse</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Amazon Redshift</strong> is a fully managed, petabyte-scale data warehouse service in the cloud. It uses columnar storage, parallel query execution (MPP — Massively Parallel Processing), and compression to deliver fast query performance on large datasets. Used for analytics and Business Intelligence (BI) workloads.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">DIAGRAM — Redshift Architecture: Leader Node + Compute Nodes + Slices</div>
+    <svg viewBox="0 0 740 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:740px;display:block;margin:0 auto">
+      <!-- SQL Client -->
+      <rect x="20" y="110" width="110" height="60" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="75" y="137" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">📊 BI Tool</text>
+      <text x="75" y="155" fill="#8b949e" font-size="9" text-anchor="middle">SQL / JDBC/ODBC</text>
+
+      <line x1="130" y1="140" x2="165" y2="140" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- Leader Node -->
+      <rect x="165" y="90" width="155" height="100" rx="8" fill="#1c2128" stroke="#f0883e" stroke-width="2"/>
+      <text x="242" y="115" fill="#f0883e" font-size="12" font-weight="700" text-anchor="middle">Leader Node</text>
+      <text x="242" y="133" fill="#8b949e" font-size="9.5" text-anchor="middle">Query Parsing</text>
+      <text x="242" y="149" fill="#8b949e" font-size="9.5" text-anchor="middle">Query Optimization</text>
+      <text x="242" y="165" fill="#8b949e" font-size="9.5" text-anchor="middle">Aggregation Results</text>
+      <text x="242" y="181" fill="#8b949e" font-size="9" text-anchor="middle">Client-facing endpoint</text>
+
+      <!-- Distribute lines -->
+      <line x1="320" y1="115" x2="375" y2="75" stroke="#e3b341" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="320" y1="140" x2="375" y2="140" stroke="#e3b341" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="320" y1="165" x2="375" y2="205" stroke="#e3b341" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <!-- Compute Nodes -->
+      <rect x="375" y="40" width="165" height="80" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="457" y="62" fill="#d2a8ff" font-size="11" font-weight="700" text-anchor="middle">Compute Node 1</text>
+      <text x="457" y="79" fill="#8b949e" font-size="9" text-anchor="middle">Slice A | Slice B</text>
+      <text x="457" y="95" fill="#8b949e" font-size="9" text-anchor="middle">Columnar storage on SSD</text>
+      <text x="457" y="109" fill="#8b949e" font-size="9" text-anchor="middle">Executes query fragment</text>
+
+      <rect x="375" y="105" width="165" height="80" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="457" y="127" fill="#d2a8ff" font-size="11" font-weight="700" text-anchor="middle">Compute Node 2</text>
+      <text x="457" y="144" fill="#8b949e" font-size="9" text-anchor="middle">Slice C | Slice D</text>
+      <text x="457" y="160" fill="#8b949e" font-size="9" text-anchor="middle">MPP parallel execution</text>
+      <text x="457" y="175" fill="#8b949e" font-size="9" text-anchor="middle">Data distributed by key</text>
+
+      <rect x="375" y="170" width="165" height="80" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="457" y="192" fill="#d2a8ff" font-size="11" font-weight="700" text-anchor="middle">Compute Node 3</text>
+      <text x="457" y="209" fill="#8b949e" font-size="9" text-anchor="middle">Slice E | Slice F</text>
+      <text x="457" y="225" fill="#8b949e" font-size="9" text-anchor="middle">AQUA for cache accel.</text>
+      <text x="457" y="240" fill="#8b949e" font-size="9" text-anchor="middle">WLM workload manage</text>
+
+      <!-- S3 Spectrum -->
+      <rect x="590" y="80" width="130" height="60" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1.2"/>
+      <text x="655" y="106" fill="#3fb950" font-size="11" font-weight="700" text-anchor="middle">Redshift Spectrum</text>
+      <text x="655" y="124" fill="#8b949e" font-size="9" text-anchor="middle">Query S3 data lake</text>
+      <line x1="540" y1="120" x2="590" y2="110" stroke="#3fb950" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+
+      <!-- S3 -->
+      <rect x="590" y="170" width="130" height="60" rx="6" fill="#1c2128" stroke="#f0883e" stroke-width="1.2"/>
+      <text x="655" y="196" fill="#f0883e" font-size="11" font-weight="700" text-anchor="middle">📦 Amazon S3</text>
+      <text x="655" y="214" fill="#8b949e" font-size="9" text-anchor="middle">COPY from S3 to load</text>
+      <line x1="540" y1="175" x2="590" y2="200" stroke="#f0883e" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#f0883e">Columnar Storage</div>Stores data by column, not row. Enables high compression and fast aggregation queries.</div>
+    <div class="kp"><div class="kp-label" style="color:#d2a8ff">COPY Command</div>Most efficient way to load data into Redshift — loads from S3, DynamoDB, EMR, or remote hosts in parallel.</div>
+    <div class="kp"><div class="kp-label" style="color:#3fb950">Redshift vs RDS</div>RDS = OLTP (many small transactions). Redshift = OLAP (large complex analytical queries on big data).</div>
+    <div class="kp"><div class="kp-label" style="color:#58a6ff">Redshift Serverless</div>Automatically provisions and scales data warehouse capacity — pay only for what you use.</div>
+  </div>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── DEV TOOLS ─────────────────── -->
+<div class="service-block" id="devtools">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(227,179,65,0.12)">🛠</div>
+    <h3>Developer Tools — CloudFormation, Beanstalk, CDK, CodePipeline</h3>
+    <span class="tag">Infrastructure as Code & CI/CD</span>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — CloudFormation: Template → Stack → Resources</div>
+    <svg viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:0 auto">
+      <!-- Template -->
+      <rect x="20" y="50" width="155" height="140" rx="8" fill="#1c2128" stroke="#e3b341" stroke-width="1.5"/>
+      <text x="97" y="75" fill="#e3b341" font-size="12" font-weight="700" text-anchor="middle">📄 Template</text>
+      <text x="97" y="93" fill="#8b949e" font-size="9.5" text-anchor="middle">YAML / JSON file</text>
+      <text x="35" y="115" fill="#ff7b72" font-size="9.5" font-family="monospace">AWSTemplateVersion</text>
+      <text x="35" y="132" fill="#6e7681" font-size="9" font-family="monospace">Parameters:</text>
+      <text x="35" y="148" fill="#6e7681" font-size="9" font-family="monospace">Resources:</text>
+      <text x="35" y="164" fill="#6e7681" font-size="9" font-family="monospace">  EC2, RDS, VPC...</text>
+      <text x="35" y="180" fill="#6e7681" font-size="9" font-family="monospace">Outputs:</text>
+
+      <line x1="175" y1="120" x2="210" y2="120" stroke="#e3b341" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- CloudFormation engine -->
+      <rect x="210" y="60" width="160" height="120" rx="8" fill="#1c2128" stroke="#f0883e" stroke-width="2"/>
+      <text x="290" y="88" fill="#f0883e" font-size="12" font-weight="700" text-anchor="middle">CloudFormation</text>
+      <text x="290" y="106" fill="#8b949e" font-size="9.5" text-anchor="middle">Parse Template</text>
+      <text x="290" y="122" fill="#8b949e" font-size="9.5" text-anchor="middle">Validate &amp; Plan</text>
+      <text x="290" y="138" fill="#8b949e" font-size="9.5" text-anchor="middle">Provision Resources</text>
+      <text x="290" y="154" fill="#8b949e" font-size="9.5" text-anchor="middle">Rollback on failure</text>
+      <text x="290" y="168" fill="#8b949e" font-size="9.5" text-anchor="middle">Drift Detection</text>
+
+      <line x1="370" y1="120" x2="405" y2="120" stroke="#f0883e" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Stack -->
+      <rect x="405" y="40" width="155" height="165" rx="8" fill="rgba(240,136,62,0.06)" stroke="#ffa657" stroke-width="1.5"/>
+      <text x="482" y="62" fill="#ffa657" font-size="12" font-weight="700" text-anchor="middle">Stack</text>
+      <rect x="420" y="70" width="125" height="28" rx="4" fill="#161b22" stroke="#3fb950" stroke-width="1"/>
+      <text x="482" y="89" fill="#3fb950" font-size="10" text-anchor="middle">🖥 EC2 Instance</text>
+      <rect x="420" y="106" width="125" height="28" rx="4" fill="#161b22" stroke="#58a6ff" stroke-width="1"/>
+      <text x="482" y="125" fill="#58a6ff" font-size="10" text-anchor="middle">🌐 VPC + Subnets</text>
+      <rect x="420" y="142" width="125" height="28" rx="4" fill="#161b22" stroke="#d2a8ff" stroke-width="1"/>
+      <text x="482" y="161" fill="#d2a8ff" font-size="10" text-anchor="middle">🗄 RDS Database</text>
+      <rect x="420" y="178" width="125" height="20" rx="4" fill="#161b22" stroke="#f0883e" stroke-width="1"/>
+      <text x="482" y="193" fill="#f0883e" font-size="9.5" text-anchor="middle">📦 S3 Bucket</text>
+
+      <!-- Change sets -->
+      <rect x="590" y="60" width="150" height="90" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="665" y="82" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">Stack Operations</text>
+      <text x="665" y="100" fill="#8b949e" font-size="9.5" text-anchor="middle">Create / Update / Delete</text>
+      <text x="665" y="116" fill="#8b949e" font-size="9.5" text-anchor="middle">Change Sets (preview)</text>
+      <text x="665" y="132" fill="#8b949e" font-size="9.5" text-anchor="middle">Nested Stacks</text>
+
+      <rect x="590" y="165" width="150" height="50" rx="6" fill="rgba(63,185,80,0.07)" stroke="#3fb950" stroke-width="1"/>
+      <text x="665" y="185" fill="#3fb950" font-size="10" font-weight="600" text-anchor="middle">💡 Infrastructure</text>
+      <text x="665" y="202" fill="#3fb950" font-size="10" text-anchor="middle">as Code (IaC)</text>
+
+      <line x1="560" y1="120" x2="590" y2="105" stroke="#6e7681" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — CodePipeline CI/CD Flow</div>
+    <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto">
+      <!-- Stage 1: Source -->
+      <rect x="15" y="35" width="140" height="90" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="85" y="60" fill="#58a6ff" font-size="12" font-weight="700" text-anchor="middle">Source</text>
+      <text x="85" y="80" fill="#8b949e" font-size="9.5" text-anchor="middle">GitHub / CodeCommit</text>
+      <text x="85" y="96" fill="#8b949e" font-size="9.5" text-anchor="middle">S3 / ECR</text>
+      <text x="85" y="113" fill="#6e7681" font-size="8.5" text-anchor="middle">Triggers on git push</text>
+
+      <line x1="155" y1="80" x2="185" y2="80" stroke="#e3b341" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Stage 2: Build -->
+      <rect x="185" y="35" width="140" height="90" rx="8" fill="#1c2128" stroke="#e3b341" stroke-width="1.5"/>
+      <text x="255" y="60" fill="#e3b341" font-size="12" font-weight="700" text-anchor="middle">Build</text>
+      <text x="255" y="80" fill="#8b949e" font-size="9.5" text-anchor="middle">AWS CodeBuild</text>
+      <text x="255" y="96" fill="#8b949e" font-size="9.5" text-anchor="middle">Compile / Test / Package</text>
+      <text x="255" y="113" fill="#6e7681" font-size="8.5" text-anchor="middle">buildspec.yml</text>
+
+      <line x1="325" y1="80" x2="355" y2="80" stroke="#e3b341" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Stage 3: Test -->
+      <rect x="355" y="35" width="140" height="90" rx="8" fill="#1c2128" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="425" y="60" fill="#3fb950" font-size="12" font-weight="700" text-anchor="middle">Test</text>
+      <text x="425" y="80" fill="#8b949e" font-size="9.5" text-anchor="middle">Unit / Integration</text>
+      <text x="425" y="96" fill="#8b949e" font-size="9.5" text-anchor="middle">Selenium / Custom</text>
+      <text x="425" y="113" fill="#6e7681" font-size="8.5" text-anchor="middle">Optional manual approval</text>
+
+      <line x1="495" y1="80" x2="525" y2="80" stroke="#e3b341" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Stage 4: Deploy -->
+      <rect x="525" y="35" width="140" height="90" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="595" y="60" fill="#d2a8ff" font-size="12" font-weight="700" text-anchor="middle">Deploy</text>
+      <text x="595" y="80" fill="#8b949e" font-size="9.5" text-anchor="middle">CodeDeploy / Beanstalk</text>
+      <text x="595" y="96" fill="#8b949e" font-size="9.5" text-anchor="middle">ECS / EKS / Lambda</text>
+      <text x="595" y="113" fill="#6e7681" font-size="8.5" text-anchor="middle">Blue/Green, Canary</text>
+
+      <line x1="665" y1="80" x2="700" y2="80" stroke="#3fb950" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Production -->
+      <rect x="700" y="55" width="85" height="50" rx="8" fill="rgba(63,185,80,0.1)" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="742" y="76" fill="#3fb950" font-size="11" font-weight="700" text-anchor="middle">🚀 Prod</text>
+      <text x="742" y="95" fill="#8b949e" font-size="9" text-anchor="middle">Live App</text>
+
+      <!-- Pipeline label -->
+      <rect x="15" y="138" width="770" height="16" rx="4" fill="rgba(227,179,65,0.05)" stroke="#e3b341" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="400" y="150" fill="#e3b341" font-size="9" font-weight="600" text-anchor="middle">AWS CodePipeline orchestrates all stages — integrates with CloudWatch Events, SNS notifications, and IAM permissions</text>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#e3b341">CloudFormation</div>IaC service. Write template once, create identical environments. Supports drift detection and rollback.</div>
+    <div class="kp"><div class="kp-label" style="color:#3fb950">Elastic Beanstalk</div>PaaS — upload code, Beanstalk handles EC2, load balancer, auto-scaling, monitoring. Supports Java, Node, Python, .NET, Docker.</div>
+    <div class="kp"><div class="kp-label" style="color:#d2a8ff">AWS CDK</div>Cloud Development Kit — define cloud infrastructure using Python/TypeScript/Java code. Compiles to CloudFormation templates.</div>
+    <div class="kp"><div class="kp-label" style="color:#58a6ff">CodePipeline</div>Fully managed CI/CD orchestration service. Integrates CodeCommit, CodeBuild, CodeDeploy into automated release pipelines.</div>
+  </div>
+
+  <details>
+    <summary>🔄 Elastic Beanstalk vs CloudFormation vs CDK</summary>
+    <div class="details-body">
+      <table class="compare">
+        <tr><th>Feature</th><th>Elastic Beanstalk</th><th>CloudFormation</th><th>CDK</th></tr>
+        <tr><td>Abstraction Level</td><td>High (PaaS)</td><td>Medium (YAML/JSON)</td><td>High (code)</td></tr>
+        <tr><td>Who it's for</td><td>Developers, quick deploy</td><td>DevOps/Infra teams</td><td>Developers who know code</td></tr>
+        <tr><td>Control</td><td>Less (managed)</td><td>Full control</td><td>Full control</td></tr>
+        <tr><td>Output</td><td>Running environment</td><td>CloudFormation Stack</td><td>CloudFormation template</td></tr>
+      </table>
+    </div>
+  </details>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── ELB + Auto Scaling ─────────────────── -->
+<div class="service-block" id="elb">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(88,166,255,0.12)">⚖️</div>
+    <h3>Elastic Load Balancing (ELB) & EC2 Auto Scaling</h3>
+    <span class="tag">High Availability</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Elastic Load Balancing</strong> automatically distributes incoming application traffic across multiple targets (EC2, Lambda, containers) across multiple AZs. Coupled with <strong>Auto Scaling Groups</strong>, it enables your application to handle varying loads while maintaining availability.
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — ALB + Auto Scaling Group: Traffic Distribution</div>
+    <svg viewBox="0 0 820 390" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:0 auto">
+      <!-- Internet users -->
+      <ellipse cx="60" cy="195" rx="50" ry="40" fill="none" stroke="#6e7681" stroke-dasharray="4,3" stroke-width="1.5"/>
+      <text x="60" y="190" fill="#6e7681" font-size="10" text-anchor="middle">👥 Users</text>
+      <text x="60" y="206" fill="#6e7681" font-size="9" text-anchor="middle">HTTPS traffic</text>
+
+      <line x1="110" y1="195" x2="150" y2="195" stroke="#58a6ff" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Application Load Balancer -->
+      <rect x="150" y="140" width="165" height="110" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="2"/>
+      <text x="232" y="168" fill="#58a6ff" font-size="12" font-weight="700" text-anchor="middle">Application Load</text>
+      <text x="232" y="184" fill="#58a6ff" font-size="12" font-weight="700" text-anchor="middle">Balancer (ALB)</text>
+      <text x="232" y="203" fill="#8b949e" font-size="9" text-anchor="middle">Layer 7 (HTTP/HTTPS)</text>
+      <text x="232" y="218" fill="#8b949e" font-size="9" text-anchor="middle">Path/Host-based routing</text>
+      <text x="232" y="233" fill="#8b949e" font-size="9" text-anchor="middle">Sticky sessions, WAF</text>
+
+      <!-- Health check -->
+      <rect x="150" y="265" width="165" height="35" rx="5" fill="rgba(63,185,80,0.07)" stroke="#3fb950" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="232" y="287" fill="#3fb950" font-size="10" font-weight="600" text-anchor="middle">❤ Health Checks</text>
+
+      <!-- Target Group arrow -->
+      <line x1="315" y1="195" x2="355" y2="195" stroke="#e3b341" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="335" y="188" fill="#e3b341" font-size="9" text-anchor="middle">Target</text>
+      <text x="335" y="200" fill="#e3b341" font-size="9" text-anchor="middle">Group</text>
+
+      <!-- Auto Scaling Group boundary -->
+      <rect x="355" y="40" width="440" height="330" rx="10" fill="rgba(227,179,65,0.04)" stroke="#e3b341" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="575" y="62" fill="#e3b341" font-size="12" font-weight="700" text-anchor="middle">Auto Scaling Group (ASG)</text>
+      <text x="575" y="78" fill="#6e7681" font-size="9" text-anchor="middle">Min: 2 · Desired: 4 · Max: 8 instances</text>
+
+      <!-- AZ-A -->
+      <rect x="370" y="90" width="190" height="265" rx="8" fill="rgba(58,199,112,0.04)" stroke="#3fb950" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="465" y="110" fill="#3fb950" font-size="10" font-weight="600" text-anchor="middle">AZ-A</text>
+
+      <rect x="385" y="120" width="160" height="55" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="465" y="143" fill="#58a6ff" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 Instance 1</text>
+      <text x="465" y="162" fill="#8b949e" font-size="9" text-anchor="middle">Running · Healthy</text>
+
+      <rect x="385" y="188" width="160" height="55" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="465" y="211" fill="#58a6ff" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 Instance 2</text>
+      <text x="465" y="230" fill="#8b949e" font-size="9" text-anchor="middle">Running · Healthy</text>
+
+      <rect x="385" y="256" width="160" height="55" rx="6" fill="rgba(255,123,114,0.08)" stroke="#ff7b72" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="465" y="279" fill="#ff7b72" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 Instance 3</text>
+      <text x="465" y="298" fill="#ff7b72" font-size="9" text-anchor="middle">Terminating (scale-in)</text>
+
+      <!-- AZ-B -->
+      <rect x="575" y="90" width="205" height="265" rx="8" fill="rgba(210,168,255,0.04)" stroke="#d2a8ff" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="677" y="110" fill="#d2a8ff" font-size="10" font-weight="600" text-anchor="middle">AZ-B</text>
+
+      <rect x="590" y="120" width="175" height="55" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="677" y="143" fill="#58a6ff" font-size="11" font-weight="600" text-anchor="middle">🖥 EC2 Instance 4</text>
+      <text x="677" y="162" fill="#8b949e" font-size="9" text-anchor="middle">Running · Healthy</text>
+
+      <rect x="590" y="190" width="175" height="55" rx="6" fill="rgba(63,185,80,0.08)" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <text x="677" y="213" fill="#3fb950" font-size="11" font-weight="600" text-anchor="middle">⊕ EC2 Instance 5</text>
+      <text x="677" y="232" fill="#3fb950" font-size="9" text-anchor="middle">Launching (scale-out)</text>
+
+      <!-- CloudWatch trigger -->
+      <rect x="590" y="265" width="175" height="60" rx="6" fill="#1c2128" stroke="#f0883e" stroke-width="1.2"/>
+      <text x="677" y="285" fill="#f0883e" font-size="10" font-weight="600" text-anchor="middle">☁ CloudWatch Alarm</text>
+      <text x="677" y="303" fill="#8b949e" font-size="9" text-anchor="middle">CPU &gt; 70% → Scale Out</text>
+      <text x="677" y="317" fill="#8b949e" font-size="9" text-anchor="middle">CPU &lt; 30% → Scale In</text>
+
+      <!-- Traffic arrows -->
+      <line x1="355" y1="155" x2="385" y2="147" stroke="#6e7681" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <line x1="355" y1="175" x2="385" y2="215" stroke="#6e7681" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <line x1="355" y1="195" x2="590" y2="147" stroke="#6e7681" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <line x1="355" y1="215" x2="590" y2="217" stroke="#6e7681" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+
+  <!-- MINOR: ELB types comparison -->
+  <div class="diagram-wrap">
+    <div class="diagram-label">MINOR DIAGRAM — Types of Elastic Load Balancers</div>
+    <table class="compare" style="margin-top:0">
+      <tr>
+        <th>Feature</th>
+        <th>Application LB (ALB)</th>
+        <th>Network LB (NLB)</th>
+        <th>Classic LB (CLB)</th>
+      </tr>
+      <tr>
+        <td>OSI Layer</td>
+        <td>Layer 7 (HTTP/HTTPS)</td>
+        <td>Layer 4 (TCP/UDP/TLS)</td>
+        <td>Layer 4/7</td>
+      </tr>
+      <tr>
+        <td>Routing</td>
+        <td>Path, Host, Header, Query</td>
+        <td>IP and Port</td>
+        <td>Round-robin</td>
+      </tr>
+      <tr>
+        <td>Performance</td>
+        <td>High</td>
+        <td>Ultra-high, millions req/s</td>
+        <td>Legacy</td>
+      </tr>
+      <tr>
+        <td>Use Case</td>
+        <td>Web apps, microservices</td>
+        <td>Gaming, IoT, real-time</td>
+        <td>Legacy apps</td>
+      </tr>
+      <tr>
+        <td>WebSocket</td>
+        <td>✅ Supported</td>
+        <td>✅ Supported</td>
+        <td>❌</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#58a6ff">Auto Scaling Policies</div>Target Tracking (e.g. keep CPU at 50%), Step Scaling, Scheduled Scaling, Predictive Scaling.</div>
+    <div class="kp"><div class="kp-label" style="color:#3fb950">Launch Template</div>Defines AMI, instance type, SG, key pair for new instances in the ASG. Replaces Launch Configuration.</div>
+    <div class="kp"><div class="kp-label" style="color:#ffa657">Target Groups</div>ALB routes traffic to target groups. Health checks run per target. Targets can be EC2, IP, Lambda.</div>
+    <div class="kp"><div class="kp-label" style="color:#e3b341">Cooldown Period</div>Period after a scaling activity where ASG does not launch/terminate more instances (default: 300s).</div>
+  </div>
+
+  <details>
+    <summary>📋 Steps to Create an Application Load Balancer</summary>
+    <div class="details-body">
+      1. Go to <em>EC2 → Load Balancers → Create Load Balancer → Application Load Balancer</em>.<br>
+      2. Name it, set scheme (internet-facing or internal), and IP address type (IPv4).<br>
+      3. Under <em>Network mapping</em>: select VPC and at least 2 subnets across different AZs.<br>
+      4. Assign a <em>Security Group</em> (allow HTTP:80, HTTPS:443 inbound).<br>
+      5. Configure <em>Listeners</em>: HTTP:80 and/or HTTPS:443 (attach ACM certificate).<br>
+      6. Create a <em>Target Group</em>: specify type (Instances), protocol (HTTP:80), and health check path (/).<br>
+      7. Register your EC2 instances in the Target Group.<br>
+      8. Review and <em>Create load balancer</em>. Use the DNS name to test traffic distribution.
+    </div>
+  </details>
+</div>
+
+<hr class="section-div">
+
+<!-- ─────────────────── CloudWatch + CloudTrail ─────────────────── -->
+<div class="service-block" id="monitoring">
+  <div class="service-header">
+    <div class="service-icon" style="background:rgba(240,136,62,0.12)">📈</div>
+    <h3>CloudWatch & CloudTrail</h3>
+    <span class="tag">Monitoring & Governance</span>
+  </div>
+
+  <div class="explanation">
+    <strong>Amazon CloudWatch</strong> is a monitoring and observability service. It collects metrics, logs, and events from AWS resources and applications. You can set <strong>Alarms</strong> that trigger actions (Auto Scaling, SNS notifications) when thresholds are breached.
+    <br><br>
+    <strong>AWS CloudTrail</strong> records API calls made in your AWS account — who did what, when, from where. Used for auditing, compliance, and security analysis. CloudTrail logs every management action (console, SDK, CLI, API).
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">MAJOR DIAGRAM — CloudWatch: Metrics, Logs, Alarms, Events Pipeline</div>
+    <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto">
+      <!-- Data sources -->
+      <rect x="10" y="30" width="130" height="220" rx="8" fill="#1c2128" stroke="#30363d" stroke-width="1.2"/>
+      <text x="75" y="52" fill="#6e7681" font-size="11" font-weight="700" text-anchor="middle">Data Sources</text>
+      <rect x="20" y="60" width="110" height="28" rx="4" fill="#161b22" stroke="#58a6ff" stroke-width="1"/>
+      <text x="75" y="79" fill="#58a6ff" font-size="10" text-anchor="middle">🖥 EC2 Metrics</text>
+      <rect x="20" y="96" width="110" height="28" rx="4" fill="#161b22" stroke="#3fb950" stroke-width="1"/>
+      <text x="75" y="115" fill="#3fb950" font-size="10" text-anchor="middle">λ Lambda Logs</text>
+      <rect x="20" y="132" width="110" height="28" rx="4" fill="#161b22" stroke="#ff7b72" stroke-width="1"/>
+      <text x="75" y="151" fill="#ff7b72" font-size="10" text-anchor="middle">🗄 RDS Metrics</text>
+      <rect x="20" y="168" width="110" height="28" rx="4" fill="#161b22" stroke="#ffa657" stroke-width="1"/>
+      <text x="75" y="187" fill="#ffa657" font-size="10" text-anchor="middle">🌐 ALB Access Logs</text>
+      <rect x="20" y="204" width="110" height="28" rx="4" fill="#161b22" stroke="#d2a8ff" stroke-width="1"/>
+      <text x="75" y="223" fill="#d2a8ff" font-size="10" text-anchor="middle">📦 Custom App Logs</text>
+
+      <!-- Arrow to CW -->
+      <line x1="140" y1="140" x2="175" y2="140" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- CloudWatch core -->
+      <rect x="175" y="50" width="185" height="180" rx="8" fill="#1c2128" stroke="#f0883e" stroke-width="2"/>
+      <text x="262" y="75" fill="#f0883e" font-size="13" font-weight="700" text-anchor="middle">☁ CloudWatch</text>
+      <rect x="188" y="85" width="160" height="32" rx="4" fill="#161b22" stroke="#f0883e" stroke-width="1"/>
+      <text x="268" y="106" fill="#f0883e" font-size="10" text-anchor="middle">Metrics (1-min resolution)</text>
+      <rect x="188" y="124" width="160" height="32" rx="4" fill="#161b22" stroke="#58a6ff" stroke-width="1"/>
+      <text x="268" y="145" fill="#58a6ff" font-size="10" text-anchor="middle">Log Groups &amp; Streams</text>
+      <rect x="188" y="163" width="160" height="32" rx="4" fill="#161b22" stroke="#e3b341" stroke-width="1"/>
+      <text x="268" y="184" fill="#e3b341" font-size="10" text-anchor="middle">Dashboards</text>
+      <rect x="188" y="202" width="75" height="22" rx="4" fill="#161b22" stroke="#3fb950" stroke-width="1"/>
+      <text x="225" y="217" fill="#3fb950" font-size="9" text-anchor="middle">Insights</text>
+      <rect x="270" y="202" width="78" height="22" rx="4" fill="#161b22" stroke="#d2a8ff" stroke-width="1"/>
+      <text x="309" y="217" fill="#d2a8ff" font-size="9" text-anchor="middle">Container Insights</text>
+
+      <!-- Alarm flow -->
+      <line x1="360" y1="100" x2="395" y2="100" stroke="#e3b341" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <rect x="395" y="55" width="160" height="85" rx="8" fill="#1c2128" stroke="#e3b341" stroke-width="1.5"/>
+      <text x="475" y="78" fill="#e3b341" font-size="12" font-weight="700" text-anchor="middle">🔔 Alarms</text>
+      <text x="475" y="96" fill="#8b949e" font-size="9.5" text-anchor="middle">OK / ALARM / Insufficient</text>
+      <text x="475" y="112" fill="#8b949e" font-size="9.5" text-anchor="middle">Threshold: CPU &gt; 70%</text>
+      <text x="475" y="128" fill="#8b949e" font-size="9.5" text-anchor="middle">Evaluation periods</text>
+
+      <!-- Actions from alarm -->
+      <line x1="555" y1="90" x2="590" y2="70" stroke="#ff7b72" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="555" y1="100" x2="590" y2="110" stroke="#ffa657" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="555" y1="110" x2="590" y2="150" stroke="#3fb950" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <rect x="590" y="45" width="190" height="32" rx="6" fill="#1c2128" stroke="#ff7b72" stroke-width="1"/>
+      <text x="685" y="66" fill="#ff7b72" font-size="10" text-anchor="middle">📧 SNS Notification</text>
+      <rect x="590" y="94" width="190" height="32" rx="6" fill="#1c2128" stroke="#ffa657" stroke-width="1"/>
+      <text x="685" y="115" fill="#ffa657" font-size="10" text-anchor="middle">⚡ ASG Scale Out/In</text>
+      <rect x="590" y="140" width="190" height="32" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1"/>
+      <text x="685" y="161" fill="#3fb950" font-size="10" text-anchor="middle">λ Lambda Trigger</text>
+
+      <!-- EventBridge / Events -->
+      <line x1="360" y1="175" x2="395" y2="200" stroke="#d2a8ff" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <rect x="395" y="170" width="160" height="60" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.2"/>
+      <text x="475" y="193" fill="#d2a8ff" font-size="11" font-weight="700" text-anchor="middle">EventBridge</text>
+      <text x="475" y="211" fill="#8b949e" font-size="9" text-anchor="middle">Schedule / Event-driven</text>
+      <text x="475" y="226" fill="#8b949e" font-size="9" text-anchor="middle">Rule-based routing</text>
+    </svg>
+  </div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-label">DIAGRAM — CloudTrail: API Audit Trail Flow</div>
+    <svg viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:0 auto">
+      <!-- Actor -->
+      <rect x="15" y="60" width="100" height="60" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="65" y="87" fill="#58a6ff" font-size="11" font-weight="700" text-anchor="middle">👤 Actor</text>
+      <text x="65" y="104" fill="#8b949e" font-size="9" text-anchor="middle">Console/CLI/SDK</text>
+
+      <line x1="115" y1="90" x2="150" y2="90" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- API Call -->
+      <rect x="150" y="55" width="140" height="70" rx="8" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.5"/>
+      <text x="220" y="82" fill="#d2a8ff" font-size="11" font-weight="700" text-anchor="middle">AWS API Call</text>
+      <text x="220" y="100" fill="#8b949e" font-size="9" text-anchor="middle">ec2:RunInstances</text>
+      <text x="220" y="115" fill="#8b949e" font-size="9" text-anchor="middle">iam:CreateUser etc.</text>
+
+      <line x1="290" y1="90" x2="330" y2="90" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- CloudTrail -->
+      <rect x="330" y="40" width="165" height="100" rx="8" fill="#1c2128" stroke="#f0883e" stroke-width="2"/>
+      <text x="412" y="68" fill="#f0883e" font-size="13" font-weight="700" text-anchor="middle">CloudTrail</text>
+      <text x="412" y="88" fill="#8b949e" font-size="9.5" text-anchor="middle">Who: IAM User / Role</text>
+      <text x="412" y="104" fill="#8b949e" font-size="9.5" text-anchor="middle">What: API Action</text>
+      <text x="412" y="120" fill="#8b949e" font-size="9.5" text-anchor="middle">When: Timestamp</text>
+      <text x="412" y="135" fill="#8b949e" font-size="9.5" text-anchor="middle">Source IP: 203.x.x.x</text>
+
+      <line x1="495" y1="75" x2="530" y2="55" stroke="#3fb950" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="495" y1="100" x2="530" y2="100" stroke="#e3b341" stroke-width="1.2" marker-end="url(#arr)"/>
+      <line x1="495" y1="125" x2="530" y2="145" stroke="#58a6ff" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <rect x="530" y="30" width="200" height="38" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1.2"/>
+      <text x="630" y="54" fill="#3fb950" font-size="10" text-anchor="middle">📦 S3 Bucket (event logs)</text>
+      <rect x="530" y="80" width="200" height="38" rx="6" fill="#1c2128" stroke="#e3b341" stroke-width="1.2"/>
+      <text x="630" y="104" fill="#e3b341" font-size="10" text-anchor="middle">☁ CloudWatch Logs</text>
+      <rect x="530" y="130" width="200" height="38" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.2"/>
+      <text x="630" y="154" fill="#58a6ff" font-size="10" text-anchor="middle">🔔 SNS Alert on anomaly</text>
+    </svg>
+  </div>
+
+  <div class="key-points">
+    <div class="kp"><div class="kp-label" style="color:#f0883e">CloudWatch Metrics</div>Pre-built metrics: CPU, NetworkIn/Out, DiskRead/Write, StatusCheckFailed. Custom metrics: your own app data.</div>
+    <div class="kp"><div class="kp-label" style="color:#e3b341">Log Groups</div>Container for log streams from EC2 (via CloudWatch Agent), Lambda, API Gateway, and other services.</div>
+    <div class="kp"><div class="kp-label" style="color:#d2a8ff">CloudTrail Trail</div>A trail delivers event logs continuously to S3. Use multi-region trails + log file integrity to ensure complete audit coverage.</div>
+    <div class="kp"><div class="kp-label" style="color:#3fb950">CloudTrail vs CloudWatch</div>CloudTrail = who did what (API history, governance). CloudWatch = what is happening now (performance, metrics, alarms).</div>
+  </div>
+</div>
+
+<!-- Quick Reference Table -->
+<div style="margin-bottom:3rem">
+  <div class="co-label" style="margin-bottom:0.75rem">QUICK REFERENCE</div>
+  <table class="compare">
+    <tr>
+      <th>Service</th><th>Category</th><th>Key Purpose</th><th>Exam Tip</th>
+    </tr>
+    <tr><td style="color:#3fb950">Route 53</td><td>Networking</td><td>DNS, domain registration, health checks</td><td>Know routing policies: Simple, Weighted, Latency, Failover, Geo</td></tr>
+    <tr><td style="color:#58a6ff">API Gateway</td><td>Networking</td><td>Front door for REST/HTTP/WebSocket APIs</td><td>Integrates with Lambda, supports Cognito/IAM auth, caching</td></tr>
+    <tr><td style="color:#d2a8ff">VPC</td><td>Networking</td><td>Isolated virtual network in AWS</td><td>Public subnet = route to IGW. Private = route to NAT GW</td></tr>
+    <tr><td style="color:#ff7b72">IAM</td><td>Security</td><td>AuthN + AuthZ for AWS resources</td><td>Default deny all. Groups for users. Roles for services. JSON policies.</td></tr>
+    <tr><td style="color:#3fb950">ACM</td><td>Security</td><td>TLS/SSL certificates, free for public domains</td><td>Used with ALB, CloudFront, API Gateway. Auto-renews.</td></tr>
+    <tr><td style="color:#f0883e">KMS</td><td>Security</td><td>Create/control encryption keys</td><td>CMKs — AWS-managed or Customer-managed. Envelope encryption.</td></tr>
+    <tr><td style="color:#ff7b72">RDS</td><td>Database</td><td>Managed relational DB (SQL)</td><td>Multi-AZ = HA + failover. Read Replicas = read scaling.</td></tr>
+    <tr><td style="color:#3fb950">DynamoDB</td><td>Database</td><td>Managed NoSQL key-value store</td><td>Serverless, ms latency. PK mandatory. GSI for alternate queries.</td></tr>
+    <tr><td style="color:#f0883e">Redshift</td><td>Database</td><td>Data warehouse, columnar, MPP</td><td>OLAP (analytics). Leader node + compute nodes. COPY from S3.</td></tr>
+    <tr><td style="color:#e3b341">CloudFormation</td><td>Dev Tools</td><td>IaC — provision stacks from templates</td><td>YAML/JSON → Stack → Resources. Rollback on failure.</td></tr>
+    <tr><td style="color:#3fb950">Beanstalk</td><td>Dev Tools</td><td>PaaS — deploy app, manage infra automatically</td><td>Upload code, Beanstalk handles EC2, ASG, ELB, monitoring.</td></tr>
+    <tr><td style="color:#d2a8ff">CDK</td><td>Dev Tools</td><td>Define infra in code (Python, TypeScript)</td><td>Synthesizes to CloudFormation. Higher-level constructs.</td></tr>
+    <tr><td style="color:#58a6ff">CodePipeline</td><td>Dev Tools</td><td>CI/CD orchestration</td><td>Source → Build → Test → Deploy. Integrates CodeBuild, CodeDeploy.</td></tr>
+    <tr><td style="color:#58a6ff">ELB / ALB</td><td>Management</td><td>Distribute traffic across targets</td><td>ALB = Layer 7, path routing. NLB = Layer 4, ultra performance.</td></tr>
+    <tr><td style="color:#e3b341">Auto Scaling</td><td>Management</td><td>Automatically adjust EC2 fleet size</td><td>Min/Desired/Max. Scaling policies: Target Tracking, Step, Scheduled.</td></tr>
+    <tr><td style="color:#f0883e">CloudWatch</td><td>Management</td><td>Metrics, logs, alarms, dashboards</td><td>Alarm triggers: SNS, ASG, Lambda. Custom metrics supported.</td></tr>
+    <tr><td style="color:#d2a8ff">CloudTrail</td><td>Management</td><td>API audit trail, who did what, when</td><td>Logs to S3. 90-day default in Event History. Enable trail for long-term.</td></tr>
+  </table>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <div>AWS CO3 &amp; CO4 Study Guide · VIT Bhopal · Cloud Computing Exam Reference</div>
+  <div style="margin-top:0.4rem">Diagrams based on official AWS documentation &amp; architecture patterns</div>
+</footer>
+
+</body>
+</html>

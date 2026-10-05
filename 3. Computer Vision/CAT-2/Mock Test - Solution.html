@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mock Test — Detailed Answer Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0D1117;
+    --surface: #161B22;
+    --surface2: #1C2128;
+    --border: #30363D;
+    --accent1: #58A6FF;
+    --accent2: #3FB950;
+    --accent3: #F78166;
+    --accent4: #D2A8FF;
+    --accent5: #FFA657;
+    --text: #E6EDF3;
+    --text-muted: #8B949E;
+    --text-dim: #6E7681;
+    --q-marker: #58A6FF;
+    --math-bg: #161B22;
+    --highlight: rgba(88,166,255,0.10);
+    --tag-bg: rgba(88,166,255,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+  }
+
+  /* ─── Header ─── */
+  .site-header {
+    background: linear-gradient(135deg, #0D1117 0%, #161B22 50%, #1C2128 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(88,166,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent1);
+    background: var(--tag-bg);
+    border: 1px solid rgba(88,166,255,0.25);
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-bottom: 1rem;
+  }
+  .site-header h1 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .site-header .subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 300;
+  }
+  .score-badge {
+    display: inline-flex; gap: 1.5rem; margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.6rem 1.5rem;
+    background: var(--surface);
+  }
+  .score-item { text-align: center; }
+  .score-item .val { font-family: 'IBM Plex Mono', monospace; font-size: 1.3rem; color: var(--accent1); font-weight: 500; }
+  .score-item .lbl { font-size: 11px; color: var(--text-dim); }
+
+  /* ─── TOC ─── */
+  .toc {
+    max-width: 900px; margin: 2rem auto; padding: 0 1.5rem;
+  }
+  .toc-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.75rem;
+  }
+  .toc-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.7rem 1rem;
+    text-decoration: none; color: var(--text);
+    transition: border-color 0.2s, background 0.2s;
+    font-size: 13px;
+  }
+  .toc-item:hover { border-color: var(--accent1); background: var(--highlight); }
+  .toc-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--tag-bg); border: 1px solid rgba(88,166,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+    color: var(--accent1); flex-shrink: 0;
+  }
+
+  /* ─── Question Cards ─── */
+  .content { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+  }
+  .q-header {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.4rem 1.6rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .q-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.5rem; font-weight: 500;
+    color: var(--accent1); flex-shrink: 0; line-height: 1.3;
+  }
+  .q-info { flex: 1; }
+  .q-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.05rem; font-weight: 600; color: var(--text);
+    margin-bottom: 0.35rem;
+  }
+  .q-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; font-family: 'IBM Plex Mono', monospace;
+    background: var(--tag-bg); border: 1px solid rgba(88,166,255,0.2);
+    color: var(--accent1); border-radius: 4px; padding: 1px 7px;
+  }
+  .tag.green { background: rgba(63,185,80,0.12); border-color: rgba(63,185,80,0.25); color: var(--accent2); }
+  .tag.purple { background: rgba(210,168,255,0.12); border-color: rgba(210,168,255,0.25); color: var(--accent4); }
+  .tag.orange { background: rgba(255,166,87,0.12); border-color: rgba(255,166,87,0.25); color: var(--accent5); }
+  .tag.red { background: rgba(247,129,102,0.12); border-color: rgba(247,129,102,0.25); color: var(--accent3); }
+  .marks-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; color: var(--accent5);
+    background: rgba(255,166,87,0.1); border: 1px solid rgba(255,166,87,0.25);
+    border-radius: 4px; padding: 2px 8px; white-space: nowrap; flex-shrink: 0;
+    align-self: flex-start; margin-top: 2px;
+  }
+
+  /* ─── Answer body ─── */
+  .q-body { padding: 1.6rem; }
+
+  .section-block { margin-bottom: 1.8rem; }
+
+  .section-label {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 11px; font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.1em; color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  .section-heading {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent1);
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-heading .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent1); flex-shrink: 0;
+  }
+  .section-heading.green .dot { background: var(--accent2); }
+  .section-heading.green { color: var(--accent2); }
+  .section-heading.purple .dot { background: var(--accent4); }
+  .section-heading.purple { color: var(--accent4); }
+  .section-heading.orange .dot { background: var(--accent5); }
+  .section-heading.orange { color: var(--accent5); }
+  .section-heading.red .dot { background: var(--accent3); }
+  .section-heading.red { color: var(--accent3); }
+
+  p { margin-bottom: 0.8rem; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ─── Math / Code ─── */
+  .math-box {
+    background: var(--math-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent1);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; color: var(--text);
+    margin: 0.8rem 0;
+    overflow-x: auto;
+    line-height: 1.9;
+  }
+  .math-box .eq-line { color: var(--accent4); }
+  .math-box .comment { color: var(--text-dim); }
+
+  /* ─── Pipeline diagrams ─── */
+  .pipeline {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 0; margin: 1rem 0; overflow-x: auto;
+    padding: 0.5rem 0;
+  }
+  .pipe-step {
+    display: flex; align-items: center; flex-direction: column;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.6rem 0.9rem;
+    text-align: center; min-width: 100px; max-width: 130px;
+    position: relative; cursor: default;
+    transition: border-color 0.2s;
+  }
+  .pipe-step:hover { border-color: var(--accent1); }
+  .pipe-step .step-icon { font-size: 1.3rem; margin-bottom: 0.2rem; }
+  .pipe-step .step-name { font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.3; }
+  .pipe-step .step-sub { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+  .pipe-arrow {
+    color: var(--accent1); font-size: 1.1rem; padding: 0 4px; flex-shrink: 0;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .pipe-step.highlight-blue { border-color: var(--accent1); background: rgba(88,166,255,0.06); }
+  .pipe-step.highlight-green { border-color: var(--accent2); background: rgba(63,185,80,0.06); }
+  .pipe-step.highlight-purple { border-color: var(--accent4); background: rgba(210,168,255,0.06); }
+  .pipe-step.highlight-orange { border-color: var(--accent5); background: rgba(255,166,87,0.06); }
+
+  /* ─── Table ─── */
+  .ans-table {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+    margin: 0.8rem 0;
+  }
+  .ans-table th {
+    background: var(--surface2); color: var(--accent1);
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    padding: 0.5rem 0.8rem; border: 1px solid var(--border);
+    text-align: left;
+  }
+  .ans-table td {
+    padding: 0.45rem 0.8rem; border: 1px solid var(--border);
+    vertical-align: top; line-height: 1.5;
+  }
+  .ans-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .ans-table .cell-good { color: var(--accent2); }
+  .ans-table .cell-warn { color: var(--accent5); }
+  .ans-table .cell-bad { color: var(--accent3); }
+
+  /* ─── Matrix display ─── */
+  .matrix-grid {
+    display: inline-grid;
+    gap: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    margin: 0.5rem 0;
+  }
+  .matrix-grid .cell {
+    width: 48px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .cell-bg { background: rgba(88,166,255,0.1); color: var(--accent1); }
+  .cell-mid { background: rgba(63,185,80,0.1); color: var(--accent2); }
+  .cell-fg { background: rgba(210,168,255,0.1); color: var(--accent4); }
+
+  /* ─── Info boxes ─── */
+  .info-box {
+    border-radius: 8px; padding: 0.9rem 1.1rem;
+    margin: 0.8rem 0; font-size: 13.5px; line-height: 1.65;
+  }
+  .info-box.blue { background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); }
+  .info-box.green { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.2); }
+  .info-box.orange { background: rgba(255,166,87,0.08); border: 1px solid rgba(255,166,87,0.2); }
+  .info-box.red { background: rgba(247,129,102,0.08); border: 1px solid rgba(247,129,102,0.2); }
+  .info-box.purple { background: rgba(210,168,255,0.08); border: 1px solid rgba(210,168,255,0.2); }
+  .info-box strong { font-weight: 600; }
+
+  /* ─── Advantage / Limitation list ─── */
+  .adv-list, .lim-list { list-style: none; padding: 0; margin: 0.4rem 0; }
+  .adv-list li::before { content: '✓ '; color: var(--accent2); font-weight: 700; }
+  .lim-list li::before { content: '⚠ '; color: var(--accent3); font-weight: 700; }
+  .adv-list li, .lim-list li { margin-bottom: 0.35rem; font-size: 13.5px; padding-left: 4px; }
+
+  /* ─── SVG diagrams ─── */
+  svg { display: block; max-width: 100%; height: auto; }
+  .diagram-wrap {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem; margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .diagram-caption {
+    font-size: 11px; color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    text-align: center; margin-top: 0.5rem;
+  }
+
+  /* ─── Section divider ─── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
+
+  /* ─── Two-col ─── */
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin: 0.8rem 0;
+  }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  .col-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.9rem 1rem;
+  }
+  .col-box h4 {
+    font-size: 12px; font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600; margin-bottom: 0.6rem;
+  }
+  .col-box h4.blue { color: var(--accent1); }
+  .col-box h4.green { color: var(--accent2); }
+  .col-box h4.purple { color: var(--accent4); }
+  .col-box h4.orange { color: var(--accent5); }
+  .col-box h4.red { color: var(--accent3); }
+
+  /* Back to top */
+  .back-top {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 12px; color: var(--text-dim);
+    text-decoration: none; margin-top: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .back-top:hover { color: var(--accent1); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="site-header" id="top">
+  <div class="header-label">ANSWER SHEET</div>
+  <h1>Computer Vision &amp; Machine Learning</h1>
+  <div class="subtitle">Mock Test — Detailed Solutions with Diagrams &amp; Mathematical Principles</div>
+  <div class="score-badge">
+    <div class="score-item"><div class="val">6</div><div class="lbl">Questions</div></div>
+    <div class="score-item"><div class="val">10</div><div class="lbl">Marks Each</div></div>
+    <div class="score-item"><div class="val">60</div><div class="lbl">Total Marks</div></div>
+  </div>
+</header>
+
+<!-- ═══════════════════ TOC ═══════════════════ -->
+<nav class="toc">
+  <div class="toc-grid">
+    <a href="#q1" class="toc-item"><div class="toc-num">1</div><span>Gradient Magnitude &amp; Orientation — Lane Detection</span></a>
+    <a href="#q2" class="toc-item"><div class="toc-num">2</div><span>SIFT — Orientation Assignment &amp; Hessian Filtering</span></a>
+    <a href="#q3" class="toc-item"><div class="toc-num">3</div><span>Multi-level Image Segmentation (4×4 Matrix)</span></a>
+    <a href="#q4" class="toc-item"><div class="toc-num">4</div><span>Learning Approaches &amp; Classifier Selection</span></a>
+    <a href="#q5" class="toc-item"><div class="toc-num">5</div><span>Hybrid Multi-scale Feature Extraction Pipeline</span></a>
+    <a href="#q6" class="toc-item"><div class="toc-num">6</div><span>Interactive Segmentation Pipeline (Medical Imaging)</span></a>
+  </div>
+</nav>
+
+<main class="content">
+
+<!-- ═══════════════════════════════════════════════════════════
+     Q1 — GRADIENT MAGNITUDE & ORIENTATION
+══════════════════════════════════════════════════════════════ -->
+<article class="q-card" id="q1">
+  <div class="q-header">
+    <div class="q-num">Q1</div>
+    <div class="q-info">
+      <div class="q-title">Image Gradient for Lane Marking Detection in Self-Driving Cars</div>
+      <div class="q-meta">
+        <span class="tag">Edge Detection</span>
+        <span class="tag green">Computer Vision</span>
+        <span class="tag purple">Gradient</span>
+      </div>
+    </div>
+    <div class="marks-badge">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <!-- TECHNIQUE SELECTED -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Technique Selected</div>
+      <div class="info-box blue">
+        <strong>Technique:</strong> Image Gradient-based Edge Detection using <strong>Sobel Operators</strong> (Gx, Gy) to compute Gradient Magnitude |G| and Orientation θ at every pixel. Applied to the lane-detection camera feed in real time.
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Pipeline</div>
+      <div class="pipeline">
+        <div class="pipe-step highlight-blue"><div class="step-icon">📷</div><div class="step-name">Grayscale Frame</div><div class="step-sub">Camera input</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step"><div class="step-icon">🔲</div><div class="step-name">Gaussian Blur</div><div class="step-sub">Noise removal</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-purple"><div class="step-icon">∂</div><div class="step-name">Sobel Gx, Gy</div><div class="step-sub">Horizontal &amp; vertical gradients</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-orange"><div class="step-icon">|G|</div><div class="step-name">Gradient Magnitude</div><div class="step-sub">Edge strength</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-green"><div class="step-icon">θ</div><div class="step-name">Gradient Orientation</div><div class="step-sub">Edge direction</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step"><div class="step-icon">🚗</div><div class="step-name">Lane Classification</div><div class="step-sub">Vertical edges → lane lines</div></div>
+      </div>
+    </div>
+
+    <!-- MATHEMATICAL PRINCIPLE -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Mathematical Principle</div>
+      <p>The Sobel operator approximates the partial derivatives of the image intensity I(x,y) using two 3×3 convolution kernels:</p>
+      <div class="math-box">
+<span class="eq-line">Sobel Horizontal Kernel (Gx):</span>
+    [ -1  0  +1 ]
+    [ -2  0  +2 ]
+    [ -1  0  +1 ]
+
+<span class="eq-line">Sobel Vertical Kernel (Gy):</span>
+    [ -1  -2  -1 ]
+    [  0   0   0 ]
+    [ +1  +2  +1 ]
+
+<span class="eq-line">Gradient Magnitude:</span>
+    |G| = √(Gx² + Gy²)           <span class="comment">← measures edge STRENGTH</span>
+    (approximation: |G| ≈ |Gx| + |Gy|)
+
+<span class="eq-line">Gradient Orientation (Direction):</span>
+    θ = arctan(Gy / Gx)           <span class="comment">← measures edge DIRECTION (in radians)</span>
+      </div>
+      <p>Each pixel's gradient vector points in the direction of greatest intensity increase. The magnitude tells us <em>how sharp</em> the edge is; the orientation tells us <em>which way</em> the edge runs.</p>
+    </div>
+
+    <!-- EXPLANATION OF EACH STAGE -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Explanation of Each Stage</div>
+      <div class="two-col">
+        <div class="col-box">
+          <h4 class="blue">Stage 1 — Gaussian Blur (Pre-processing)</h4>
+          <p style="font-size:13.5px;">Reduces high-frequency noise from the road (gravel, shadows). Without it, gradients from texture pixels incorrectly fire as "edges".</p>
+        </div>
+        <div class="col-box">
+          <h4 class="purple">Stage 2 — Sobel Convolution (Gx, Gy)</h4>
+          <p style="font-size:13.5px;">Gx detects vertical structures (like lane lines running into the distance). Gy detects horizontal structures. Both are needed simultaneously.</p>
+        </div>
+        <div class="col-box">
+          <h4 class="orange">Stage 3 — Gradient Magnitude |G|</h4>
+          <p style="font-size:13.5px;">High |G| → strong edge (bright/dark boundary). Low |G| → flat region (road surface). A threshold on |G| yields a binary edge map separating lane lines from road.</p>
+        </div>
+        <div class="col-box">
+          <h4 class="green">Stage 4 — Gradient Orientation θ</h4>
+          <p style="font-size:13.5px;">Lane lines are nearly vertical (θ ≈ 70°–110°). By filtering edges to keep only those whose θ falls in the expected range, horizontal cracks or pedestrian crossings are automatically suppressed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SVG DIAGRAM -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Visual Illustration</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" width="700" height="220">
+          <!-- Background -->
+          <rect width="700" height="220" fill="#1C2128"/>
+          <!-- Road -->
+          <rect x="20" y="40" width="200" height="160" rx="4" fill="#0D1117" stroke="#30363D"/>
+          <text x="120" y="25" text-anchor="middle" fill="#8B949E" font-size="11" font-family="IBM Plex Mono">Input Image</text>
+          <!-- Lane lines on road -->
+          <rect x="60" y="55" width="14" height="130" rx="3" fill="#ffffff" opacity="0.9"/>
+          <rect x="145" y="55" width="14" height="130" rx="3" fill="#ffffff" opacity="0.9"/>
+          <!-- Dashed center line -->
+          <line x1="120" y1="60" x2="120" y2="90" stroke="#FFD700" stroke-width="4" stroke-dasharray="10,8"/>
+          <line x1="120" y1="110" x2="120" y2="140" stroke="#FFD700" stroke-width="4" stroke-dasharray="10,8"/>
+          <line x1="120" y1="160" x2="120" y2="185" stroke="#FFD700" stroke-width="4" stroke-dasharray="10,8"/>
+
+          <!-- Arrow -->
+          <text x="237" y="125" fill="#58A6FF" font-size="22" font-family="IBM Plex Mono">→</text>
+          <text x="227" y="145" fill="#8B949E" font-size="10" font-family="IBM Plex Mono">Sobel</text>
+
+          <!-- Gradient magnitude visualization -->
+          <rect x="265" y="40" width="200" height="160" rx="4" fill="#0D1117" stroke="#30363D"/>
+          <text x="365" y="25" text-anchor="middle" fill="#8B949E" font-size="11" font-family="IBM Plex Mono">Gradient Magnitude |G|</text>
+          <!-- Bright pixels at edges -->
+          <rect x="265" y="40" width="200" height="160" rx="4" fill="#0D1117"/>
+          <rect x="303" y="55" width="6" height="130" rx="2" fill="#58A6FF" opacity="0.9"/>
+          <rect x="315" y="55" width="4" height="130" rx="2" fill="#58A6FF" opacity="0.5"/>
+          <rect x="393" y="55" width="6" height="130" rx="2" fill="#58A6FF" opacity="0.9"/>
+          <rect x="405" y="55" width="4" height="130" rx="2" fill="#58A6FF" opacity="0.5"/>
+          <!-- Dashed center -->
+          <line x1="365" y1="60" x2="365" y2="90" stroke="#3FB950" stroke-width="3" stroke-dasharray="10,8"/>
+          <line x1="365" y1="110" x2="365" y2="140" stroke="#3FB950" stroke-width="3" stroke-dasharray="10,8"/>
+          <line x1="365" y1="160" x2="365" y2="185" stroke="#3FB950" stroke-width="3" stroke-dasharray="10,8"/>
+          <text x="280" y="215" fill="#58A6FF" font-size="10" font-family="IBM Plex Mono">High |G| = Edge Found</text>
+
+          <!-- Arrow -->
+          <text x="480" y="125" fill="#58A6FF" font-size="22" font-family="IBM Plex Mono">→</text>
+          <text x="470" y="145" fill="#8B949E" font-size="10" font-family="IBM Plex Mono">θ filter</text>
+
+          <!-- Orientation visualization -->
+          <rect x="515" y="40" width="165" height="160" rx="4" fill="#0D1117" stroke="#30363D"/>
+          <text x="597" y="25" text-anchor="middle" fill="#8B949E" font-size="11" font-family="IBM Plex Mono">Orientation θ</text>
+          <!-- Only vertical edges kept -->
+          <rect x="540" y="55" width="8" height="130" rx="2" fill="#D2A8FF" opacity="0.9"/>
+          <rect x="655" y="55" width="8" height="130" rx="2" fill="#D2A8FF" opacity="0.9"/>
+          <!-- Angle indicator -->
+          <line x1="597" y1="130" x2="597" y2="75" stroke="#FFA657" stroke-width="2"/>
+          <line x1="597" y1="130" x2="627" y2="130" stroke="#FFA657" stroke-width="2" stroke-dasharray="4,3"/>
+          <text x="612" y="115" fill="#FFA657" font-size="10" font-family="IBM Plex Mono">θ≈90°</text>
+          <text x="525" y="215" fill="#D2A8FF" font-size="10" font-family="IBM Plex Mono">Lane lines kept</text>
+        </svg>
+        <div class="diagram-caption">Fig 1.1 — Gradient processing: Input → |G| edge map → θ-filtered lane detection</div>
+      </div>
+    </div>
+
+    <!-- JUSTIFICATION -->
+    <div class="section-block">
+      <div class="section-heading green"><div class="dot"></div>Justification for Selection</div>
+      <p>Gradient-based methods are ideal for lane detection because lane markings exhibit <strong>sharp intensity transitions</strong> (white/yellow paint on dark asphalt). The Sobel operator is computationally light (simple 3×3 convolution), real-time capable at 30+ fps, and directly yields both edge strength and direction — essential properties for lane angle estimation in a steering-control loop.</p>
+    </div>
+
+    <!-- ADVANTAGES & LIMITATIONS -->
+    <div class="two-col">
+      <div class="col-box">
+        <h4 class="green">Advantages</h4>
+        <ul class="adv-list">
+          <li>Fast — O(n) per pixel, suitable for real-time use</li>
+          <li>Simple implementation on embedded GPU/FPGA</li>
+          <li>Orientation θ directly enables lane angle calculation</li>
+          <li>Works well under good lighting conditions</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h4 class="red">Limitations</h4>
+        <ul class="lim-list">
+          <li>Sensitive to shadows, rain, and low contrast</li>
+          <li>Fixed Sobel kernel misses multi-scale features</li>
+          <li>Cannot distinguish lane lines from road cracks alone</li>
+          <li>Requires post-processing (Hough transform) for line fitting</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- q-body -->
+</article>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Q2 — SIFT: ORIENTATION ASSIGNMENT & HESSIAN FILTERING
+══════════════════════════════════════════════════════════════ -->
+<article class="q-card" id="q2">
+  <div class="q-header">
+    <div class="q-num">Q2</div>
+    <div class="q-info">
+      <div class="q-title">SIFT — Orientation Assignment &amp; Hessian-based Keypoint Filtering</div>
+      <div class="q-meta">
+        <span class="tag">SIFT</span><span class="tag purple">Rotation Invariance</span><span class="tag orange">Hessian Matrix</span>
+      </div>
+    </div>
+    <div class="marks-badge">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Technique Selected</div>
+      <div class="info-box blue">
+        <strong>Technique:</strong> Scale-Invariant Feature Transform (SIFT) with focus on two specific sub-stages: <br>
+        (a) <strong>Orientation Assignment</strong> — achieves rotation invariance<br>
+        (b) <strong>Localization &amp; Filtering via Hessian Matrix</strong> — removes unstable edge-point keypoints
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>SIFT Pipeline Overview</div>
+      <div class="pipeline">
+        <div class="pipe-step"><div class="step-icon">🔍</div><div class="step-name">Scale Space (DoG)</div><div class="step-sub">Detect blobs at multiple scales</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-orange"><div class="step-icon">📐</div><div class="step-name">Keypoint Localization</div><div class="step-sub">Hessian filtering</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-purple"><div class="step-icon">🧭</div><div class="step-name">Orientation Assignment</div><div class="step-sub">Rotation invariance</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-green"><div class="step-icon">📊</div><div class="step-name">Descriptor (128-D)</div><div class="step-sub">Gradient histogram</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step"><div class="step-icon">🔗</div><div class="step-name">Matching</div><div class="step-sub">NNDR / FLANN</div></div>
+      </div>
+    </div>
+
+    <!-- ORIENTATION ASSIGNMENT -->
+    <div class="section-block">
+      <div class="section-heading purple"><div class="dot"></div>Part A — Orientation Assignment (Rotation Invariance)</div>
+      <p>For every detected keypoint at scale σ, SIFT samples the gradient magnitudes and orientations in a <strong>16×16 neighbourhood</strong>. These are binned into a 36-bin (0°–360° in 10° steps) orientation histogram:</p>
+      <div class="math-box">
+<span class="eq-line">Gradient magnitude at pixel (x,y):</span>
+    m(x,y) = √[ (L(x+1,y) - L(x-1,y))² + (L(x,y+1) - L(x,y-1))² ]
+
+<span class="eq-line">Gradient orientation:</span>
+    θ(x,y) = arctan[ (L(x,y+1) - L(x,y-1)) / (L(x+1,y) - L(x-1,y)) ]
+
+<span class="eq-line">Weighted by Gaussian window (weight reduces contribution from far pixels):</span>
+    w(x,y) = m(x,y) · exp(-(x²+y²) / (2·(1.5σ)²))
+
+<span class="eq-line">Dominant orientation:</span>
+    θ_dominant = argmax[ Orientation Histogram ]
+    <span class="comment">Peaks within 80% of dominant → additional orientations assigned</span>
+      </div>
+      <p>The descriptor is then <strong>rotated relative to θ_dominant</strong>. This means even if the vehicle rotates 45°, the keypoint's local reference frame rotates with it — the 128-D descriptor remains identical. This is the mechanism of <strong>rotation invariance</strong>.</p>
+    </div>
+
+    <!-- HESSIAN FILTERING -->
+    <div class="section-block">
+      <div class="section-heading orange"><div class="dot"></div>Part B — Localization &amp; Filtering via Hessian Matrix</div>
+      <p>After initial DoG extrema detection, many keypoints lie on <strong>edges rather than corners</strong>. These are unreliable because small positional shifts cause large descriptor changes. SIFT uses the <strong>2×2 Hessian of the DoG function</strong> at that scale to test for this:</p>
+      <div class="math-box">
+<span class="eq-line">2×2 Hessian matrix H at keypoint (x,y):</span>
+    H = [ Dxx   Dxy ]
+        [ Dxy   Dyy ]
+
+    where  Dxx = ∂²D/∂x²,   Dyy = ∂²D/∂y²,   Dxy = ∂²D/∂x∂y
+
+<span class="eq-line">Curvature ratio test (edge keypoint elimination):</span>
+    Tr(H)  = Dxx + Dyy       <span class="comment">← sum of eigenvalues (α + β)</span>
+    Det(H) = Dxx·Dyy - Dxy²  <span class="comment">← product of eigenvalues (α · β)</span>
+
+    Ratio test:
+    Tr(H)² / Det(H)  &lt;  (r+1)²/r     where r = 10 (Lowe's threshold)
+
+    <span class="comment">On an edge: one eigenvalue >> other → ratio is LARGE → REJECTED</span>
+    <span class="comment">On a corner: eigenvalues ≈ equal → ratio is SMALL → KEPT</span>
+      </div>
+      <div class="info-box orange">
+        <strong>Intuition:</strong> On an edge, the surface curves strongly in one direction but is flat in the other (one large eigenvalue, one near-zero). The ratio Tr(H)²/Det(H) becomes very large. In a corner or blob, both principal curvatures are significant, the ratio stays small — keypoint is reliable.
+      </div>
+    </div>
+
+    <!-- DIAGRAM -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Visual Diagram — Hessian Eigenvalue Interpretation</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" width="680" height="200">
+          <rect width="680" height="200" fill="#1C2128"/>
+          <!-- Flat region -->
+          <rect x="20" y="40" width="150" height="120" rx="6" fill="#0D1117" stroke="#30363D"/>
+          <text x="95" y="28" text-anchor="middle" fill="#8B949E" font-size="11" font-family="IBM Plex Mono">Flat Region</text>
+          <text x="95" y="90" text-anchor="middle" fill="#6E7681" font-size="30">━</text>
+          <text x="95" y="125" text-anchor="middle" fill="#6E7681" font-size="11" font-family="IBM Plex Mono">α≈0, β≈0</text>
+          <text x="95" y="145" text-anchor="middle" fill="#6E7681" font-size="11" font-family="IBM Plex Mono">No edge/corner</text>
+          <text x="95" y="170" text-anchor="middle" fill="#6E7681" font-size="10" font-family="IBM Plex Mono">Det(H) ≈ 0 → SKIP</text>
+
+          <!-- Edge -->
+          <rect x="195" y="40" width="150" height="120" rx="6" fill="#0D1117" stroke="#F78166" stroke-width="1.5"/>
+          <text x="270" y="28" text-anchor="middle" fill="#F78166" font-size="11" font-family="IBM Plex Mono">Edge</text>
+          <line x1="220" y1="100" x2="320" y2="100" stroke="#F78166" stroke-width="4"/>
+          <text x="270" y="125" text-anchor="middle" fill="#F78166" font-size="11" font-family="IBM Plex Mono">α large, β≈0</text>
+          <text x="270" y="145" text-anchor="middle" fill="#F78166" font-size="11" font-family="IBM Plex Mono">High ratio → REJECTED</text>
+          <text x="270" y="170" text-anchor="middle" fill="#F78166" font-size="10" font-family="IBM Plex Mono">Tr(H)²/Det(H) > threshold</text>
+
+          <!-- Corner -->
+          <rect x="370" y="40" width="150" height="120" rx="6" fill="#0D1117" stroke="#3FB950" stroke-width="1.5"/>
+          <text x="445" y="28" text-anchor="middle" fill="#3FB950" font-size="11" font-family="IBM Plex Mono">Corner / Blob</text>
+          <line x1="395" y1="100" x2="495" y2="100" stroke="#3FB950" stroke-width="4"/>
+          <line x1="445" y1="50" x2="445" y2="150" stroke="#3FB950" stroke-width="4"/>
+          <text x="445" y="125" text-anchor="middle" fill="#3FB950" font-size="11" font-family="IBM Plex Mono">α≈β (both large)</text>
+          <text x="445" y="145" text-anchor="middle" fill="#3FB950" font-size="11" font-family="IBM Plex Mono">Low ratio → KEPT ✓</text>
+          <text x="445" y="170" text-anchor="middle" fill="#3FB950" font-size="10" font-family="IBM Plex Mono">Stable under perturbation</text>
+
+          <!-- Orientation wheel -->
+          <rect x="545" y="40" width="120" height="120" rx="6" fill="#0D1117" stroke="#D2A8FF" stroke-width="1.5"/>
+          <text x="605" y="28" text-anchor="middle" fill="#D2A8FF" font-size="11" font-family="IBM Plex Mono">Orientation</text>
+          <circle cx="605" cy="100" r="35" fill="none" stroke="#30363D" stroke-width="1"/>
+          <line x1="605" y1="100" x2="605" y2="65" stroke="#D2A8FF" stroke-width="2.5"/>
+          <line x1="605" y1="100" x2="630" y2="110" stroke="#58A6FF" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="605" y1="100" x2="580" y2="115" stroke="#58A6FF" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="605" y="155" text-anchor="middle" fill="#D2A8FF" font-size="10" font-family="IBM Plex Mono">θ_dominant</text>
+          <text x="605" y="168" text-anchor="middle" fill="#8B949E" font-size="10" font-family="IBM Plex Mono">Reference axis</text>
+        </svg>
+        <div class="diagram-caption">Fig 2.1 — Hessian eigenvalue interpretation for keypoint quality + orientation wheel</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="col-box">
+        <h4 class="green">Advantages of SIFT</h4>
+        <ul class="adv-list">
+          <li>Robust to rotation, scale, and partial illumination changes</li>
+          <li>Hessian filter eliminates ~90% of spurious edge keypoints</li>
+          <li>128-D descriptor highly distinctive</li>
+          <li>Works under moderate motion blur</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h4 class="red">Limitations</h4>
+        <ul class="lim-list">
+          <li>Computationally heavy — not suitable for all embedded systems</li>
+          <li>Severe motion blur defeats orientation histogram reliability</li>
+          <li>Extreme illumination changes can saturate gradient magnitudes</li>
+          <li>Patented (historically); ORB/BRISK used in commercial systems</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Q3 — MULTI-LEVEL IMAGE SEGMENTATION
+══════════════════════════════════════════════════════════════ -->
+<article class="q-card" id="q3">
+  <div class="q-header">
+    <div class="q-num">Q3</div>
+    <div class="q-info">
+      <div class="q-title">Multi-level Thresholding Segmentation of a 4×4 Grayscale Image</div>
+      <div class="q-meta">
+        <span class="tag">Segmentation</span><span class="tag green">Thresholding</span>
+      </div>
+    </div>
+    <div class="marks-badge">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Technique Selected</div>
+      <div class="info-box blue"><strong>Technique:</strong> Multi-level Intensity Thresholding — the simplest and most computationally efficient segmentation approach when pixel intensity directly encodes class membership (background, mid-tone, foreground).</div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Mathematical Principle</div>
+      <div class="math-box">
+<span class="eq-line">Segmentation Rule:</span>
+    g(x,y) = { 0   if I(x,y) ≤ 50         → Background (dark)
+             { 128 if 50 &lt; I(x,y) ≤ 180   → Mid-tone (grey)
+             { 255 if I(x,y) &gt; 180         → Foreground (bright)
+
+<span class="eq-line">Input Matrix I:</span>
+    [ 15  120  130  240 ]
+    [ 20  115  140  235 ]
+    [ 10  125  135  245 ]
+    [ 25  110  145  250 ]
+
+<span class="comment">Apply rule pixel-by-pixel:</span>
+    15 ≤ 50 → 0   | 120 &gt; 50, ≤ 180 → 128  | 130 → 128  | 240 &gt; 180 → 255
+    20 → 0        | 115 → 128              | 140 → 128  | 235 → 255
+    10 → 0        | 125 → 128              | 135 → 128  | 245 → 255
+    25 → 0        | 110 → 128              | 145 → 128  | 250 → 255
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading purple"><div class="dot"></div>Result 1 — Segmented Matrix g(x, y)</div>
+      <div class="math-box">
+<span class="eq-line">Segmented Matrix g(x,y):</span>
+    [  0   128   128   255 ]
+    [  0   128   128   255 ]
+    [  0   128   128   255 ]
+    [  0   128   128   255 ]
+      </div>
+      <!-- Visual matrix -->
+      <p>Colour-coded visualization:</p>
+      <div class="matrix-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="cell cell-bg">0</div><div class="cell cell-mid">128</div><div class="cell cell-mid">128</div><div class="cell cell-fg">255</div>
+        <div class="cell cell-bg">0</div><div class="cell cell-mid">128</div><div class="cell cell-mid">128</div><div class="cell cell-fg">255</div>
+        <div class="cell cell-bg">0</div><div class="cell cell-mid">128</div><div class="cell cell-mid">128</div><div class="cell cell-fg">255</div>
+        <div class="cell cell-bg">0</div><div class="cell cell-mid">128</div><div class="cell cell-mid">128</div><div class="cell cell-fg">255</div>
+      </div>
+      <div style="display:flex;gap:1.2rem;margin-top:0.6rem;font-size:12px;">
+        <span style="color:var(--accent1);">■ 0 = Background</span>
+        <span style="color:var(--accent2);">■ 128 = Mid-tone</span>
+        <span style="color:var(--accent4);">■ 255 = Foreground</span>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading orange"><div class="dot"></div>Result 2 — Pixel Count Per Class</div>
+      <table class="ans-table">
+        <thead><tr><th>Class</th><th>Label Value</th><th>Pixels (from matrix)</th><th>Count</th><th>% of Total</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Background</strong></td><td>0</td><td>Column 1: (15,20,10,25) all ≤ 50</td><td class="cell-good">4</td><td>25%</td></tr>
+          <tr><td><strong>Mid-tone</strong></td><td>128</td><td>Columns 2 &amp; 3: (120,115,125,110,130,140,135,145) all 50&lt;I≤180</td><td class="cell-warn">8</td><td>50%</td></tr>
+          <tr><td><strong>Foreground</strong></td><td>255</td><td>Column 4: (240,235,245,250) all &gt; 180</td><td class="cell-bad">4</td><td>25%</td></tr>
+          <tr style="font-weight:600;"><td colspan="3" style="text-align:right;">Total Pixels</td><td>16</td><td>100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Pipeline for Multi-level Thresholding</div>
+      <div class="pipeline">
+        <div class="pipe-step highlight-blue"><div class="step-icon">🖼️</div><div class="step-name">Input Image I</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step"><div class="step-icon">📊</div><div class="step-name">Histogram Analysis</div><div class="step-sub">Choose T₀, T₁</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-purple"><div class="step-icon">≤</div><div class="step-name">Threshold T₀=50</div><div class="step-sub">I≤50 → 0</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-orange"><div class="step-icon">≤</div><div class="step-name">Threshold T₁=180</div><div class="step-sub">50&lt;I≤180 → 128</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-green"><div class="step-icon">✓</div><div class="step-name">g(x,y) Output</div><div class="step-sub">Segmented matrix</div></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="col-box">
+        <h4 class="green">Advantages</h4>
+        <ul class="adv-list">
+          <li>Extremely fast — O(N) single pass over all pixels</li>
+          <li>No training data required</li>
+          <li>Easy to interpret and verify</li>
+          <li>Directly applicable to histogram-based images</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h4 class="red">Limitations</h4>
+        <ul class="lim-list">
+          <li>Threshold values (T₀, T₁) must be set manually or by Otsu</li>
+          <li>Ignores spatial context — noisy pixels mislabelled</li>
+          <li>Fails for images with overlapping class intensity ranges</li>
+          <li>No shape or texture information used</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Q4 — LEARNING APPROACH & CLASSIFIER SELECTION
+══════════════════════════════════════════════════════════════ -->
+<article class="q-card" id="q4">
+  <div class="q-header">
+    <div class="q-num">Q4</div>
+    <div class="q-info">
+      <div class="q-title">Learning Approach &amp; Classifier for Disease Prediction with Partially Labelled Data</div>
+      <div class="q-meta">
+        <span class="tag">Machine Learning</span><span class="tag purple">Semi-supervised</span><span class="tag green">Classification</span>
+      </div>
+    </div>
+    <div class="marks-badge">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Problem Analysis</div>
+      <div class="info-box blue">
+        <strong>Situation:</strong> Large dataset of patient records. <strong>Small subset labelled</strong> (confirmed disease outcomes). <strong>Most records unlabelled</strong>. Goal: build an accurate disease prediction classifier. This is a classic <strong>semi-supervised learning</strong> scenario.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Comparison of Learning Approaches</div>
+      <table class="ans-table">
+        <thead><tr><th>Approach</th><th>What It Uses</th><th>Suitable Here?</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Supervised</strong></td><td>Labelled data only</td><td class="cell-bad">No ✗</td><td>Only a small labelled set — model will overfit and generalise poorly</td></tr>
+          <tr><td><strong>Unsupervised</strong></td><td>Unlabelled data only</td><td class="cell-warn">Partial ⚠</td><td>Can cluster patients but cannot assign disease labels — not directly useful for prediction</td></tr>
+          <tr><td><strong>Semi-supervised</strong></td><td>Both labelled + unlabelled</td><td class="cell-good">Yes ✓</td><td>Leverages structure from all data + supervision from labelled subset — best fit</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading purple"><div class="dot"></div>Selected Approach — Semi-supervised Learning</div>
+      <p>Semi-supervised learning methods like <strong>Label Propagation, Self-training, or Co-training</strong> use the manifold assumption: data points close in feature space are likely to share labels. The small labelled set provides anchors; the algorithm propagates these labels through the unlabelled data guided by similarity.</p>
+      <div class="math-box">
+<span class="eq-line">Label Propagation (graph-based) core equation:</span>
+    F = (I - αS)⁻¹ · Y
+
+    where:
+      Y      = initial label matrix (known labels + zeros for unlabelled)
+      S      = row-normalized affinity matrix S_ij = exp(-||xi - xj||² / σ²)
+      α      = propagation factor (0 &lt; α &lt; 1, typically 0.99)
+      F      = predicted label scores for all points
+      <span class="comment">Unlabelled nodes receive labels from their labelled neighbours via S</span>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading orange"><div class="dot"></div>Classifier Comparison: Bayes vs KNN vs ANN</div>
+      <table class="ans-table">
+        <thead><tr><th>Classifier</th><th>Core Principle</th><th>Pros for this Task</th><th>Cons for this Task</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Naïve Bayes</strong></td>
+            <td>P(Disease|Features) ∝ P(Features|Disease)·P(Disease)<br>Assumes feature independence</td>
+            <td>Fast; works with small labelled sets; probabilistic output (confidence)</td>
+            <td>Independence assumption often violated in patient records (correlated symptoms)</td>
+          </tr>
+          <tr>
+            <td><strong>KNN</strong></td>
+            <td>Assign class of K nearest neighbours in feature space</td>
+            <td>No training phase; naturally semi-supervised with label propagation</td>
+            <td>High memory; slow at inference on large datasets; sensitive to irrelevant features</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent2);">ANN (Neural Network)</strong></td>
+            <td>Learnable non-linear mappings; backpropagation on labelled data; unsupervised pre-training on unlabelled</td>
+            <td>Handles complex feature interactions; autoencoders can pre-train on unlabelled data; scalable; highest accuracy with enough data</td>
+            <td>Needs careful tuning; less interpretable; risk of overfitting on small labelled subset without regularisation</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading green"><div class="dot"></div>Recommendation &amp; Justification</div>
+      <div class="info-box green">
+        <strong>Best Classifier: ANN with Autoencoder Pre-training</strong><br><br>
+        1. An autoencoder is first trained on <em>all</em> patient records (labelled + unlabelled) in an unsupervised fashion to learn a compressed latent representation of health features.<br>
+        2. The encoder is then fine-tuned as a supervised classifier using only the labelled records — this is <strong>transfer learning within semi-supervised learning</strong>.<br>
+        3. This approach extracts rich, non-linear feature interactions (comorbidities, correlated lab values) that Naïve Bayes cannot capture, and avoids the scalability problem of KNN.
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Recommended Pipeline</div>
+      <div class="pipeline">
+        <div class="pipe-step highlight-blue"><div class="step-icon">🏥</div><div class="step-name">All Patient Records</div><div class="step-sub">Labelled + Unlabelled</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-purple"><div class="step-icon">🔄</div><div class="step-name">Autoencoder Pre-train</div><div class="step-sub">Unsupervised rep. learning</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-orange"><div class="step-icon">🏷️</div><div class="step-name">Fine-tune on Labels</div><div class="step-sub">ANN classifier head</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step"><div class="step-icon">📊</div><div class="step-name">Label Propagation</div><div class="step-sub">Extend to unlabelled</div></div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step highlight-green"><div class="step-icon">🩺</div><div class="step-name">Disease Prediction</div><div class="step-sub">Probability output</div></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="col-box">
+        <h4 class="green">Advantages of ANN + Semi-supervised</h4>
+        <ul class="adv-list">
+          <li>Exploits all data — labelled and unlabelled</li>
+          <li>Captures non-linear patient feature interactions</li>
+          <li>Autoencoder learns robust representations from large unlabelled data</li>
+          <li>Scalable to millions of patient records</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h4 class="red">Limitations</h4>
+        <ul class="lim-list">
+          <li>ANN is a black-box — regulatory compliance may require interpretability</li>
+          <li>Labelling errors in small set propagate through the graph</li>
+          <li>Requires careful hyperparameter tuning</li>
+          <li>Computationally expensive compared to Bayes</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Q5 — HYBRID MULTI-SCALE FEATURE EXTRACTION PIPELINE
+══════════════════════════════════════════════════════════════ -->
+<article class="q-card" id="q5">
+  <div class="q-header">
+    <div class="q-num">Q5</div>
+    <div class="q-info">
+      <div class="q-title">Hybrid Multi-scale, Multi-orientation Feature Extraction Pipeline for CT/OCT Volumes</div>
+      <div class="q-meta">
+        <span class="tag">LoG/DoG</span><span class="tag purple">Steerable Filters</span><span class="tag orange">Curvelet</span><span class="tag green">KAZE/ORB</span>
+      </div>
+    </div>
+    <div class="marks-badge">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Problem Context &amp; Technique Selection</div>
+      <div class="info-box blue">
+        <strong>Challenge:</strong> CT/OCT volumes contain fine tubular structures (vessels, nerves) and textured tissue at <strong>multiple scales and orientations</strong> with significant noise. No single classical method captures all this.<br><br>
+        <strong>Solution:</strong> A 4-component hybrid pipeline combining scale-space extrema, steerable orientation filters, curvilinear multi-direction transforms, and keypoint descriptors.
+      </div>
+    </div>
+
+    <!-- FULL PIPELINE DIAGRAM -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>End-to-end Pipeline</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" width="700" height="320">
+          <rect width="700" height="320" fill="#1C2128"/>
+          <!-- Stage boxes -->
+          <!-- Input -->
+          <rect x="10" y="130" width="80" height="60" rx="6" fill="#161B22" stroke="#30363D"/>
+          <text x="50" y="155" text-anchor="middle" fill="#8B949E" font-size="10" font-family="IBM Plex Mono">CT/OCT</text>
+          <text x="50" y="170" text-anchor="middle" fill="#8B949E" font-size="10" font-family="IBM Plex Mono">Volume</text>
+          <text x="50" y="185" text-anchor="middle" fill="#6E7681" font-size="9" font-family="IBM Plex Mono">Noisy input</text>
+          <text x="98" y="163" fill="#58A6FF" font-size="18" font-family="IBM Plex Mono">→</text>
+
+          <!-- Stage 1 LoG/DoG -->
+          <rect x="110" y="100" width="120" height="120" rx="6" fill="#161B22" stroke="#58A6FF"/>
+          <rect x="110" y="100" width="120" height="18" rx="6" fill="rgba(88,166,255,0.15)"/>
+          <text x="170" y="113" text-anchor="middle" fill="#58A6FF" font-size="10" font-family="IBM Plex Mono">① LoG/DoG</text>
+          <text x="170" y="135" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">Scale-space</text>
+          <text x="170" y="150" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">extrema</text>
+          <text x="170" y="170" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">Blob/vessel</text>
+          <text x="170" y="183" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">detection at</text>
+          <text x="170" y="196" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">multiple σ</text>
+          <text x="237" y="163" fill="#58A6FF" font-size="18" font-family="IBM Plex Mono">→</text>
+
+          <!-- Stage 2 Steerable -->
+          <rect x="250" y="100" width="120" height="120" rx="6" fill="#161B22" stroke="#D2A8FF"/>
+          <rect x="250" y="100" width="120" height="18" rx="6" fill="rgba(210,168,255,0.12)"/>
+          <text x="310" y="113" text-anchor="middle" fill="#D2A8FF" font-size="10" font-family="IBM Plex Mono">② Steerable</text>
+          <text x="310" y="135" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">Pyramid /</text>
+          <text x="310" y="150" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">Oriented Gabor</text>
+          <text x="310" y="170" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">Orientation</text>
+          <text x="310" y="183" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">selectivity</text>
+          <text x="310" y="196" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">K orientations</text>
+          <text x="377" y="163" fill="#58A6FF" font-size="18" font-family="IBM Plex Mono">→</text>
+
+          <!-- Stage 3 Curvelet -->
+          <rect x="390" y="100" width="120" height="120" rx="6" fill="#161B22" stroke="#FFA657"/>
+          <rect x="390" y="100" width="120" height="18" rx="6" fill="rgba(255,166,87,0.12)"/>
+          <text x="450" y="113" text-anchor="middle" fill="#FFA657" font-size="10" font-family="IBM Plex Mono">③ Curvelet/</text>
+          <text x="450" y="135" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">Contourlet</text>
+          <text x="450" y="150" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">transform</text>
+          <text x="450" y="170" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">Curvilinear</text>
+          <text x="450" y="183" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">structure</text>
+          <text x="450" y="196" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">capture</text>
+          <text x="517" y="163" fill="#58A6FF" font-size="18" font-family="IBM Plex Mono">→</text>
+
+          <!-- Stage 4 ORB/KAZE -->
+          <rect x="530" y="100" width="120" height="120" rx="6" fill="#161B22" stroke="#3FB950"/>
+          <rect x="530" y="100" width="120" height="18" rx="6" fill="rgba(63,185,80,0.12)"/>
+          <text x="590" y="113" text-anchor="middle" fill="#3FB950" font-size="10" font-family="IBM Plex Mono">④ KAZE/ORB</text>
+          <text x="590" y="135" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">Keypoint</text>
+          <text x="590" y="150" text-anchor="middle" fill="#E6EDF3" font-size="10" font-family="IBM Plex Mono">descriptor</text>
+          <text x="590" y="170" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">Rotation &amp;</text>
+          <text x="590" y="183" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">scale invariant</text>
+          <text x="590" y="196" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">matching</text>
+
+          <!-- Fusion block -->
+          <rect x="220" y="255" width="260" height="50" rx="6" fill="#161B22" stroke="#58A6FF" stroke-dasharray="4,3"/>
+          <text x="350" y="276" text-anchor="middle" fill="#58A6FF" font-size="11" font-family="IBM Plex Mono">Feature Fusion &amp; Concatenation</text>
+          <text x="350" y="294" text-anchor="middle" fill="#8B949E" font-size="10" font-family="IBM Plex Mono">→ Classifier / Segmentor downstream</text>
+
+          <!-- Arrows from stages to fusion -->
+          <line x1="170" y1="220" x2="280" y2="255" stroke="#30363D" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <line x1="310" y1="220" x2="330" y2="255" stroke="#30363D" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <line x1="450" y1="220" x2="380" y2="255" stroke="#30363D" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <line x1="590" y1="220" x2="450" y2="255" stroke="#30363D" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+          <!-- Labels at top -->
+          <text x="350" y="18" text-anchor="middle" fill="#8B949E" font-size="12" font-family="IBM Plex Sans">Hybrid Multi-scale Multi-orientation Feature Extraction Pipeline</text>
+          <line x1="100" y1="30" x2="660" y2="30" stroke="#30363D" stroke-width="1"/>
+          <!-- Scale markers -->
+          <text x="170" y="50" text-anchor="middle" fill="#58A6FF" font-size="10" font-family="IBM Plex Mono">σ ∈ {1,2,4,8}</text>
+          <text x="310" y="50" text-anchor="middle" fill="#D2A8FF" font-size="10" font-family="IBM Plex Mono">θ ∈ 0°–165°</text>
+          <text x="450" y="50" text-anchor="middle" fill="#FFA657" font-size="10" font-family="IBM Plex Mono">2ʲ subbands</text>
+          <text x="590" y="50" text-anchor="middle" fill="#3FB950" font-size="10" font-family="IBM Plex Mono">Nonlinear scale</text>
+          <text x="170" y="63" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">(scale range)</text>
+          <text x="310" y="63" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">(K directions)</text>
+          <text x="450" y="63" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">(j levels)</text>
+          <text x="590" y="63" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">(nonlinear diff)</text>
+        </svg>
+        <div class="diagram-caption">Fig 5.1 — End-to-end hybrid multi-scale feature extraction pipeline for CT/OCT</div>
+      </div>
+    </div>
+
+    <!-- EACH COMPONENT -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Component 1 — LoG / DoG Scale-space Extrema</div>
+      <div class="math-box">
+<span class="eq-line">Laplacian of Gaussian (LoG):</span>
+    LoG(x,y;σ) = -1/(πσ⁴) · [1 - (x²+y²)/(2σ²)] · exp(-(x²+y²)/(2σ²))
+
+<span class="eq-line">DoG approximation (SIFT style):</span>
+    DoG(x,y;σ) = G(x,y;kσ) - G(x,y;σ)    where k ≈ √2
+
+<span class="comment">Extrema in (x,y,σ) space → blob/vessel detected at its natural scale σ*</span>
+<span class="comment">σ* indicates the radius of the tubular structure: r ≈ √2 · σ*</span>
+      </div>
+      <p><strong>Contribution:</strong> Detects blobs and vessel cross-sections at their characteristic scale. A vessel of radius 2px is detected at σ≈1.4; a larger vessel at σ≈8. Scale invariance is built in.</p>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading purple"><div class="dot"></div>Component 2 — Steerable Pyramid / Oriented Gaussian Derivatives</div>
+      <div class="math-box">
+<span class="eq-line">Oriented Gaussian derivative (first-order steerable filter):</span>
+    G¹_θ(x,y) = cos(θ)·∂G/∂x + sin(θ)·∂G/∂y
+
+<span class="eq-line">Response at orientation θ:</span>
+    R(x,y;θ,σ) = I(x,y) * G¹_θ(x,y;σ)
+
+<span class="comment">A steerable pyramid decomposes I into K orientations × J scale bands.</span>
+<span class="comment">Nerves and vessels running at angle θ produce maximum response at that θ.</span>
+      </div>
+      <p><strong>Contribution:</strong> Explicit orientation selectivity. A capillary running at 45° produces a strong response only in the 45° filter bank. This enables direction-specific vessel tracking.</p>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading orange"><div class="dot"></div>Component 3 — Curvelet / Contourlet Transform</div>
+      <div class="math-box">
+<span class="eq-line">Curvelet parabolic scaling (key property):</span>
+    Curvelet at scale 2⁻ʲ has length ≈ 2^(-j/2) and width ≈ 2^(-j)
+    → Anisotropy ratio = length/width = 2^(j/2)  (increases with resolution)
+
+<span class="comment">Curvelets represent curvilinear edges (vessels, nerve fibres) with O(log N) terms</span>
+<span class="comment">vs O(N) terms for wavelets → much sparser, more compact representation</span>
+<span class="comment">Contourlet = LP decomposition + directional filter banks (DFB) in 2D</span>
+      </div>
+      <p><strong>Contribution:</strong> Optimal representation of curved structures (vessel bends, nerve curvature) at multiple orientations and scales simultaneously. Classical wavelets are isotropic — they miss curvilinear geometry.</p>
+    </div>
+
+    <div class="section-block">
+      <div class="section-heading green"><div class="dot"></div>Component 4 — KAZE / ORB / BRISK Keypoint Descriptors</div>
+      <div class="math-box">
+<span class="eq-line">KAZE builds its scale space using Additive Operator Splitting (AOS):</span>
+    ∂L/∂t = div(c(x,y,t) · ∇L)    <span class="comment">← nonlinear diffusion PDE</span>
+
+    c(x,y,t) = g(|∇Lσ|²)          <span class="comment">← conductivity function (Perona-Malik)</span>
+    g(s²) = 1/(1 + s²/k²)
+
+<span class="comment">KAZE's nonlinear scale space preserves edges while smoothing noise within regions.</span>
+<span class="comment">ORB uses FAST keypoints + BRIEF descriptors with orientation correction (fast, binary).</span>
+      </div>
+      <p><strong>Contribution:</strong> Produces rotation- and scale-invariant local descriptors at keypoints. KAZE is particularly suited to medical images as its nonlinear diffusion respects tissue boundaries during scale-space construction.</p>
+    </div>
+
+    <!-- COMPARISON WITH CLASSICAL -->
+    <div class="section-block">
+      <div class="section-heading red"><div class="dot"></div>Comparison vs Classical Single-method Baselines</div>
+      <table class="ans-table">
+        <thead><tr><th>Property</th><th>Canny / Harris</th><th>Hough / Radon</th><th class="cell-good">Hybrid Pipeline</th></tr></thead>
+        <tbody>
+          <tr><td>Noise Robustness</td><td class="cell-warn">Low–Medium</td><td class="cell-warn">Low (sensitive to noise artefacts)</td><td class="cell-good">High (Gaussian scale space + nonlinear diffusion)</td></tr>
+          <tr><td>Scale Invariance</td><td class="cell-bad">None (fixed σ)</td><td class="cell-warn">Partial (parameterized)</td><td class="cell-good">Full (LoG/DoG + KAZE multi-scale)</td></tr>
+          <tr><td>Rotation Invariance</td><td class="cell-bad">None</td><td class="cell-warn">Radon is rotation-variant</td><td class="cell-good">Full (steerable filters + KAZE descriptors)</td></tr>
+          <tr><td>Curvilinear Features</td><td class="cell-bad">Misses curved vessels</td><td class="cell-warn">Only straight lines</td><td class="cell-good">Curvelet captures curved structures</td></tr>
+          <tr><td>Feature Discriminability</td><td class="cell-warn">Low (binary edges)</td><td class="cell-warn">Low (line params only)</td><td class="cell-good">High (128-D to 64-D descriptors)</td></tr>
+          <tr><td>Computational Cost</td><td class="cell-good">Low (fast)</td><td class="cell-good">Medium</td><td class="cell-bad">High (multi-component)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="col-box">
+        <h4 class="green">Advantages of Hybrid</h4>
+        <ul class="adv-list">
+          <li>Full scale and rotation invariance across vessel diameters</li>
+          <li>Curvelet captures curved vessel paths missed by wavelets</li>
+          <li>KAZE's nonlinear diffusion preserves tissue edges</li>
+          <li>Feature fusion provides complementary cues</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h4 class="red">Limitations &amp; Trade-offs</h4>
+        <ul class="lim-list">
+          <li>Computationally expensive — curvelet/contourlet not real-time on CPU</li>
+          <li>High-dimensional feature vectors may need PCA/selection</li>
+          <li>Integration of 4 components increases system complexity</li>
+          <li>Tuning σ ranges and orientation count requires domain knowledge</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Q6 — INTERACTIVE SEGMENTATION PIPELINE
+══════════════════════════════════════════════════════════════ -->
+<article class="q-card" id="q6">
+  <div class="q-header">
+    <div class="q-num">Q6</div>
+    <div class="q-info">
+      <div class="q-title">Interactive Segmentation Pipeline — CT/MRI/Ultrasound with Seeded Region Growing, Active Contours &amp; Graph Cut</div>
+      <div class="q-meta">
+        <span class="tag">Region Growing</span><span class="tag purple">Active Contour</span><span class="tag orange">Graph Cut</span><span class="tag green">Medical Imaging</span>
+      </div>
+    </div>
+    <div class="marks-badge">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Problem Statement &amp; Technique Selection</div>
+      <div class="info-box blue">
+        <strong>Challenge:</strong> Multi-modal volumes (CT/MRI/US) with faint boundaries, intensity inhomogeneities, and partial-volume effects. Manual segmentation is infeasible. Need an interactive, robust pipeline that produces a topologically coherent binary mask.<br><br>
+        <strong>Selected Techniques (in order):</strong><br>
+        ① Seeded Region Growing (SRG) — coarse initialisation from user seeds<br>
+        ② Active Contour / Level Set — edge-based refinement of boundary<br>
+        ③ Graph Cut / Random Walker — global energy minimization for final clean mask
+      </div>
+    </div>
+
+    <!-- FULL PIPELINE DIAGRAM -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>End-to-end Interactive Segmentation Pipeline</div>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" width="700" height="360">
+          <rect width="700" height="360" fill="#1C2128"/>
+
+          <!-- User input -->
+          <rect x="10" y="140" width="90" height="70" rx="6" fill="#161B22" stroke="#30363D"/>
+          <text x="55" y="162" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">User Seeds</text>
+          <text x="55" y="177" text-anchor="middle" fill="#58A6FF" font-size="18">✎</text>
+          <text x="55" y="200" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">Foreground +</text>
+          <text x="55" y="212" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">Background clicks</text>
+
+          <!-- Preprocessing -->
+          <rect x="120" y="120" width="110" height="110" rx="6" fill="#161B22" stroke="#30363D"/>
+          <text x="175" y="138" text-anchor="middle" fill="#8B949E" font-size="10" font-family="IBM Plex Mono">Pre-processing</text>
+          <text x="175" y="155" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">• N4 Bias Correction</text>
+          <text x="175" y="168" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">• Anisotropic Diffusion</text>
+          <text x="175" y="181" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">• Normalization</text>
+          <text x="175" y="194" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">• Histogram Equalization</text>
+          <text x="106" y="177" fill="#30363D" font-size="14">→</text>
+          <text x="237" y="177" fill="#58A6FF" font-size="14">→</text>
+
+          <!-- Stage 1 SRG -->
+          <rect x="250" y="60" width="130" height="230" rx="6" fill="#161B22" stroke="#58A6FF" stroke-width="1.5"/>
+          <rect x="250" y="60" width="130" height="20" rx="5" fill="rgba(88,166,255,0.15)"/>
+          <text x="315" y="74" text-anchor="middle" fill="#58A6FF" font-size="10" font-family="IBM Plex Mono">① Seeded RG</text>
+          <text x="315" y="95" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">Seeds injected</text>
+          <text x="315" y="110" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">Priority queue</text>
+          <text x="315" y="125" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">(min-heap) over</text>
+          <text x="315" y="140" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">intensity similarity</text>
+          <text x="315" y="160" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">Merges similar pixels</text>
+          <text x="315" y="173" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">Coarse region mask</text>
+          <text x="315" y="193" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">⚠ May leak at</text>
+          <text x="315" y="206" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">weak boundaries</text>
+          <text x="315" y="240" text-anchor="middle" fill="#58A6FF" font-size="8" font-family="IBM Plex Mono">→ passes coarse mask</text>
+          <text x="315" y="278" text-anchor="middle" fill="#58A6FF" font-size="20">↓</text>
+
+          <!-- Stage 2 Active Contour -->
+          <rect x="250" y="300" width="130" height="20" rx="4" fill="rgba(210,168,255,0.12)"/>
+          <text x="315" y="314" text-anchor="middle" fill="#D2A8FF" font-size="10" font-family="IBM Plex Mono">② Active Contour</text>
+
+          <text x="387" y="177" fill="#58A6FF" font-size="14">→</text>
+
+          <!-- Stage 2 detailed -->
+          <rect x="400" y="60" width="130" height="230" rx="6" fill="#161B22" stroke="#D2A8FF" stroke-width="1.5"/>
+          <rect x="400" y="60" width="130" height="20" rx="5" fill="rgba(210,168,255,0.12)"/>
+          <text x="465" y="74" text-anchor="middle" fill="#D2A8FF" font-size="10" font-family="IBM Plex Mono">② Level Set</text>
+          <text x="465" y="95" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">φ(x) signed dist.</text>
+          <text x="465" y="110" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">function evolves</text>
+          <text x="465" y="125" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">from coarse mask</text>
+          <text x="465" y="145" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">Edge stopping func.</text>
+          <text x="465" y="158" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">halts at boundary</text>
+          <text x="465" y="175" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">gradient magnitude</text>
+          <text x="465" y="195" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">Handles topology</text>
+          <text x="465" y="208" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">changes naturally</text>
+          <text x="465" y="240" text-anchor="middle" fill="#D2A8FF" font-size="8" font-family="IBM Plex Mono">→ refined boundary</text>
+          <text x="537" y="177" fill="#58A6FF" font-size="14">→</text>
+
+          <!-- Stage 3 Graph Cut -->
+          <rect x="550" y="60" width="130" height="230" rx="6" fill="#161B22" stroke="#FFA657" stroke-width="1.5"/>
+          <rect x="550" y="60" width="130" height="20" rx="5" fill="rgba(255,166,87,0.12)"/>
+          <text x="615" y="74" text-anchor="middle" fill="#FFA657" font-size="10" font-family="IBM Plex Mono">③ Graph Cut</text>
+          <text x="615" y="95" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">Min-cut / max-flow</text>
+          <text x="615" y="110" text-anchor="middle" fill="#E6EDF3" font-size="9" font-family="IBM Plex Mono">on pixel graph</text>
+          <text x="615" y="130" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">Seeds define Source</text>
+          <text x="615" y="143" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">(FG) and Sink (BG)</text>
+          <text x="615" y="160" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">Minimizes E(L):</text>
+          <text x="615" y="173" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">data + smoothness</text>
+          <text x="615" y="193" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">Global optimum</text>
+          <text x="615" y="206" text-anchor="middle" fill="#8B949E" font-size="8" font-family="IBM Plex Mono">binary labelling</text>
+          <text x="615" y="240" text-anchor="middle" fill="#FFA657" font-size="8" font-family="IBM Plex Mono">→ Binary mask</text>
+
+          <!-- Output -->
+          <rect x="580" y="310" width="100" height="35" rx="6" fill="#161B22" stroke="#3FB950"/>
+          <text x="630" y="326" text-anchor="middle" fill="#3FB950" font-size="10" font-family="IBM Plex Mono">Binary Mask</text>
+          <text x="630" y="339" text-anchor="middle" fill="#8B949E" font-size="9" font-family="IBM Plex Mono">Topologically clean</text>
+          <line x1="615" y1="290" x2="615" y2="310" stroke="#FFA657" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+          <!-- Title -->
+          <text x="350" y="18" text-anchor="middle" fill="#8B949E" font-size="11" font-family="IBM Plex Sans">Interactive Segmentation Pipeline — CT/MRI/US</text>
+          <line x1="10" y1="28" x2="690" y2="28" stroke="#30363D" stroke-width="1"/>
+        </svg>
+        <div class="diagram-caption">Fig 6.1 — Three-stage interactive segmentation pipeline for multi-modal medical volumes</div>
+      </div>
+    </div>
+
+    <!-- STAGE 1 -->
+    <div class="section-block">
+      <div class="section-heading"><div class="dot"></div>Stage 1 — Seeded Region Growing (SRG)</div>
+      <p><strong>Role:</strong> Coarse initialisation. The user places foreground seeds inside the target structure and background seeds outside it. Region Growing merges neighbouring voxels to the region if their intensity difference is below a threshold Δ.</p>
+      <div class="math-box">
+<span class="eq-line">Merging criterion:</span>
+    |I(q) - μ_R| ≤ Δ
+
+    where:
+      I(q)  = intensity of candidate neighbour voxel q
+      μ_R   = current region mean intensity
+      Δ     = user-defined tolerance (or Otsu-derived)
+
+<span class="eq-line">Priority queue (min-heap) propagation:</span>
+    At each step, pop voxel with smallest |I(q) - μ_R| → merge if ≤ Δ
+    → Push its unvisited neighbours into queue
+
+<span class="comment">Result: closed region volume (coarse mask) around the anatomical structure</span>
+<span class="comment">Seeds propagate outward until boundary or Δ-mismatch stops them</span>
+      </div>
+      <div class="info-box blue"><strong>Seed injection:</strong> User clicks on central slice in the organ lumen → foreground seeds. User clicks on surrounding tissue → background seeds. Seeds are 3D-dilated to voxel neighbourhoods before propagation.</div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div class="section-block">
+      <div class="section-heading purple"><div class="dot"></div>Stage 2 — Active Contour / Level Set Refinement</div>
+      <p><strong>Role:</strong> The coarse mask from SRG is converted to a signed distance function φ(x). The level set (zero level set = contour) evolves under a PDE that pulls the contour toward image edges.</p>
+      <div class="math-box">
+<span class="eq-line">Geodesic Active Contour (GAC) Level Set PDE:</span>
+    ∂φ/∂t = g(|∇I|) · |∇φ| · (κ + F) + ∇g · ∇φ
+
+    where:
+      φ(x,t) = level set function (signed distance to contour)
+      κ      = mean curvature (∇·(∇φ/|∇φ|)) — smoothness term
+      F      = speed function (balloon force, user-set)
+      g(s)   = edge stopping function = 1/(1 + |∇Gσ*I|²)
+
+<span class="comment">When |∇I| is large (edge), g→0 → evolution halts → contour locks onto edge</span>
+<span class="comment">When |∇I|≈0 (flat region), g≈1 → contour expands/contracts freely</span>
+<span class="comment">Level sets handle topology changes (splits, merges) automatically</span>
+      </div>
+      <div class="info-box purple"><strong>Why level sets over classic snakes?</strong> Classic parametric snakes cannot handle topology changes (vessel branching, split lobes). Level sets represent contours implicitly — topology is automatically managed by the zero level set of φ, making them ideal for complex anatomical shapes.</div>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div class="section-block">
+      <div class="section-heading orange"><div class="dot"></div>Stage 3 — Graph Cut Energy Minimization</div>
+      <p><strong>Role:</strong> Globally optimize the binary labelling to produce the final clean mask. The refined boundary from the level set initializes graph edge weights.</p>
+      <div class="math-box">
+<span class="eq-line">Graph Cut Energy Function E(L):</span>
+    E(L) = Σ_p D_p(L_p)  +  λ · Σ_{(p,q)∈ε} V_{pq}(L_p, L_q)
+
+    Data term (unary):
+      D_p(fg) = -log P(I_p | FG)   <span class="comment">← from user-seeded GMM colour model</span>
+      D_p(bg) = -log P(I_p | BG)
+
+    Smoothness term (pairwise):
+      V_{pq}(L_p, L_q) = exp(-β||I_p - I_q||²) · [L_p ≠ L_q]
+      <span class="comment">Penalizes labelling changes between similar neighbours (encourages smooth boundary)</span>
+
+    Min-cut solution:
+      L* = argmin_L E(L)   ← solved exactly in polynomial time via max-flow
+
+<span class="comment">Seeds → source (FG node) and sink (BG node) with infinite-capacity edges → hard constraints</span>
+      </div>
+      <div class="info-box orange"><strong>Leakage prevention:</strong> The level-set refined boundary provides strong initialization of the graph edge weights (high V_pq across the contour). Even at weak boundaries, the global optimization through min-cut prevents leakage — the data cost of mislabelling exceeds the smoothness cost at those pixels.</div>
+    </div>
+
+    <!-- JUSTIFICATION OF ORDER -->
+    <div class="section-block">
+      <div class="section-heading green"><div class="dot"></div>Justification of Hybrid Order &amp; Design</div>
+      <table class="ans-table">
+        <thead><tr><th>Stage</th><th>Prevents</th><th>Produces</th></tr></thead>
+        <tbody>
+          <tr><td>① SRG</td><td>Need for full manual outline; focuses subsequent stages on a small VOI</td><td>Coarse region-of-interest mask</td></tr>
+          <tr><td>② Level Set</td><td>Over-segmentation from SRG; handles concavities and topology changes</td><td>Topologically correct boundary curve</td></tr>
+          <tr><td>③ Graph Cut</td><td>Leakage across weak edges; disconnected components; over-smoothing</td><td>Globally optimal, topologically clean binary mask</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="col-box">
+        <h4 class="green">Advantages</h4>
+        <ul class="adv-list">
+          <li>SRG is interactive — minimal user effort (few clicks)</li>
+          <li>Level set naturally handles topology changes (vessel branches)</li>
+          <li>Graph cut gives globally optimal labelling — no local minima</li>
+          <li>Hard seed constraints prevent gross mislabelling</li>
+          <li>Mask is directly usable by downstream quantification modules</li>
+        </ul>
+      </div>
+      <div class="col-box">
+        <h4 class="red">Failure Modes &amp; Computational Considerations</h4>
+        <ul class="lim-list">
+          <li>SRG leaks at very weak edges (close to Δ threshold) — mitigated by level set</li>
+          <li>Level set can get stuck in local minima far from true boundary with bad initialisation</li>
+          <li>Graph cut memory scales as O(V + E) — large 3D volumes need GPU implementation</li>
+          <li>Random Walker (alternative to Graph Cut) more robust to noise but slower</li>
+          <li>Extreme intensity inhomogeneity (MRI field bias) degrades GMM models</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<!-- Back to top -->
+<div style="text-align:center;padding:2rem 0 1rem;">
+  <a href="#top" class="back-top">↑ Back to Top</a>
+</div>
+
+</main><!-- /content -->
+
+</body>
+</html>

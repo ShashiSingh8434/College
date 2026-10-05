@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CAT II — Computer Vision & ML Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #1c2128;
+  --border: #30363d;
+  --accent: #58a6ff;
+  --accent2: #f78166;
+  --accent3: #3fb950;
+  --accent4: #d2a8ff;
+  --accent5: #ffa657;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --text3: #6e7681;
+  --formula: #79c0ff;
+  --tag-edge: #1f4d78;
+  --tag-seg: #2d4a1e;
+  --tag-class: #4a1e2d;
+  --tag-dim: #3a2d00;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-padding-top: 80px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+/* ── TOP NAV ── */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,17,23,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; gap: 12px;
+  height: 56px;
+}
+.topnav-title { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; }
+.topnav-pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+.topnav-pills::-webkit-scrollbar { display: none; }
+.pill {
+  padding: 4px 11px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  cursor: pointer; border: none; white-space: nowrap; transition: all .18s;
+  background: var(--surface2); color: var(--text2); border: 1px solid var(--border);
+}
+.pill:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* ── LAYOUT ── */
+.container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+/* ── QUESTION CARD ── */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 48px;
+  overflow: hidden;
+}
+.q-header {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 28px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.q-num {
+  min-width: 40px; height: 40px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #0d1117;
+  font-weight: 700; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.q-title { font-size: 14px; color: var(--text2); line-height: 1.6; flex: 1; }
+.q-marks {
+  font-size: 12px; font-weight: 600;
+  background: var(--tag-dim); color: var(--accent5);
+  border: 1px solid #ffa65744;
+  padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+}
+.q-body { padding: 28px; }
+/* ── SECTIONS ── */
+.section { margin-bottom: 28px; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--accent); background: #1e3a5f44; border: 1px solid #58a6ff44;
+  padding: 3px 10px; border-radius: 4px; margin-bottom: 12px;
+}
+.section-label.green { color: var(--accent3); background: #0d2818; border-color: #3fb95044; }
+.section-label.purple { color: var(--accent4); background: #21133a; border-color: #d2a8ff44; }
+.section-label.orange { color: var(--accent5); background: #2a1a00; border-color: #ffa65744; }
+.section-label.red { color: var(--accent2); background: #2d1208; border-color: #f7816644; }
+/* ── PIPELINE SVG ── */
+.pipeline-wrap {
+  background: #0a0e14;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 16px;
+  overflow-x: auto;
+  margin-bottom: 8px;
+}
+svg.pipeline { display: block; min-width: 500px; }
+/* ── FORMULA BOX ── */
+.formula-box {
+  background: #0a0e14;
+  border: 1px solid #30363d;
+  border-left: 3px solid var(--formula);
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--formula);
+  margin: 10px 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+/* ── COMPARISON TABLE ── */
+.cmp-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px; border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.cmp-table th {
+  background: var(--surface2);
+  color: var(--text2); font-weight: 600;
+  padding: 10px 14px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.cmp-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid #21272e;
+  vertical-align: top;
+}
+.cmp-table tr:last-child td { border-bottom: none; }
+.cmp-table tr:hover td { background: #1c2128; }
+.highlight { background: #1e3a5f33 !important; }
+/* ── PRO/CON GRID ── */
+.pro-con { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.pro-con .box {
+  background: #0a0e14; border-radius: 8px; padding: 14px 16px;
+  font-size: 13px;
+}
+.pro-con .box.pro { border-left: 3px solid var(--accent3); }
+.pro-con .box.con { border-left: 3px solid var(--accent2); }
+.pro-con .box h4 { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+.pro-con .box.pro h4 { color: var(--accent3); }
+.pro-con .box.con h4 { color: var(--accent2); }
+.pro-con ul { padding-left: 16px; color: var(--text2); line-height: 1.6; }
+/* ── VERDICT BADGE ── */
+.verdict {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #0d2818; border: 1px solid #3fb95066;
+  border-radius: 8px; padding: 10px 16px;
+  color: var(--accent3); font-size: 13px; font-weight: 500;
+  margin-top: 10px;
+}
+.verdict::before { content: '✓'; font-size: 15px; }
+/* ── STAGE CARDS ── */
+.stages { display: flex; flex-direction: column; gap: 10px; }
+.stage {
+  background: #0a0e14; border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 18px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.stage-num {
+  min-width: 28px; height: 28px; border-radius: 6px;
+  background: var(--accent); color: #000;
+  font-weight: 700; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.stage-body h4 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.stage-body p { font-size: 13px; color: var(--text2); }
+/* ── MISC ── */
+p { color: var(--text2); margin-bottom: 10px; line-height: 1.75; font-size: 14px; }
+h3 { color: var(--text); font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+ul.bullets { padding-left: 20px; color: var(--text2); font-size: 13px; line-height: 1.8; }
+ul.bullets li { margin-bottom: 4px; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+.note { font-size: 12px; color: var(--text3); font-style: italic; margin-top: 6px; }
+@media (max-width: 600px) {
+  .pro-con { grid-template-columns: 1fr; }
+  .q-header { flex-wrap: wrap; }
+  .topnav-title { display: none; }
+  .container { padding: 20px 12px 60px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="topnav-title">CAT II Guide</span>
+  <div class="topnav-pills">
+    <button class="pill" onclick="document.getElementById('q1').scrollIntoView({behavior:'smooth'})">Q1 Edges</button>
+    <button class="pill" onclick="document.getElementById('q2').scrollIntoView({behavior:'smooth'})">Q2 Robot</button>
+    <button class="pill" onclick="document.getElementById('q3').scrollIntoView({behavior:'smooth'})">Q3 Recognition</button>
+    <button class="pill" onclick="document.getElementById('q4').scrollIntoView({behavior:'smooth'})">Q4 Region Growing</button>
+    <button class="pill" onclick="document.getElementById('q5').scrollIntoView({behavior:'smooth'})">Q5 Leaf Disease</button>
+    <button class="pill" onclick="document.getElementById('q6').scrollIntoView({behavior:'smooth'})">Q6 Satellite</button>
+    <button class="pill" onclick="document.getElementById('q7').scrollIntoView({behavior:'smooth'})">Q7 Clustering</button>
+    <button class="pill" onclick="document.getElementById('q8').scrollIntoView({behavior:'smooth'})">Q8 Video</button>
+    <button class="pill" onclick="document.getElementById('q9').scrollIntoView({behavior:'smooth'})">Q9 Surveillance</button>
+    <button class="pill" onclick="document.getElementById('q10').scrollIntoView({behavior:'smooth'})">Q10 Defect</button>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════ Q1 ═══════════════ -->
+<div class="q-card" id="q1">
+  <div class="q-header">
+    <div class="q-num">1</div>
+    <div class="q-title">Nighttime security camera — compare Canny, LoG, DoG for edge detection. Select the most suitable method with justification.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>Nighttime images suffer from high noise (sensor noise, low light) and <em>weak/blurred boundaries</em>. The chosen edge detector must suppress noise while precisely localising edges.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 760 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <!-- boxes -->
+          <rect x="10" y="25" width="120" height="40" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="70" y="46" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="600">Input Image</text>
+          <text x="70" y="60" text-anchor="middle" fill="#8b949e" font-size="10">(Noisy, dark)</text>
+          <polygon points="135,45 148,45 148,50 155,42.5 148,35 148,40 135,40" fill="#58a6ff"/>
+          <rect x="158" y="25" width="120" height="40" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="218" y="46" text-anchor="middle" fill="#79c0ff" font-size="12" font-weight="600">Gaussian Blur</text>
+          <text x="218" y="60" text-anchor="middle" fill="#8b949e" font-size="10">σ = 1.4</text>
+          <polygon points="283,45 296,45 296,50 303,42.5 296,35 296,40 283,40" fill="#58a6ff"/>
+          <rect x="306" y="25" width="140" height="40" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="376" y="46" text-anchor="middle" fill="#79c0ff" font-size="12" font-weight="600">Gradient / LoG</text>
+          <text x="376" y="60" text-anchor="middle" fill="#8b949e" font-size="10">Sobel / Zero-crossing</text>
+          <polygon points="451,45 464,45 464,50 471,42.5 464,35 464,40 451,40" fill="#58a6ff"/>
+          <rect x="474" y="25" width="130" height="40" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="539" y="43" text-anchor="middle" fill="#79c0ff" font-size="12" font-weight="600">NMS + Hysteresis</text>
+          <text x="539" y="58" text-anchor="middle" fill="#8b949e" font-size="10">Th=0.1, Tl=0.05</text>
+          <polygon points="609,45 622,45 622,50 629,42.5 622,35 622,40 609,40" fill="#58a6ff"/>
+          <rect x="632" y="25" width="118" height="40" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="691" y="46" text-anchor="middle" fill="#3fb950" font-size="12" font-weight="600">Edge Map</text>
+          <text x="691" y="60" text-anchor="middle" fill="#8b949e" font-size="10">Binary output</text>
+        </svg>
+      </div>
+      <p class="note">Pipeline for Canny edge detector (recommended choice)</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Comparison of Techniques</div>
+      <table class="cmp-table">
+        <thead>
+          <tr><th>Property</th><th>Canny</th><th>LoG (Marr-Hildreth)</th><th>DoG</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Noise Handling</td><td>Excellent — built-in Gaussian</td><td>Good — Laplacian on smoothed img</td><td>Moderate — approximates LoG</td></tr>
+          <tr><td>Localization</td><td>Excellent (sub-pixel via NMS)</td><td>Good (zero-crossing)</td><td>Lower precision</td></tr>
+          <tr><td>Thin edges</td><td>Yes (NMS ensures single pixel)</td><td>Can be thick</td><td>Blobs rather than edges</td></tr>
+          <tr><td>Thresholding</td><td>Hysteresis (two thresholds)</td><td>Single zero-crossing</td><td>Single threshold</td></tr>
+          <tr><td>Computational cost</td><td>Medium</td><td>Medium</td><td>Low</td></tr>
+          <tr class="highlight"><td><strong>Best for nighttime?</strong></td><td><strong>✓ Best choice</strong></td><td>Acceptable</td><td>Not ideal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Mathematical Principle</div>
+      <p><strong>Canny — Step by Step:</strong></p>
+      <div class="formula-box">1. Gaussian smoothing:   G(x,y) = (1/2πσ²) · exp(-(x²+y²)/2σ²)
+   Smoothed image:          I_s = I * G
+
+2. Gradient magnitude:   M(x,y) = √(Gx² + Gy²)
+   Gradient direction:    θ(x,y) = arctan(Gy / Gx)
+
+3. Non-Maximum Suppression (NMS): 
+   Keep pixel only if M(x,y) > neighbours along gradient direction
+
+4. Hysteresis Thresholding:
+   Edge pixel if M > T_high
+   Connected edge pixel if T_low < M < T_high
+   Discard if M < T_low</div>
+      <p><strong>LoG Principle:</strong></p>
+      <div class="formula-box">LoG(x,y) = -1/(πσ⁴) · [1 - (x²+y²)/2σ²] · exp(-(x²+y²)/2σ²)
+Edge = zero crossing of ∇²G * I</div>
+      <p><strong>DoG (approximation of LoG):</strong></p>
+      <div class="formula-box">DoG(x,y) = G(x,y,σ₁) - G(x,y,σ₂)   where σ₂ ≈ k·σ₁ (k≈1.6)</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Justify Selection</div>
+      <div class="verdict">Canny is the optimal choice for nighttime security camera images</div>
+      <p style="margin-top:12px;">Canny satisfies all three optimality criteria: <strong>Good Detection</strong> (low probability of false/missing edges), <strong>Good Localization</strong> (detected edges close to true edges), and <strong>Single Response</strong> (one response per true edge). The hysteresis thresholding is critical for weak boundaries in low-light scenes.</p>
+    </div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages — Canny</h4>
+        <ul>
+          <li>Best noise suppression via Gaussian</li>
+          <li>Thin, precise single-pixel edges</li>
+          <li>Hysteresis avoids spurious gaps</li>
+          <li>Tunable σ for noise level</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations — Canny</h4>
+        <ul>
+          <li>Computationally heavier than Sobel</li>
+          <li>Sensitive to σ and threshold values</li>
+          <li>May miss very faint edges</li>
+          <li>Not rotation-invariant by default</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q2 ═══════════════ -->
+<div class="q-card" id="q2">
+  <div class="q-header">
+    <div class="q-num">2</div>
+    <div class="q-title">Robot warehouse pipeline — edge detector + Hough Transform + corner detector. Explain each stage.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>A warehouse scene contains shelves (straight edges), box boundaries (structural lines), and corners. The robot needs to locate and navigate using these geometric primitives.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Full Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 900 110" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="8" y="30" width="110" height="50" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="63" y="52" text-anchor="middle" fill="#e6edf3" font-size="11" font-weight="600">Raw Image</text>
+          <text x="63" y="68" text-anchor="middle" fill="#8b949e" font-size="9">Warehouse scene</text>
+          <polygon points="123,55 136,55 136,60 143,52.5 136,45 136,50 123,50" fill="#58a6ff"/>
+          <rect x="146" y="30" width="120" height="50" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="206" y="49" text-anchor="middle" fill="#79c0ff" font-size="11" font-weight="600">Canny Edge</text>
+          <text x="206" y="63" text-anchor="middle" fill="#79c0ff" font-size="11" font-weight="600">Detector</text>
+          <text x="206" y="76" text-anchor="middle" fill="#8b949e" font-size="9">Stage 1</text>
+          <polygon points="271,55 284,55 284,60 291,52.5 284,45 284,50 271,50" fill="#58a6ff"/>
+          <rect x="294" y="30" width="130" height="50" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="359" y="49" text-anchor="middle" fill="#d2a8ff" font-size="11" font-weight="600">Hough Line</text>
+          <text x="359" y="63" text-anchor="middle" fill="#d2a8ff" font-size="11" font-weight="600">Transform</text>
+          <text x="359" y="76" text-anchor="middle" fill="#8b949e" font-size="9">Stage 2</text>
+          <polygon points="429,55 442,55 442,60 449,52.5 442,45 442,50 429,50" fill="#d2a8ff"/>
+          <rect x="452" y="30" width="130" height="50" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="517" y="49" text-anchor="middle" fill="#ffa657" font-size="11" font-weight="600">Harris Corner</text>
+          <text x="517" y="63" text-anchor="middle" fill="#ffa657" font-size="11" font-weight="600">Detector</text>
+          <text x="517" y="76" text-anchor="middle" fill="#8b949e" font-size="9">Stage 3</text>
+          <polygon points="587,55 600,55 600,60 607,52.5 600,45 600,50 587,50" fill="#ffa657"/>
+          <rect x="610" y="30" width="130" height="50" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="675" y="49" text-anchor="middle" fill="#f78166" font-size="11" font-weight="600">Geometric Map</text>
+          <text x="675" y="63" text-anchor="middle" fill="#f78166" font-size="11" font-weight="600">Lines + Corners</text>
+          <text x="675" y="76" text-anchor="middle" fill="#8b949e" font-size="9">Output</text>
+          <polygon points="745,55 758,55 758,60 765,52.5 758,45 758,50 745,50" fill="#f78166"/>
+          <rect x="768" y="30" width="118" height="50" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="827" y="52" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="600">Robot</text>
+          <text x="827" y="66" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="600">Navigation</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Stage Explanations</div>
+      <div class="stages">
+        <div class="stage">
+          <div class="stage-num">1</div>
+          <div class="stage-body">
+            <h4>Canny Edge Detector — Boundary Extraction</h4>
+            <p><strong>Purpose:</strong> Convert the warehouse image into a binary edge map. Shelves, box outlines, structural walls appear as white edge pixels on black background. Noise is suppressed by the Gaussian kernel.</p>
+            <p><strong>Expected output:</strong> A binary image where every structural line is represented as a 1-pixel-wide curve. Box corners visible as edge intersections.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">2</div>
+          <div class="stage-body">
+            <h4>Hough Line Transform — Line/Structure Detection</h4>
+            <p><strong>Purpose:</strong> Detect dominant straight lines (shelves, aisle boundaries, box sides) from the edge map. Votes in (ρ, θ) parameter space; peaks correspond to real lines.</p>
+            <p><strong>Expected output:</strong> A list of parametric lines (ρ, θ) representing every shelf edge, wall, and box boundary. These serve as structural primitives for navigation.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">3</div>
+          <div class="stage-body">
+            <h4>Harris Corner Detector — Feature Keypoint Extraction</h4>
+            <p><strong>Purpose:</strong> Find corner points (box corners, shelf intersections) that are distinctive and repeatable. These serve as spatial landmarks for robot localisation and map-building.</p>
+            <p><strong>Expected output:</strong> A set of (x, y) coordinate points marking all significant corners — used for odometry correction or SLAM.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Mathematical Principle</div>
+      <p><strong>Hough Transform:</strong></p>
+      <div class="formula-box">Line in image space:   y = mx + c
+Line in Hough space:   ρ = x·cos(θ) + y·sin(θ)
+
+Each edge point (x,y) votes for all (ρ,θ) satisfying the equation.
+A peak at (ρ₀,θ₀) in the accumulator = a line in the image.</div>
+      <p><strong>Harris Corner Detector:</strong></p>
+      <div class="formula-box">Structure tensor M = Σ w(x,y) [Ix²   IxIy]
+                                  [IxIy  Iy² ]
+
+Corner Response: R = det(M) - k·trace(M)²   (k ≈ 0.04-0.06)
+  R >> 0  → Corner
+  R << 0  → Edge
+  |R| ≈ 0 → Flat region</div>
+    </div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Hough tolerates gaps in edges</li>
+          <li>Harris is rotation invariant</li>
+          <li>Pipeline is modular and real-time</li>
+          <li>Combines global (lines) + local (corners)</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Hough is O(N·θ) — expensive for dense scenes</li>
+          <li>Harris is not scale invariant</li>
+          <li>Clutter/occlusion reduces accuracy</li>
+          <li>Requires careful threshold tuning</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q3 ═══════════════ -->
+<div class="q-card" id="q3">
+  <div class="q-header">
+    <div class="q-num">3</div>
+    <div class="q-title">Mobile app product recognition at different scales, rotations, angles — compare Harris vs Hessian-Affine, SIFT/SURF vs HOG/GLOH. Select best combination.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>The same product appears at multiple scales (near/far), rotations (tilted shelf), and viewing angles (affine distortion). The system must detect stable keypoints and describe them invariantly.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 860 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="110" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="60" y="43" text-anchor="middle" fill="#e6edf3" font-size="11" font-weight="600">Product</text>
+          <text x="60" y="57" text-anchor="middle" fill="#8b949e" font-size="10">Image Input</text>
+          <polygon points="120,45 133,45 133,50 140,42.5 133,35 133,40 120,40" fill="#58a6ff"/>
+          <rect x="143" y="22" width="120" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="203" y="40" text-anchor="middle" fill="#79c0ff" font-size="11" font-weight="600">Scale-Space</text>
+          <text x="203" y="54" text-anchor="middle" fill="#79c0ff" font-size="11" font-weight="600">/ Pyramid</text>
+          <text x="203" y="64" text-anchor="middle" fill="#8b949e" font-size="9">DoG layers</text>
+          <polygon points="268,45 281,45 281,50 288,42.5 281,35 281,40 268,40" fill="#58a6ff"/>
+          <rect x="291" y="22" width="130" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="356" y="40" text-anchor="middle" fill="#d2a8ff" font-size="11" font-weight="600">Hessian-Affine</text>
+          <text x="356" y="54" text-anchor="middle" fill="#d2a8ff" font-size="11" font-weight="600">Keypoint Detect</text>
+          <text x="356" y="64" text-anchor="middle" fill="#8b949e" font-size="9">Blob + affine</text>
+          <polygon points="426,45 439,45 439,50 446,42.5 439,35 439,40 426,40" fill="#d2a8ff"/>
+          <rect x="449" y="22" width="110" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="504" y="43" text-anchor="middle" fill="#ffa657" font-size="11" font-weight="600">SIFT Descriptor</text>
+          <text x="504" y="57" text-anchor="middle" fill="#8b949e" font-size="9">128-d vector</text>
+          <polygon points="564,45 577,45 577,50 584,42.5 577,35 577,40 564,40" fill="#ffa657"/>
+          <rect x="587" y="22" width="110" height="46" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="642" y="43" text-anchor="middle" fill="#f78166" font-size="11" font-weight="600">Matching</text>
+          <text x="642" y="57" text-anchor="middle" fill="#8b949e" font-size="9">RANSAC + NN</text>
+          <polygon points="702,45 715,45 715,50 722,42.5 715,35 715,40 702,40" fill="#f78166"/>
+          <rect x="725" y="22" width="120" height="46" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="785" y="40" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="600">Product ID</text>
+          <text x="785" y="54" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="600">Recognised</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Detector Comparison: Harris vs Hessian-Affine</div>
+      <table class="cmp-table">
+        <thead><tr><th>Property</th><th>Harris Corner</th><th>Hessian-Affine</th></tr></thead>
+        <tbody>
+          <tr><td>Detects</td><td>Corners only</td><td>Blobs + corners + edges</td></tr>
+          <tr><td>Scale invariance</td><td>No</td><td>Yes (multi-scale Hessian)</td></tr>
+          <tr><td>Affine invariance</td><td>No</td><td>Yes (shape adaptation)</td></tr>
+          <tr><td>Repeatability</td><td>Moderate</td><td>High</td></tr>
+          <tr class="highlight"><td>Best for scale/angle?</td><td>No</td><td><strong>✓ Yes</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Descriptor Comparison: SIFT/SURF vs HOG/GLOH</div>
+      <table class="cmp-table">
+        <thead><tr><th>Property</th><th>SIFT</th><th>SURF</th><th>HOG</th><th>GLOH</th></tr></thead>
+        <tbody>
+          <tr><td>Dimensionality</td><td>128-d</td><td>64-d</td><td>Variable</td><td>272-d</td></tr>
+          <tr><td>Scale invariant</td><td>Yes</td><td>Yes</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Rotation invariant</td><td>Yes</td><td>Partial</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Affine invariant</td><td>Partial</td><td>No</td><td>No</td><td>Better</td></tr>
+          <tr><td>Speed</td><td>Slow</td><td>Fast (Haar)</td><td>Fast</td><td>Slow</td></tr>
+          <tr class="highlight"><td>Best choice?</td><td><strong>✓ Yes</strong></td><td>If speed needed</td><td>Not here</td><td>Better accuracy</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Mathematical Principle</div>
+      <div class="formula-box">SIFT Keypoint in Scale-Space:
+  DoG(x,y,σ) = G(x,y,kσ) - G(x,y,σ)
+  Extrema in (x, y, σ) = keypoints
+
+SIFT Descriptor:
+  - 16×16 patch → 4×4 sub-blocks → 8-bin gradient histogram
+  - Orientation assigned: θ = arctan(Iy/Ix)
+  - Final: 4×4×8 = 128-dimensional vector (L2-normalised)
+
+Hessian-Affine:
+  H(x,y) = [Lxx  Lxy]  where Lxx = ∂²(G*I)/∂x²
+            [Lxy  Lyy]
+  det(H) = LxxLyy - Lxy² > 0  → blob point
+  Affine shape estimated from second-moment matrix</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Scale-Space & Image Pyramids</div>
+      <p>A <strong>Gaussian pyramid</strong> downsamples the image repeatedly (by factor 2) at increasing σ. A <strong>DoG pyramid</strong> subtracts adjacent Gaussian levels. Keypoints detected as extrema across these layers are <em>inherently scale-invariant</em>. For a product at 3× zoom, it will produce a keypoint at a different pyramid level, but the same normalized descriptor — enabling cross-scale matching.</p>
+      <div class="formula-box">Image Pyramid:  I₀ → I₁ → I₂ → ... Iₙ
+  where Iₖ = ↓2(G * Iₖ₋₁)
+Scale parameter: σₖ = σ₀ · 2^(k/s)  (s = octave subdivisions)</div>
+    </div>
+
+    <div class="verdict">Selected Combination: Hessian-Affine (detector) + SIFT (descriptor)</div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Full scale + rotation + affine invariance</li>
+          <li>High repeatability in cluttered scenes</li>
+          <li>128-d descriptor very discriminative</li>
+          <li>RANSAC removes false matches</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>SIFT is patented (use SIFT-like implementations)</li>
+          <li>Slow on mobile (use SURF or ORB for speed)</li>
+          <li>Fails with texture-less surfaces</li>
+          <li>High memory for 128-d vectors</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q4 ═══════════════ -->
+<div class="q-card" id="q4">
+  <div class="q-header">
+    <div class="q-num">4</div>
+    <div class="q-title">Thermal image defect segmentation — explain Region Growing with seed selection, similarity threshold, and connectivity.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>A thermal image shows an industrial component where a defective region has <em>elevated intensity variations</em> and moderate noise. A few pixel coordinates inside the defect are known (seeds). Objective: segment the entire defective region.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 760 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="110" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="60" y="43" text-anchor="middle" fill="#e6edf3" font-size="11" font-weight="600">Thermal Image</text>
+          <text x="60" y="57" text-anchor="middle" fill="#8b949e" font-size="9">I(x,y)</text>
+          <polygon points="120,45 133,45 133,50 140,42.5 133,35 133,40 120,40" fill="#ffa657"/>
+          <rect x="143" y="22" width="120" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="203" y="40" text-anchor="middle" fill="#ffa657" font-size="11" font-weight="600">Seed Selection</text>
+          <text x="203" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Known defect pixels</text>
+          <polygon points="268,45 281,45 281,50 288,42.5 281,35 281,40 268,40" fill="#ffa657"/>
+          <rect x="291" y="22" width="120" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="351" y="40" text-anchor="middle" fill="#d2a8ff" font-size="11" font-weight="600">Similarity Check</text>
+          <text x="351" y="54" text-anchor="middle" fill="#8b949e" font-size="9">|I(p) - I(seed)| &lt; T</text>
+          <polygon points="416,45 429,45 429,50 436,42.5 429,35 429,40 416,40" fill="#d2a8ff"/>
+          <rect x="439" y="22" width="120" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="499" y="40" text-anchor="middle" fill="#79c0ff" font-size="11" font-weight="600">Region Grow</text>
+          <text x="499" y="54" text-anchor="middle" fill="#8b949e" font-size="9">8-neighbour BFS</text>
+          <polygon points="564,45 577,45 577,50 584,42.5 577,35 577,40 564,40" fill="#58a6ff"/>
+          <rect x="587" y="22" width="120" height="46" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="647" y="40" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="600">Defect Mask</text>
+          <text x="647" y="54" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="600">Segmented</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Region Growing — Algorithm</div>
+      <div class="formula-box">ALGORITHM: Region Growing
+───────────────────────────────
+Input:  Image I, Seed pixels S = {s₁, s₂, ..., sₙ}, Threshold T
+Output: Region R (set of pixels belonging to defect)
+
+1. Initialize: R = S, Queue Q = S
+2. While Q not empty:
+   a. Dequeue pixel p
+   b. For each neighbour n ∈ N(p):      [4 or 8-connectivity]
+      If n ∉ R AND |I(n) - mean(R)| < T:
+         Add n to R
+         Enqueue n in Q
+3. Return R as segmented defect region</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Role of Each Parameter</div>
+      <div class="stages">
+        <div class="stage">
+          <div class="stage-num" style="background:#ffa657">S</div>
+          <div class="stage-body">
+            <h4>Seed Selection</h4>
+            <p>Seeds should lie clearly inside the defective region — not near boundaries. Poor seeds (near edges or normal tissue) cause region leakage into the non-defective area. In this problem, the "few known pixels" are the seeds. For robustness, multiple seeds are preferred.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num" style="background:#d2a8ff">T</div>
+          <div class="stage-body">
+            <h4>Similarity Threshold T</h4>
+            <p><strong>T too small:</strong> Under-segmentation — defect not fully captured. <strong>T too large:</strong> Over-segmentation (leakage into healthy area). Optimal T is chosen by analysing the intensity histogram of the defect vs background. Typical thermal: T ≈ 5–15 intensity units.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num" style="background:#58a6ff">N</div>
+          <div class="stage-body">
+            <h4>Neighbourhood Connectivity</h4>
+            <p><strong>4-connectivity</strong> (up/down/left/right): Stricter, fewer diagonal leakages. <strong>8-connectivity</strong> (includes diagonals): Captures more irregular defect shapes. For industrial thermal defects with irregular boundaries, <em>8-connectivity is preferred</em>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Mathematical Principle</div>
+      <div class="formula-box">Homogeneity criterion:
+  H(R) = True if: |I(p) - μ_R| < T  for all p in R
+
+Where:  μ_R = (1/|R|) Σ I(p)  [running mean of region]
+        T = user-defined or Otsu-estimated threshold
+
+Connectivity:
+  4-neighbourhood: N₄(p) = {(x±1,y), (x,y±1)}
+  8-neighbourhood: N₈(p) = N₄(p) ∪ {(x±1,y±1)}</div>
+    </div>
+
+    <div class="verdict">Region Growing is ideal here — known seeds provide exact starting points</div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Simple and intuitive algorithm</li>
+          <li>Works well with given seed pixels</li>
+          <li>Captures irregular defect shapes</li>
+          <li>Low computational complexity O(N)</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Sensitive to threshold T choice</li>
+          <li>Leaks through weak boundaries</li>
+          <li>Noise causes erratic growth</li>
+          <li>Requires pre-smoothing for noisy thermal images</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q5 ═══════════════ -->
+<div class="q-card" id="q5">
+  <div class="q-header">
+    <div class="q-num">5</div>
+    <div class="q-title">Agricultural leaf disease segmentation — hybrid: Region Growing + Edge + Graph-Cut. Interactive user-guided approach.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>A leaf image has noise, non-uniform illumination (veins cast shadows), and weak/diffuse disease boundaries. A purely automatic method fails — an interactive hybrid is needed.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Hybrid Pipeline (Ordered Sequence)</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 920 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="100" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="55" y="40" text-anchor="middle" fill="#e6edf3" font-size="10" font-weight="600">Leaf Image</text>
+          <text x="55" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Noisy input</text>
+          <polygon points="110,45 123,45 123,50 130,42.5 123,35 123,40 110,40" fill="#ffa657"/>
+
+          <rect x="133" y="22" width="110" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="188" y="40" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">Pre-process</text>
+          <text x="188" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Denoise + EQ</text>
+          <polygon points="248,45 261,45 261,50 268,42.5 261,35 261,40 248,40" fill="#ffa657"/>
+
+          <rect x="271" y="22" width="120" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="331" y="37" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">User Seeds</text>
+          <text x="331" y="50" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">(Scribbles)</text>
+          <text x="331" y="63" text-anchor="middle" fill="#8b949e" font-size="9">FG + BG labels</text>
+          <polygon points="396,45 409,45 409,50 416,42.5 409,35 409,40 396,40" fill="#ffa657"/>
+
+          <rect x="419" y="22" width="110" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="474" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">Region Growing</text>
+          <text x="474" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Coarse region</text>
+          <polygon points="534,45 547,45 547,50 554,42.5 547,35 547,40 534,40" fill="#d2a8ff"/>
+
+          <rect x="557" y="22" width="100" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="607" y="40" text-anchor="middle" fill="#79c0ff" font-size="10" font-weight="600">Edge Canny</text>
+          <text x="607" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Boundary hint</text>
+          <polygon points="662,45 675,45 675,50 682,42.5 675,35 675,40 662,40" fill="#58a6ff"/>
+
+          <rect x="685" y="22" width="100" height="46" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="735" y="40" text-anchor="middle" fill="#f78166" font-size="10" font-weight="600">Graph-Cut</text>
+          <text x="735" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Refine boundary</text>
+          <polygon points="790,45 803,45 803,50 810,42.5 803,35 803,40 790,40" fill="#f78166"/>
+
+          <rect x="813" y="22" width="100" height="46" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="863" y="40" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Disease</text>
+          <text x="863" y="54" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Mask</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Order & Justification of Each Stage</div>
+      <div class="stages">
+        <div class="stage">
+          <div class="stage-num">1</div>
+          <div class="stage-body">
+            <h4>Pre-processing (Gaussian + CLAHE)</h4>
+            <p>Reduce noise (Gaussian blur σ=1) and correct non-uniform illumination using CLAHE (Contrast Limited Adaptive Histogram Equalization). This ensures that intensity-based methods (Region Growing, Graph-Cut) work on a normalised image.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">2</div>
+          <div class="stage-body">
+            <h4>User Seeds / Scribbles (Interactive Input)</h4>
+            <p>The user draws green strokes on diseased areas (<strong>foreground seeds</strong>) and red strokes on healthy leaf (<strong>background seeds</strong>). These provide class likelihood information: P(FG | pixel), P(BG | pixel).</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">3</div>
+          <div class="stage-body">
+            <h4>Region Growing (Coarse Segmentation)</h4>
+            <p>Starting from foreground seeds, grow a coarse region using intensity similarity. This produces a rough mask of the diseased area quickly and efficiently, before expensive Graph-Cut is applied.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">4</div>
+          <div class="stage-body">
+            <h4>Canny Edge Detection (Boundary Constraint)</h4>
+            <p>Compute edge image using Canny. These edges act as <em>boundary cues</em> for Graph-Cut — strong edges carry high edge-weight penalties that prevent the min-cut from crossing real boundaries.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">5</div>
+          <div class="stage-body">
+            <h4>Graph-Cut (Fine Refinement)</h4>
+            <p>Build a graph where every pixel is a node. Source = FG seed terminal, Sink = BG seed terminal. Edge weights encode: <em>regional term</em> (colour likelihood from GMM) + <em>boundary term</em> (Canny edge magnitude). Min s-t cut = optimal segmentation boundary.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Mathematical Principle — Graph-Cut</div>
+      <div class="formula-box">Energy function to minimise:
+  E(f) = Σ_p  D_p(f_p)  +  λ · Σ_{p,q} V_{pq}(f_p, f_q)
+         [regional term]        [boundary smoothness term]
+
+Where:
+  D_p(FG) = -log P(I_p | FG)   [GMM likelihood from seeds]
+  D_p(BG) = -log P(I_p | BG)
+  V_{pq}  = exp(-||I_p - I_q||² / 2σ²) · [f_p ≠ f_q]
+           (high weight at edges → discourages cuts)
+
+Min-cut = solution f* that minimises E(f)</div>
+    </div>
+
+    <div class="verdict">Hybrid: Region Growing → Edge Detection → Graph-Cut gives optimal results</div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>User seeds guide ambiguous regions</li>
+          <li>Graph-Cut produces globally optimal boundary</li>
+          <li>Edge term prevents boundary leakage</li>
+          <li>Handles non-uniform illumination</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Graph-Cut is O(V·E) — slow for high-res images</li>
+          <li>Requires user interaction (not fully automatic)</li>
+          <li>GMM must be estimated from sufficient seeds</li>
+          <li>Weak edges still cause boundary leakage</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q6 ═══════════════ -->
+<div class="q-card" id="q6">
+  <div class="q-header">
+    <div class="q-num">6</div>
+    <div class="q-title">Satellite image flood segmentation — hybrid: Region Growing + Edge-based + Graph-Cut. Role of seeds; reduce leakage.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>A satellite image contains flooded (water) and non-flooded regions. Water pixels have characteristic low-reflectance (dark) intensity in NIR channel. Problems: noise, partial cloud shadow, blurred coastline boundaries. Incorrect segmentation is catastrophically wrong for disaster response.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Hybrid Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 760 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="95" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="52" y="40" text-anchor="middle" fill="#e6edf3" font-size="10" font-weight="600">Satellite</text>
+          <text x="52" y="54" text-anchor="middle" fill="#8b949e" font-size="9">NIR/RGB band</text>
+          <polygon points="105,45 118,45 118,50 125,42.5 118,35 118,40 105,40" fill="#58a6ff"/>
+          <rect x="128" y="22" width="110" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="183" y="40" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">Seed Points</text>
+          <text x="183" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Known flood pixels</text>
+          <polygon points="243,45 256,45 256,50 263,42.5 256,35 256,40 243,40" fill="#ffa657"/>
+          <rect x="266" y="22" width="120" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="326" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">Region Growing</text>
+          <text x="326" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Initial flood mask</text>
+          <polygon points="391,45 404,45 404,50 411,42.5 404,35 404,40 391,40" fill="#d2a8ff"/>
+          <rect x="414" y="22" width="110" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="469" y="40" text-anchor="middle" fill="#79c0ff" font-size="10" font-weight="600">LoG/Canny</text>
+          <text x="469" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Edge boundary</text>
+          <polygon points="529,45 542,45 542,50 549,42.5 542,35 542,40 529,40" fill="#58a6ff"/>
+          <rect x="552" y="22" width="100" height="46" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="602" y="40" text-anchor="middle" fill="#f78166" font-size="10" font-weight="600">Graph-Cut</text>
+          <text x="602" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Refine</text>
+          <polygon points="657,45 670,45 670,50 677,42.5 670,35 670,40 657,40" fill="#f78166"/>
+          <rect x="680" y="22" width="75" height="46" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="717" y="40" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Flood</text>
+          <text x="717" y="54" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Map</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Sequence & Role of Each Stage</div>
+      <table class="cmp-table">
+        <thead><tr><th>Stage</th><th>Method</th><th>Role</th><th>Output</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Gaussian Denoising</td><td>Suppress speckle/atmospheric noise</td><td>Smoothed image</td></tr>
+          <tr><td>2</td><td>Seed Points (NDWI &gt; 0 pixels)</td><td>Identify initial water pixels using spectral index</td><td>Seed set S</td></tr>
+          <tr><td>3</td><td>Region Growing</td><td>Expand flood region from seeds using intensity homogeneity</td><td>Coarse flood mask</td></tr>
+          <tr><td>4</td><td>Edge Detection (LoG/Canny)</td><td>Detect shoreline/boundary cues to constrain growth</td><td>Edge map</td></tr>
+          <tr class="highlight"><td>5</td><td>Graph-Cut</td><td>Globally optimise boundary using edges + intensity priors</td><td>Final flood mask</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Seed Points Strategy</div>
+      <p>In satellite imagery, <strong>NDWI (Normalized Difference Water Index)</strong> is used to auto-generate seeds:</p>
+      <div class="formula-box">NDWI = (Green - NIR) / (Green + NIR)
+Seed pixels: all (x,y) where NDWI > 0 AND confidence high (central flood zone)
+These avoid boundary ambiguity and reduce leakage risk</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">How Combined Approach Reduces Leakage</div>
+      <ul class="bullets">
+        <li><strong>Region Growing alone</strong> leaks through weak shoreline boundaries into adjacent shadow areas (similar intensity to water)</li>
+        <li><strong>Edge detection</strong> adds explicit boundary where Region Growing would leak — acts as a stopping criterion</li>
+        <li><strong>Graph-Cut</strong> adds a global energy term that simultaneously penalises crossing strong edges and deviating from seed colour model — prevents both leakage and under-segmentation</li>
+        <li><strong>Combined:</strong> Region Growing gives fast coarse mask → Edge gives boundary map → Graph-Cut refines to pixel-precise boundary</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Mathematical Principle</div>
+      <div class="formula-box">Region Growing stop condition:
+  |I(n) - μ_flood| > T  →  stop (boundary found)
+
+Graph-Cut boundary term enhanced by edges:
+  V_{pq} = exp(-‖I_p - I_q‖²/2σ²) + α · E_{pq}
+  where E_{pq} = Canny edge magnitude between p and q
+  → High E_{pq} makes cutting between p,q very expensive
+  → Min-cut automatically follows the detected edge</div>
+    </div>
+
+    <div class="verdict">Hybrid approach with NDWI seeds + Region Growing + LoG edges + Graph-Cut</div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>NDWI seeds are domain-informed, reliable</li>
+          <li>Dramatically reduces region leakage</li>
+          <li>Graph-Cut gives globally optimal segmentation</li>
+          <li>Applicable to large-scale disaster mapping</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Graph-Cut expensive for large satellite images</li>
+          <li>Cloud shadow misidentified as water</li>
+          <li>NDWI inaccurate for turbid/shallow water</li>
+          <li>Requires multi-spectral (NIR) bands</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q7 ═══════════════ -->
+<div class="q-card" id="q7">
+  <div class="q-header">
+    <div class="q-num">7</div>
+    <div class="q-title">Manufacturing plant anomaly detection — K-Medoids/GMM clustering + Bayes/KNN/ANN classifier + discriminant function. Limited labelled data.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>High-dimensional sensor measurements (vibration, temperature, current) with <em>very few labelled anomaly samples</em>. Need: (a) unsupervised clustering, (b) semi-supervised classification, (c) anomaly scoring via discriminant functions.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Full Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 870 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="100" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="55" y="40" text-anchor="middle" fill="#e6edf3" font-size="10" font-weight="600">Sensor Data</text>
+          <text x="55" y="54" text-anchor="middle" fill="#8b949e" font-size="9">High-dim vectors</text>
+          <polygon points="110,45 123,45 123,50 130,42.5 123,35 123,40 110,40" fill="#58a6ff"/>
+          <rect x="133" y="22" width="110" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="188" y="40" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">Normalise</text>
+          <text x="188" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Z-score / MinMax</text>
+          <polygon points="248,45 261,45 261,50 268,42.5 261,35 261,40 248,40" fill="#ffa657"/>
+          <rect x="271" y="22" width="110" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="326" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">GMM Cluster</text>
+          <text x="326" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Discover groups</text>
+          <polygon points="386,45 399,45 399,50 406,42.5 399,35 399,40 386,40" fill="#d2a8ff"/>
+          <rect x="409" y="22" width="110" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="464" y="40" text-anchor="middle" fill="#79c0ff" font-size="10" font-weight="600">Semi-supervised</text>
+          <text x="464" y="54" text-anchor="middle" fill="#8b949e" font-size="9">KNN / ANN</text>
+          <polygon points="524,45 537,45 537,50 544,42.5 537,35 537,40 524,40" fill="#58a6ff"/>
+          <rect x="547" y="22" width="120" height="46" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="607" y="40" text-anchor="middle" fill="#f78166" font-size="10" font-weight="600">Discriminant</text>
+          <text x="607" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Anomaly score</text>
+          <polygon points="672,45 685,45 685,50 692,42.5 685,35 685,40 672,40" fill="#f78166"/>
+          <rect x="695" y="22" width="110" height="46" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="750" y="40" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Alert / Normal</text>
+          <text x="750" y="54" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Decision</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Part (a) — K-Medoids vs GMM</div>
+      <table class="cmp-table">
+        <thead><tr><th>Property</th><th>K-Medoids</th><th>GMM (EM)</th></tr></thead>
+        <tbody>
+          <tr><td>Cluster shape</td><td>Spherical (like K-means)</td><td>Arbitrary (elliptical covariance)</td></tr>
+          <tr><td>Outlier robustness</td><td>Excellent (uses actual data points as centres)</td><td>Moderate</td></tr>
+          <tr><td>Soft assignments</td><td>No (hard)</td><td>Yes (posterior probabilities)</td></tr>
+          <tr><td>Handles noise</td><td>Better than K-means</td><td>Can if initialised well</td></tr>
+          <tr class="highlight"><td>Best here?</td><td>For robust initial grouping</td><td><strong>✓ For probabilistic model of normal behaviour</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;"><strong>GMM is preferred</strong> because it gives P(x | cluster k) — this probability directly feeds into the anomaly discriminant function.</p>
+      <div class="formula-box">GMM: P(x) = Σₖ πₖ · N(x | μₖ, Σₖ)
+EM:
+  E-step: γ(z_nk) = πₖN(xₙ|μₖ,Σₖ) / Σⱼ πⱼN(xₙ|μⱼ,Σⱼ)
+  M-step: μₖ = Σₙ γ(z_nk)xₙ / Nₖ</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Part (b) — Classifier Selection</div>
+      <table class="cmp-table">
+        <thead><tr><th>Classifier</th><th>Bayes</th><th>KNN</th><th>ANN</th></tr></thead>
+        <tbody>
+          <tr><td>Labelled data needed</td><td>Low (model-based)</td><td>Moderate</td><td>High</td></tr>
+          <tr><td>Semi-supervised?</td><td>Partially</td><td>Yes (label propagation)</td><td>Yes (self-supervised)</td></tr>
+          <tr><td>With few anomaly labels</td><td>Overfits to majority class</td><td>✓ Works well</td><td>Needs more data</td></tr>
+          <tr class="highlight"><td>Recommendation</td><td>Baseline only</td><td><strong>✓ Best here</strong></td><td>If more data available</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;"><strong>KNN is selected</strong> — because it is non-parametric (no assumption on distribution), and with GMM-reduced features, K=3 or K=5 can effectively identify anomalies by comparing a new sample to its K nearest neighbours in feature space. Abnormal samples will have K nearest neighbours that are all normal (large distance) or clustered in anomaly space.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Part (c) — Discriminant Function + Outlier Effect</div>
+      <div class="formula-box">Linear Discriminant:
+  g(x) = wᵀx + w₀
+  Class 1 (anomaly) if g(x) > 0, else Class 0 (normal)
+
+Probabilistic Discriminant (Bayes optimal):
+  g(x) = log[P(x|anomaly) · P(anomaly)] - log[P(x|normal) · P(normal)]
+  Anomaly if g(x) > threshold δ
+
+GMM-based anomaly score:
+  A(x) = -log P(x)  =  -log Σₖ πₖ N(x | μₖ, Σₖ)
+  High A(x) → x is anomalous (low likelihood under normal model)</div>
+      <p><strong>Effect of Outliers:</strong> Outliers in training data <em>shift the mean μ and inflate covariance Σ</em> of GMM components, causing the normal model to appear broader — this reduces sensitivity to anomalies. K-Medoids is preferred for initialising GMM when outliers are present, since medoids are robust to extreme values.</p>
+    </div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>GMM models sensor distributions probabilistically</li>
+          <li>KNN works well with very few labels</li>
+          <li>Discriminant gives interpretable score</li>
+          <li>Semi-supervised exploits unlabelled data</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>GMM sensitive to #components (K)</li>
+          <li>KNN is O(N) per query in high dimensions</li>
+          <li>Discriminant fails if classes overlap</li>
+          <li>Outliers corrupt covariance estimates</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q8 ═══════════════ -->
+<div class="q-card" id="q8">
+  <div class="q-header">
+    <div class="q-num">8</div>
+    <div class="q-title">Video analysis — PCA/LDA/ICA dimensionality reduction + non-parametric method + Background Subtraction + Optical Flow for tracking.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>High-dimensional visual features (HOG, colour histograms) from a fixed-camera scene. Need to reduce dimensions, then track moving objects using background modelling and optical flow.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Complete Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 920 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="85" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="47" y="40" text-anchor="middle" fill="#e6edf3" font-size="10" font-weight="600">Video</text>
+          <text x="47" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Frame stream</text>
+          <polygon points="95,45 108,45 108,50 115,42.5 108,35 108,40 95,40" fill="#58a6ff"/>
+          <rect x="118" y="22" width="110" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="173" y="40" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">Feature Extraction</text>
+          <text x="173" y="54" text-anchor="middle" fill="#8b949e" font-size="9">HOG, colour, etc.</text>
+          <polygon points="233,45 246,45 246,50 253,42.5 246,35 246,40 233,40" fill="#ffa657"/>
+          <rect x="256" y="22" width="90" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="301" y="40" text-anchor="middle" fill="#79c0ff" font-size="10" font-weight="600">PCA</text>
+          <text x="301" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Dim reduction</text>
+          <polygon points="351,45 364,45 364,50 371,42.5 364,35 364,40 351,40" fill="#58a6ff"/>
+          <rect x="374" y="22" width="90" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="419" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">KNN</text>
+          <text x="419" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Classification</text>
+          <polygon points="469,45 482,45 482,50 489,42.5 482,35 482,40 469,40" fill="#d2a8ff"/>
+          <rect x="492" y="22" width="120" height="46" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="552" y="40" text-anchor="middle" fill="#f78166" font-size="10" font-weight="600">BG Subtraction</text>
+          <text x="552" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Moving mask</text>
+          <polygon points="617,45 630,45 630,50 637,42.5 630,35 630,40 617,40" fill="#f78166"/>
+          <rect x="640" y="22" width="110" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="695" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">Optical Flow</text>
+          <text x="695" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Motion vectors</text>
+          <polygon points="755,45 768,45 768,50 775,42.5 768,35 768,40 755,40" fill="#d2a8ff"/>
+          <rect x="778" y="22" width="120" height="46" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="838" y="40" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Tracked Object</text>
+          <text x="838" y="54" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">+ Direction</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Dimensionality Reduction — PCA vs LDA vs ICA</div>
+      <table class="cmp-table">
+        <thead><tr><th>Method</th><th>Objective</th><th>Supervised?</th><th>Output</th></tr></thead>
+        <tbody>
+          <tr><td>PCA</td><td>Maximise variance (compress data)</td><td>No</td><td>Uncorrelated components</td></tr>
+          <tr><td>LDA</td><td>Maximise class separability</td><td>Yes</td><td>Discriminant axes</td></tr>
+          <tr><td>ICA</td><td>Statistical independence of sources</td><td>No</td><td>Independent sources</td></tr>
+          <tr class="highlight"><td><strong>Select: PCA</strong></td><td>No class labels needed in video</td><td>No</td><td>Low-dim variance-rich features</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px;"><strong>PCA selected</strong> because video feature extraction is unsupervised (no object labels per frame), and PCA efficiently retains variance-rich features while reducing computation for downstream KNN.</p>
+      <div class="formula-box">PCA:
+  Covariance: C = (1/N) Σᵢ (xᵢ - μ)(xᵢ - μ)ᵀ
+  Eigenvectors: C·v = λ·v
+  Project: y = Vₖᵀ(x - μ)   [Vₖ = top k eigenvectors]
+
+Computational effect:
+  Original: d = 1000 → PCA → k = 50 dimensions
+  KNN distance: O(d·N) → O(k·N)   [20× speedup]</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Background Subtraction</div>
+      <p>A background model B(x,y) is estimated from static frames (Gaussian Mixture Model per pixel — MOG2). For each new frame I_t:</p>
+      <div class="formula-box">Foreground mask:
+  F(x,y) = 1  if |I_t(x,y) - B(x,y)| > τ
+            0  otherwise
+
+MOG2 adapts: B(x,y) updated incrementally
+  B_new = α · I_t + (1-α) · B_old   [α = learning rate ≈ 0.01]</div>
+      <p>Output: Binary foreground mask showing moving objects (people, vehicles).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Optical Flow — Motion from Consecutive Frames</div>
+      <p><strong>Lucas-Kanade Optical Flow</strong> estimates per-pixel velocity vector (u,v) assuming brightness constancy:</p>
+      <div class="formula-box">Brightness constancy:
+  I(x,y,t) = I(x+u, y+v, t+1)
+
+Taylor expansion → optical flow equation:
+  Ix·u + Iy·v + It = 0   [one equation, two unknowns]
+
+Lucas-Kanade (local window W):
+  [Σ Ix²    Σ IxIy] [u]   [-Σ IxIt]
+  [Σ IxIy  Σ Iy² ] [v] = [-Σ IyIt]
+  
+  Solved if AᵀA is non-singular (Harris condition!)
+Direction of motion: θ = arctan(v/u),  Speed = √(u²+v²)</div>
+    </div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>PCA dramatically reduces KNN cost</li>
+          <li>MOG2 handles gradual illumination change</li>
+          <li>LK flow gives dense motion vectors</li>
+          <li>Combined: robust detection + trajectory</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>PCA may discard discriminative info (LDA better if labels exist)</li>
+          <li>BG subtraction fails if camera moves</li>
+          <li>LK flow fails at large displacements</li>
+          <li>Shadows cause false positives in BG mask</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q9 ═══════════════ -->
+<div class="q-card" id="q9">
+  <div class="q-header">
+    <div class="q-num">9</div>
+    <div class="q-title">Surveillance — PCA/LDA/ICA + KNN on reduced features + BG Subtraction + Optical Flow to detect and track moving people.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>A surveillance camera sees many people. System must (a) reduce feature dimensions, (b) classify with KNN, (c) use BG subtraction and optical flow together to detect and track people.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 760 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="90" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="50" y="40" text-anchor="middle" fill="#e6edf3" font-size="10" font-weight="600">Surveillance</text>
+          <text x="50" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Video frames</text>
+          <polygon points="100,45 113,45 113,50 120,42.5 113,35 113,40 100,40" fill="#58a6ff"/>
+          <rect x="123" y="22" width="100" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="173" y="40" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">HOG Features</text>
+          <text x="173" y="54" text-anchor="middle" fill="#8b949e" font-size="9">High-dim</text>
+          <polygon points="228,45 241,45 241,50 248,42.5 241,35 241,40 228,40" fill="#ffa657"/>
+          <rect x="251" y="22" width="90" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="296" y="40" text-anchor="middle" fill="#79c0ff" font-size="10" font-weight="600">LDA/PCA</text>
+          <text x="296" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Reduce dim</text>
+          <polygon points="346,45 359,45 359,50 366,42.5 359,35 359,40 346,40" fill="#58a6ff"/>
+          <rect x="369" y="22" width="90" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="414" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">KNN</text>
+          <text x="414" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Person ID</text>
+          <polygon points="464,45 477,45 477,50 484,42.5 477,35 477,40 464,40" fill="#d2a8ff"/>
+          <rect x="487" y="22" width="100" height="46" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="537" y="40" text-anchor="middle" fill="#f78166" font-size="10" font-weight="600">BG Subtract</text>
+          <text x="537" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Detect people</text>
+          <polygon points="592,45 605,45 605,50 612,42.5 605,35 605,40 592,40" fill="#f78166"/>
+          <rect x="615" y="22" width="100" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="665" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">Optical Flow</text>
+          <text x="665" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Track motion</text>
+          <polygon points="720,45 733,45 733,50 740,42.5 733,35 733,40 720,40" fill="#d2a8ff"/>
+          <rect x="743" y="22" width="12" height="46" rx="3" fill="#0d2818" stroke="#3fb950"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Part (a) — Dimensionality Reduction</div>
+      <p><strong>LDA is preferred here</strong> because surveillance has labelled person identities (multiple people tracked with IDs). LDA maximises the ratio of between-class to within-class scatter — better for re-identification tasks.</p>
+      <div class="formula-box">LDA Objective:
+  Maximize: J(W) = |WᵀS_B W| / |WᵀS_W W|
+
+  S_B = Σₖ Nₖ (μₖ - μ)(μₖ - μ)ᵀ  [Between-class scatter]
+  S_W = Σₖ Σ_{xᵢ∈Cₖ} (xᵢ - μₖ)(xᵢ - μₖ)ᵀ  [Within-class scatter]
+
+  Solution: W = S_W⁻¹ · S_B eigenvectors (top c-1 for c classes)</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Part (b) — KNN on Reduced Features</div>
+      <p>After LDA, each person's feature vector lives in a (c−1)-dimensional space. KNN assigns the class of the K nearest training vectors by Euclidean distance.</p>
+      <div class="formula-box">KNN Decision:
+  d(x, xᵢ) = ‖y - yᵢ‖₂   [distance in reduced space y = Wᵀx]
+  Class = mode of labels of K nearest neighbours
+
+Computational cost comparison:
+  Without reduction: O(N · d)  where d = 1000+
+  After LDA (dim = c-1 ≈ 10-20): O(N · (c-1))
+  Speedup: d/(c-1) ≈ 50-100× faster per query</div>
+      <p>KNN with reduced features also has <em>lower curse of dimensionality</em> — distances become more meaningful in low-dimensional LDA space.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Part (c) — BG Subtraction + Optical Flow Together</div>
+      <div class="stages">
+        <div class="stage">
+          <div class="stage-num" style="background:#f78166">BG</div>
+          <div class="stage-body">
+            <h4>Background Subtraction — Detect Who is Moving</h4>
+            <p>MOG2 models each pixel as a mixture of Gaussians. Pixels that deviate from background model are marked as foreground → gives binary blobs indicating person positions. Morphological operations (erosion/dilation) clean up the mask.</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="stage-num" style="background:#d2a8ff">OF</div>
+          <div class="stage-body">
+            <h4>Optical Flow — Estimate Direction &amp; Speed</h4>
+            <p>Applied to foreground regions only (mask restricts computation). Dense Farnebäck or sparse Lucas-Kanade flow gives velocity vectors (u,v) per foreground pixel. Mean vector over a person-blob = their direction and speed. Multiple people → separate blob clusters → separate flow vectors.</p>
+          </div>
+        </div>
+      </div>
+      <div class="formula-box">Combined usage:
+  1. BG mask M_t = BG_subtract(I_t, B)
+  2. Detect person blobs: B_1, B_2, ... via connected components on M_t
+  3. For each blob Bᵢ:
+     (u,v) = mean LK flow over Bᵢ pixels
+     direction θᵢ = arctan(vᵢ/uᵢ)
+     speed     sᵢ = √(uᵢ² + vᵢ²)
+  4. Track blob Bᵢ across frames → trajectory</div>
+    </div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>LDA gives class-discriminative reduction</li>
+          <li>BG subtraction is computationally cheap</li>
+          <li>Optical flow gives per-person direction</li>
+          <li>Combined: detection + identity + motion</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>LDA needs class labels (not always available)</li>
+          <li>BG model fails if people stand still</li>
+          <li>Crowded scenes: blob merging problem</li>
+          <li>LK flow fails with fast motion</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ Q10 ═══════════════ -->
+<div class="q-card" id="q10">
+  <div class="q-header">
+    <div class="q-num">10</div>
+    <div class="q-title">Industrial inspection — Scale-Space + Gabor/DWT + SIFT/SURF/HOG for defect detection. Compare vs edge/line detector.</div>
+    <div class="q-marks">10 Marks</div>
+  </div>
+  <div class="q-body">
+
+    <div class="section">
+      <div class="section-label">Problem</div>
+      <p>Scratches and textured defects vary in size (micro to macro) and orientation (0°–180°). A single-scale, single-direction filter will miss many defects. Multi-scale, multi-orientation analysis is essential.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label green">Hybrid Pipeline</div>
+      <div class="pipeline-wrap">
+        <svg class="pipeline" viewBox="0 0 900 90" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+          <rect x="5" y="22" width="90" height="46" rx="6" fill="#1c2128" stroke="#30363d"/>
+          <text x="50" y="40" text-anchor="middle" fill="#e6edf3" font-size="10" font-weight="600">Component</text>
+          <text x="50" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Image input</text>
+          <polygon points="100,45 113,45 113,50 120,42.5 113,35 113,40 100,40" fill="#58a6ff"/>
+          <rect x="123" y="22" width="110" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="178" y="40" text-anchor="middle" fill="#79c0ff" font-size="10" font-weight="600">Scale-Space</text>
+          <text x="178" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Gaussian pyramid</text>
+          <polygon points="238,45 251,45 251,50 258,42.5 251,35 251,40 238,40" fill="#58a6ff"/>
+          <rect x="261" y="22" width="110" height="46" rx="6" fill="#21133a" stroke="#d2a8ff"/>
+          <text x="316" y="40" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="600">Gabor Filters</text>
+          <text x="316" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Multi-orientation</text>
+          <polygon points="376,45 389,45 389,50 396,42.5 389,35 389,40 376,40" fill="#d2a8ff"/>
+          <rect x="399" y="22" width="90" height="46" rx="6" fill="#2a1a00" stroke="#ffa657"/>
+          <text x="444" y="40" text-anchor="middle" fill="#ffa657" font-size="10" font-weight="600">DWT</text>
+          <text x="444" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Multi-res texture</text>
+          <polygon points="494,45 507,45 507,50 514,42.5 507,35 507,40 494,40" fill="#ffa657"/>
+          <rect x="517" y="22" width="100" height="46" rx="6" fill="#1e3a5f" stroke="#58a6ff"/>
+          <text x="567" y="40" text-anchor="middle" fill="#79c0ff" font-size="10" font-weight="600">SIFT / HOG</text>
+          <text x="567" y="54" text-anchor="middle" fill="#8b949e" font-size="9">Keypoint desc.</text>
+          <polygon points="622,45 635,45 635,50 642,42.5 635,35 635,40 622,40" fill="#58a6ff"/>
+          <rect x="645" y="22" width="90" height="46" rx="6" fill="#2d1208" stroke="#f78166"/>
+          <text x="690" y="40" text-anchor="middle" fill="#f78166" font-size="10" font-weight="600">Classifier</text>
+          <text x="690" y="54" text-anchor="middle" fill="#8b949e" font-size="9">SVM / ANN</text>
+          <polygon points="740,45 753,45 753,50 760,42.5 753,35 753,40 740,40" fill="#f78166"/>
+          <rect x="763" y="22" width="120" height="46" rx="6" fill="#0d2818" stroke="#3fb950"/>
+          <text x="823" y="40" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">Defect Location</text>
+          <text x="823" y="54" text-anchor="middle" fill="#3fb950" font-size="10" font-weight="600">+ Type</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label purple">Part (a) — Scale-Space with Gaussian Pyramid</div>
+      <p>A defect that is 2px wide at full resolution appears as a 1px defect at half resolution — without scale-space, small defects vanish at coarser scales. The Gaussian pyramid creates a stack of smoothed, downsampled images.</p>
+      <div class="formula-box">Gaussian Pyramid:
+  L₀(x,y) = I(x,y)              [original]
+  Lₖ(x,y) = ↓2[G(σ) * Lₖ₋₁(x,y)]    [octave k]
+
+Role of Gaussian smoothing:
+  - Removes high-frequency noise before downsampling
+  - Prevents aliasing (Shannon criterion)
+  - At each level, detector finds defects of different sizes:
+    Level 0 → fine scratches (2-5px)
+    Level 2 → medium defects (8-20px)
+    Level 4 → large delaminations</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label orange">Part (b) — Gabor Filters + DWT</div>
+      <p><strong>Gabor Filters:</strong></p>
+      <div class="formula-box">Gabor filter:
+  g(x,y;λ,θ,σ,γ) = exp(-(x'²+γ²y'²)/2σ²) · cos(2πx'/λ + ψ)
+  where x' = x·cos(θ) + y·sin(θ)
+        y' = -x·sin(θ) + y·cos(θ)
+  
+  λ = wavelength (controls scale of texture)
+  θ = orientation (0°, 45°, 90°, 135°)
+  σ = Gaussian envelope width
+  
+  Apply bank of Gabor filters at 4-8 orientations × 3-4 scales
+  → 12-32 response maps capturing oriented texture energy</div>
+      <p><strong>Discrete Wavelet Transform (DWT):</strong></p>
+      <div class="formula-box">2D DWT decomposes image into 4 sub-bands per level:
+  LL (approx)  | LH (horizontal edges)
+  HL (vertical) | HH (diagonal)
+
+At each resolution level:
+  LH → horizontal scratches
+  HL → vertical scratches  
+  HH → diagonal/cross defects
+
+Multi-level DWT (3 levels) → 10 sub-band feature maps
+Texture anomaly = deviation from expected sub-band statistics</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Part (c) — SIFT Contribution + Comparison</div>
+      <p><strong>Adding SIFT to the pipeline:</strong></p>
+      <ul class="bullets">
+        <li>SIFT detects blob-like defects (pits, bumps) as keypoints in DoG scale-space</li>
+        <li>128-d SIFT descriptor encodes local gradient structure around each defect point</li>
+        <li>Scale and rotation invariant — works even if component is tilted on inspection conveyor</li>
+      </ul>
+      <div class="formula-box">SIFT contribution to pipeline:
+  1. Build DoG pyramid over component image
+  2. Detect keypoints at all scales (extrema)
+  3. Assign dominant gradient orientation → rotation invariant
+  4. Compute 128-d descriptor
+  5. Match against reference (defect-free) template
+     → Unmatched keypoints = defect regions</div>
+
+      <table class="cmp-table" style="margin-top:14px;">
+        <thead><tr><th>Aspect</th><th>Hybrid (Scale-Space + Gabor + DWT + SIFT)</th><th>Edge/Line Detector Only (Canny + Hough)</th></tr></thead>
+        <tbody>
+          <tr><td>Multi-scale</td><td>✓ Yes</td><td>✗ No</td></tr>
+          <tr><td>Multi-orientation</td><td>✓ Yes (Gabor bank)</td><td>Partial (Hough θ)</td></tr>
+          <tr><td>Texture defects</td><td>✓ DWT captures texture anomaly</td><td>✗ Misses textured defects</td></tr>
+          <tr><td>Point defects (pits)</td><td>✓ SIFT detects blobs</td><td>✗ No blob detection</td></tr>
+          <tr><td>Computational cost</td><td>High — many filter banks</td><td>Low — simple convolution</td></tr>
+          <tr class="highlight"><td>Defect recall</td><td>High (misses very few)</td><td>Low (misses textures, small defects)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-label red">Computational Limitation</div>
+      <p>The hybrid approach runs a bank of Gabor filters (e.g., 32 filters), a 3-level DWT, a DoG pyramid, and SIFT descriptor computation for every image. For a 4K resolution component image at 30 fps production line speed, this is computationally prohibitive without GPU acceleration or hardware FPGA implementation. Typical runtime: ~200–500ms per frame on CPU vs 10–20ms with GPU.</p>
+    </div>
+
+    <div class="verdict">Selected: Multi-scale Gabor + DWT + SIFT hybrid — handles all defect types</div>
+
+    <div class="pro-con">
+      <div class="box pro">
+        <h4>Advantages</h4>
+        <ul>
+          <li>Detects defects at all scales simultaneously</li>
+          <li>Gabor captures oriented texture anomalies</li>
+          <li>DWT provides multi-resolution decomposition</li>
+          <li>SIFT adds scale/rotation invariant keypoints</li>
+          <li>High defect recall — critical for safety</li>
+        </ul>
+      </div>
+      <div class="box con">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Very high computational cost</li>
+          <li>Many hyperparameters (λ, θ, σ for Gabor)</li>
+          <li>Needs GPU for real-time production speed</li>
+          <li>Large feature vector → needs dimensionality reduction</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- footer -->
+<div style="text-align:center; padding: 20px 0; color: var(--text3); font-size: 12px;">
+  CAT II Preparation Guide — Computer Vision &amp; ML | VIT Bhopal | 10 Questions × 10 Marks
+</div>
+
+</div>
+</body>
+</html>

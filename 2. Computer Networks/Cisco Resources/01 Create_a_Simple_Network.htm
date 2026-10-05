@@ -1,0 +1,651 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<title>Packet Tracer - Create a Simple Network</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Webdings;
+	panose-1:5 3 1 2 1 5 9 6 7 3;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"\@SimSun";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+h1
+	{mso-style-link:"Heading 1 Char";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.25in;
+	text-indent:-.25in;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:"Arial",sans-serif;}
+h2
+	{mso-style-link:"Heading 2 Char";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Arial",sans-serif;}
+h3
+	{mso-style-link:"Heading 3 Char";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-link:"Header Char";
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-link:"Footer Char";
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	font-size:8.0pt;
+	font-family:"Arial",sans-serif;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-link:"Title Char";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+p.MsoTitleCxSpFirst, li.MsoTitleCxSpFirst, div.MsoTitleCxSpFirst
+	{mso-style-link:"Title Char";
+	margin:0in;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+p.MsoTitleCxSpMiddle, li.MsoTitleCxSpMiddle, div.MsoTitleCxSpMiddle
+	{mso-style-link:"Title Char";
+	margin:0in;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+p.MsoTitleCxSpLast, li.MsoTitleCxSpLast, div.MsoTitleCxSpLast
+	{mso-style-link:"Title Char";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	font-size:16.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-link:"Heading 1";
+	font-weight:bold;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-link:"Heading 2";
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+p.PageHead, li.PageHead, div.PageHead
+	{mso-style-name:"Page Head";
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	border:none;
+	padding:0in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+span.HeaderChar
+	{mso-style-name:"Header Char";
+	mso-style-link:Header;}
+span.FooterChar
+	{mso-style-name:"Footer Char";
+	mso-style-link:Footer;}
+p.TableText, li.TableText, div.TableText
+	{mso-style-name:"Table Text";
+	mso-style-link:"Table Text Char";
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;}
+span.TableTextChar
+	{mso-style-name:"Table Text Char";
+	mso-style-link:"Table Text";}
+p.TableHeading, li.TableHeading, div.TableHeading
+	{mso-style-name:"Table Heading";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:center;
+	line-height:115%;
+	page-break-after:avoid;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+p.Bulletlevel1, li.Bulletlevel1, div.Bulletlevel1
+	{mso-style-name:"Bullet level 1";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.5in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;}
+p.ConfigWindow, li.ConfigWindow, div.ConfigWindow
+	{mso-style-name:"Config Window";
+	margin:0in;
+	font-size:3.0pt;
+	font-family:"Arial",sans-serif;
+	color:white;
+	font-style:italic;}
+p.SubStepAlpha, li.SubStepAlpha, div.SubStepAlpha
+	{mso-style-name:"SubStep Alpha";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.5in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;}
+p.BodyTextL50, li.BodyTextL50, div.BodyTextL50
+	{mso-style-name:"Body Text L50";
+	mso-style-link:"Body Text L50 Char";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.5in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;}
+p.BodyTextL25, li.BodyTextL25, div.BodyTextL25
+	{mso-style-name:"Body Text L25";
+	mso-style-link:"Body Text L25 Char";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.25in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;}
+span.LabTitleInstVersred
+	{mso-style-name:"Lab Title Inst Vers \(red\)";
+	font-family:"Arial",sans-serif;
+	color:#EE0000;
+	font-weight:bold;}
+p.SubStepNum, li.SubStepNum, div.SubStepNum
+	{mso-style-name:"SubStep Num";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.75in;
+	text-indent:-.25in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;}
+p.BodyTextL25Bold, li.BodyTextL25Bold, div.BodyTextL25Bold
+	{mso-style-name:"Body Text L25 Bold";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.25in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	font-weight:bold;}
+span.Heading3Char
+	{mso-style-name:"Heading 3 Char";
+	mso-style-link:"Heading 3";
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+span.TitleChar
+	{mso-style-name:"Title Char";
+	mso-style-link:Title;
+	font-family:SimSun;
+	font-weight:bold;}
+span.BodyTextL25Char
+	{mso-style-name:"Body Text L25 Char";
+	mso-style-link:"Body Text L25";}
+p.TableAnswer, li.TableAnswer, div.TableAnswer
+	{mso-style-name:"Table Answer";
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	font-size:10.0pt;
+	font-family:"Arial",sans-serif;
+	color:white;}
+span.BodyTextL50Char
+	{mso-style-name:"Body Text L50 Char";
+	mso-style-link:"Body Text L50";}
+.MsoChpDefault
+	{font-size:10.0pt;
+	font-family:"Arial",sans-serif;}
+ /* Page Definitions */
+ @page WordSection1
+	{size:8.5in 11.0in;
+	margin:76.3pt .75in .9in .75in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+<script src='fixer.js' type="text/javascript"></script>
+</head>
+
+<body lang=EN-US style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=MsoTitle><span style='color:#EE0000;font-weight:normal'><b><span
+style='color:windowtext'>Packet Tracer - Create a Simple Network</span></b></span></p>
+
+<h1>Objectives</h1>
+
+<p class=BodyTextL25>In this activity, you will build a simple network in
+Packet Tracer in the Logical Workspace.</p>
+
+<p class=BodyTextL25Bold>Part 1: Build a Simple Network</p>
+
+<p class=BodyTextL25Bold>Part 2: Configure the End Devices and Verify
+Connectivity</p>
+
+<h1>Instructions</h1>
+
+<h2 style='margin-left:0in;text-indent:0in'>Part 1: Build a Simple Network</h2>
+
+<p class=BodyTextL25>In this part, you will build a simple network by deploying
+and connecting the network devices in the Logical Workspace.</p>
+
+<h3 style='margin-left:0in;text-indent:0in'>Step 1: Add network devices to the
+workspace.</h3>
+
+<p class=BodyTextL25>In this step, you will add a PC, laptop, and a cable modem
+to the Logical Workspace.</p>
+
+<p class=BodyTextL25>A cable modem is a hardware device that allows
+communications with an Internet Service Provider (ISP). The coaxial cable from
+the ISP is connected to the cable modem, and an Ethernet cable from the local network
+is also connected. The cable modem converts the coaxial connection to an
+Ethernet connection.</p>
+
+<p class=BodyTextL25>Using the Device-Type Selection Box, add the following
+devices to the workspace. The category and sub-category associated with the
+device are listed below:</p>
+
+<p class=Bulletlevel1><span style='font-size:7.0pt;font-family:Webdings'>=<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><b>PC</b>: End
+Devices &gt; End Devices &gt; PC</p>
+
+<p class=Bulletlevel1><span style='font-size:7.0pt;font-family:Webdings'>=<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><b>Laptop</b>:
+End Devices &gt; End Devices &gt; Laptop</p>
+
+<p class=Bulletlevel1><span style='font-size:7.0pt;font-family:Webdings'>=<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span><b>Cable Modem</b>:
+Network Devices &gt; WAN Emulation &gt; Cable Modem</p>
+
+<h3 style='margin-left:0in;text-indent:0in'>Step 2: Change display names of the
+nework devices.</h3>
+
+<p class=SubStepAlpha>a.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>To change the display names of the network devices, click the device
+icon in the Logical Workspace.</p>
+
+<p class=SubStepAlpha>b.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Click the <b>Config</b> tab in the device configuration window.</p>
+
+<p class=SubStepAlpha>c.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Enter the new name of the newly added device into the <b>Display Name</b>
+field: PC, Laptop, and Cable Modem.</p>
+
+<h3 style='margin-left:0in;text-indent:0in'>Step 3: Add the physical cabling
+between devices on the workspace.</h3>
+
+<p class=BodyTextL25>Using the Device-Type Selection Box, add the physical
+cabling between devices on the workspace.</p>
+
+<p class=SubStepAlpha>a.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>The PC will need a copper straight-through cable to connect to the wireless
+router. Using the Device-Type Selection Box, click <b>Connections</b> (lightning
+bolt icon). Select the copper straight-through cable in the Device-Specific
+Selection Box and attach it to the <b>FastEthernet0</b> interface of the PC and
+the <b>Ethernet 1</b> interface of the wireless router.</p>
+
+<p class=SubStepAlpha>b.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>The wireless router will need a copper straight-through cable to connect
+to the cable modem. Select the copper straight-through cable in the Device-Specific
+Selection Box and attach it to the internet interface of the wireless router
+and the <b>Port 1</b> interface of the cable modem.</p>
+
+<p class=SubStepAlpha>c.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>The cable modem will need a Coaxial cable to connect to the internet
+cloud. Select the Coaxial cable in the Device-Specific Selection Box and attach
+it to the <b>Port 0</b> interface of the cable modem and the <b>Coaxial 7</b>
+interface of the internet cloud.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'>Part 2: Configure the End Devices
+and Verify Connectivity</h2>
+
+<p class=BodyTextL25>In this part, you will connect a PC and a laptop to the
+Wireless router. The PC will be connected to the network using an Ethernet
+cable. For the Laptop, you will replace the wired Ethernet network interface
+card (NIC) with a wireless NIC and connect the Laptop to the router wirelessly.</p>
+
+<p class=BodyTextL25>After both end devices are connected to the network, you
+will verify connectivity to cisco.srv. The PC and the Laptop will each be
+assigned an IP (Internet Protocol) address. Internet Protocol is a set of rules
+for routing and addressing data on the internet. The IP addresses are used to
+identify the devices on a network and allow the devices to connect and transfer
+data on a network.</p>
+
+<h3 style='margin-left:0in;text-indent:0in'>Step 1: Configure the PC.</h3>
+
+<p class=BodyTextL25>You will configure the PC for the wired network in this
+step.</p>
+
+<p class=SubStepAlpha>a.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Click the <b>PC</b>. In the <b>Desktop</b> tab, navigate to <b>IP
+Configuration</b> to verify that DHCP is enabled and the PC has received an IP
+address.</p>
+
+<p class=BodyTextL50>Select <b>DHCP</b> for the IP Configuration heading if you
+do not see an IP address for the IPv4 Address field. Observe the process as the
+PC is receiving an IP address from the DHCP server.</p>
+
+<p class=BodyTextL50>DHCP stands for dynamic host configuration protocol. This
+protocol assigns IP addresses to devices dynamically. In this simple network,
+the Wireless Router is configured to assign IP addresses to devices that
+request IP addresses. If DHCP is disabled, you will need to assign an IP
+address and configure all the necessary information to communicate with other
+devices on the network and the internet.</p>
+
+<p class=SubStepAlpha>b.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Close <b>IP Configuration</b>. In the <b>Desktop</b> tab, click <b>Command
+Prompt</b>.</p>
+
+<p class=SubStepAlpha>c.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>At the prompt, enter <b>ipconfig /all</b> to review the IPv4 addressing
+information from the DHCP server. The PC should have received an IPv4 address
+in the 192.168.0.x range. </p>
+
+<p class=SubStepAlpha style='text-indent:0in'><b>Note:</b> There are two types
+of IP addresses: IPv4 and IPv6. An IPv4 (internet protocol version 4) address
+is a string of numbers in the form of x.x.x.x as you have been using in this
+lab. As the internet grew, the need for more IP addresses became necessary. So
+IPv6 (internet protocol version 6) was introduced in the late 1990s to address
+the limitations of IPv4. The details of IPv6 addressing are beyond the scope of
+this activity.</p>
+
+<p class=SubStepAlpha>d.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Test connectivity to the cisco.srv from the PC. From the command prompt,
+issue the command <b>ping cisco.srv</b>. It may take a few seconds for the ping
+to return. Four replies should be received.</p>
+
+<h3 style='margin-left:0in;text-indent:0in'>Step 2: Configure the Laptop.</h3>
+
+<p class=BodyTextL25>In this step, you will configure the Laptop to access the
+wireless network.</p>
+
+<p class=SubStepAlpha>a.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Click <b>Laptop</b>, and select the <b>Physical</b> tab.</p>
+
+<p class=SubStepAlpha>b.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>In the <b>Physical</b> tab, you will need to remove the Ethernet copper
+module and replace it with the Wireless WPC300N module.</p>
+
+<p class=SubStepNum>1)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span>Power off <b>Laptop</b> by clicking the power button on the side of the
+laptop.</p>
+
+<p class=SubStepNum>2)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span>Remove the currently installed Ethernet copper module by clicking on the
+module on the side of the laptop and dragging it to the <b>MODULES</b> pane on
+the left of the laptop window.</p>
+
+<p class=SubStepNum>3)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span>Install the wireless <b>WPC300N</b> module by clicking it in the <b>MODULES</b>
+pane and dragging it to the empty module port on the side of the Laptop.</p>
+
+<p class=SubStepNum>4)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span>Power on the <b>Laptop</b> by clicking the Laptop power button again.</p>
+
+<p class=SubStepAlpha>c.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>With the wireless module installed, connect the Laptop to the wireless
+network. Click the <b>Desktop</b> tab and select the <b>PC Wireless</b>.</p>
+
+<p class=SubStepAlpha>d.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Select the <b>Connect </b>tab. After a slight delay, the wireless
+network <b>HomeNetwork</b> will be visible in the list of wireless networks. Click
+<b>Refresh</b> if necessary to see the list of available networks. Select the <b>HomeNetwork</b>.
+Click <b>Connect</b>. </p>
+
+<p class=SubStepAlpha>e.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Close <b>PC Wireless</b>. Select <b>Web Browser</b> in the Desktop tab.</p>
+
+<p class=SubStepAlpha>f.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>In the Web Browser, navigate to <b>cisco.srv</b>.</p>
+
+<h1>Reflection</h1>
+
+<p class=BodyTextL25>Now that you have verified connectivity to cisco.srv, use
+the command <b>ipconfig</b> from the Command Prompt to fill out the IP
+addressing table below:</p>
+
+<div align=center>
+
+<table class=LabTableStyle border=1 cellspacing=0 cellpadding=0
+ summary="The table lists the addressing info for devices. Record your answers in cell labeled &quot;blank&quot;"
+ width=672 style='width:7.0in;border-collapse:collapse;border:none'>
+ <thead>
+  <tr style='page-break-inside:avoid'>
+   <td width=119 valign=bottom style='width:89.6pt;border:solid windowtext 1.0pt;
+   background:#DBE5F1;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>Device</span></p>
+   </td>
+   <td width=174 valign=bottom style='width:130.5pt;border:solid windowtext 1.0pt;
+   border-left:none;background:#DBE5F1;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>IPv4 Address</span></p>
+   </td>
+   <td width=204 valign=bottom style='width:153.0pt;border:solid windowtext 1.0pt;
+   border-left:none;background:#DBE5F1;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>Subnet Mask</span></p>
+   </td>
+   <td width=175 valign=bottom style='width:130.9pt;border:solid windowtext 1.0pt;
+   border-left:none;background:#DBE5F1;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>Default Gateway</span></p>
+   </td>
+  </tr>
+ </thead>
+ <tr style='page-break-inside:avoid'>
+  <td width=119 valign=bottom style='width:89.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>PC</p>
+  </td>
+  <td width=174 valign=top style='width:130.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableAnswer>blank</p>
+  </td>
+  <td width=204 valign=top style='width:153.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableAnswer>blank</p>
+  </td>
+  <td width=175 valign=top style='width:130.9pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableAnswer>blank</p>
+  </td>
+ </tr>
+ <tr style='page-break-inside:avoid'>
+  <td width=119 valign=bottom style='width:89.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>Laptop</p>
+  </td>
+  <td width=174 valign=top style='width:130.5pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableAnswer>blank</p>
+  </td>
+  <td width=204 valign=top style='width:153.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableAnswer>blank</p>
+  </td>
+  <td width=175 valign=top style='width:130.9pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableAnswer>blank</p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=ConfigWindow>Blank Line, No additional information</p>
+
+<div align=center>
+
+<table class=LabAnswerTable border=1 cellspacing=0 cellpadding=0
+ summary="The table lists the addressing info for devices. Record your answers in cell labeled &quot;blank&quot;"
+ width=672 style='width:7.0in;border-collapse:collapse;border:none'>
+ <thead>
+  <tr style='page-break-inside:avoid'>
+   <td width=0 valign=bottom style='width:0in;border:solid windowtext 1.0pt;
+   background:#F2DBDB;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>Device</span></p>
+   </td>
+   <td width=0 valign=bottom style='width:0in;border:solid windowtext 1.0pt;
+   border-left:none;background:#F2DBDB;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>IPv4 Address</span></p>
+   </td>
+   <td width=0 valign=bottom style='width:0in;border:solid windowtext 1.0pt;
+   border-left:none;background:#F2DBDB;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>Subnet Mask</span></p>
+   </td>
+   <td width=0 valign=bottom style='width:0in;border:solid windowtext 1.0pt;
+   border-left:none;background:#F2DBDB;padding:.7pt 5.75pt .7pt 5.75pt'>
+   <p class=TableHeading><span style='color:black'>Default Gateway</span></p>
+   </td>
+  </tr>
+ </thead>
+ <tr style='page-break-inside:avoid'>
+  <td width=0 valign=bottom style='width:0in;border:solid windowtext 1.0pt;
+  border-top:none;padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>PC</p>
+  </td>
+  <td width=0 valign=bottom style='width:0in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>192.168.0.2</p>
+  </td>
+  <td width=0 valign=bottom style='width:0in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>255.255.255.0</p>
+  </td>
+  <td width=0 valign=bottom style='width:0in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>192.168.0.1</p>
+  </td>
+ </tr>
+ <tr style='page-break-inside:avoid'>
+  <td width=0 valign=bottom style='width:0in;border:solid windowtext 1.0pt;
+  border-top:none;padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>Laptop</p>
+  </td>
+  <td width=0 valign=bottom style='width:0in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>192.168.0.3</p>
+  </td>
+  <td width=0 valign=bottom style='width:0in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>255.255.255.0</p>
+  </td>
+  <td width=0 valign=bottom style='width:0in;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:.7pt 5.75pt .7pt 5.75pt'>
+  <p class=TableText>192.168.0.1</p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=ConfigWindow>Blank Line, No additional information</p>
+
+<p class=BodyTextL25>The IP addresses for the end devices can range from
+192.168.0.2 – 192.168.0.254. Each NIC will get a unique IP address in the same
+network. <a name="_Hlk85813096"></a></p>
+
+<p class=BodyTextL25>The subnet mask is used to differentiate the host and the
+network ID portion of the IP address. You can relate the IP address to your
+street address. The subnet mask defines the length of the street name. The
+network part of the address is your street, 192.168.0. The house number is the
+host port of the IP address. For the IP address 192.168.0.2, the house number
+is 2 and the street is 192.168.0. If there is more than one house on the same
+street, for example, house number 3, will have an address 192.168.0.3. The
+maximum number of houses on this street is 253, ranging from 2 to 254.</p>
+
+<p class=BodyTextL25>The default gateway is analogous to the street
+intersection. The traffic from the 192.168.0 street has to exit through the
+intersection to another street. Another street is another network. In this
+network, default gateway is the wireless router that directs the traffic from
+the local network to the cable modem, and the traffic is then sent to the ISP.</p>
+
+<p class=ConfigWindow>End of document</p>
+
+<p class=ConfigWindow>End of document</p>
+
+</div>
+
+</body>
+
+</html>
